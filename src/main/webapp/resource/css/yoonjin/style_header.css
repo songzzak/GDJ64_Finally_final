@@ -67,7 +67,7 @@ section {
 }
 
 .emp_card{
-	height: 240px;
+	min-height: 240px;
 	
 }
 
@@ -76,6 +76,6 @@ section {
 }
 
 .main-section{
-	width: 1490px;
+	min-width: 1500px;
 	min-height: 900px;
 }
