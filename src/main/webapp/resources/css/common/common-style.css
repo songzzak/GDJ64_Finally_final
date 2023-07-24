@@ -1,0 +1,147 @@
+@charset "UTF-8";
+/* 전체페이지 스타일 */
+    * {
+        margin: 0;
+        padding: 0;
+        color: #555555;
+        list-style-type: none;
+        text-decoration: none;
+        /* font-family: ''; */
+    }
+/* body 스타일 */
+body {
+	background-color: #F8FCFF;
+}
+
+li{
+	padding: 0;
+}
+:root {
+  --section-radius: 1.5rem;
+  --img-radius: 1rem;
+  --element-back-color: red;
+  --main-color-lt:#BDDFFF; /* 밝은 하늘색 버튼 */
+  --main-color-bl:#96C1E8; /* 하늘색 버튼 */
+  --main-color-dk:#5F90CB; /* 어두운 하늘색 버튼 */
+  --main-col-lt:#FFFCF5; /* main primary */
+  --main-col-dk:#555555; /* border 컬러*/
+  --main-disabled : #CECECE;/*  */
+  --border-color :#A3A3A3; /* line, border  연한 컬러*/
+  --font-small:0.8rem; /* button 폰트 사이즈 */
+  --btn-padding:0.4rem 0.6rem; /* button padding 값 */
+  --hr-style:0.5px solid #A3A3A3; /* 제목 아래 선 그을 때 자주 사용함 (제가 사용해서 뒀어요) */
+  --section-width:70%; 
+  --section-center:0 auto;
+  
+  --seciton-margin:2rem auto; /* 70% 적용된 섹션이 중앙 정렬 됩니다 */
+  --title-margin: 2rem 0; /*title margin-top */
+  --section-inner-margin: 3rem;
+  --box-shadow: 2px 2px 4px 2px rgba(201, 199, 199, 0.2);
+  /*--fontBold:"";*/
+}
+/* 사용법
+적용하고 싶은 영역 
+	{
+	border-radius:var(--btn-radius);
+	} 
+*/
+/* width 90% */
+.max90per {
+    max-width: 1920px;
+	width: 90%;
+	margin: 0 auto;
+}
+/* width 100% */
+.max100per{
+    min-width: 100vw;
+	width:100%;
+	margin:0;
+	padding:0;
+}
+
+/* section 내의 영역 (shadow, border-radius) */
+.card {
+	margin-top: 1.5rem;
+	border-radius: var(--section-radius);
+	box-shadow: var(--box-shadow);
+	outline: 0 none;
+	border: 0 none;
+}
+/* 섹션 내부 타이틀 */
+.card h3, .card h2 {
+	margin: var(--title-margin);
+}
+
+input {
+	width: 10rem;
+	height: 35px;
+	border-radius: 4px;
+	padding: var(--btn-padding);
+}
+/* 헤더 */
+header {
+	width: 100%;
+	height: 80px;
+	background-color: #ffffff;
+	border-radius: 0;
+	box-shadow: var(--box-shadow);
+}
+/*헤더 내부 영역 설정*/
+.header-container {
+	width: 90%;
+	margin: 0 auto;
+	position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/*헤더 영역 내부 버튼*/
+.header-button-container{
+	width: 40%;
+	display: flex;
+    justify-content: space-between;
+}
+
+.header_icon_container{
+	display: flex;
+	border: 1px solid red;
+}
+.header_icon_container img{
+    padding-left: 2rem;
+	
+}
+
+/*섹션*/
+section {
+    display: flex;
+}
+
+/*사이드 바 옆 메인 영역*/ 
+.main-section{
+	background-color: #ffffff;
+	width: 100%;
+	margin-right: var(--section-inner-margin);
+	margin-left: var(--section-inner-margin);
+}
+/* 오른쪽 */
+.right-container {
+	margin: 0 3rem;
+	border: 1px solid black;
+}
+
+.side-nav-container{
+	background-color: #ffffff;
+	height: 300px;
+}
+
+.side-nav{
+	margin-right: 3rem;
+	border: 1px solid black;
+	width: 20.5rem;
+	margin-left: 6rem;
+}
+
+
+
+
