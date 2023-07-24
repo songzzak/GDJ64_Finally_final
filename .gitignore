@@ -3,6 +3,10 @@
 src/main/resources/
 application.yml
 
+# Any files in the resources/ directory
+src/main/resources/
+mappers/**/*.xml
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
