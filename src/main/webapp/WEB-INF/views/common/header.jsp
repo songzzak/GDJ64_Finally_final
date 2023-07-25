@@ -14,7 +14,7 @@
 <header class="max100per">
 	<div class="header-container max90per">
 		<div class="header-container-logo" onclick="toMainPage();">
-			<img alt="logo_header" src="${path}/resources/images/common/workit-logo.svg">
+			<img alt="logo_header" src="${path}/resources/images/common/workit.svg">
 		</div>
 		<div class="header-button-container">
 			<div class="header-search">
@@ -23,7 +23,7 @@
 			</div>
 			<div class="header_icon_container">
 				<%-- <img alt="chat_header" src="${path}/resources/images/common/icon-chat.svg" onclick="toChattingPage();"> --%>
-				<img alt="alram_header" src="${path}/resources/images/common/icon-notify.svg" onclick="alramList();">
+				<img alt="alram_header" src="${path}/resources/images/common/notify.svg" onclick="alramList();">
 				<img alt="logout_header" src="${path}/resources/images/yoonjin/main_icon/logout_header.svg" onclick="loggot();">
 			</div>
 		</div>
