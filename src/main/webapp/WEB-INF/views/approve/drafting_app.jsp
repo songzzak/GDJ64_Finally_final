@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <link rel="stylesheet" href="${path}/resources/css/approve/drafting_app.css">	
 <section class="max1920px">
-<jsp:include page="/WEB-INF/views/common/side_nav.jsp"/>
+<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 	<div class="approve-section section-shadow">
 		
   <div id="approve_name">
