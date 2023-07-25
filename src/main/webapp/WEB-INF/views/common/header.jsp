@@ -11,17 +11,19 @@
 <title>Work IT</title>
 </head>
 <body>
-	<div class="header-container max1920px">
+<header class="max100per">
+	<div class="header-container max90per">
 		<div class="header-container-logo" onclick="toMainPage();">
-			<img alt="logo_header" src="${path}/resources/images/yoonjin/main_icon/logo_header.svg">
+			<img alt="logo_header" src="${path}/resources/images/common/workit-logo.svg">
 		</div>
-		<div class="header-container-button">
-			<div>
+		<div class="header-button-container">
+			<div class="header-search">
 				<input type="search" placeholder="사원검색" class="emp_search">
+				<%-- <img alt="alram_header" src="${path}/resources/images/common/icon-search.svg"> --%><%-- 검색 아이콘 --%>
 			</div>
 			<div class="header_icon_container">
-				<img alt="chat_header" src="${path}/resources/images/yoonjin/main_icon/chat_header.svg" onclick="toChattingPage();">
-				<img alt="alram_header" src="${path}/resources/images/yoonjin/main_icon/alram_header.svg" onclick="alramList();">
+				<%-- <img alt="chat_header" src="${path}/resources/images/common/icon-chat.svg" onclick="toChattingPage();"> --%>
+				<img alt="alram_header" src="${path}/resources/images/common/icon-notify.svg" onclick="alramList();">
 				<img alt="logout_header" src="${path}/resources/images/yoonjin/main_icon/logout_header.svg" onclick="loggot();">
 			</div>
 		</div>
