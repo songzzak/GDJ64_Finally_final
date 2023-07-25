@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${path}/resources/css/yoonjin/style_header.css">
+<link rel="stylesheet" href="${path}/resources/css/common/common.css">
 <title>Work IT</title>
 </head>
 <body>
