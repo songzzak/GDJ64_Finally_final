@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <section class="max1920px">
-	<jsp:include page="/WEB-INF/views/common/side_nav.jsp"/>
+	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 	<div class="main-section section-shadow">
 		<h3>시설 예약하기</h3>
 	<!-- 사용 목적 선탹에 따라 아래 디테일 약간의 변경 있음 -->
