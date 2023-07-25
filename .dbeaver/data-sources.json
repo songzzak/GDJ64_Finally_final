@@ -1,43 +1,6 @@
 {
 	"folders": {},
 	"connections": {
-<<<<<<< HEAD
-		"oracle_thin-1898aa8516d-69eb4daad084731": {
-			"provider": "oracle",
-			"driver": "oracle_thin",
-			"name": "spring",
-			"save-password": true,
-			"configuration": {
-				"host": "localhost",
-				"port": "1521",
-				"database": "XE",
-				"url": "jdbc:oracle:thin:@localhost:1521:XE",
-				"configurationType": "MANUAL",
-				"home": "C:\\app\\ASUS\\product\\18.0.0\\dbhomeXE",
-				"type": "dev",
-				"provider-properties": {
-					"@dbeaver-connection-type@": "BASIC",
-					"@dbeaver-sid-service@": "SID"
-=======
-		"oracle_thin-1898aa59180-6574bf699755fac3": {
-			"provider": "oracle",
-			"driver": "oracle_thin",
-			"name": "14.36.141.71 system",
-			"save-password": true,
-			"configuration": {
-				"host": "14.36.141.71",
-				"port": "10000",
-				"database": "XE",
-				"url": "jdbc:oracle:thin:@//14.36.141.71:10000/XE",
-				"configurationType": "MANUAL",
-				"type": "dev",
-				"provider-properties": {
-					"@dbeaver-connection-type@": "BASIC",
-					"@dbeaver-sid-service@": "SERVICE"
-				},
-				"auth-model": "oracle_native"
-			}
-		},
 		"oracle_thin-1898aa77cad-7bf90bc920fae395": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
@@ -53,7 +16,6 @@
 				"provider-properties": {
 					"@dbeaver-connection-type@": "BASIC",
 					"@dbeaver-sid-service@": "SERVICE"
->>>>>>> branch 'dev' of https://github.com/songzzak/GDJ64_Finally_final.git
 				},
 				"auth-model": "oracle_native"
 			}
