@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <section class="max1920px">
-	<jsp:include page="/WEB-INF/views/common/side_nav.jsp"/>
+	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 	<div class="main-section section-shadow card">
 		<div class="right-container">
 			<h2>사원 등록</h2>
