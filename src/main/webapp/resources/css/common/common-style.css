@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 /* 전체페이지 스타일 */
 * {
 	margin: 0;
@@ -6,6 +7,14 @@
     color: #555555;
     list-style-type: none;
     text-decoration: none;
+}
+/* body 스타일 */
+body {
+	background-color: #F8FCFF;
+}
+
+li{
+	padding: 0;
 }
 :root {
   --section-radius: 1.5rem;
