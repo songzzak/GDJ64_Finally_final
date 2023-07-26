@@ -6,7 +6,12 @@
     color: #555555;
     list-style-type: none;
     text-decoration: none;
+    font-family: 'Spoqa Han Sans';
 }
+/* 폰트 임의로 넣었습니다 변경하고 싶으시면 변경해주세요 ! */
+@import url('//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css');
+.spoka * { font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', 'Sans-serif'; }
+
 :root {
   --section-radius: 1.5rem;
   --img-radius: 1rem;
@@ -94,6 +99,8 @@ header {
 	width: 100%;
 	height: 80px;
 	background-color: #FFFFFF;
+	position: relative;
+    z-index: 11;
 	box-shadow: var(--box-shadow);
 }
 /*헤더 내부 영역 설정*/
@@ -106,7 +113,7 @@ header {
 }
 /*헤더 영역 내부 버튼*/
 .header-button-container{
-	width: 30%;
+	width: 25%;
 	display: flex;
     justify-content: space-between;
     align-items: center;
@@ -120,10 +127,30 @@ header {
 	width: 42px;
     padding-left: 2rem;
 }
-/* 헤더 > 검색 */
+/* 헤더 > 검색 
 .header-search {
 	display: flex;
 	align-items: center;
+}*/
+.header-member{
+	width: 40%;
+	
+}
+/* header 사원 프로필, 이름 */
+.header-member a {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+/* 사원 프로필 이미지 */
+.header-member img{
+	width: 48px;
+}
+/* 사원 프로필 정보 */
+.header-member span{
+	display: flex;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 /*섹션*/
@@ -152,34 +179,38 @@ section {
 	background-color: #FFFFFF;
 	margin: 1.5rem 0 ;
 }
-/* 헤더 아래 왼쪽 영역 inner */ 
+/* 헤더 아래 - 메뉴 영역 */ 
+/* 타이틀 */
 .side-nav{
-	margin: var(--section-inner-margin);
+	margin: 1.5rem 3rem 1.5rem 4rem;
 }
+/* 메뉴 영역 */
 .side-menu {
 	width: 100%;
 	margin-top: 1rem;
 }
-.side-menu  div {
+.side-menu div {
 	width: 100%;
 	height: auto;
 }
-.side-menu  div a{
+.side-menu div a{
 	display: flex;
 	justify-content: space-between;
-	padding: 0.5rem 3rem;
+	padding: 0.7rem 3rem 0.7rem 4rem;
 	align-items: center;
+	border-bottom: 0.2px solid #F0F0F0;
 }
-.side-menu  div a:hover {
+.side-menu div:first-child a{
+	border-top: 0.2px solid #F0F0F0;
+}
+.side-menu div a:hover {
 	background-color: var(--msg-color-blue);
 }
-.side-menu  div span{
+.side-menu div span{
 	width: 100%;
 	text-align: left;
-	margin-left: 15%;
+	margin-left: 20%;
 }
-
-
 
 /* 페이지네이션 스타일 - 중앙 정렬 */
 div.pageBar{

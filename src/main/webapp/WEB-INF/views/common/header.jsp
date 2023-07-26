@@ -17,14 +17,20 @@
 			<img alt="logo_header" src="${path}/resources/images/common/workit.svg">
 		</div>
 		<div class="header-button-container">
-			<div class="header-search">
-				<input type="search" placeholder="사원검색" class="emp_search">
-				<%-- <img alt="alram_header" src="${path}/resources/images/common/icon-search.svg"> --%><%-- 검색 아이콘 --%>
+			<div class="header-member">
+				<a href="">
+					<img src="${path}/resources/images/common/profile.svg" alt="member-profile-img">
+					<span>운영팀</span>
+					<span>김사원</span>
+				</a>
 			</div>
+			<%-- <div class="header-search">
+				<input type="search" placeholder="사원검색" class="emp_search">
+				<img alt="alram_header" src="${path}/resources/images/common/icon-search.svg"> --%><%-- 검색 아이콘
+			</div> --%>
 			<div class="header_icon_container">
-				<%-- <img alt="chat_header" src="${path}/resources/images/common/icon-chat.svg" onclick="toChattingPage();"> --%>
 				<img alt="alram_header" src="${path}/resources/images/common/notify.svg" onclick="alramList();">
-				<img alt="logout_header" src="${path}/resources/images/yoonjin/main_icon/logout_header.svg" onclick="loggot();">
+				<img alt="logout_header" src="${path}/resources/images/common/logout.svg" onclick="loggot();">
 			</div>
 		</div>
 	</div>

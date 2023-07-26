@@ -194,6 +194,15 @@ h5 {
 	font-size: 2rem;
 }
 
+/* 메시지 반응 */
+.chat-reaction {
+	width: 120px;
+	height: 30px;
+	margin-top:10px;
+	background-color: #FFFFFF;
+	box-shadow: var(--box-shadow);
+}
+
 
 
 

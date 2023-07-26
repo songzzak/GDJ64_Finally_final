@@ -6,11 +6,10 @@
 	<div class="side-nav-container max90per section-shadow">
 		<div class="side-nav">
 			<h2 class="title">메뉴</h2>
-			<hr>
 		</div>
 	<div class="side-menu">
 		<div>
-			<a href=""><img src="${path}/resources/images/common/member.svg"><span>인사관리</span></a>
+			<a href=""><img src="${path}/resources/images/common/member.svg"><span>인사 관리</span></a>
 		</div>
 		<div>
 			<a href=""><img src="${path}/resources/images/common/work.svg"><span>근태 관리</span></a>
