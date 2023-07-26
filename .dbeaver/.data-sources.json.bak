@@ -4,13 +4,51 @@
 		"oracle_thin-1898aa59180-6574bf699755fac3": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
-			"name": "14.36.141.71",
+			"name": "14.36.141.71 system",
 			"save-password": true,
 			"configuration": {
 				"host": "14.36.141.71",
 				"port": "10000",
 				"database": "XE",
 				"url": "jdbc:oracle:thin:@//14.36.141.71:10000/XE",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-connection-type@": "BASIC",
+					"@dbeaver-sid-service@": "SERVICE"
+				},
+				"auth-model": "oracle_native"
+			}
+		},
+		"oracle_thin-1898aa77cad-7bf90bc920fae395": {
+			"provider": "oracle",
+			"driver": "oracle_thin",
+			"name": "14.36.141.71:10000 web",
+			"save-password": true,
+			"configuration": {
+				"host": "14.36.141.71",
+				"port": "10000",
+				"database": "XE",
+				"url": "jdbc:oracle:thin:@//14.36.141.71:10000/XE",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-connection-type@": "BASIC",
+					"@dbeaver-sid-service@": "SERVICE"
+				},
+				"auth-model": "oracle_native"
+			}
+		},
+		"oracle_thin-1898c6507f9-1f3db39f68e5b754": {
+			"provider": "oracle",
+			"driver": "oracle_thin",
+			"name": "workit",
+			"save-password": true,
+			"configuration": {
+				"host": "14.36.141.71",
+				"port": "8877",
+				"database": "XE",
+				"url": "jdbc:oracle:thin:@//14.36.141.71:8877/XE",
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"provider-properties": {

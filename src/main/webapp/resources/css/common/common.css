@@ -17,6 +17,7 @@
   --main-col-dk:#555555; /* border 컬러*/
   --main-disabled : #CECECE;/*  */
   --border-color :#A3A3A3; /* line, border  연한 컬러*/
+  --msg-color-blue : #DAEDFA; /* 아주 밝은 블루 */
   
   --font-small:0.9rem; /* button 폰트 사이즈 */
   --btn-padding:0.4rem 0.6rem; /* button padding 값 */
@@ -153,12 +154,33 @@ section {
 }
 /* 헤더 아래 왼쪽 영역 inner */ 
 .side-nav{
-	border: 1px solid black; /* 내부 text 영역 확인 가이드라인 */
 	margin: var(--section-inner-margin);
 }
-.emp-card {
-	height: 100px;
+.side-menu {
+	width: 100%;
+	margin-top: 1rem;
 }
+.side-menu  div {
+	width: 100%;
+	height: auto;
+}
+.side-menu  div a{
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem 3rem;
+	align-items: center;
+}
+.side-menu  div a:hover {
+	background-color: var(--msg-color-blue);
+}
+.side-menu  div span{
+	width: 100%;
+	text-align: left;
+	margin-left: 15%;
+}
+
+
+
 /* 페이지네이션 스타일 - 중앙 정렬 */
 div.pageBar{
 	width: 50%;
