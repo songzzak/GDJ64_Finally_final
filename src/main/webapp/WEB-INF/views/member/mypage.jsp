@@ -54,6 +54,9 @@
 						<div class="mypage-update">
 							<span>상세 주소</span> <input type="text" name="detail-address">
 						</div>
+						<div class="mypage-update">
+							<span>변경 사유</span> <input type="text" name="update-comment">
+						</div>
 						<div>
 							<h4>수정 요청 현황</h4>
 							<table class="update-result-tb">

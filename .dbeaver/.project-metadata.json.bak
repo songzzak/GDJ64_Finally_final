@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"resources":{"Scripts/Script.sql":{"default-datasource":"oracle_thin-1898aa8516d-69eb4daad084731"}}}
-=======
-{"resources":{"Scripts/Script.sql":{"default-datasource":"oracle_thin-1898aa77cad-7bf90bc920fae395"}}}
->>>>>>> branch 'dev' of https://github.com/songzzak/GDJ64_Finally_final.git
+{"resources":{"Scripts/Script-1.sql":{"default-datasource":"oracle_thin-1899003244d-647356aee0395c62"}}}

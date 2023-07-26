@@ -1,12 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <section class="max1920px">
-	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
+<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 	<div class="main-section section-shadow card">
       <div class="right-container">
          <h2>사원 등록</h2>
-         <form>
+         <form action="${path }/employee/enroll" method="post" id="enroll-form">
          	<div>
          		<span>이름</span>
          		<input type="text" name="member-id">
@@ -30,14 +32,22 @@
          		<span>부서</span>
 	         	<select>
 	         		<option selected disabled>필수 선택</option>
-	         		<option value="">부서</option>
+	         		<c:if test="${depts!=null }">
+		         		<c:forEach var="d" items="${depts }">
+		         			<option value="${d.deptName }">${d.deptName }</option>
+	         			</c:forEach>
+	         		</c:if>
 	         	</select>
          	</div>
          	<div>
          		<span>직책</span>
 	         	<select>
 	         		<option selected disabled>필수 선택</option>
-	         		<option value="">직책</option>
+	         		<c:if test="${jobs!=null }">
+		         		<c:forEach var="j" items="${jobs }">
+		         			<option value="${j.jobName }">${j.jobName }</option>
+	         			</c:forEach>
+	         		</c:if>
 	         	</select>
          	</div>
          	<div>
@@ -67,7 +77,7 @@
 	
 	//데이터 입력 확인 후 넘기는 메소드
 	function fn_empDataCk(){
-		
+		$("#enroll-form").submit();
 	}
 </script>
 </body>
