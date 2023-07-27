@@ -40,4 +40,8 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 .dbeaver/
+=======
+.dbeaver/
+>>>>>>> branch 'dev' of https://github.com/songzzak/GDJ64_Finally_final.git
