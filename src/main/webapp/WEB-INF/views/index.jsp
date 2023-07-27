@@ -15,15 +15,15 @@
 			<div class="pageBar">
 			  <ul class="pagination">
 			    <li>
-			      <a class="page-link prev" href="#">
+			      <a class="page-link" href="#">
 			        <span>&laquo;</span>
 			      </a>
 			    </li>
 			    <li class="active"><a class="page-link" href="#">1</a></li>
-			    <li><a class="page-link" href="#">2</a></li>
-			    <li><a class="page-link" href="#">3</a></li>
-			    <li>
-			      <a class="page-link next" href="#">
+			    <li class="disabled"><a class="page-link" href="#">2</a></li>
+			    <li class=""><a class="page-link" href="#">3</a></li>
+			    <li class="">
+			      <a class="page-link" href="#">
 			        <span>&raquo;</span>
 			      </a>
 			    </li>

@@ -1,22 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>                            
+ <c:set var="path" value="${pageContext.request.contextPath }"/>     
 	<div class="side-nav-container max90per section-shadow">
 		<div class="side-nav">
-			<div class="emp-card">
-				<h4 class="title">h4 title</h4>
-				<hr>
-			</div>
-			<div class="">
-				<h3 class="title">h3 title</h3>
-				<nav>
-					<ul>
-						<li><a href="#">메뉴1</a></li>
-						<li><a href="#">메뉴2</a></li>
-						<li><a href="#">메뉴3</a></li>
-						<li><a href="#">메뉴4</a></li>
-						<li><a href="#">메뉴5</a></li>
-					</ul>
-				</nav>
-			</div>
+			<h2 class="title">메뉴</h2>
+		</div>
+	<div class="side-menu-container">
+		<div>
+			<a class="side-menu" href=""><img src="${path}/resources/images/common/member.svg"><span>인사 관리</span></a>
+		</div>
+		<div>
+			<a class="side-menu" href=""><img src="${path}/resources/images/common/work.svg"><span>근태 관리</span></a>
+		</div>
+		<div>
+			<a class="side-menu" href=""><img src="${path}/resources/images/common/lecture.svg"><span>수업 등록</span></a>
+		</div>
+		<div>
+			<a class="side-menu" href=""><img src="${path}/resources/images/common/booking.svg"><span>시설 예약</span></a>
+		</div>
+		<div>
+			<a class="side-menu" href=""><img src="${path}/resources/images/common/board.svg"><span>게시판</span></a>
+		</div>
+		<div>
+			<a class="side-menu" href=""><img src="${path}/resources/images/common/approve.svg"><span>전자결재</span></a>
+		</div>
+		<div>
+			<a class="side-menu" href="${path}/chat"><img src="${path}/resources/images/common/chat.svg"><span>메신저</span></a>
 		</div>
 	</div>
+</div>
+<script>
+	$(".side-menu").click(e =>{
+	})
+</script>
