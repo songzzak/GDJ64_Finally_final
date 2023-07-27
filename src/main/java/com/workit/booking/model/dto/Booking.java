@@ -1,4 +1,4 @@
-package com.workit.booking.vo;
+package com.workit.booking.model.dto;
 
 import java.sql.Date;
 
@@ -20,5 +20,4 @@ public class Booking {
 	private String bookingCanceled;
 	private int facNo;
 	private int purpose;
-	private Minutes minute;
 }

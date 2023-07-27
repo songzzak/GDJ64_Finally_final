@@ -1,4 +1,4 @@
-package com.workit.booking.vo;
+package com.workit.booking.model.dto;
 
 public class Minutes {
 	private int minNo;
