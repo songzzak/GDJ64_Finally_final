@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.workit.booking.model.dto.Booking;
 import com.workit.booking.service.BookingService;
+import com.workit.common.Pagenation;
 
 @Controller
 @RequestMapping("/booking")
@@ -28,10 +29,10 @@ public class BookingController {
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage){
 		List<Booking> list=service.selectAllBooking(Map.of("cPage",cPage,"numPerpage",numPerpage));
 		int totalData=service.selectBookingCount();
-		m.addAttribute("pageBar",PageFactory.getPage(cPage,numPerpage,totalData,"bookingList.do"));
+		m.addAttribute("pageBar",Pagenation.getPage(cPage,numPerpage,totalData,"bookingList.do"));
 		m.addAttribute("totalData",totalData);
 		m.addAttribute("list",list);
-		return "";
+		return "booking/bookingList";
 	}
 	
 	@GetMapping("/searchBooking.do")
@@ -40,27 +41,35 @@ public class BookingController {
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
 		List<Booking> list=service.searchBooking(Map.of("type",type,"keyword",keyword));
 		int totalData=service.selectBookingCountByKeyword(Map.of("type",type,"numPerpage",numPerpage));
-		m.addAttribute("pageBar",PageFactory.getPage(cPage,numPerpage,totalData,"searchBook.do"));
+		m.addAttribute("pageBar",Pagenation.getPage(cPage,numPerpage,totalData,"searchBook.do"));
 		m.addAttribute("totalData",totalData);
 		m.addAttribute("list",list);
-		return "";
+		return "booking/bookingList";
 	}
 	
+	@GetMapping("/myBooking.do")
+	public String myBooking(String userId,Model m) {
+		//로그인된 사용자의 이름을 가져와서 예약자 이름에 매개변수로 넣어줘야
+		String userName="";
+		m.addAttribute("list",service.selectMyBooking(userName));
+		m.addAttribute("title","나의 예약 내역");
+		return "booking/bookingList";
+	}
 	@PostMapping("/addBooking.do")
-	public String addNewBooking(Booking b) {
+	public String addNewBooking(Booking b, Model m) {
 		
-		return "";
+		return "booking/myBooking";
 	}
 	
 	@GetMapping("/bookingDetail.do")
 	public String bookingDetail(int bookingNo) {
 		
-		return "";
+		return "booking/bookingDetail.do";
 	}
 	
-	@PostMapping("updateBooking.do")
+	@PostMapping("/updateBooking.do")
 	public String updateBooking(Booking b) {
 		
-		return "";
+		return "booking/bookingDetail.do";
 	}
 }
