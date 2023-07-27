@@ -34,6 +34,18 @@ public class BookingController {
 		return "";
 	}
 	
+	@GetMapping("/searchBooking.do")
+	public String searchBooking(Model m, String type, String keyword,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
+		List<Booking> list=service.searchBooking(Map.of("type",type,"keyword",keyword));
+		int totalData=service.selectBookingCountByKeyword(Map.of("type",type,"numPerpage",numPerpage));
+		m.addAttribute("pageBar",PageFactory.getPage(cPage,numPerpage,totalData,"searchBook.do"));
+		m.addAttribute("totalData",totalData);
+		m.addAttribute("list",list);
+		return "";
+	}
+	
 	@PostMapping("/addBooking.do")
 	public String addNewBooking(Booking b) {
 		
