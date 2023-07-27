@@ -12,10 +12,9 @@
 	href="${path}/resources/css/approve/drafting_app.css">
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
+
 	
-		
-	<!-- 지출결의서 양식 -->
-	<div class="approve-section section-shadow">
+		<div class="approve-section section-shadow">
 		<div id="approve_name">결재서이름 + 신청</div>
 
 		<div>
@@ -91,103 +90,7 @@
 
 		</div>
 	</div> 
-		
-	<!-- 여기까지가 지출결의서 양식 -->
-	
-	
-	
-	
-	
-	<div class="approve-section1 section-shadow">
-		<button type="button" class="openBtn" id="regist-appline">결재선 설정</button>
-
-		<!-- <button type="button" id="regist-appline">결재선 설정</button> -->
-		<div id="regist-app">
-			<div id="appline-name">결재선</div>
-		</div>
-
-		<div id="regist-reference">
-			<div id="reference-name">참조선</div>
-		</div>
-	</div>
-
-</section>
 
 
 
-  <div class="modal hidden">
-  <div class="bg"></div>
-  <div class="modalBox">
-  	<div id="display-flex">
-	    <div id="department-box">
-			    	
-	    </div>
-	    
-	    <div id="people-box">
-	    	
-	    </div>
-	    
-		<div id="add-remove">
-			<span id="first-arrow">
-			    <button type="button" style="width: 30px; height: 30px; background-color:white">
-		  			<img src="/resources/images/arrow/right.png" height="30px" width="30px" onclick="" >
-				</button>
-			</span>
-		
-			<span id="second-arrow">
-					<button type="button" style="width: 30px; height: 30px; background-color:white">
-					    <img src="/resources/images/arrow/left.png" height="30px" width="30px" onclick="" >
-					</button>
-			</span>
-		
-			<span id="three-arrow">
-				<button type="button"style="width: 30px; height: 30px; background-color:white">
-				  <img src="/resources/images/arrow/right.png" height="30px" width="30px" onclick="" >
-				</button>
-			</span>
-			
-			<span id="four-arrow">
-				<button type="button"  style="width: 30px; height: 30px; background-color:white">
-				  <img src="/resources/images/arrow/left.png" height="30px" width="30px" onclick="" >
-				</button>
-			</span>	
-		</div>
-	    
-	    <div id="line-refer-box">
-	    		<div id="line-box">
-	    			<p id="line-box-text">결재선</p>
-	    				
-	    		</div>
-	    		
-	    		<div id="refer-box">
-	    			<p id="refer-box-text">참조선</p>
-	    			
-	    		</div>
-	    </div>
-	</div>
-
-
-		<button type="button" id="close-button">닫기</button>
-		<button type="button" id="regist-button">등록</button> 
-  </div>
-</div>
-
-</html>
-
-<script>
-const open = () => {
-    document.querySelector(".modal").classList.remove("hidden");
-  }
-
-  const close = () => {
-    document.querySelector(".modal").classList.add("hidden");
-  }
-
-  document.querySelector(".openBtn").addEventListener("click", open);
-  document.querySelector("#close-button").addEventListener("click", close);
-  document.querySelector(".bg").addEventListener("click", close);
-</script>
-
-
-
-
+<jsp:include page="/WEB-INF/views/approve/approval-ref.jsp"/>

@@ -9,6 +9,9 @@ public class ApproveController {
 	
 	@RequestMapping("/approvePropView.do")
 	public String approvePropView() {
-		return "approve/drafting_app";
+		return "approve/expenditure-app";
 	}
+	
+	
+	
 }
