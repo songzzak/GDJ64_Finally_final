@@ -13,6 +13,7 @@ public class MyWebMvcConfiguration implements WebMvcConfigurer{
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("index");
+		registry.addViewController("chat").setViewName("chat/chat");
 	}
 
 }
