@@ -1,25 +1,6 @@
 {
 	"folders": {},
 	"connections": {
-		"oracle_thin-1898aa77cad-7bf90bc920fae395": {
-			"provider": "oracle",
-			"driver": "oracle_thin",
-			"name": "14.36.141.71:10000 web",
-			"save-password": true,
-			"configuration": {
-				"host": "14.36.141.71",
-				"port": "10000",
-				"database": "XE",
-				"url": "jdbc:oracle:thin:@//14.36.141.71:10000/XE",
-				"configurationType": "MANUAL",
-				"type": "dev",
-				"provider-properties": {
-					"@dbeaver-connection-type@": "BASIC",
-					"@dbeaver-sid-service@": "SERVICE"
-				},
-				"auth-model": "oracle_native"
-			}
-		},
 		"oracle_thin-1898c2592b5-13b3fbf055757194": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
@@ -44,6 +25,26 @@
 			"provider": "oracle",
 			"driver": "oracle_thin",
 			"name": "localhost",
+			"save-password": true,
+			"configuration": {
+				"host": "localhost",
+				"port": "1521",
+				"database": "XE",
+				"url": "jdbc:oracle:thin:@localhost:1521:XE",
+				"configurationType": "MANUAL",
+				"home": "C:\\app\\ASUS\\product\\18.0.0\\dbhomeXE",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-connection-type@": "BASIC",
+					"@dbeaver-sid-service@": "SID"
+				},
+				"auth-model": "oracle_native"
+			}
+		},
+		"oracle_thin-1899004489c-497548cbf29e330e": {
+			"provider": "oracle",
+			"driver": "oracle_thin",
+			"name": "spring",
 			"save-password": true,
 			"configuration": {
 				"host": "localhost",

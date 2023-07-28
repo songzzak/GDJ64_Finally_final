@@ -18,12 +18,13 @@ public class MemberController {
 	public String loginpage() {
 		return "member/login";
 	}
-	@RequestMapping("/")
-	public String mainpage(@RequestParam Map<String,Object> param) {
-		log.info("{}",param.get("member-id"));
-		log.info("{}",param.get("password"));
-		return "index";
-	}
+	
+//	@RequestMapping("/")
+//	public String mainpage(@RequestParam Map<String,Object> param) {
+//		
+//		return "index";
+//	}
+	
 	@GetMapping("/mypage")
 	public String enrollView(Model model) {
 		return "member/mypage";
