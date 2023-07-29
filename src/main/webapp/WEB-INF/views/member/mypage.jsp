@@ -6,25 +6,27 @@
 <link rel="stylesheet" href="${path}/resources/css/member/mypage.css">
 <section class="max1920px">
 <jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
+
 <section class="mypage-section">
 	<div class="main-section section-shadow card profile-info">
 		<div class="right-container">
 				<h2>프로필</h2>
-				<img src="${path }/resources/images/common/default_profile.png" id="mypage-profile">
+				<img src="${path }/resources/upload/profile/${loginMember.profileImg}" id="mypage-profile">
+				<input type="file" name="profie-img" id="profile-input">
 				<div>
 					<input type="reset" value="취소">
-					<button onclick="fn_updatePwd();">수정</button>
+					<button onclick="fn_updateProfile();">수정</button>
 				</div>
-				<p> 님</p>
+				<p>${loginMember.memberName } 님</p>
 				<div>
 					<p>부서</p>
-					<input type="text" value="" disabled>
+					<input type="text" value="${loginMember.dept.deptName }" disabled>
 					<p>직책</p>
-					<input type="text" value="" disabled>
+					<input type="text" value="${loginMember.job.jobName }" disabled>
 					<p>급여</p>
-					<input type="text" value="" disabled>
+					<input type="text" value="${loginMember.salary }" disabled>
 					<p>입사일</p>
-					<input type="date" value="" disabled>
+					<input type="date" value="${loginMember.hireDate }" disabled>
 				</div>
 			</div><!-- right-container -->
 		</div><!-- profile-info -->
@@ -32,13 +34,16 @@
 			<div class="main-section section-shadow card">
 				<div class="right-container">
 					<h2>개인 정보 수정</h2>
-					<form action="" method="post">
+					<form action="${path }/member/update" method="post"
+						id="member-update-form">
 						<div class="mypage-update">
-							<span>전화번호</span> <input type="text" name="phone">
+							<span>전화번호</span> <input type="text" name="phone"
+								value="${loginMember.phone }">
 							<p>* 전화번호 입력 시 하이픈(-) 제외하고 입력하세요.</p>
 						</div>
 						<div class="mypage-update">
-							<span>이메일</span> <input type="email" name="email">
+							<span>이메일</span> <input type="email" name="email"
+								value="${loginMember.email }">
 							<button onclick="fn_requestEmail();">인증 요청</button>
 						</div>
 						<!-- 인증 요청 버튼을 누르면 보일 구간 -->
@@ -48,7 +53,8 @@
 						</div>
 						<!--  -->
 						<div class="mypage-update">
-							<span>주소 검색</span> <input type="text" name="main-address">
+							<span>주소 검색</span> <input type="text" name="main-address"
+								value="${loginMember.address }">
 							<button onclick="fn_searchAddr();">검색</button>
 						</div>
 						<div class="mypage-update">
@@ -67,7 +73,9 @@
 									<th>신청 날짜</th>
 									<th>처리 결과</th>
 								</tr>
-								<tr><td colspan="5"><hr/></td></tr>
+								<tr>
+									<td colspan="5"><hr /></td>
+								</tr>
 								<!-- 조건문 처리될 구간 -->
 								<tr>
 									<td>신청자</td>
@@ -76,33 +84,37 @@
 									<td>신청 날짜</td>
 									<td>처리 결과</td>
 								</tr>
-								<tr><td colspan="5"><hr/></td></tr>
+								<tr>
+									<td colspan="5"><hr /></td>
+								</tr>
 							</table>
 						</div>
-						<div class="mypage-update">
-							<input type="reset" value="취소">
-							<button onclick="">수정 요청</button>
-						</div>
 					</form>
+					<div class="mypage-update">
+						<input type="reset" value="취소">
+						<button onclick="fn_updateMember();">수정 요청</button>
+					</div>
 					<p>* 개인정보 수정 요청 시, 인사팀에서 승인 후 변경 사항이 적용됩니다.</p>
 					</div>
 				</div>
 				<div class="main-section section-shadow card">
-					<div class="right-container">
-						<h2>비밀번호 수정</h2>
-						<div class="mypage-update">
-							<span>현재 비밀번호</span>
-							<input type="password" name="ori-password" id="ori-pwd">
+					<form action="" method="" id="pwd-update-form">
+						<div class="right-container">
+							<h2>비밀번호 수정</h2>
+							<div class="mypage-update">
+								<span>현재 비밀번호</span>
+								<input type="password" name="ori-password" id="ori-pwd">
+							</div>
+							<div class="mypage-update">
+								<span>새 비밀번호</span>
+								<input type="password" name="new-password" id="new-pwd">
+							</div>
+							<div class="mypage-update">
+								<span>비밀번호 확인</span>
+								<input type="password" id="pwd-check">
+							</div>
 						</div>
-						<div class="mypage-update">
-							<span>새 비밀번호</span>
-							<input type="password" name="new-password" id="new-pwd">
-						</div>
-						<div class="mypage-update">
-							<span>비밀번호 확인</span>
-							<input type="password" id="pwd-check">
-						</div>
-					</div>
+					</form>
 					<div>
 						<input type="reset" value="취소">
 						<button onclick="fn_updatePwd();">수정</button>
@@ -111,5 +123,10 @@
 		</div>
 	</section>
 </section><!-- max1920px -->
+<script>
+	function fn_updateProfile(){
+		
+	}
+</script>
 </body>
 </html>
