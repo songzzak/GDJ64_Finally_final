@@ -27,7 +27,7 @@
 			<a class="side-menu" href=""><img src="${path}/resources/images/common/approve.svg"><span>전자결재</span></a>
 		</div>
 		<div>
-			<a class="side-menu" href="${path}/chat"><img src="${path}/resources/images/common/chat.svg"><span>메신저</span></a>
+			<a class="side-menu" href="${path}/chat/"><img src="${path}/resources/images/common/chat.svg"><span>메신저</span></a>
 		</div>
 	</div>
 </div>

@@ -6,7 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.workit.chat.model.dao.ChatDao;
-import com.workit.chat.model.dto.Chatroom;
+import com.workit.chat.model.dto.Chat;
+import com.workit.chat.model.dto.MyChatroom;
 @Service
 public class ChatServiceImpl implements ChatService {
 	
@@ -18,8 +19,21 @@ public class ChatServiceImpl implements ChatService {
 	}
 	
 	@Override
-	public List<Chatroom> selectChatroomAll() {
-		return dao.selectChatroomAll(session);
+	public List<MyChatroom> selectMyChatroomById(String memberId) {
+		return dao.selectMyChatroomById(session, memberId);
 	}
+
+	@Override
+	public List<Chat> selectChatroom(String chatroomId) {
+		return dao.selectChatroom(session, chatroomId);
+	}
+
+	@Override
+	public List<MyChatroom> searchAllByKeyword(String keyword) {
+		return dao.searchAllByKeyword(session, keyword);
+	}
+	
+	
+	
 	
 }

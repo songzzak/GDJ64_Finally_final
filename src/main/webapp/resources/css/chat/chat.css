@@ -40,8 +40,12 @@ h5 {
 	border-bottom: var(--border-bottom);
 	text-align: center;
 }
-.chat-header img:nth-child(2), .chat-header img:nth-child(3){
+.chat-header img{
 	margin-left: 1rem;
+}
+.chat-header>img:first-child{
+	margin-left: 0;
+	width:24px;
 }
 .chatList-container{
 	width: 30%;
@@ -203,8 +207,21 @@ h5 {
 	box-shadow: var(--box-shadow);
 }
 
-
-
+.chatDeptAll {
+	width: 30%;
+	height: auto;
+	margin-top: 5rem;
+	border: 1px solid red;
+}
+.chatDeptAll li{
+	margin:0;
+	height: 6rem;
+	border: 1px solid red;
+	
+}
+.chatDept{
+	border: 1px solid red;
+}
 
 
 
