@@ -48,7 +48,7 @@
 					</c:forEach>
 				</c:if>
 			</table>
-			<div>pageBar</div>
+			<div class="pageBar">${pageBar }</div>
 		</div>
 		<!-- right-container -->
 	</div>
