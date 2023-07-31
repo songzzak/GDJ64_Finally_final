@@ -31,4 +31,6 @@ public interface EmployeeService {
 	int deleteDept(String deptCode);
 	
 	int updateDept(Map<String,Object> param);
+
+	int updateEmpInfo(Map<String, Object> param);
 }

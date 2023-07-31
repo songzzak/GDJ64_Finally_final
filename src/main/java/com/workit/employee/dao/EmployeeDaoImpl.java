@@ -82,4 +82,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return mapper.updateDept(param);
 	}
 
+	@Override
+	public int updateEmpInfo(Map<String, Object> param) {
+		return mapper.updateEmpInfo(param);
+	}
+
 }

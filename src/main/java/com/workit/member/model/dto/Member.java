@@ -28,6 +28,7 @@ public class Member implements UserDetails{
 	private Date entDate;
 	private int salary;
 	private int leave;
+	private String subAddress;
 	private Department dept;
 	private Job job;
 	

@@ -3,7 +3,6 @@ package com.workit.employee.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +72,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public int updateDept(Map<String,Object> param) {
 		return dao.updateDept(param);
+	}
+
+	@Override
+	public int updateEmpInfo(Map<String, Object> param) {
+		return dao.updateEmpInfo(param);
 	}
 
 }
