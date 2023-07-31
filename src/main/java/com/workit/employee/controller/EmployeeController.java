@@ -5,8 +5,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,8 +67,19 @@ public class EmployeeController {
 	
 	@PostMapping("/dept")
 	@ResponseBody
-	public int insertDept(@RequestParam(value="dept-name") String deptName) {
-		log.info(deptName);
-		return 0;
+	public int insertDept(@RequestParam(value="deptName") String deptName) {
+		return service.insertDept(deptName);
+	}
+	
+	@DeleteMapping("/dept")
+	@ResponseBody
+	public int deleteDept(@RequestParam(value="deptCode") String deptCode) {
+		return service.deleteDept(deptCode);
+	}
+	
+	@PutMapping("/dept")
+	@ResponseBody()
+	public int updateDept(@RequestBody Map<String,Object> param) {
+		return service.updateDept(param);
 	}
 }

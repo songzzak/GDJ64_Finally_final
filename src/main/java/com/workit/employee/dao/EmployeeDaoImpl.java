@@ -67,4 +67,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return mapper.selectGradeCount(param);
 	}
 
+	@Override
+	public int insertDept(String deptName) {
+		return mapper.insertDept(deptName);
+	}
+
+	@Override
+	public int deleteDept(String deptCode) {
+		return mapper.deleteDept(deptCode);
+	}
+
+	@Override
+	public int updateDept(Map<String,Object> param) {
+		return mapper.updateDept(param);
+	}
+
 }

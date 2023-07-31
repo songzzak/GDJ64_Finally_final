@@ -60,4 +60,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return dao.selectGradeCount(param);
 	}
 
+	@Override
+	public int insertDept(String deptName) {
+		return dao.insertDept(deptName);
+	}
+
+	@Override
+	public int deleteDept(String deptCode) {
+		return dao.deleteDept(deptCode);
+	}
+
+	@Override
+	public int updateDept(Map<String,Object> param) {
+		return dao.updateDept(param);
+	}
+
 }

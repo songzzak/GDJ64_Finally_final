@@ -26,4 +26,10 @@ public interface EmployeeDao {
 	List<JobVO> selectJobCount(Map<String, Object> param);
 	
 	int selectGradeCount(Map<String,Object> param);
+
+	int insertDept(String deptName);
+
+	int deleteDept(String deptCode);
+	
+	int updateDept(Map<String,Object> param);
 }

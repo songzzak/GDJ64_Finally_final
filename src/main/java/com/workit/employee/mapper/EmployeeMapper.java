@@ -30,4 +30,10 @@ public interface EmployeeMapper {
 	List<JobVO> selectJobCount(RowBounds rb);
 
 	int selectGradeCount(Map<String, Object> param);
+
+	int insertDept(String deptName);
+
+	int deleteDept(String deptCode);
+	
+	int updateDept(Map<String,Object> param);
 }
