@@ -18,7 +18,7 @@
 			<a class="side-menu" href=""><img src="${path}/resources/images/common/lecture.svg"><span>수업 등록</span></a>
 		</div>
 		<div>
-			<a class="side-menu" href=""><img src="${path}/resources/images/common/booking.svg"><span>시설 예약</span></a>
+			<a class="side-menu" href="${path }/booking/bookingList.do"><img src="${path}/resources/images/common/booking.svg"><span>시설 예약</span></a>
 		</div>
 		<div>
 			<a class="side-menu" href=""><img src="${path}/resources/images/common/board.svg"><span>게시판</span></a>
