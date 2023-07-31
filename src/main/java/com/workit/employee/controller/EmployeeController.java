@@ -32,8 +32,6 @@ public class EmployeeController {
 	//회원 생성
 	@PostMapping("/enroll")
 	public String enrollMember(Model model, @RequestParam Map<String,Object> param) {
-		log.info("{}",param.get("enroll-date"));
-		log.info("{}",param.get("salary"));
 		service.insertEmployee(param);
 		return "redirect:/";
 	}

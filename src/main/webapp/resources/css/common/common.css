@@ -243,10 +243,10 @@ div.pageBar{
     pointer-events : none;
 }
 .active, .pagination li:hover{
-	 background-color: var(--main-color-lt);
+	 background-color: var(—main-color-lt);
  }
 .pagination .disabled a {
-    color: var(--main-disabled);
+    color: var(—main-disabled);
 	
 }
 
