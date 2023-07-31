@@ -12,6 +12,19 @@ public class ApproveController {
 		return "approve/expenditure-app";
 	}
 	
+	@RequestMapping("/extendsView.do")
+	public String extendsView() {
+		return "approve/extends-app";
+	}
 	
+	@RequestMapping("/attendanceView.do")
+	public String attendacneView() {
+		return "approve/attendance-app";
+	}
+	
+	@RequestMapping("/expenditureView.do")
+	public String expenditureView() {
+		return "approve/expenditure-app";
+	}
 	
 }
