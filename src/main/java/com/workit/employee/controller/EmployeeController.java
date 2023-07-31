@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.workit.common.Pagenation;
 import com.workit.employee.service.EmployeeService;
@@ -33,8 +34,6 @@ public class EmployeeController {
 	//회원 생성
 	@PostMapping("/enroll")
 	public String enrollMember(Model model, @RequestParam Map<String,Object> param) {
-		log.info("{}",param.get("enroll-date"));
-		log.info("{}",param.get("salary"));
 		service.insertEmployee(param);
 		return "redirect:/";
 	}
@@ -47,19 +46,26 @@ public class EmployeeController {
 		return "employee/listEmp";
 	}
 	
-	@GetMapping("/manage")
-	public String managementView(Model model,  @RequestParam(value="cPage",defaultValue="1") int cPage
-			,@RequestParam(value="category", defaultValue="dept") String category) {
+	@GetMapping("/dept")
+	public String deptManageView(Model model,  @RequestParam(value="cPage",defaultValue="1") int cPage) {
 		model.addAttribute("depts",service.selectDeptCount(Map.of("cPage",cPage,"numPerpage",10)));
-		model.addAttribute("jobs",service.selectJobCount(Map.of("cPage",cPage,"numPerpage",10)));
-		int totalData=service.selectGradeCount(Map.of("category",category));
+		int totalData=service.selectGradeCount(Map.of("category","dept"));
 		model.addAttribute("pageBar",Pagenation.getPage(cPage, 10, totalData, "/employee/manage"));
-		return "employee/managementEmp";
+		return "employee/manageDept";
 	}
 	
-	@PostMapping("/manage")
-	public String insertGrade(@RequestParam Map<String,Object> param) {
-		log.info("{}",param.get(""));
-		return "common/msg";
+	@GetMapping("/job")
+	public String jobManageView(Model model,  @RequestParam(value="cPage",defaultValue="1") int cPage) {
+		model.addAttribute("jobs",service.selectJobCount(Map.of("cPage",cPage,"numPerpage",10)));
+		int totalData=service.selectGradeCount(Map.of("category","job"));
+		model.addAttribute("pageBar",Pagenation.getPage(cPage, 10, totalData, "/employee/manage"));
+		return "employee/manageJob";
+	}
+	
+	@PostMapping("/dept")
+	@ResponseBody
+	public int insertDept(@RequestParam(value="dept-name") String deptName) {
+		log.info(deptName);
+		return 0;
 	}
 }
