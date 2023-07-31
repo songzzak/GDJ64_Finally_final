@@ -48,6 +48,7 @@ public class ApproveController {
 	public String selectWaitingApprove(Model m,@RequestParam(value="memberId") String memberId) {
 		List<Approve> apps = service.selectAllWaitingApprove(memberId);
 		m.addAttribute("apps", apps);
+		System.out.println(apps);
 		return "approve/waiting-approve";
 	}
 }
