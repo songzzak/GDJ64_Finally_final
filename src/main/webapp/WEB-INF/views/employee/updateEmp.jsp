@@ -79,6 +79,15 @@
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+//데이터 입력 확인 후 넘기는 메소드
+function fn_empDataCk(){
+	const inputArr=$("input");
+	if($("#ent-date-id").val()==''){
+		$("#ent-date-id").val(null);
+		console.log($("#ent-date-id").val());
+	}
+	$("#update-emp-form").submit();
+}
 console.log($("#ent-date-id").val());
 	//주소 검색 메소드
 	function fn_searchAddr(){
@@ -99,15 +108,6 @@ console.log($("#ent-date-id").val());
 			return;
 		}
 	});
-	//데이터 입력 확인 후 넘기는 메소드
-	function fn_empDataCk(){
-		const inputArr=$("input");
-		if($("#ent-date-id").val()==''){
-			$("#ent-date-id").val(null);
-			console.log($("#ent-date-id").val());
-		}
-		$("#update-emp-form").submit();
-	}
 </script>
 </body>
 </html>

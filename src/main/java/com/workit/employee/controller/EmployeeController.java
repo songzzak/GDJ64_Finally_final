@@ -116,25 +116,23 @@ public class EmployeeController {
 	
 	//사원 정보 수정
 	@PostMapping("/memberId")
-	public String updateMemberInfo(MultipartFile[] upFile, Model model, HttpSession session
+	public String updateMemberInfo(MultipartFile upFile, Model model, HttpSession session
 			,@RequestParam Map<String,Object> param) {
-		log.info("{}",param.get("ent-date"));
+		log.info(upFile.getOriginalFilename());
+		
 		String path=session.getServletContext().getRealPath("/resources/upload/profile/");
-		if(upFile!=null) {
-			for(MultipartFile mf:upFile) {
-				if(!mf.isEmpty()&&!((String)param.get("upFile")).equals("DEFAULT_PROFILE.png")) {
-					Date today=new Date(System.currentTimeMillis());
-					SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-					int random=(int)(Math.random()*10000)+1;
-					String rename=sdf.format(today)+"_"+random;
-					try {
-						mf.transferTo(new File(path+rename));
-					}catch(IOException e) {
-						e.printStackTrace();
-					}
-					param.put("profile-img", rename);
-				}
+		if (upFile != null && !(upFile.getOriginalFilename()).equals("DEFAULT_PROFILE.png")) {
+			Date today = new Date(System.currentTimeMillis());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			int random = (int) (Math.random() * 10000) + 1;
+			String rename = sdf.format(today) + "_" + random;
+			try {
+				upFile.transferTo(new File(path + rename));
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			param.put("profile-img", rename);
+			log.info("{}",param.get("profile-img"));
 		}
 		try {
 			if(service.updateEmpInfo(param)>0) {
