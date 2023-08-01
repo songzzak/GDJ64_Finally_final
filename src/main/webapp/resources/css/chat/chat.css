@@ -119,6 +119,10 @@ h5 {
 	margin-left: 0.2rem;
 	font-size: var(--font-small);
 }
+.chat-send .chat-date {
+	margin-right: 0.2rem;
+	font-size: var(--font-small);
+}
 .chat-send {
 	text-align: right;
 }
@@ -216,17 +220,33 @@ h5 {
 .chatDeptAll li{
 	margin:0;
 	height: 6rem;
-	border: 1px solid red;
 	
 }
-.chatDept{
-	border: 1px solid red;
+
+.chat-memberList {
+	display: flex;
+}
+.memberByDept {
+	width : 50%;
+	border: 2px solid black;
+	display: block;
+}
+.memberByDept label {
+	display: block;
+}
+.chat-memberByDept label, .chat-memberByDept input{
+	width:auto;
+	height: auto;
+	padding: 0;
+	margin: 0;
 }
 
-
-
-
-
+.deptName {
+	display: block;
+}
+.chat-memberByDept {
+	display: block;
+}
 
 
 

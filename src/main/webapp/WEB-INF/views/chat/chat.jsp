@@ -19,53 +19,33 @@
 							<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="searchChatRoomIcon">
 							<span class="search-close">X</span>
 					</div>
-					<%-- <c:if test="${not empty chatroom}"> --%>
-						<%-- <c:choose>
-							<c:when test="${ chatroom.chat.memberId not eq '2023072796'}">
-								<c:forEach var="c" items="${chatroom.chat}">
-									<!-- 보낸 사람이 현재 로그인 한 사람이 아닐 때 -->
-										<div class="chat-msg">
-											<h5><c:out value="${c.memberName}"/></h5>
-											<span class="chat-msgbx"><c:out value="${c.chatContent}"/></span>
-											<span class="chat-date"><c:out value="${c.chatDate}"/></span>
-											<!-- <div class="chat-reaction" style="display:none">
-												<label for="reaction_like" class="chatReaction"><input type="checkbox" checked="checked" value="relike" style="display:none"/>
-												<span>❤</span></label>️
-												<input type="checkbox" value="regreat"/>
-												<label for="reaction_great" class="chatReaction"><span>👍</span></label>️
-												<input type="checkbox" value="recheck"/>
-												<label for="reaction_check" class="chatReaction"><span>✔</span></label>️
-											</div> -->
-										</div>
-								</c:forEach>
-							</c:when>
-							<c:when test="${not empty chatroom && chatroom.chat.memberId eq '2023072796' }">
-								<c:forEach var="c" items="${chatroom.chat }">
-									<div class="chat-msg chat-send">
-										<span class="chat-date"><c:out value="${c.chatDate}"/></span>
-										<span class="chat-msgbx"><c:out value="${c.chatContent}"/></span>
-									</div>
-								</c:forEach>
-							</c:when>
-						</c:choose> --%>
-						<form action="${path}/chat/attatch" method="post" class="chat-msgform" enctype="multipart/form-data" style="display:none">
-								<input type="file" name="uploadFile" multiple style="display:none">
-								<button type="submit" name="chat-attatch" class="chat-addAttatch">+</button>
-								<input type="text" name="chat-msg" class="chat-msg-input">
-								<input type="submit" value="전송">
-						</form>
-					<%-- </c:if> --%>
-				</div><!-- js로 가져오기 -->
+<jsp:include page="/WEB-INF/views/chat/chatroom.jsp"/>
+				</div>
 			</div>
 		</div>
 		
 </section>
 <script>
+	//조직도 보기 
+	$(".deptName").click(e =>{
+		let deptName = $(e.target).text();
+		let chatDept = $(e.target);
+		console.log(deptName);
+		$.ajax({
+			url:"${path}/chat/member",
+			type:"get",
+			data : {
+				deptName : deptName
+			},success:data=>{
+				console.log(data);
+				data.forEach(e => {
+					$(".deptMember").append($("<label>").attr("for",e.memberId).text(e.memberName+ " "+e.job.jobName));
+					$(".deptMember").append($("<input type='checkbox' name='memberId'>").attr("value",e.memberId));
+					});
+				} 
+		});
+	})	
 	
-	// 1:1 채팅 선택
-	$(".chatRoomPersonal").click(e=>{
-		
-	})
 	// 파일 업로드 
 	$(".chat-msgform").click(e=> {
 		const formData= new FormData();

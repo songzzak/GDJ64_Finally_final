@@ -7,15 +7,20 @@
 <div class="chat-header">
 	<%-- <img src="${path}/resources/images/common/back.svg" alt="chat-back" class="backIcon"> --%>
 	<h3></h3>
-	<div class="chat-icon-container" style="display:none">
-		<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="searchChatIcon">
-		<img src="${path}/resources/images/common/attach.svg" alt="chat-attach" class="attachIcon">
-		<img src="${path}/resources/images/common/close.svg" alt="chat-close" class="closeIcon">
-		<!-- 그룹 채팅일때만 아이콘 노출 -->
-		<c:if test="${chatroom.chatCode eq 'G'}">
-			<img src="${path}/resources/images/chat/addPerson.svg" alt="chat-addPerson" class="addPersonIcon">
-		</c:if>
-	</div>
+	<c:if test="${not empty chatroom}">
+		<!-- <div class="chat-icon-container" style="display:none"> -->
+		<div class="chat-icon-container">
+			<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="searchChatIcon">
+			<img src="${path}/resources/images/common/attach.svg" alt="chat-attach" class="attachIcon">
+			<img src="${path}/resources/images/common/close.svg" alt="chat-close" class="closeIcon">
+			<!-- 그룹 채팅일때만 아이콘 노출 -->
+				<c:forEach var="c" items="${chatroom}">
+				<c:if test="${c.chatroomCode eq 'G' }">
+					<img src="${path}/resources/images/chat/addPerson.svg" alt="chat-addPerson" class="addPersonIcon">
+				</c:if>
+				</c:forEach>
+		</div>
+	</c:if>
 </div>
 <script>
 	//채팅방 헤더 

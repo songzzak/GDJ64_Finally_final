@@ -28,8 +28,12 @@
 			<span class="search-close">X</span>
 		</div>
 		<!-- select 해서 가져오기 없으면 분기처리-->
-		<!-- <div class="chat-room"></div> -->
-		<%-- <c:if test="${not empty chatroomList }">
+		<c:if test="${empty chatroomList }">
+			<div class="chat-room">
+				<h3 class="title">참여 중인 채팅이 없습니다</h3>
+			</div>
+		</c:if>
+		<c:if test="${not empty chatroomList }">
 			<c:forEach var="c" items="${chatroomList }">
 				<div class="chat-room">
 					<h5>${c.chatroomTitle }</h5>
@@ -41,7 +45,7 @@
 					<input type="hidden" value="${c.chatroomId}" name="chatRoomId">
 				</div>
 			</c:forEach>
-		</c:if> --%>
+		</c:if>
 	</div>
 </div>
 <script>
@@ -56,7 +60,7 @@
 	}
 	
 	// 채팅 메세지 채팅 창에 뿌리기
-	function fn_viewChat(data){
+	function fn_viewChat(e){
 		const msgBx = $("<div class='chat-msg'>");
 		let chatHeader = $(".chatRoom-container .chat-header h3");
 		chatHeader.text(e.memberId);
@@ -70,14 +74,11 @@
 			msgBx.append($("<h5>").text(e.memberId));
 			msgBx.append($("<span>").attr("class","chat-msgbx").text(e.chatContent));
 			msgBx.append($("<span>").attr("class","chat-date").text(e.chatDate));
-			
 		}
-		$(".chat-room-inner").append(msgBx);
+		$(".chatRoom-container .chat-room-inner").append(msgBx);
 		$(".chat-msgform").css("display","flex");
 	}
 	
-	// 채팅 목록을 로딩하면서 가져와서 jsp에서 뿌리면 -> 해당 채팅창 선택하는 함수 사용 가능 / 검색한 것에 대한 분기처리를 jsp에서 해야할 것 같음 
-	// ajax로 구현하면 불가능 ㅜ ... 
 	// 채팅 목록에 데이터 뿌리기
 	function fn_viewChatList(data){
 		console.log(data);
@@ -106,36 +107,18 @@
 			console.log(roomId);
 		}
 	}
-	// 페이지 로딩 되면서 채팅목록 가져오기 	
-	$(document).ready(function(){
-		new Promise((succ, fail)=>{
-			$.ajax({
-				url:"${path}/chat/",
-				type:"post",
-				success:data=>{
-					/* console.log(data); */
-					fn_viewChatList(data);
-				},fail:data=>{
-					chatroomDiv.append($("<h5>").text("참여 중인 채팅이 없습니다."));
-				}
-			}).then((arg) => {
-				$.ajax({
-					url:"${path}/chat/chatroom",
-					type:"post",
-					data: {
-						chatroomId : roomId
-					},
-					success:data=>{
-						console.log(data);
-						data.forEach(e=>{
-							fn_viewChat(data);
-						})
-					}
-				});	 
-			})
-			
+	// 페이지 로딩 되면서 채팅목록 가져오기 -> promise / then 에 익숙하지 않아서 페이지를 로딩할 때 같이 Model에서 목록을 가져오는 방식으로 변경했다.
+	/* $(document).ready(function(){
+		$.ajax({
+			url:"${path}/chat/",
+			type:"post",
+			success:data=>{
+				fn_viewChatList(data);
+			},fail:data=>{
+				chatroomDiv.append($("<h5>").text("참여 중인 채팅이 없습니다."));
+			}
 		})
-	});
+	}); */
 	
 	$(".chat-room").click(e=>{
 		if($(e.target)==$(".chat-room")){
@@ -144,9 +127,8 @@
 		}else {
 			roomId = $(e.target).parent().find($('input[type="hidden"]')).val();
 		}
-		console.log(roomId);
 		
-		/* $.ajax({
+		$.ajax({
 			url:"${path}/chat/chatroom",
 			type:"post",
 			data: {
@@ -155,25 +137,43 @@
 			success:data=>{
 				console.log(data);
 				data.forEach(e=>{
-					fn_viewChat(data);
+					console.log(e)
+					/* let chatroomDiv = $("<div>").attr("class","chat-room");
+					let chatMsg = $("<div>").attr("class","chat-msg");
+					chatroomDiv.append(chatMsg);
+					chatroomDiv.append($("<h5>").text(e.memberId));
+					var chat = (e.chat);
+					if(e.memberId==loginMember){
+						chatMsg.attr("class","chat-msg chat-send");
+					}
+					chat.forEach(c=>{
+						chatMsg.append($("<span>").attr("class","chat-msgbx").text(c.chatContent));
+						chatMsg.append($("<span>").attr("class","chat-date").text(c.chatDate));
+					})
+					chatroomDiv.append($("<input>").attr("type","hidden").attr("value",e.chatroomId));
+					$(".chatRoom-container .chat-room-inner").append(chatroomDiv); */
+					//let chatroomDiv = $("<div>").attr("class","chat-room");
+					var chat = (e.chat);
+					chat.forEach(c=>{
+						if(e.memberId==loginMember) {
+							var chatMsg = $("<div>").attr("class","chat-msg chat-send");
+							
+						}else{
+							var chatMsg = $("<div>").attr("class","chat-msg chat-send");
+							chatMsg.append($("<h5>").text(e.memberName));
+							
+						}
+							chatMsg.append($("<span>").attr("class","chat-date").text(c.chatDate));
+							chatMsg.append($("<span>").attr("class","chat-msgbx").text(c.chatContent));
+							$(".chatRoom-container .chat-room-inner").append(chatMsg);
+					})
+						
+					chatMsg.append($("<input>").attr("type","hidden").attr("value",e.chatroomId));
 				})
 			}
-		});	 */
+		});
 	})
 	
-	/* const websocket=new WebSocket("ws://localhost:8080/chatting");
-		websocket.onopen=data=>{
-			console.log(data);
-	} */
-	
-	// 채팅 목록에서 채팅 추가 아이콘 클릭
-	$(".addChatIcon").click(e => {
-		$(".modal-add-chatContainer").css('display','block');
-	})
-	// 채팅 목록에서 채팅방 추가 닫기
-	$(".modal-close").click(e =>{
-		$(".modal-add-chatContainer").css('display','none');
-	})
 	
 	// 채팅 목록에서 검색 아이콘 클릭 
 	$(".searchIcon").click(e => {
@@ -226,39 +226,70 @@
 		});
 	})
 	
-	// 조직도 보기 
- 	function fn_viewMemberList(){
-		$.ajax({
-			url : '',
-			dataType: '',
-		})
-	}
 	
+	let deptName;
+	let chatCode;
+	let insertForm = $("<form class='insertChatroom'>");
+	let chatDept = $("<div class='chat-dept'>");
+	let chatmemberContainer;
+	// 채팅 목록에서 채팅 추가 아이콘 클릭
+	/* $(".addChatIcon").click(e => {
+		$(".modal-add-chatContainer").css('display','block');
+	})
+	// 채팅 목록에서 채팅방 추가 닫기
+	$(".modal-close").click(e =>{
+		$(".modal-add-chatContainer").css('display','none');
+	}) */
 	// 1:1 채팅 만들기 선택 
-	$(".chatRoomPersonal").click(e =>{
+	//$(".chatRoomPersonal").click(e =>{
+	$(".addChatIcon").click(e => {
 		$(".chatRoom-container .chat-header").text("");
 		$(".chatRoom-container .chat-room-inner").text("");
-		const header = $("<h3>").text("1:1대화");
+		const header = $("<h3>").text("채팅 생성");
 		$(".chatRoom-container .chat-header").append(header);
-		/* $.get("${pageContext.request.contextPath}/chat/dept",data=>{
-			console.log(data);
-			
-		}); */
-		const deptArr= ['운영팀', '행정팀', '인사팀', '경영팀', '홍보팀'];
-		const deptUl = $("<ul class='chatDeptAll'>");
+		chatCode = 'P';
+		
+		// 부서 출력 
+		const deptDiv = $("<form class='chat-DeptContainer'>");
+		deptDiv.attr("method","post");
+		deptDiv.attr("action","${path}/chat/insertChat");
+		deptDiv.append($("<label>").attr("for","chatroomTitle").text("채팅 방 제목"));
+		deptDiv.append($("<input type='text' name='chatroomTitle'>"));
+		let deptArr = ['운영팀','취업팀','인사팀','경영팀','홍보팀','행정팀'];
 		deptArr.forEach(e=>{
-			let dept= $("<li>");
-			dept.append($("<a class='chatDept'>").text(e));
-			deptUl.append(dept);
+			chatDept = $("<div class='chat-dept'>")
+			chatDept.append($("<h4 class='title'>").append($("<a class='chatDept'>").text(e)));
+			deptDiv.append(chatDept);
+			$(".chatRoom-container .chat-room-inner").append(deptDiv);
+		});
+		
+		// 부서명 누르면 해당 직원 출력
+		$(".chat-dept").click(e => {
+			deptName = $(e.target).text();
+			let target = $(e.target);
+			//console.log($(e.target));
+			$.ajax({
+				url:"${path}/chat/dept",
+				type:"post",
+				success:data=>{
+					//console.log(data);
+					var memberDiv = $("<div class='chat-memberByDept'>");
+					data.forEach(e=>{
+						var name = (e.dept.deptName);
+						//console.log(code);
+						if(name == deptName){
+							console.log(deptName);
+							console.log(e)
+							memberDiv.append($("<label>").attr("for",e.memberId).text(e.memberName+ " "+e.job.jobName));
+							memberDiv.append($("<input type='checkbox' name='memberId'>").attr("value",e.memberId));
+							target.append(memberDiv);
+						}
+					})
+				}
+			});
 		})
-		$(".chatRoom-container .chat-room-inner").append(deptUl);
+		deptDiv.append($("<input type='submit' value='선택'>"));
 	})
-	$(".chatDept").click(e =>{
-		alert("sgkj;aksdjg");
-	})
-	
-	
-	// 그룹 채팅 만들기 선택 
 	
 </script>
 </body>

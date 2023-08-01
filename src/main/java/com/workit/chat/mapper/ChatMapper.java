@@ -1,25 +1,27 @@
 package com.workit.chat.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
+import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.MyChatroom;
+import com.workit.member.model.dto.Department;
+import com.workit.member.model.dto.Member;
 
 
 @Mapper
 public interface ChatMapper {
-//	@Select("SELECT * FROM MEMBER")
-//	List<MemberDto> selectMemberAll();
-//	
-//	@Select(value = "SELECT * FROM MEMBER WHERE USERID=#{id}")
-//	MemberDto selectMemberById(String id);
-//	
-//	@SelectProvider(type=MemberSelectBuilder.class, method="selectMemberByWhere")
-//	List<MemberDto> selectMemberByWhere(Map<String,Object> param);
 	
-	@Select(value = "SELECT * FROM MY_CHATROOM_TB WHERE MEMBER_ID=#{memberId}")
 	List<MyChatroom> selectMyChatroomById(String memberId);
+	List<MyChatroom> selectChatroomByroomId(String chatroomId);
+	List<MyChatroom> searchAllByKeyword(String keyword);
+	
+	void insertChat(Map<String, Object> param);
+	int insertMyChatroom(String memberId);
+	
+	List<Member> selectMemberAll();
+	int insertMyChatroom(Map<String, Object> param);
 	
 }

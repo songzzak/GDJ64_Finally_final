@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +24,7 @@ import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
 import com.workit.chat.model.service.ChatService;
+import com.workit.member.model.dto.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,37 +41,88 @@ public class ChatController {
 		this.service = service;
 	}
 	
-	
-	// 채팅 페이지 이동
+	// 전체 채팅창 목록
 	@RequestMapping("/")
-	public String selectMyChatroomById(Model m){
+	public String selectMyChatroomById(Model model){
+		String memberId="2023072796";
+		model.addAttribute("chatroomList",service.selectMyChatroomById(memberId));
 		return "/chat/chat";
 	}
 	
-	// 전체 채팅 목록 - 마지막으로 보낸 안 읽은 메세지가 있는 순으로 출력
-	@PostMapping("/")
-	@ResponseBody
-	public List<MyChatroom> selectMyChatroomById(){
-		String memberId="2023072796";
-		log.info("{}",service.selectMyChatroomById(memberId));
-		return service.selectMyChatroomById(memberId);
-		
-	}
 	// 선택한 채팅창 보여주기
+//	@PostMapping("/chatroom")
+//	public String selectChatroom(Map<String, Object> param, String chatroomId, Model model) {
+//		log.info("{}", chatroomId);
+//		log.info("{}", service.selectChatroomByroomId(chatroomId));
+//		model.addAttribute("chatroom", service.selectChatroomByroomId(chatroomId));
+//		return "/chat/chat";
+//	}
 	@PostMapping("/chatroom")
 	@ResponseBody
-	public List<Chat> selectChatroom(Map<String, Object> param, String chatroomId) {
+	public List<MyChatroom> selectChatroom(Map<String, Object> param, String chatroomId) {
 		log.info("{}", chatroomId);
-		log.info("{}", service.selectChatroom(chatroomId));
-		return service.selectChatroom(chatroomId);
+		log.info("{}", service.selectChatroomByroomId(chatroomId));
+		return service.selectChatroomByroomId(chatroomId);
 	}
 	
-	// 
+	// 키워드로 검색
 	@PostMapping("/keyword")
 	@ResponseBody
-	public List<MyChatroom> searchAllByKeyword(String keyword){	
-		return service.searchAllByKeyword(keyword);
+	public String searchAllByKeyword(@RequestParam(value="keyword")String keyword, Model model){
+		model.addAttribute("result",service.searchAllByKeyword(keyword));
+		log.info("{}", service.searchAllByKeyword(keyword));
+		return "chat/chat";
+	}
+	
+	// 채팅 생성을 위한 전체 회원 조회
+	@PostMapping("/dept")
+	@ResponseBody
+	public List<Member> selectMember(){
+		log.info("{}", service.selectMemberAll());
+		return service.selectMemberAll();
+	}
+	
+	@GetMapping("/chatting")
+	public String startChat() {
+		//model.addAttribute("id",chatroomId);
+		return "/chat/chatroom";
+	}
+	
+	// 채팅 생성
+	@PostMapping("/insertChat")
+	public String insertChat(@RequestParam(value="chatroomTitle")String chatroomTitle, @RequestParam(value="memberId")String memberId, Model model) {
 		
+		String chatroomCode="";
+		String[] member = null;
+		String loginMember = "2023072796";
+		
+		member = memberId.split(",");
+		if(member.length>1) {
+			chatroomCode="G";
+		}else {
+			chatroomCode="P";
+		}
+		if(chatroomTitle == null || chatroomTitle =="") {
+			chatroomTitle = memberId+"("+member.length+")";
+		}
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("chatroomTitle", chatroomTitle);
+		param.put("chatroomCode", chatroomCode);
+		param.put("loginMember",loginMember);
+		param.put("member", member);
+		
+		log.info("{}", param.get("loginMember"));
+		List<MyChatroom> list = service.insertChat(param);
+		log.info("{}", list);
+		if(list!=null) {
+			model.addAttribute("chatroom",list);
+			return "chat/chat";
+		}else {
+			model.addAttribute("msg","생성 실패");
+			model.addAttribute("url","/chat/");
+			return "common/msg";
+		}
 	}
 	
 	// 파일 업로드 

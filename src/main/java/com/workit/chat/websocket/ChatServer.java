@@ -12,8 +12,11 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
-@ServerEndpoint(value="/chat")
+@ServerEndpoint(value="/chat/chatting")
+@Slf4j
 public class ChatServer {
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
 	
@@ -28,7 +31,7 @@ public class ChatServer {
 	//클라이언트 정보를 매개변수인 Session 객체를 통해 전달받습니다. 
 	//이때 정적 필드인 clients에 해당 session이 존재하지 않으면 clients에 접속된 클라이언트를 추가합니다.
 	public void onOpen(Session s) {
-
+		log.info("접속");
 	}
 	
 	@OnClose
