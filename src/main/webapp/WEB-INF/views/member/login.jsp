@@ -32,11 +32,11 @@
             </form>
 			<div class="btn-container">
 				<div>
-					<input type="checkbox" value=""><span>remember me</span>
+					<input type="checkbox" value="Y"><span>remember me</span>
 				</div>
 				<button onclick="fn_login();">Log in</button>
 			</div>
-			<a href="">forgot your password?</a>
+			<a href="${path }/login/password">forgot your password?</a>
         </div>
 	</section>
 	<script>

@@ -1,16 +1,14 @@
-package com.workit.member.model.dto;
+package com.workit.employee.model.vo;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Job {
+public class JobVO {
 	private String jobCode;
 	private String jobName;
-	private String jobAuth;
+	private int jobCount;
 }

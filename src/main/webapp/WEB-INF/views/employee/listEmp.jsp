@@ -34,7 +34,7 @@
 				<!-- 반복문 처리될 구간 -->
 				<c:if test="${not empty members }">
 					<c:forEach var="m" items="${members }">
-					<tr>
+					<tr onclick="location.href='${path}/employee/memberId?id=${m.memberId}'">
 						<td>${m.memberId }</td>
 						<td>${m.memberName }</td>
 						<td>${m.dept.deptName }</td>
@@ -48,7 +48,7 @@
 					</c:forEach>
 				</c:if>
 			</table>
-			<div>pageBar</div>
+			<div class="pageBar">${pageBar }</div>
 		</div>
 		<!-- right-container -->
 	</div>
