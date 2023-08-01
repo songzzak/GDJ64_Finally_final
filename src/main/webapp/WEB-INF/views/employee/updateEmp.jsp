@@ -29,7 +29,7 @@
          	</div>
          	<div>
          		<span>부서</span>
-	         	<select>
+	         	<select name="dept-code">
 	         		<option selected disabled value="${member.dept.deptCode }">${member.dept.deptName }</option>
 	         		<c:if test="${depts!=null }">
 	         			<c:forEach var="d" items="${depts }">
@@ -40,7 +40,7 @@
          	</div>
          	<div>
          		<span>직책</span>
-	         	<select>
+	         	<select name="job-code">
 	         		<option selected disabled value="${member.job.jobCode }">${member.job.jobName }</option>
 	         		<c:if test="${jobs!=null }">
 	         			<c:forEach var="j" items="${jobs }">
@@ -55,7 +55,8 @@
          	</div>
          	<div>
          		<span>프로필</span>
-         		<input type="file" name="upFile" value="${member.profileImg }" id="input-file">
+         		<input type="file" name="upFile" id="input-file">
+         		<input type="hidden" name="profile" value="${member.profileImg }">
          	</div>
          	<img src="${path }/resources/upload/profile/${member.profileImg}" id="mypage-profile">
          	<p>* 프로필 사진이 존재하는 경우 파일 첨부해주세요. 용량 제한 100MB</p>
@@ -69,7 +70,7 @@
          	</div>
          	<div>
          		<span>퇴사일</span>
-         		<input type="date" name="ent-date" value="${member.entDate!=''?member.entDate:''}" id="ent-date-id">
+         		<input type="date" name="ent_date" value="${member.entDate!=''?member.entDate:''}" id="ent-date-id">
          	</div>
          	<p>* 퇴사일 이후로는 해당 사원 번호로 로그인 불가능합니다.</p>
          </form>
@@ -81,11 +82,6 @@
 <script>
 //데이터 입력 확인 후 넘기는 메소드
 function fn_empDataCk(){
-	const inputArr=$("input");
-	if($("#ent-date-id").val()==''){
-		$("#ent-date-id").val(null);
-		console.log($("#ent-date-id").val());
-	}
 	$("#update-emp-form").submit();
 }
 console.log($("#ent-date-id").val());
