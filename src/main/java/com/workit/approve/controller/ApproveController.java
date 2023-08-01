@@ -45,9 +45,12 @@ public class ApproveController {
 	 */
 	
 	@RequestMapping("/waitingApprove.do")
-	public String selectWaitingApprove(Model m,@RequestParam(value="memberId") String memberId) {
-		List<Approve> apps = service.selectAllWaitingApprove(memberId);
+	public String selectWaitingApprove(Model m,@RequestParam(value="mId") String mId) {
+		List<Approve> apps = service.selectAllWaitingApprove(mId);
+		for(Approve app : apps) {
+			System.out.println(app);
+		}
 		m.addAttribute("apps", apps);
-		return "approve/waiting-approve";
+		return "approve/expenditure-app";
 	}
 }
