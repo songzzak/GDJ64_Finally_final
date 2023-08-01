@@ -1,7 +1,7 @@
 {
 	"folders": {},
 	"connections": {
-		"oracle_thin-189b02d1687-3b920430ba1a82cf": {
+		"oracle_thin-189b0deb713-ef200fbe6ac8e9d": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
 			"name": "final",
@@ -12,7 +12,7 @@
 				"database": "XE",
 				"url": "jdbc:oracle:thin:@14.36.141.71:8877:XE",
 				"configurationType": "MANUAL",
-				"home": "C:\\app\\GDJ\\product\\18.0.0\\dbhomeXE",
+				"home": "C:\\app\\bogdu\\product\\18.0.0\\dbhomeXE",
 				"type": "dev",
 				"provider-properties": {
 					"@dbeaver-connection-type@": "BASIC",

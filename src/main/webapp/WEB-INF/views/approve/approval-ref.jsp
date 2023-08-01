@@ -4,6 +4,8 @@
 	pageEncoding="UTF-8"%>	
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
+<%-- <c:set var="path" value="${pageContext.request.contextPath }"/>
+<script src="${path}/resources/js/jquery-3.7.0.min.js"></script> --%>
 		<div class="approve-section1 section-shadow">
 		<button type="button" class="openBtn" id="regist-appline">결재선 설정</button>
 
@@ -26,12 +28,15 @@
 	    <div id="department-box">
 		<c:if test="${not empty deps}">
 			<c:forEach var="dep" items="${deps}">
-				${dep.deptName}<br>
+				<button onclick="changeDep(event);" value="${dep.deptName}">${dep.deptName}</button><br>
 			</c:forEach>
 		</c:if>
 	    </div>
 	    
 	    <div id="people-box">
+<%-- 	    	<c:forEach var="member" items="${members}">
+	    		<input type="checkbox">${member.memberName} ${member.job.jobName} ${member.dept.deptName}
+	    	</c:forEach> --%>
 	    	
 	    </div>
 	    
@@ -80,6 +85,31 @@
 </div>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/approve/approve.js"></script>
-	
+<script>
 
+
+
+	 const changeDep=(e)=>{
+		 /* console.log(e.target.value); */
+		 	const value = e.target.value;
+			$.post("${path}/approve/changeDep.do",
+					{deptName:value},  
+					data=>{  // 데이터를 객체로(키,값) 전달
+
+						for(let i=0; i<data.length; i++){
+							console.log(data[i].memberName, data[i].job.jobName, data[i].dept.deptName);
+						}
+					
+					}); 
+	 }
+	 
+/* 	const changeDept=()=>{
+		$.post("${pageContext.request.contextPath}/ajax/insertData.do",
+				deptName:"${dept}",  
+				data=>{  // 데이터를 객체로(키,값) 전달
+					console.log(data);
+				}); 
+	}   */
+</script>	
+	
 </html>
