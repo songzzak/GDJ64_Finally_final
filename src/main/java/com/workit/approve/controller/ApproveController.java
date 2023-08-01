@@ -51,6 +51,8 @@ public class ApproveController {
 			System.out.println(app);
 		}
 		m.addAttribute("apps", apps);
-		return "approve/expenditure-app";
+
+		System.out.println(apps);
+		return "approve/waiting-approve";
 	}
 }
