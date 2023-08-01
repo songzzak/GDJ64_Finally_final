@@ -49,3 +49,6 @@ h4, h2{
 .tb-content{
 	width: 200px;
 }
+#profile-input{
+	display: none;
+}
