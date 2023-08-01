@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 {"resources":{"Scripts/Script-5.sql":{"default-schema":"WORKIT","default-datasource":"oracle_thin-189961e7e31-3db5b6d749bc804f"},"Scripts/Script-6.sql":{"default-datasource":"oracle_thin-189ab9b9469-3820c555f791f1ce","default-schema":"WORKIT"},"Scripts/Script.sql":{"default-schema":"WORKIT","default-datasource":"oracle_thin-189961e7e31-3db5b6d749bc804f"}}}
 =======
 {"resources":{"Scripts/Script-5.sql":{"default-schema":"WORKIT","default-datasource":"oracle_thin-189a5ba4edc-7274ed29c5ecaa0e"}}}
 >>>>>>> branch 'dev' of https://github.com/songzzak/GDJ64_Finally_final.git
+=======
+{"resources":{"Scripts/Script-1.sql":{"default-datasource":"oracle_thin-189b02d1687-3b920430ba1a82cf","default-schema":"WORKIT"}}}
+>>>>>>> branch 'joo' of https://github.com/songzzak/GDJ64_Finally_final.git

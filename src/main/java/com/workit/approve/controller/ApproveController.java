@@ -1,5 +1,7 @@
 package com.workit.approve.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.service.ApproveService;
+import com.workit.employee.service.EmployeeService;
+import com.workit.member.model.dto.Department;
 
 @Controller
 @RequestMapping("/approve")
@@ -17,37 +21,51 @@ public class ApproveController {
 	@Autowired
 	private ApproveService service;
 	
-	@RequestMapping("/approvePropView.do")
-	public String approvePropView() {
-		return "approve/expenditure-app";
-	}
+	@Autowired
+	private EmployeeService eservice;
 	
-	@RequestMapping("/extendsView.do")
-	public String extendsView() {
+	@RequestMapping("/extendsView.do") // 연장근무신청서 페이지로 이동
+	public String extendsView(Model m) {
+		  LocalDate now = LocalDate.now();
+	      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	      String time = now.format(formatter);
+	    
+	    List<Department> deps = eservice.selectDept();
+	    
+	    m.addAttribute("deps",deps);
+		m.addAttribute("time",time); // 현재날짜 전달
 		return "approve/extends-app";
 	}
 	
-	@RequestMapping("/attendanceView.do")
-	public String attendacneView() {
+	@RequestMapping("/attendanceView.do")  // 근태신청서 페이지로 이동
+	public String attendacneView(Model m) {
+		  LocalDate now = LocalDate.now();
+	      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	      String time = now.format(formatter);
+
+		m.addAttribute("time",time); // 현재날짜 전달
 		return "approve/attendance-app";
 	}
 	
-	@RequestMapping("/expenditureView.do")
-	public String expenditureView() {
+	@RequestMapping("/expenditureView.do")  // 지출결의서 페이지로 이동
+	public String expenditureView(Model m) {
+		  LocalDate now = LocalDate.now();
+	      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	      String time = now.format(formatter);
+
+		m.addAttribute("time",time); // 현재날짜 전달
 		return "approve/expenditure-app";
 	}
 	
-	/*
-	 * @RequestMapping("/waitingApprove.do") public String
-	 * selectWaitingApprove(Model m,@RequestParam(value="memberId") String memberId)
-	 * { List<Approve> apps = service.selectAllWaitingApprove(memberId);
-	 * m.addAttribute("apps", apps); return "approve/waiting-approve"; }
-	 */
-	
-	@RequestMapping("/waitingApprove.do")
-	public String selectWaitingApprove(Model m,@RequestParam(value="memberId") String memberId) {
-		List<Approve> apps = service.selectAllWaitingApprove(memberId);
+
+	@RequestMapping("/waitingApprove.do") // 결재대기문서로 이동
+	public String selectWaitingApprove(Model m,@RequestParam(value="mId") String mId) {
+		List<Approve> apps = service.selectAllWaitingApprove(mId);
+		for(Approve app : apps) {
+			System.out.println(app);
+		}
 		m.addAttribute("apps", apps);
+
 		System.out.println(apps);
 		return "approve/waiting-approve";
 	}

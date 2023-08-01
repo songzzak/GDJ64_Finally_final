@@ -18,9 +18,9 @@ public class ApproveServiceImpl implements ApproveService {
 	private SqlSession session;
 	
 	@Override
-	public List<Approve> selectAllWaitingApprove(String memberId) {
+	public List<Approve> selectAllWaitingApprove(String mId) {
 		
-		return dao.selectAllWaitingApprove(session,memberId);
+		return dao.selectAllWaitingApprove(session,mId);
 	}
 
 }

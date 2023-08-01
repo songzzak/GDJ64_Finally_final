@@ -2,7 +2,8 @@
 
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="UTF-8"%>	
-	
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
 		<div class="approve-section1 section-shadow">
 		<button type="button" class="openBtn" id="regist-appline">결재선 설정</button>
 
@@ -23,7 +24,11 @@
   <div class="modalBox">
   	<div id="display-flex">
 	    <div id="department-box">
-			    	
+		<c:if test="${not empty deps}">
+			<c:forEach var="dep" items="${deps}">
+				${dep.deptName}<br>
+			</c:forEach>
+		</c:if>
 	    </div>
 	    
 	    <div id="people-box">

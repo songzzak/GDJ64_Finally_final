@@ -12,8 +12,8 @@ import com.workit.approve.model.dto.Approve;
 public class ApproveDaoImpl implements ApproveDao {
 
 	@Override
-	public List<Approve> selectAllWaitingApprove(SqlSession session, String memberId) {
-		return session.selectList("approve.selectAllWaitingApprove",memberId);
+	public List<Approve> selectAllWaitingApprove(SqlSession session, String mId) {
+		return session.selectList("approve.selectAllWaitingApprove",mId);
 	}
 
 }
