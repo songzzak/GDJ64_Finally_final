@@ -11,11 +11,11 @@
          <form action="${path }/employee/enroll" method="post" id="enroll-form">
          	<div>
          		<span>이름</span>
-         		<input type="text" name="member-name">
+         		<input type="text" name="member_name">
          	</div>
          	<div>
          		<span>주민번호</span>
-         		<input type="text" name="member-no">
+         		<input type="text" name="member_no">
          	</div>
          	<div>
          		<span>전화번호</span>
@@ -24,12 +24,12 @@
          	</div>
          	<div>
          		<span>주소 검색</span>
-         		<input type="text" name="main-address" id="main-addr">
+         		<input type="text" name="main_address" id="main-addr">
          		<input type="button" onclick="fn_searchAddr();" value="검색">
          	</div>
          	<div>
          		<span>상세 주소</span>
-         		<input type="text" name="detail-address" id="detail-addr">
+         		<input type="text" name="detail_address" id="detail-addr">
          	</div>
          	<div>
          		<span>부서</span>
@@ -59,7 +59,7 @@
          	</div>
          	<div>
          		<span>입사일</span>
-         		<input type="date" name="enroll-date">
+         		<input type="date" name="enroll_date">
          	</div>
          </form>
          <p>* 사원 초기 비밀번호는 1234로 생성됩니다.</p>

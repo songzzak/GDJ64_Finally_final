@@ -11,7 +11,7 @@
 			<section>
 				<h4>직책 추가</h4>
 				<span>권한</span>
-				<select name="job-auth" id="job-auth-id">
+				<select id="job-auth">
 					<option selected disabled>필수 선택</option>
 					<option value="master">대표</option>
 					<option value="submaster">부대표</option>
@@ -20,7 +20,7 @@
 				</select>
 				<div id="insert-grade">
 					<span>직책명</span>
-					<input type="text" name="insert-title">
+					<input type="text" id="job-name">
 					<button onclick="fn_insertAuth();">생성</button>
 				</div>
 			</section>
@@ -28,7 +28,7 @@
 				<h4>직책 삭제</h4>
 				<div id="delete-grade">
 					<span>직책명</span>
-					<select name="delete-title">
+					<select id="delete-name">
 						<option selected disabled>필수 선택</option>
 		         		<c:if test="${jobs!=null }">
 			         		<c:forEach var="j" items="${jobs }">
@@ -56,7 +56,7 @@
 									<td>${j.jobName}</td>
 									<td>${j.jobCount }명</td>
 									<td>
-										<input type="text" name="update-title" id="update-title-id">
+										<input type="text" name="update_title" id="update-title">
 									</td>
 									<td>
 										<button onclick="fn_updateAuth();">수정</button>
