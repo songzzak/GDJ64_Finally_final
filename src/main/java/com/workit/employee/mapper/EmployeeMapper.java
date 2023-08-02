@@ -14,7 +14,8 @@ import com.workit.member.model.dto.Member;
 
 @Mapper
 public interface EmployeeMapper {
-
+	List<Department> selectAllDept();
+	 List<Member> selectMemberAllByJob();
     List<Department> selectDeptAll();
 
     List<Job> selectJobAll();

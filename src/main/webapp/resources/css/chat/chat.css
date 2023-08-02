@@ -40,8 +40,12 @@ h5 {
 	border-bottom: var(--border-bottom);
 	text-align: center;
 }
-.chat-header img:nth-child(2), .chat-header img:nth-child(3){
+.chat-header img{
 	margin-left: 1rem;
+}
+.chat-header>img:first-child{
+	margin-left: 0;
+	width:24px;
 }
 .chatList-container{
 	width: 30%;
@@ -113,6 +117,10 @@ h5 {
 }
 .chat-date {
 	margin-left: 0.2rem;
+	font-size: var(--font-small);
+}
+.chat-send .chat-date {
+	margin-right: 0.2rem;
 	font-size: var(--font-small);
 }
 .chat-send {
@@ -203,13 +211,42 @@ h5 {
 	box-shadow: var(--box-shadow);
 }
 
+.chatDeptAll {
+	width: 30%;
+	height: auto;
+	margin-top: 5rem;
+	border: 1px solid red;
+}
+.chatDeptAll li{
+	margin:0;
+	height: 6rem;
+	
+}
 
+.chat-memberList {
+	display: flex;
+}
+.memberByDept {
+	width : 50%;
+	border: 2px solid black;
+	display: block;
+}
+.memberByDept label {
+	display: block;
+}
+.chat-memberByDept label, .chat-memberByDept input{
+	width:auto;
+	height: auto;
+	padding: 0;
+	margin: 0;
+}
 
-
-
-
-
-
+.deptName {
+	display: block;
+}
+.chat-memberByDept {
+	display: block;
+}
 
 
 
