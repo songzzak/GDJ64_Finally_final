@@ -18,6 +18,6 @@ public class Booking {
 	private String memberId;
 	private String memo;
 	private String bookingCanceled;
-	private int facNo;
+	private Facility facNo;
 	private int purpose;
 }
