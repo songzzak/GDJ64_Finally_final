@@ -6,6 +6,10 @@ import java.util.Map;
 import com.workit.work.model.dto.Work;
 
 public interface WorkService {
+	
+	// 월별 근무 정보 가져오기
+	List<Work> getMonthWorkTime(Map<String, Object> paramMap);
+	
 	int insertStartTime(Work w);
 
 	Work selectStartTime(String memberId);
@@ -35,4 +39,6 @@ public interface WorkService {
 	List<Work> selectDeptWeekList(Map<String, String> param);
 
 	Work selectMember(String memberId);
+
+	
 }

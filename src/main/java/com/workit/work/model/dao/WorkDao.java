@@ -37,4 +37,6 @@ public interface WorkDao {
 	List<Work> selectDeptWeekList(SqlSessionTemplate session, Map<String, String> param);
 
 	Work selectMember(SqlSessionTemplate session, String memberId);
+
+	List<Work> getMonthWorkTime(SqlSessionTemplate session, Map<String, Object> paramMap);
 }

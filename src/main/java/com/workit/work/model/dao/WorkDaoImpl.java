@@ -86,4 +86,9 @@ public class WorkDaoImpl implements WorkDao {
 		return session.selectOne("work.selectMember",memberId);
 	}
 
+	@Override
+	public List<Work> getMonthWorkTime(SqlSessionTemplate session, Map<String, Object> paramMap) {
+		return session.selectList("work.getMonthWorkTime", paramMap);
+	}
+
 }

@@ -146,6 +146,7 @@
 		printClock();
 		// 캘린더 초기화
 		calendarInit();
+
 		// 현재 날짜를 ISO 8601 형식으로 변환하여 hidden input에 설정
 		var currentDate = getISODateString();
 		document.getElementById("currentDate").value = currentDate;
@@ -204,16 +205,41 @@
 		// console.log(parseInt(((weekDay - 1) + currentDate) / 7) + 1);
 		return parseInt(((weekDay - 1) + currentDate) / 7) + 1;
 	}
+	
+	function fetchWorkData(currentYear, currentMonth) {
+	    $.ajax({
+	      url: 'workTime.do',
+	      method: "GET",
+	      data: {
+	    	  	currentYear:currentYear,
+	    		currentMonth:currentMonth},
+	      dataType: "json",
+	      success: function(data) {
+	        // 데이터를 가져온 후 테이블에 출력
+	        renderCalendarTable(data);
+	      },
+	      error: function(err) {
+	        console.error("Error fetching data: " + err.statusText);
+	      }
+	    });
+	  }
 
 	// 캘린더 테이블을 생성하는 함수
-	function renderCalendarTable(currentYear, currentMonth) {
+	function renderCalendarTable(data) {
+		 // 렌더링을 위한 데이터 정리
+		
 		var startDate = new Date(currentYear, currentMonth, 1);
 		var endDate = new Date(currentYear, currentMonth + 1, 0);
 		var currentDate = new Date(startDate);
 
+        var currentYearMonth = currentYear + "" +(currentMonth+1);
+        var monthSWeek = startDate.getDay();
+        var weekSeq = parseInt((parseInt(endDate) + monthSWeek - 1)/7)+1;
+        
 		var monthLabel = currentYear + "-"
 				+ (currentMonth + 1).toString().padStart(2, "0");
 		$(".year-month").text(monthLabel);
+		
 
 		var table = $("<table>").addClass("cal_tbl weekTable")
 				.attr("id", "calenderTable");
@@ -244,14 +270,15 @@
 			$(".cal_tblDiv").append(weekDiv);
 		}
 
+	
 		var week = [ '일', '월', '화', '수', '목', '금', '토' ];
 		while (currentDate <= endDate) {
 			var tr = $("<tr>");
 			var dayOfWeek = currentDate.getDay();
 			var dayLabel = week[dayOfWeek];
 			var tdDate = $("<td>").text(currentDate.getDate() + " " + dayLabel);
-			var tdWorkStart = $("<td>").text("미등록");
-			var tdWorkEnd = $("<td>").text("미등록");
+			var tdWorkStart = $("<td>").text(formatTime(data[currentYearMonth][currentDate.getDate()].workStart));
+		    var tdWorkEnd = $("<td>").text(formatTime(data[currentYearMonth][currentDate.getDate()].workEnd));
 			var tdWorkHours = $("<td>").text("0");
 			var tdOvertimeHours = $("<td>").text("0");
 			tr.append(tdDate);
@@ -259,24 +286,24 @@
 			tr.append(tdWorkEnd);
 			tr.append(tdWorkHours);
 			tr.append(tdOvertimeHours);
-
+	
 			weekTable.append(tr);
-
+	
 			currentDate.setDate(currentDate.getDate() + 1);
-
+	
 			var nextWeek = getWeekNumber(currentDate);
 			if (nextWeek !== currentWeek) {
 				weekTable.hide();
 				$(".cal_tblDiv").append(weekDiv);
 				$(".cal_tblDiv").append(weekTable);
-
+	
 				currentWeek = nextWeek;
 				weekDiv = $("<div>").addClass("row weekDiv go-down");
 				weekHeader = $("<p>").addClass("weekNumber").text(
 						currentWeek + "주차");
 				collapseIcon = $("<a>").attr("href", "#");
 				weekTable = table.clone();
-
+	
 				weekDiv.append(weekHeader);
 				weekDiv.append(collapseIcon);
 				weekDiv.on("click", function() {
@@ -286,6 +313,21 @@
 		}
 
 	}
+
+	function formatTime(timeString) {
+	    if (!timeString) {
+	      return "미등록";
+	    }
+
+	    var time = timeString.split(":");
+	    var hours = parseInt(time[0], 10);
+	    var minutes = parseInt(time[1], 10);
+	    var seconds = parseInt(time[2], 10);
+
+	    return (hours < 10 ? "0" : "") + hours + ":" +
+	           (minutes < 10 ? "0" : "") + minutes + ":" +
+	           (seconds < 10 ? "0" : "") + seconds;
+	  }
 
 	// 캘린더 초기화 함수
 	function calendarInit() {
@@ -298,7 +340,7 @@
 				+ (currentMonth + 1).toString().padStart(2, "0");
 		$(".year-month").text(monthLabel); // 현재 월 표시
 
-		renderCalendarTable(currentYear, currentMonth);
+		fetchWorkData(currentYear, currentMonth,'user01');
 
 		var currentWeekTable = null;
 
@@ -311,7 +353,7 @@
 				currentMonth = 11;
 			}
 			$('#calenderTable').remove();
-			renderCalendarTable(currentYear, currentMonth);
+			fetchWorkData(currentYear, currentMonth);
 
 			if (currentWeekTable) {
 				currentWeekTable.hide();
@@ -328,7 +370,7 @@
 				currentMonth = 0;
 			}
 			$('#calenderTable').remove();
-			renderCalendarTable(currentYear, currentMonth);
+			fetchWorkData(currentYear, currentMonth);
 
 			if (currentWeekTable) {
 				currentWeekTable.hide();

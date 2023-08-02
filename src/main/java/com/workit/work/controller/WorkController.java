@@ -30,44 +30,34 @@ public class WorkController {
 		this.service = service;
 	}
 
-	@RequestMapping("monthWorkTime.do")
-	public void monthWorkTime(@RequestParam("currentYearMonth") String currentYearMonth,
+	@RequestMapping("workTime.do")
+	public void monthWorkTime(
 			@RequestParam("currentYear") int currentYear, @RequestParam("currentMonth") int currentMonth,
-			@RequestParam("weekSeq") int weekSeq, HttpServletRequest request, HttpServletResponse response,
-			Model model) {
-		HttpSession session = request.getSession();
+			HttpServletRequest request, HttpServletResponse response,
+			Model model) throws IOException {
+		//HttpSession session = request.getSession();
 //		Member m = (Member) session.getAttribute("loginUser");
 //		String id = m.getmId();
-		String id = "test";
-		Map<String, String> map = new HashMap<>();
-		map.put("currentYearMonth", currentYearMonth);
-		map.put("id", id);
-		System.out.println(currentYearMonth);
-		List<Work> mwList = service.monthWorkTime(map);
-		System.out.println("시작");
-		System.out.println("한달 워크타임:" + mwList);
+		String memberId = "user01";
+		// 년월 정보를 Map에 담기
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("memberId", memberId);
+        paramMap.put("currentYear", currentYear);
+        paramMap.put("currentMonth", currentMonth);
 
-//		for (int i = 0; i < mwList.size(); i++) {
-//			if (mwList.get(i).getStrGapTime().equals("::")) {
-//				mwList.get(i).setStrGapTime("");
-//			}
-//			if (mwList.get(i).getStrOverTime().equals("::")) {
-//				mwList.get(i).setStrOverTime("");
-//			}
-//		}
-		model.addAttribute("mwList", mwList);
-		
-		 Gson gson = new Gson();
+        // 서비스를 호출하여 해당 월의 근무 데이터 가져오기
+        List<Work> workList = service.getMonthWorkTime(paramMap);
 
-//		GsonBuilder gb = new GsonBuilder();
-//		gb.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-//
-//		Gson gson = gb.create();
-		try {
-			gson.toJson(mwList, response.getWriter());
-		} catch (JsonIOException | IOException e) {
-			e.printStackTrace();
-		}
+        // 뷰에 데이터 전달
+        model.addAttribute("workList", workList);
+
+        // 여기서는 해당 데이터를 JSON 형식으로 응답하는 것으로 보이기 때문에, 아래와 같이 작성할 수 있습니다.
+        // Gson 라이브러리를 사용하여 List<Work>를 JSON 형식으로 변환하여 응답합니다.
+         Gson gson = new Gson();
+         String jsonData = gson.toJson(workList);
+         response.setContentType("application/json");
+         response.setCharacterEncoding("UTF-8");
+         response.getWriter().write(jsonData);
 	}
 
 }

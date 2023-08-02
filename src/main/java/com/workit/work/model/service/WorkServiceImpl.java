@@ -97,4 +97,9 @@ public class WorkServiceImpl implements WorkService {
 		return dao.selectMember(session, memberId);
 	}
 
+	@Override
+	public List<Work> getMonthWorkTime(Map<String, Object> paramMap) {
+		return dao.getMonthWorkTime(session, paramMap);
+	}
+
 }
