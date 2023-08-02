@@ -58,11 +58,6 @@
          		<input type="number" name="salary">
          	</div>
          	<div>
-         		<span>프로필</span>
-         		<input type="file" name="profile-img">
-         	</div>
-         	<p>* 프로필 사진이 존재하는 경우 파일 첨부해주세요. 용량 제한 50MB</p>
-         	<div>
          		<span>입사일</span>
          		<input type="date" name="enroll-date">
          	</div>

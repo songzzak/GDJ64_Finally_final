@@ -24,10 +24,10 @@
 		</div>
 		<div class="header-button-container">
 			<div class="header-member">
-				<a href="">
+				<a href="${path }/mypage">
 					<img src="${path}/resources/images/common/profile.svg" alt="member-profile-img">
-					<span>운영팀</span>
-					<span>김사원</span>
+					<span>${loginMember.dept.deptName }</span>
+					<span>${loginMember.memberName }</span>
 				</a>
 			</div>
 			<%-- <div class="header-search">
@@ -36,8 +36,16 @@
 			</div> --%>
 			<div class="header_icon_container">
 				<img alt="alram_header" src="${path}/resources/images/common/notify.svg" onclick="alramList();">
-				<img alt="logout_header" src="${path}/resources/images/common/logout.svg" onclick="loggot();">
+				<img alt="logout_header" src="${path}/resources/images/common/logout.svg" onclick="fn_logout();">
 			</div>
 		</div>
 	</div>
 </header>
+<script>
+	function fn_logout(){
+		var logoutFl=confirm("로그아웃 하시겠습니까?");
+		if(logoutFl){
+			location.replace("${path}/logout");
+		}
+	}
+</script>
