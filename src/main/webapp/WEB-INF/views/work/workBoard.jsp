@@ -147,21 +147,22 @@
 		// 캘린더 초기화
 		calendarInit();
 		// 현재 날짜를 ISO 8601 형식으로 변환하여 hidden input에 설정
-	    var currentDate = getISODateString();
-	    document.getElementById("currentDate").value = currentDate;
+		var currentDate = getISODateString();
+		document.getElementById("currentDate").value = currentDate;
 	});
-	  // JavaScript에서 현재 날짜를 ISO 8601 형식으로 변환하는 유틸리티 함수
+	// JavaScript에서 현재 날짜를 ISO 8601 형식으로 변환하는 유틸리티 함수
 	function getISODateString() {
-    var currentDate = new Date();
-    var year = currentDate.getUTCFullYear();
-    var month = ('0' + (currentDate.getUTCMonth() + 1)).slice(-2);
-    var day = ('0' + currentDate.getUTCDate()).slice(-2);
-    var hours = ('0' + currentDate.getUTCHours()).slice(-2);
-    var minutes = ('0' + currentDate.getUTCMinutes()).slice(-2);
-    var seconds = ('0' + currentDate.getUTCSeconds()).slice(-2);
-    return year + '-' + month + '-' + day + 'T' + hours + ':' + minutes + ':' + seconds + 'Z';
-}
-	
+		var currentDate = new Date();
+		var year = currentDate.getUTCFullYear();
+		var month = ('0' + (currentDate.getUTCMonth() + 1)).slice(-2);
+		var day = ('0' + currentDate.getUTCDate()).slice(-2);
+		var hours = ('0' + currentDate.getUTCHours()).slice(-2);
+		var minutes = ('0' + currentDate.getUTCMinutes()).slice(-2);
+		var seconds = ('0' + currentDate.getUTCSeconds()).slice(-2);
+		return year + '-' + month + '-' + day + 'T' + hours + ':' + minutes
+				+ ':' + seconds + 'Z';
+	}
+
 	// 현재 시간 출력하는 함수
 	function printClock() {
 		var clock = $("#clock");
@@ -194,94 +195,97 @@
 	// 주차 정보를 가져오는 함수
 	function getWeekNumber(date) {
 		// 해당 날짜 (일)
-		  const currentDate = date.getDate();
-		  // 이번 달 1일로 지정
-		   const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-		  // 이번 달 1일이 무슨 요일인지 확인
-		  const weekDay = startOfMonth.getDay(); // 0: Sun ~ 6: Sat
-		  // ((요일 - 1) + 해당 날짜) / 7일로 나누기 = N 주차
-		 // console.log(parseInt(((weekDay - 1) + currentDate) / 7) + 1);
-		  return parseInt(((weekDay - 1) + currentDate) / 7) + 1;
+		const currentDate = date.getDate();
+		// 이번 달 1일로 지정
+		const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+		// 이번 달 1일이 무슨 요일인지 확인
+		const weekDay = startOfMonth.getDay(); // 0: Sun ~ 6: Sat
+		// ((요일 - 1) + 해당 날짜) / 7일로 나누기 = N 주차
+		// console.log(parseInt(((weekDay - 1) + currentDate) / 7) + 1);
+		return parseInt(((weekDay - 1) + currentDate) / 7) + 1;
 	}
-	
-// 캘린더 테이블을 생성하는 함수
-function renderCalendarTable(currentYear, currentMonth) {
-    var startDate = new Date(currentYear, currentMonth, 1);
-    var endDate = new Date(currentYear, currentMonth + 1, 0);
-    var currentDate = new Date(startDate);
 
-    var monthLabel = currentYear + "-" + (currentMonth + 1).toString().padStart(2, "0");
-    $(".year-month").text(monthLabel);
+	// 캘린더 테이블을 생성하는 함수
+	function renderCalendarTable(currentYear, currentMonth) {
+		var startDate = new Date(currentYear, currentMonth, 1);
+		var endDate = new Date(currentYear, currentMonth + 1, 0);
+		var currentDate = new Date(startDate);
 
-    var table = $("<table>").addClass("cal_tbl").attr("id", "calenderTable");
-    var tableHeader = $("<tr>").addClass("tableHeader");
+		var monthLabel = currentYear + "-"
+				+ (currentMonth + 1).toString().padStart(2, "0");
+		$(".year-month").text(monthLabel);
 
-    var headerLabels = ["일자", "출근시간", "퇴근시간", "근무시간", "초과시간"];
-    for (var i = 0; i < headerLabels.length; i++) {
-        var th = $("<th>").text(headerLabels[i]);
-        tableHeader.append(th);
-    }
+		var table = $("<table>").addClass("cal_tbl weekTable")
+				.attr("id", "calenderTable");
+		var tableHeader = $("<tr>").addClass("tableHeader");
 
-    table.append(tableHeader);
+		var headerLabels = [ "일자", "출근시간", "퇴근시간", "근무시간", "초과시간" ];
+		for (var i = 0; i < headerLabels.length; i++) {
+			var th = $("<th>").text(headerLabels[i]);
+			tableHeader.append(th);
+		}
 
+		table.append(tableHeader);
 
-    
-    var currentWeek = getWeekNumber(startDate);
-    var weekDiv = $("<div>").addClass("row weekDiv");
-    var weekHeader = $("<p>").addClass("weekNumber").text(currentWeek + "주차");
-    var collapseIcon = $("<a>").attr("href", "#").addClass("go-down");
-   /*  var weekTable = table.clone(); */
-    var weekTable = $(".weekTable[data-week='" + currentWeek + "']"); // 이미 생성된 주차 테이블인지 확인
+		var currentWeek = getWeekNumber(startDate);
+		var weekDiv = $("<div>").addClass("row weekDiv go-down");
+		var weekHeader = $("<p>").addClass("weekNumber").text(
+				currentWeek + "주차");
+		var collapseIcon = $("<a>").attr("href", "#");
+		/*  var weekTable = table.clone(); */
+		var weekTable = $(".weekTable[data-week='" + currentWeek + "']"); // 이미 생성된 주차 테이블인지 확인
 
-    if (!weekTable.length) {
-        weekTable = table.clone().addClass("weekTable").attr("data-week", currentWeek); // 주차 테이블 클래스와 데이터 속성 추가
-        weekTable.hide(); // 새로 생성된 주차 테이블은 숨김 상태로 생성
-        weekDiv.append(weekHeader);
-        weekDiv.append(collapseIcon);
-        $(".cal_tblDiv").append(weekDiv);
-    }
+		if (!weekTable.length) {
+			weekTable = table.clone().addClass("weekTable").attr("data-week",
+					currentWeek); // 주차 테이블 클래스와 데이터 속성 추가
+			weekTable.hide(); // 새로 생성된 주차 테이블은 숨김 상태로 생성
+			weekDiv.append(weekHeader);
+			weekDiv.append(collapseIcon);
+			$(".cal_tblDiv").append(weekDiv);
+		}
 
-    var week = ['일', '월', '화', '수', '목', '금', '토'];
-    while (currentDate <= endDate) {
-        var tr = $("<tr>");
-	    var dayOfWeek = currentDate.getDay();
-	    var dayLabel = week[dayOfWeek];
-        var tdDate = $("<td>").text(currentDate.getDate()+" "+dayLabel);
-        var tdWorkStart = $("<td>").text("미등록");
-        var tdWorkEnd = $("<td>").text("미등록");
-        var tdWorkHours = $("<td>").text("0");
-        var tdOvertimeHours = $("<td>").text("0");
-        tr.append(tdDate);
-        tr.append(tdWorkStart);
-        tr.append(tdWorkEnd);
-        tr.append(tdWorkHours);
-        tr.append(tdOvertimeHours);
+		var week = [ '일', '월', '화', '수', '목', '금', '토' ];
+		while (currentDate <= endDate) {
+			var tr = $("<tr>");
+			var dayOfWeek = currentDate.getDay();
+			var dayLabel = week[dayOfWeek];
+			var tdDate = $("<td>").text(currentDate.getDate() + " " + dayLabel);
+			var tdWorkStart = $("<td>").text("미등록");
+			var tdWorkEnd = $("<td>").text("미등록");
+			var tdWorkHours = $("<td>").text("0");
+			var tdOvertimeHours = $("<td>").text("0");
+			tr.append(tdDate);
+			tr.append(tdWorkStart);
+			tr.append(tdWorkEnd);
+			tr.append(tdWorkHours);
+			tr.append(tdOvertimeHours);
 
-        weekTable.append(tr);
+			weekTable.append(tr);
 
-        currentDate.setDate(currentDate.getDate() + 1);
+			currentDate.setDate(currentDate.getDate() + 1);
 
-        var nextWeek = getWeekNumber(currentDate);
-        if (nextWeek !== currentWeek) {
-            weekTable.hide();
-            $(".cal_tblDiv").append(weekDiv);
-            $(".cal_tblDiv").append(weekTable);
+			var nextWeek = getWeekNumber(currentDate);
+			if (nextWeek !== currentWeek) {
+				weekTable.hide();
+				$(".cal_tblDiv").append(weekDiv);
+				$(".cal_tblDiv").append(weekTable);
 
-            currentWeek = nextWeek;
-            weekDiv = $("<div>").addClass("row weekDiv go-down");
-            weekHeader = $("<p>").addClass("weekNumber").text(currentWeek + "주차");
-            collapseIcon = $("<a>").attr("href", "#");
-            weekTable = table.clone();
+				currentWeek = nextWeek;
+				weekDiv = $("<div>").addClass("row weekDiv go-down");
+				weekHeader = $("<p>").addClass("weekNumber").text(
+						currentWeek + "주차");
+				collapseIcon = $("<a>").attr("href", "#");
+				weekTable = table.clone();
 
-            weekDiv.append(weekHeader);
-            weekDiv.append(collapseIcon);
-            weekDiv.on("click", function() {
-                weekTable.toggle();
-            });
-        }
-    }
+				weekDiv.append(weekHeader);
+				weekDiv.append(collapseIcon);
+				weekDiv.on("click", function() {
+					weekTable.toggle();
+				});
+			}
+		}
 
-}
+	}
 
 	// 캘린더 초기화 함수
 	function calendarInit() {
@@ -333,23 +337,29 @@ function renderCalendarTable(currentYear, currentMonth) {
 		});
 
 		// 주차 정보를 표시하는 div를 클릭했을 때 해당 주차 테이블 열고 닫기
-		$(document).on('click', '.weekDiv', function() {
-		    var weekTable = $(this).next();
-		    
-		    // 다른 주차 테이블들 닫기
-		    $(".weekTable").not(weekTable).hide();
-		    $(".weekDiv").not($(this)).removeClass("highlight-color go-up").addClass("go-down");
-		    
-		    if (weekTable.is(":visible")) {
-		        // 주차 테이블이 열려있을 때 닫기
-		        weekTable.hide();
-		        $(this).removeClass("highlight-color go-up").addClass("go-down");
-		    } else {
-		        // 주차 테이블이 닫혀있을 때 열기
-		        weekTable.show();
-		        $(this).addClass("highlight-color go-up").removeClass("go-down");
-		    }
-		});
+		$(document).on(
+				'click',
+				'.weekDiv',
+				function() {
+					var weekTable = $(this).next();
+					//console.log(weekTable);
+					// 다른 주차 테이블들 닫기
+					$(".weekTable").not(weekTable).hide();
+					$(".weekDiv").not($(this)).removeClass(
+							"highlight-color go-up").addClass("go-down");
+
+					if (weekTable.is(":visible")) {
+						// 주차 테이블이 열려있을 때 닫기
+						weekTable.hide();
+						$(this).removeClass("highlight-color go-up").addClass(
+								"go-down");
+					} else {
+						// 주차 테이블이 닫혀있을 때 열기
+						weekTable.show();
+						$(this).addClass("highlight-color go-up").removeClass(
+								"go-down");
+					}
+				});
 
 	}
 </script>
