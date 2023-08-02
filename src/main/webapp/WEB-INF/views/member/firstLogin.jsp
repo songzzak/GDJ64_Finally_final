@@ -27,7 +27,7 @@
             </div>
             <span>인증 번호</span>
             <div class="input-container">
-                <input type="text" name="check-number" class="first-input">
+                <input type="text" id="check-number" class="first-input">
                 <button onclick="">인증</button>
             </div>
             <span>비밀번호</span>

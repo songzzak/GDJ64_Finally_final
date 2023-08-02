@@ -7,15 +7,16 @@
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
 	<div class="main-section section-shadow card">
 		<div class="right-container">
-			<h2>사원 등록</h2>
-			<select name="ent-flag">
+			<h2>사원 조회</h2>
+			<select id="ent-flag">
 				<option selected disable>퇴사 여부</option>
 				<option value="N">재직</option>
 				<option value="Y">퇴사</option>
-			</select> <select name="search-keyword">
+			</select>
+			<select id="search-keyword">
 				<option selected disable>검색 카테고리</option>
-				<option value="member-no">사번</option>
-				<option value="member-name">이름</option>
+				<option value="no">사번</option>
+				<option value="name">이름</option>
 				<option value="dept">부서</option>
 				<option value="job">직책</option>
 			</select>
@@ -34,7 +35,7 @@
 				<!-- 반복문 처리될 구간 -->
 				<c:if test="${not empty members }">
 					<c:forEach var="m" items="${members }">
-					<tr>
+					<tr onclick="location.href='${path}/employee/memberId?id=${m.memberId}'">
 						<td>${m.memberId }</td>
 						<td>${m.memberName }</td>
 						<td>${m.dept.deptName }</td>
@@ -48,7 +49,7 @@
 					</c:forEach>
 				</c:if>
 			</table>
-			<div>pageBar</div>
+			<div class="pageBar">${pageBar }</div>
 		</div>
 		<!-- right-container -->
 	</div>

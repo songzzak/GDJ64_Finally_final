@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class Job {
 	private String jobCode;
 	private String jobName;
+	private String jobAuth;
 }
