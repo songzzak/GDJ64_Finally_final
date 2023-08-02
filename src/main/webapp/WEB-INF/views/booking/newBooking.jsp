@@ -10,7 +10,7 @@
 	<!-- 상담은 참여자 최대 2명(기본 1명), 회의는 최소 2명, 최대 7명/ 명수만큼 이름 입력창 나올 수 있도록 -->
 	<!-- 상담은 한시간, 회의는 두시간으로 설정 -->
 	<!--  -->
-		<form>
+		<form id="bookingForm">
 			<button>예약하기</button>
 			<div>
 				<span>예약자</span>
@@ -18,19 +18,23 @@
 			</div>
 			<div>
 				<span>사용목적</span>
-				<input>
+				<label><input id="purpose" type="radio" name="purpose" value="0">상담</label>
+				<label><input id="purpose" type="radio" name="purpose" value="1">회의</label>
 			</div>
 			<div>
 				<span>주관부서</span>
-				<input>
+				<input type="text" name="deptCode" value="" readonly>
 			</div>
 			<div>
 				<span>이용시설</span>
-				<input>
+				<label><input id="facility" type="radio" name="facNo" value="a1">제 1회의실</label>
+				<label><input id="facility" type="radio" name="facNo" value="a2">제 2회의실</label>
+				<label><input id="facility" type="radio" name="facNo" value="a3">제 3회의실</label>
+				<label><input id="facility" type="radio" name="facNo" value="a4">제 4회의실</label>
 			</div>
 			<div>
 				<span>이용날짜</span>
-				<input>
+				<input type="date">
 			</div>
 			<div>
 				<span>이용시간</span>
