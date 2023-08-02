@@ -19,63 +19,9 @@
 							<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="searchChatRoomIcon">
 							<span class="search-close">X</span>
 					</div>
-<jsp:include page="/WEB-INF/views/chat/chatroom.jsp"/>
 				</div>
 			</div>
 		</div>
-		
 </section>
-<script src="${path}/resources/js/chat/chatWebsocket.js"></script>
-<script>
-	$("#startChat").click(e=>{
-		location.assign("${path}/chat/chatting")
-	})
-	//조직도 보기 
-	$(".deptName").click(e =>{
-		let deptName = $(e.target).text();
-		let chatDept = $(e.target);
-		console.log(deptName);
-		$.ajax({
-			url:"${path}/chat/member",
-			type:"get",
-			data : {
-				deptName : deptName
-			},success:data=>{
-				console.log(data);
-				data.forEach(e => {
-					$(".deptMember").append($("<label>").attr("for",e.memberId).text(e.memberName+ " "+e.job.jobName));
-					$(".deptMember").append($("<input type='checkbox' name='memberId'>").attr("value",e.memberId));
-					});
-				} 
-		});
-	})	
-	
-	// 파일 업로드 
-	$(".chat-msgform").click(e=> {
-		const formData= new FormData();
-		const inputFile= $("input[name='uploadFile']");
-		let files= inputFile[0].files;
-		console.log(files);
-		
-		// ajax
-		/* $.ajax({
-			url : '',
-		}) */
-		
-	})
-	// 채팅방 아래 영역 
-	// 메세지 누르면 반응 
-	$(".chat-msgbx").click(e =>{
-		$(".chat-reaction").css('display','block');
-		
-	})
-	
-	
-	// 인원 추가 누르면 추가되는 로직 
-	$(".addPerson").click(e =>{
-		
-	})
-	
-</script>
 </body>
 </html>

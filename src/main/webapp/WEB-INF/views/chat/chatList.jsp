@@ -6,7 +6,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <div class="chatList-container section-shadow">
 	<div class="chat-header">
-		<h2>채팅</h2>
+		<h2 id="startChat">채팅</h2>
 		<div class="chat-icon-container">
 			<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="searchIcon">
 			<img src="${path}/resources/images/chat/addchat.svg" alt="chat-addChat" class="addChatIcon">
@@ -138,21 +138,6 @@
 				console.log(data);
 				data.forEach(e=>{
 					console.log(e)
-					/* let chatroomDiv = $("<div>").attr("class","chat-room");
-					let chatMsg = $("<div>").attr("class","chat-msg");
-					chatroomDiv.append(chatMsg);
-					chatroomDiv.append($("<h5>").text(e.memberId));
-					var chat = (e.chat);
-					if(e.memberId==loginMember){
-						chatMsg.attr("class","chat-msg chat-send");
-					}
-					chat.forEach(c=>{
-						chatMsg.append($("<span>").attr("class","chat-msgbx").text(c.chatContent));
-						chatMsg.append($("<span>").attr("class","chat-date").text(c.chatDate));
-					})
-					chatroomDiv.append($("<input>").attr("type","hidden").attr("value",e.chatroomId));
-					$(".chatRoom-container .chat-room-inner").append(chatroomDiv); */
-					//let chatroomDiv = $("<div>").attr("class","chat-room");
 					var chat = (e.chat);
 					chat.forEach(c=>{
 						if(e.memberId==loginMember) {
@@ -166,9 +151,8 @@
 							chatMsg.append($("<span>").attr("class","chat-date").text(c.chatDate));
 							chatMsg.append($("<span>").attr("class","chat-msgbx").text(c.chatContent));
 							$(".chatRoom-container .chat-room-inner").append(chatMsg);
+							chatMsg.append($("<input>").attr("type","hidden").attr("value",e.chatroomId));
 					})
-						
-					chatMsg.append($("<input>").attr("type","hidden").attr("value",e.chatroomId));
 				})
 			}
 		});

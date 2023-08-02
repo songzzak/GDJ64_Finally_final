@@ -82,10 +82,10 @@ public class ChatController {
 		return service.selectMemberAll();
 	}
 	
+	// 채팅 웹소켓
 	@GetMapping("/chatting")
 	public String startChat() {
-		//model.addAttribute("id",chatroomId);
-		return "/chat/chatroom";
+		return "/chat/chat";
 	}
 	
 	// 채팅 생성
