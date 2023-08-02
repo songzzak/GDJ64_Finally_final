@@ -108,7 +108,7 @@ public class EmployeeController {
 	
 	@GetMapping("/memberId")
 	public String UpdateEmpView(Model model, @RequestParam(value="id") String id) {
-		model.addAttribute("member",memberService.selectMemberByParam(Map.of("member-id",id)));
+		model.addAttribute("member",memberService.selectMemberByParam(Map.of("memberId",id)));
 		model.addAttribute("depts",service.selectDept());
 		model.addAttribute("jobs",service.selectJob());
 		return "employee/updateEmp";
@@ -131,15 +131,15 @@ public class EmployeeController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			param.put("profile-img", rename);
+			param.put("profileImg", rename);
 		}else{
 			//파일이 없으면 기본값 지정
-			param.put("profile-img", param.get("profile"));
+			param.put("profileImg", param.get("profile"));
 		}
 		try {
 			if (service.updateEmpInfo(param) > 0) {
 				model.addAttribute("msg", "수정 완료되었습니다.");
-				model.addAttribute("url", "/employee/memberId?id=" + param.get("member-id"));
+				model.addAttribute("url", "/employee/memberId?id=" + param.get("memberId"));
 				return "common/msg";
 			}
 		} catch (RuntimeException e) {
@@ -147,7 +147,7 @@ public class EmployeeController {
 			File delFile = new File((String) param.get("profile-img"));
 			delFile.delete();
 			model.addAttribute("msg", "수정 실패했습니다.");
-			model.addAttribute("url", "/employee/memberId?id=" + param.get("member-id"));
+			model.addAttribute("url", "/employee/memberId?id=" + param.get("memberId"));
 		}
 		return "common/msg";
 	}

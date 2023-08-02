@@ -9,10 +9,10 @@
       <div class="right-container">
          <h2>사원 정보 수정</h2>
          <form action="${path }/employee/memberId" id="update-emp-form" method="post" enctype="multipart/form-data">
-         	<input type="hidden" name="member_id" value="${member.memberId }">
+         	<input type="hidden" name="memberId" value="${member.memberId }">
          	<div>
          		<span>이름</span>
-         		<input type="text" name="member_name" value="${member.memberName }">
+         		<input type="text" name="memberName" value="${member.memberName }">
          	</div>
          	<div>
          		<span>전화번호</span>
@@ -20,16 +20,16 @@
          	</div>
          	<div>
          		<span>주소 검색</span>
-         		<input type="text" name="main_address" id="main-addr" value="${member.address }">
+         		<input type="text" name="mainAddress" id="main-addr" value="${member.address }">
          		<input type="button" onclick="fn_searchAddr();" value="검색">
          	</div>
          	<div>
          		<span>상세 주소</span>
-         		<input type="text" name="detail_address" id="detail-addr" value="${member.subAddress }">
+         		<input type="text" name="detailAddress" id="detail-addr" value="${member.subAddress }">
          	</div>
          	<div>
          		<span>부서</span>
-	         	<select name="dept_code">
+	         	<select name="deptCode">
 	         		<option selected disabled value="${member.dept.deptCode }">${member.dept.deptName }</option>
 	         		<c:if test="${depts!=null }">
 	         			<c:forEach var="d" items="${depts }">
@@ -40,7 +40,7 @@
          	</div>
          	<div>
          		<span>직책</span>
-	         	<select name="job_code">
+	         	<select name="jobCode">
 	         		<option selected disabled value="${member.job.jobCode }">${member.job.jobName }</option>
 	         		<c:if test="${jobs!=null }">
 	         			<c:forEach var="j" items="${jobs }">
@@ -66,11 +66,11 @@
          	</div>
          	<div>
          		<span>입사일</span>
-         		<input type="date" name="enroll_date" value="${member.hireDate }">
+         		<input type="date" name="enrollDate" value="${member.hireDate }" disabled>
          	</div>
          	<div>
          		<span>퇴사일</span>
-         		<input type="date" name="ent_date" value="${member.entDate!=''?member.entDate:''}" id="ent-date">
+         		<input type="date" name="entDate" value="${member.entDate!=''?member.entDate:''}" id="ent-date">
          	</div>
          	<p>* 퇴사일 이후로는 해당 사원 번호로 로그인 불가능합니다.</p>
          </form>

@@ -29,8 +29,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public int insertEmployee(Map<String, Object> param) {
-		String address=((String)param.get("main-address"))+" "+(String)param.get("datail-address");
-		param.put("address", address);
 		return dao.insertEmployee(param);
 	}
 

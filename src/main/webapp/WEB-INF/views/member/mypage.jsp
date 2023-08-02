@@ -12,7 +12,7 @@
 		<div class="right-container">
 				<h2>프로필</h2>
 				<img src="${path }/resources/upload/profile/${loginMember.profileImg}" id="mypage-profile">
-				<input type="file" name="profie_img" id="profile-input">
+				<input type="file" name="profieImg" id="profile-input">
 				<div>
 					<input type="reset" value="취소">
 					<button onclick="fn_updateProfile();">수정</button>
@@ -51,15 +51,15 @@
 						</div>
 						<!--  -->
 						<div class="mypage-update">
-							<span>주소 검색</span> <input type="text" name="main_address"
+							<span>주소 검색</span> <input type="text" name="mainAddress"
 								value="${loginMember.address }">
 							<button onclick="fn_searchAddr();">검색</button>
 						</div>
 						<div class="mypage-update">
-							<span>상세 주소</span> <input type="text" name="detail_address">
+							<span>상세 주소</span> <input type="text" name="detailAddress">
 						</div>
 						<div class="mypage-update">
-							<span>변경 사유</span> <input type="text" name="update_comment">
+							<span>변경 사유</span> <input type="text" name="updateComment">
 						</div>
 						<div>
 							<h4>수정 요청 현황</h4>
@@ -101,11 +101,11 @@
 							<h2>비밀번호 수정</h2>
 							<div class="mypage-update">
 								<span>현재 비밀번호</span>
-								<input type="password" name="ori_password" id="ori-pwd">
+								<input type="password" name="oriPwd" id="ori-pwd">
 							</div>
 							<div class="mypage-update">
 								<span>새 비밀번호</span>
-								<input type="password" name="new_password" id="new-pwd">
+								<input type="password" name="newPwd" id="new-pwd">
 							</div>
 							<div class="mypage-update">
 								<span>비밀번호 확인</span>

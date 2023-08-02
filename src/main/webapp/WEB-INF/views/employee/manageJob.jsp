@@ -40,7 +40,7 @@
 				</div>
 			</section>
 			<section>
-				<h4>직책 수정</h4>
+				<h4>직책명 수정</h4>
 				<div>
 					<table>
 						<tr>
@@ -56,10 +56,10 @@
 									<td>${j.jobName}</td>
 									<td>${j.jobCount }명</td>
 									<td>
-										<input type="text" name="update_title" id="update-title">
+										<input type="text" id="update-title">
 									</td>
 									<td>
-										<button onclick="fn_updateAuth();">수정</button>
+										<button onclick="fn_updateAuth(${j.jobCode});">수정</button>
 									</td>
 								</tr>
 								<tr class="job-tr"><td colspan="4"><hr/></td></tr>
