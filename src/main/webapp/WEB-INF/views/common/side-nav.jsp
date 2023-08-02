@@ -39,9 +39,8 @@
 			</div>
 		</div>
 		<div>
-			<a class="side-menu" href="${path}/chat"><img src="${path}/resources/images/common/chat.svg"><span>메신저</span></a>
+			<a class="side-menu" href="${path}/chat/"><img src="${path}/resources/images/common/chat.svg"><span>메신저</span></a>
 		</div>
 	</div>
 </div>
-
 <jsp:include page="/WEB-INF/views/approve/select-payment-form.jsp" />
