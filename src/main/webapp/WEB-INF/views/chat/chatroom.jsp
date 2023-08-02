@@ -47,7 +47,7 @@
 <script>
 	//채팅 
 	/* const websocket= new WebSocket("ws://localhost:8080/chat/chatting");
-	//const user = '${loginMember.userId}';
+	//const user = '${loginMember.memberId}';
 	const user = '2023072796'; // 임시
 	const chatroomId = '';
 	websocket.onopen=data=>{

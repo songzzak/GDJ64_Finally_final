@@ -13,11 +13,11 @@
 <title>Work IT</title>
 </head>
 <body>
-	<section class="login-container section-shadow">
+	<section class="login-container">
         <div class="login-div">
             <form action="${path }/" method="post" id="login-form">
             	<div class="logo-container">
-                	<img src="${path }/resources/images/common/workit-logo.svg">
+                	<img src="${path }/resources/images/common/workit.svg">
             	</div>
                 <!-- logo -->
                 <h4>workit에 오신 것을 환영합니다 :)</h4>

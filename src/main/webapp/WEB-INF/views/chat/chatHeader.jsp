@@ -5,7 +5,6 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <div class="chat-header">
-	<%-- <img src="${path}/resources/images/common/back.svg" alt="chat-back" class="backIcon"> --%>
 	<h3></h3>
 	<c:if test="${not empty chatroom}">
 		<!-- <div class="chat-icon-container" style="display:none"> -->

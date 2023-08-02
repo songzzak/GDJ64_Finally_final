@@ -1,25 +1,24 @@
 //채팅 
 const websocket= new WebSocket("ws://localhost:8080/chat/chatting");
-//const user = '${loginMember.userId}';
-const user = '2023072796'; // 임시
+const user = '${loginMember.memberId}';
 const chatroomId = '';
 websocket.onopen=data=>{
 		console.log(data);
 	}
 	
-server.onopen=data=>{
-	server.send(JSON.stringify(new Chat(user,"hi")));
+websocket.onopen=data=>{
+	websocket.send(JSON.stringify(new Chat(user,"hi")));
 }
-server.onmessage=data=>{
+websocket.onmessage=data=>{
 	const msg=JSON.parse(data.data);
 	console.log(msg);
 }
-server.onclose=data=>{
+websocket.onclose=data=>{
 		
 }
 $(".sendChat").click(e=>{
 	const msg=$(".chat-msg-input").val();
-	server.send(JSON.stringify(new Chat(user, msg)));
+	websocket.send(JSON.stringify(new Chat(user, msg)));
 });
 	/* function systemMessage(msg){
 		$("#accessMember").html("");

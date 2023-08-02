@@ -49,7 +49,9 @@
 	</div>
 </div>
 <script>
+	let loginMember = '${loginMember.memberId}'
 	let chatroomContainer = $(".chat-room-list");
+	
 	// null값 체크하는 함수 
 	function fn_checkNull(str){
 		let newStr = str;
@@ -97,8 +99,6 @@
 	}
 	// 채팅 목록에서 채팅 선택하면 해당 채팅방 접속하기 
 	let roomId="";
-	let loginMember;
-	loginMember = '2023072796';
 	function fn_checkRoomId(roomId){
 		if(fn_checkNull(roomId) == ""){
 			$(".chat-room-inner").text("");
@@ -199,18 +199,20 @@
 		});
 	})
 	
+	function fn_exitCreateChat(){
+		$(".modalNewChat").css("display","none");
+	}
+	
 	// 채팅 목록에서 버튼 눌러서 채팅창 삭제 
 	$(".deleteChatRoom").click(e =>{
 		// 버튼 누르면 해당 채팅방 번호 가지고 와서 삭제하기 
-		let chatRoomNo = $(e.target).siblings()[3].value;
-		console.log(chatRoomNo);
+		let chatroomId = $(e.target).siblings()[3].value;
+		console.log(chatroomId);
 		swal('채팅방 나가기', "한 번 나간 채팅방의 내용은 복구되지 않습니다", 'warning')
-		.then(function(){
-			location.href="/";
-		});
+			.then(function(){
+				location.href="${path}/chat/delete?chatroomId="+chatroomId;
+			});
 	})
-	
-	
 	let deptName;
 	let chatCode;
 	let insertForm = $("<form class='insertChatroom'>");
@@ -227,10 +229,65 @@
 	// 1:1 채팅 만들기 선택 
 	//$(".chatRoomPersonal").click(e =>{
 	$(".addChatIcon").click(e => {
+		let modalNewChatDiv = $(".modalNewChat");
+		modalNewChatDiv.css("display","block");
+		$("document").css("overflow","hidden");
+		const header = $("<h3>").text("채팅 생성");
+		const exit = $("<button onclick='fn_exitCreateChat()'>").text("X");
+		modalNewChatDiv.append(header);
+		modalNewChatDiv.append(exit);
+		chatCode = 'P';
+			
+			// 부서 출력 
+			const deptDiv = $("<form class='chat-DeptContainer'>");
+			deptDiv.attr("method","post");
+			deptDiv.attr("action","${path}/chat/insertChat");
+			deptDiv.append($("<label>").attr("for","chatroomTitle").text("채팅 방 제목"));
+			deptDiv.append($("<input type='text' name='chatroomTitle'>"));
+			let deptArr = ['운영팀','취업팀','인사팀','경영팀','홍보팀','행정팀'];
+			deptArr.forEach(e=>{
+				chatDept = $("<div class='chat-dept'>")
+				chatDept.append($("<h4 class='title'>").append($("<a class='chatDept'>").text(e)));
+				deptDiv.append(chatDept);
+				modalNewChatDiv.append(deptDiv);
+			});
+			
+			// 부서명 누르면 해당 직원 출력
+			$(".chat-dept").click(e => {
+				deptName = $(e.target).text();
+				let target = $(e.target);
+				//console.log($(e.target));
+				$.ajax({
+					url:"${path}/chat/dept",
+					type:"post",
+					success:data=>{
+						//console.log(data);
+						var memberDiv = $("<div class='chat-memberByDept'>");
+						data.forEach(e=>{
+							var name = (e.dept.deptName);
+							//console.log(code);
+							if(name == deptName){
+								console.log(deptName);
+								console.log(e)
+								if(e.memberId!=loginMember){
+									memberDiv.append($("<label>").attr("for",e.memberId).text(e.memberName+ " "+e.job.jobName));
+									memberDiv.append($("<input type='checkbox' name='memberId'>").attr("value",e.memberId));
+									target.append(memberDiv);
+								}
+							}
+						})
+					}
+				});
+			})
+			deptDiv.append($("<input type='submit' value='생성'>"));
+		})
+	/* $(".addChatIcon").click(e => {
 		$(".chatRoom-container .chat-header").text("");
 		$(".chatRoom-container .chat-room-inner").text("");
 		const header = $("<h3>").text("채팅 생성");
+		const exit = $("<button onclick='fn_exitCreateChat()'>").text("X");
 		$(".chatRoom-container .chat-header").append(header);
+		$(".chatRoom-container .chat-header").append(exit);
 		chatCode = 'P';
 		
 		// 부서 출력 
@@ -264,16 +321,18 @@
 						if(name == deptName){
 							console.log(deptName);
 							console.log(e)
-							memberDiv.append($("<label>").attr("for",e.memberId).text(e.memberName+ " "+e.job.jobName));
-							memberDiv.append($("<input type='checkbox' name='memberId'>").attr("value",e.memberId));
-							target.append(memberDiv);
+							if(e.memberId!=loginMember){
+								memberDiv.append($("<label>").attr("for",e.memberId).text(e.memberName+ " "+e.job.jobName));
+								memberDiv.append($("<input type='checkbox' name='memberId'>").attr("value",e.memberId));
+								target.append(memberDiv);
+							}
 						}
 					})
 				}
 			});
 		})
-		deptDiv.append($("<input type='submit' value='선택'>"));
-	})
+		deptDiv.append($("<input type='submit' value='생성'>"));
+	}) */
 	
 </script>
 </body>

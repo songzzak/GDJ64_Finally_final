@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,8 +44,9 @@ public class ChatController {
 	
 	// 전체 채팅창 목록
 	@RequestMapping("/")
-	public String selectMyChatroomById(Model model){
-		String memberId="2023072796";
+	public String selectMyChatroomById(Model model, HttpSession session){
+		Member loginMember = (Member)session.getAttribute("loginMember");
+		String memberId = loginMember.getMemberId();
 		model.addAttribute("chatroomList",service.selectMyChatroomById(memberId));
 		return "/chat/chat";
 	}
@@ -57,6 +59,7 @@ public class ChatController {
 //		model.addAttribute("chatroom", service.selectChatroomByroomId(chatroomId));
 //		return "/chat/chat";
 //	}
+	
 	@PostMapping("/chatroom")
 	@ResponseBody
 	public List<MyChatroom> selectChatroom(Map<String, Object> param, String chatroomId) {
@@ -90,13 +93,14 @@ public class ChatController {
 	
 	// 채팅 생성
 	@PostMapping("/insertChat")
-	public String insertChat(@RequestParam(value="chatroomTitle")String chatroomTitle, @RequestParam(value="memberId")String memberId, Model model) {
+	public String insertChat(@RequestParam(value="chatroomTitle")String chatroomTitle, @RequestParam(value="memberId")String memberId, Model model, HttpSession session) {
 		
 		String chatroomCode="";
 		String[] member = null;
-		String loginMember = "2023072796";
-		
+		Member m = (Member)session.getAttribute("loginMember");
+		String loginMember = m.getMemberId();
 		member = memberId.split(",");
+		
 		if(member.length>1) {
 			chatroomCode="G";
 		}else {
@@ -112,7 +116,6 @@ public class ChatController {
 		param.put("loginMember",loginMember);
 		param.put("member", member);
 		
-		log.info("{}", param.get("loginMember"));
 		List<MyChatroom> list = service.insertChat(param);
 		log.info("{}", list);
 		if(list!=null) {
@@ -123,6 +126,16 @@ public class ChatController {
 			model.addAttribute("url","/chat/");
 			return "common/msg";
 		}
+	}
+	
+	// 채팅 나가기 
+	@DeleteMapping("/delete")
+	public String deleteMyChatroom(@RequestParam(value="chatroomId")String chatroomId, HttpSession session) {
+		log.info("{}", chatroomId);
+		Member member = (Member)session.getAttribute("loginMember");
+		String loginMember = member.getMemberId();
+		//int result = service.deleteMyChatroom(chatroomId, loginMember);
+		return "common/msg";
 	}
 	
 	// 파일 업로드 

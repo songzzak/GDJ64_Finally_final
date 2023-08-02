@@ -23,5 +23,6 @@
 			</div>
 		</div>
 </section>
+<script src="${path}/resources/js/chat/chatWebsocket.js"></script>
 </body>
 </html>

@@ -9,7 +9,8 @@
 .login-container {
 	width: 100%;
 	height: 100%;
-	background-color: lightsteelblue;
+	background-image: url("../../images/common/loginbg.svg");
+	background-repeat: no-repeat;
 	display: flex;
 	justify-content: center;
 	align-items: center;
