@@ -64,12 +64,12 @@ public class BookingController {
 	@GetMapping("/bookingDetail.do")
 	public String bookingDetail(int bookingNo) {
 		
-		return "booking/bookingDetail.do";
+		return "booking/bookingDetail";
 	}
 	
 	@PostMapping("/updateBooking.do")
 	public String updateBooking(Booking b) {
 		
-		return "booking/bookingDetail.do";
+		return "booking/bookingDetail";
 	}
 }

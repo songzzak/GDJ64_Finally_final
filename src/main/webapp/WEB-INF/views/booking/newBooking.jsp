@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
@@ -27,10 +28,13 @@
 			</div>
 			<div>
 				<span>이용시설</span>
-				<label><input id="facility" type="radio" name="facNo" value="a1">제 1회의실</label>
+	<!-- 			<label><input id="facility" type="radio" name="facNo" value="a1">제 1회의실</label>
 				<label><input id="facility" type="radio" name="facNo" value="a2">제 2회의실</label>
 				<label><input id="facility" type="radio" name="facNo" value="a3">제 3회의실</label>
-				<label><input id="facility" type="radio" name="facNo" value="a4">제 4회의실</label>
+				<label><input id="facility" type="radio" name="facNo" value="a4">제 4회의실</label> -->
+				<c:forEach var="f" items="facList">
+					<label><input id="facility" type="radio" name="facNo" value="${f.facNo }">${f.facName }</label>
+				</c:forEach>
 			</div>
 			<div>
 				<span>이용날짜</span>
