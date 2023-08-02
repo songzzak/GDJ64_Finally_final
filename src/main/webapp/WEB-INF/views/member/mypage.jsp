@@ -12,7 +12,7 @@
 		<div class="right-container">
 				<h2>프로필</h2>
 				<img src="${path }/resources/upload/profile/${loginMember.profileImg}" id="mypage-profile">
-				<input type="file" name="profie-img" id="profile-input">
+				<input type="file" name="profieImg" id="profile-input">
 				<div>
 					<input type="reset" value="취소">
 					<button onclick="fn_updateProfile();">수정</button>
@@ -34,34 +34,32 @@
 			<div class="main-section section-shadow card">
 				<div class="right-container">
 					<h2>개인 정보 수정</h2>
-					<form action="${path }/member/update" method="post"
-						id="member-update-form">
+					<form action="${path }/member/update" method="post" id="member-update-form">
 						<div class="mypage-update">
-							<span>전화번호</span> <input type="text" name="phone"
-								value="${loginMember.phone }">
+							<span>전화번호</span> <input type="text" name="phone" value="${loginMember.phone }">
 							<p>* 전화번호 입력 시 하이픈(-) 제외하고 입력하세요.</p>
 						</div>
 						<div class="mypage-update">
-							<span>이메일</span> <input type="email" name="email"
-								value="${loginMember.email }">
+							<span>이메일</span> <input type="email" name="email" value="${loginMember.email }">
 							<button onclick="fn_requestEmail();">인증 요청</button>
 						</div>
 						<!-- 인증 요청 버튼을 누르면 보일 구간 -->
 						<div class="mypage-update">
-							<span>인증 번호</span> <input type="text" name="email-check-number">
+							<span>인증 번호</span>
+							<input type="text" name="email_check_number">
 							<button onclick="fn_checkEmailNumber();">인증</button>
 						</div>
 						<!--  -->
 						<div class="mypage-update">
-							<span>주소 검색</span> <input type="text" name="main-address"
+							<span>주소 검색</span> <input type="text" name="mainAddress"
 								value="${loginMember.address }">
 							<button onclick="fn_searchAddr();">검색</button>
 						</div>
 						<div class="mypage-update">
-							<span>상세 주소</span> <input type="text" name="detail-address">
+							<span>상세 주소</span> <input type="text" name="detailAddress">
 						</div>
 						<div class="mypage-update">
-							<span>변경 사유</span> <input type="text" name="update-comment">
+							<span>변경 사유</span> <input type="text" name="updateComment">
 						</div>
 						<div>
 							<h4>수정 요청 현황</h4>
@@ -103,11 +101,11 @@
 							<h2>비밀번호 수정</h2>
 							<div class="mypage-update">
 								<span>현재 비밀번호</span>
-								<input type="password" name="ori-password" id="ori-pwd">
+								<input type="password" name="oriPwd" id="ori-pwd">
 							</div>
 							<div class="mypage-update">
 								<span>새 비밀번호</span>
-								<input type="password" name="new-password" id="new-pwd">
+								<input type="password" name="newPwd" id="new-pwd">
 							</div>
 							<div class="mypage-update">
 								<span>비밀번호 확인</span>

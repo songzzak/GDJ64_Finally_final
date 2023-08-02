@@ -108,7 +108,7 @@ public class EmployeeController {
 	
 	@GetMapping("/memberId")
 	public String UpdateEmpView(Model model, @RequestParam(value="id") String id) {
-		model.addAttribute("member",memberService.selectMemberByParam(Map.of("member-id",id)));
+		model.addAttribute("member",memberService.selectMemberByParam(Map.of("memberId",id)));
 		model.addAttribute("depts",service.selectDept());
 		model.addAttribute("jobs",service.selectJob());
 		return "employee/updateEmp";
@@ -118,34 +118,36 @@ public class EmployeeController {
 	@PostMapping("/memberId")
 	public String updateMemberInfo(MultipartFile upFile, Model model, HttpSession session
 			,@RequestParam Map<String,Object> param) {
-		log.info(upFile.getOriginalFilename());
-		
-		String path=session.getServletContext().getRealPath("/resources/upload/profile/");
-		if (upFile != null && !(upFile.getOriginalFilename()).equals("DEFAULT_PROFILE.png")) {
+		String path = session.getServletContext().getRealPath("/resources/upload/profile/"); //파일 저장 경로
+		if (!upFile.getOriginalFilename().equals("")) { //파일이 있으면 실행
+			String oriName=upFile.getOriginalFilename();
 			Date today = new Date(System.currentTimeMillis());
+			String ext=oriName.substring(oriName.lastIndexOf("."));
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			int random = (int) (Math.random() * 10000) + 1;
-			String rename = sdf.format(today) + "_" + random;
+			String rename = sdf.format(today) + "_" + random+ext;
 			try {
 				upFile.transferTo(new File(path + rename));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			param.put("profile-img", rename);
-			log.info("{}",param.get("profile-img"));
+			param.put("profileImg", rename);
+		}else{
+			//파일이 없으면 기본값 지정
+			param.put("profileImg", param.get("profile"));
 		}
 		try {
-			if(service.updateEmpInfo(param)>0) {
-				model.addAttribute("msg","수정 완료되었습니다.");
-				model.addAttribute("url","/employee/memberId?id="+param.get("member-id"));
+			if (service.updateEmpInfo(param) > 0) {
+				model.addAttribute("msg", "수정 완료되었습니다.");
+				model.addAttribute("url", "/employee/memberId?id=" + param.get("memberId"));
 				return "common/msg";
 			}
-		}catch(RuntimeException e) {
+		} catch (RuntimeException e) {
 			// 입력 실패 시 업로드된 파일 삭제
 			File delFile = new File((String) param.get("profile-img"));
 			delFile.delete();
 			model.addAttribute("msg", "수정 실패했습니다.");
-			model.addAttribute("url", "/employee/memberId?id="+param.get("member-id"));
+			model.addAttribute("url", "/employee/memberId?id=" + param.get("memberId"));
 		}
 		return "common/msg";
 	}
