@@ -26,4 +26,9 @@ public class MemberServiceImpl implements MemberService {
 		return loginMember;
 	}
 
+	@Override
+	public int updateProfileImg(Map<String, Object> param) {
+		return dao.updateProfileImg(param);
+	}
+
 }

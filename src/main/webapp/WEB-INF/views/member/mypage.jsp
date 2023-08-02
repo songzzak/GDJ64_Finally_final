@@ -11,12 +11,14 @@
 	<div class="main-section section-shadow card profile-info">
 		<div class="right-container">
 				<h2>프로필</h2>
-				<img src="${path }/resources/upload/profile/${loginMember.profileImg}" id="mypage-profile">
-				<input type="file" name="profieImg" id="profile-input">
-				<div>
-					<input type="reset" value="취소">
-					<button onclick="fn_updateProfile();">수정</button>
-				</div>
+				<img src="${path }/resources/upload/profile/${loginMember.profileImg}" id="mypage-profile" onclick="fn_updateProfile();">
+				<form action="${path }/member/profile" method="post" enctype="multipart/form-data" id="profile-form">
+					<input type="file" name="profileImg" id="profile-input" accept="image" required>
+					<div>
+						<input type="reset" value="취소" onclick="fn_resetProfile();">
+						<button onclick="fn_profileSubmit();">수정</button>
+					</div>
+				</form>
 				<p>${loginMember.memberName } 님</p>
 				<div>
 					<p>부서</p>
@@ -36,11 +38,13 @@
 					<h2>개인 정보 수정</h2>
 					<form action="${path }/member/update" method="post" id="member-update-form">
 						<div class="mypage-update">
-							<span>전화번호</span> <input type="text" name="phone" value="${loginMember.phone }">
+							<span>전화번호</span>
+							<input type="text" name="phone" value="${loginMember.phone }">
 							<p>* 전화번호 입력 시 하이픈(-) 제외하고 입력하세요.</p>
 						</div>
 						<div class="mypage-update">
-							<span>이메일</span> <input type="email" name="email" value="${loginMember.email }">
+							<span>이메일</span>
+							<input type="email" name="email" value="${loginMember.email }">
 							<button onclick="fn_requestEmail();">인증 요청</button>
 						</div>
 						<!-- 인증 요청 버튼을 누르면 보일 구간 -->
@@ -56,7 +60,7 @@
 							<button onclick="fn_searchAddr();">검색</button>
 						</div>
 						<div class="mypage-update">
-							<span>상세 주소</span> <input type="text" name="detailAddress">
+							<span>상세 주소</span> <input type="text" name="detailAddress" value="${loginMember.subAddress }">
 						</div>
 						<div class="mypage-update">
 							<span>변경 사유</span> <input type="text" name="updateComment">
@@ -122,8 +126,29 @@
 	</section>
 </section><!-- max1920px -->
 <script>
+	//프로필 사진 변경
 	function fn_updateProfile(){
-		
+		$("#profile-input").click();
+		$("#profile-input").change(()=>{
+			const fileName=$("#profile-input")[0].files[0].name;
+			const fileSrc=URL.createObjectURL($("#profile-input")[0].files[0]);
+			$("#mypage-profile").attr("src",fileSrc);
+		});
+	}
+	
+	//프로필 취소
+	function fn_resetProfile(){
+		$("#profile-input").val('');
+		$("#mypage-profile").attr("src","${path }/resources/upload/profile/${loginMember.profileImg}");
+	}
+	
+	function fn_profileSubmit(){
+		if($("#profile-input").val()!=''){
+			$("#profile-form").submit();
+		}else{
+			alert("변경할 이미지를 업로드하세요.");
+			fn_updateProfile();
+		}
 	}
 </script>
 </body>

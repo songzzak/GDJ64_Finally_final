@@ -11,4 +11,6 @@ public interface MemberService {
 	Member selectMemberByParam(Map<String,Object> param);
 
 	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
+	int updateProfileImg(Map<String, Object> param);
 }

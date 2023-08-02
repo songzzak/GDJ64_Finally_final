@@ -10,4 +10,6 @@ import com.workit.member.model.dto.Member;
 public interface MemberMapper {
 	
 	Member selectMemberByParam(Map<String, Object> param);
+
+	int updateProfileImg(Map<String, Object> param);
 }

@@ -17,4 +17,9 @@ public class MemberDaoImpl implements MemberDao {
 		return mapper.selectMemberByParam(param);
 	}
 
+	@Override
+	public int updateProfileImg(Map<String, Object> param) {
+		return mapper.updateProfileImg(param);
+	}
+
 }
