@@ -43,7 +43,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("/mypage")
-	public String enrollView(Model model) {
+	public String enrollView(Model model, HttpSession session) {
+		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		model.addAttribute("approv",service.selectApprovMember(memberId));
 		return "member/mypage";
 	}
 	
@@ -84,6 +86,19 @@ public class MemberController {
 				model.addAttribute("msg","프로필 수정 실패하였습니다.");
 				model.addAttribute("url","/mypage");
 			}
+		}
+		return "common/msg";
+	}
+	
+	@PostMapping("/member/info")
+	public String insertApprovMember(Model model, @RequestParam Map<String,Object> param) {
+		log.info("detailAddress : "+param.get("detailAddress"));
+		if(service.insertApprovMember(param)>0) {
+			model.addAttribute("msg","요청 전송하였습니다.");
+			model.addAttribute("url","/mypage");
+		}else {
+			model.addAttribute("msg","요청 실패하였습니다.");
+			model.addAttribute("url","/mypage");
 		}
 		return "common/msg";
 	}

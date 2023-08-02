@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.workit.member.mapper.MemberMapper;
 import com.workit.member.model.dto.Member;
+import com.workit.member.model.vo.ApprovMemberVO;
 @Repository
 public class MemberDaoImpl implements MemberDao {
 	@Autowired
@@ -22,4 +23,14 @@ public class MemberDaoImpl implements MemberDao {
 		return mapper.updateProfileImg(param);
 	}
 
+	@Override
+	public int insertApprovMember(Map<String, Object> param) {
+		return mapper.insertApprovMember(param);
+	}
+
+	@Override
+	public ApprovMemberVO selectApprovMember(String memberId) {
+		return mapper.selectApprovMember(memberId);
+	}
+	
 }
