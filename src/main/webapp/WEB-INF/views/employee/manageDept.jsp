@@ -11,8 +11,8 @@
 			<section>
 				<h4>부서 추가</h4>
 				<div id="insert-grade">
-					<span>부서명</span> <input type="text" name="insert-title"
-						id="dept-name">
+					<span>부서명</span>
+					<input type="text" id="dept-name">
 					<button onclick="fn_insertDept();">생성</button>
 				</div>
 			</section>
