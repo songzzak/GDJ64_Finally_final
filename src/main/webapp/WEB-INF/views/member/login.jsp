@@ -23,7 +23,7 @@
                 <h4>workit에 오신 것을 환영합니다 :)</h4>
                 <span>사원 번호</span>
                 <div class="input-container">
-                    <input type="text" name="member-id" class="login-input" id="id">
+                    <input type="text" name="memberId" class="login-input" id="id">
                 </div>
                 <span>비밀번호</span>
                 <div class="input-container">

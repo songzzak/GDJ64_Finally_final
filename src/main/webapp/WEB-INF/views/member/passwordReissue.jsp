@@ -19,7 +19,7 @@
                 <h2 class="page-title">비밀번호 재발급</h2>
                 <span>사원 번호</span>
                 <div class="input-container">
-                    <input type="text" name="member-id" class="first-input">
+                    <input type="text" name="memberId" class="first-input">
                 </div>
                 <span>이메일</span>
                 <div class="input-container">
@@ -29,7 +29,7 @@
                 </div>
                 <span>인증 번호</span>
                 <div class="input-container">
-                    <input type="text" name="check-number" class="first-input">
+                    <input type="text" name="checkNumber" class="first-input">
                     <button onclick="">인증</button>
                     <p>* 임시 비밀번호 발급 후, 로그인 해서 비밀번호를 재설정하세요.</p>
                 </div>

@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +32,6 @@ public class MemberController {
 		//Object loginMember=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Member loginMember=service.selectMemberByParam(param);
 		session.setAttribute("loginMember", loginMember);
-		log.info("{}",loginMember);
 		return "index";
 	}
 	
