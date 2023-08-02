@@ -49,10 +49,10 @@
   .weekDiv { font-size: 24px; font-weight: bolder; width: 80px; justify-content: space-between; }
   .go-up>a:hover::before, .go-down>a:hover::before { border-color: var(--main-color-dk); }
   .go-down>a::before { transform: rotate(135deg); }
-  .go-up>a::before { transform: rotate(-45deg); }
+  .go-up>a::before { transform: rotate(-45deg);}
   .cal_tbl { width: 95%; margin: 0px 20px; padding: 10px; border-collapse: collapse; }
   .cal_tbl td, .cal_tbl th { border-bottom: 1px solid var(--border-color); padding: 8px; text-align: center; }
-  .highlight-color>p {color: var(--main-color-dk);}
+  .highlight-color>p,  .highlight-color>a {color: var(--main-color-dk);}
 </style>
 
 <section class="max1920px">
@@ -281,10 +281,6 @@ function renderCalendarTable(currentYear, currentMonth) {
         }
     }
 
-    // 남은 주차의 테이블을 추가
-    weekTable.hide();
-    $(".cal_tblDiv").append(weekDiv);
-    $(".cal_tblDiv").append(weekTable);
 }
 
 	// 캘린더 초기화 함수
