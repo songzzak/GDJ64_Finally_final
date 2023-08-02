@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.workit.booking.model.dto.Booking;
+import com.workit.booking.model.dto.Facility;
 
 public interface BookingService {
 
@@ -16,5 +17,7 @@ public interface BookingService {
 	int selectBookingCountByKeyword(Map<String, Object> param);
 
 	List<Booking> selectMyBooking(String userName);
+
+	List<Facility> selectAllFacilities();
 
 }

@@ -20,7 +20,8 @@
 				<input type="text" name="bookingName">
 				<button>검색</button>
 			</form>
-			<table id="bookingListTbl">
+			<button type="button" onclick="location.assign('${path}/booking/addBooking.do')">예약하기</button>
+ 			<table id="bookingListTbl">
 				<tr>
 					<th>목적</th>
 					<th>예약자</th>

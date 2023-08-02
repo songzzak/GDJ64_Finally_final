@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.workit.booking.model.dto.Booking;
+import com.workit.booking.model.dto.Facility;
 import com.workit.booking.service.BookingService;
 import com.workit.common.Pagenation;
 
@@ -55,10 +56,18 @@ public class BookingController {
 		m.addAttribute("title","나의 예약 내역");
 		return "booking/bookingList";
 	}
-	@PostMapping("/addBooking.do")
-	public String addNewBooking(Booking b, Model m) {
-		
-		return "booking/myBooking";
+	@GetMapping("/addBooking.do")
+	public String addNewBooking(Model m) {
+		//bookingList.jsp에서 예약하기 눌렀을 때
+		List<Facility> facList=service.selectAllFacilities();
+		m.addAttribute(facList);
+		return "booking/newBooking";
+	}
+	
+	@PostMapping("/insertBooking.do")
+	public String insertBooking(Booking b, Model m) {
+		//newBooking.jsp에서 새 예약 제출했을 때
+		return "booking/bookingList";
 	}
 	
 	@GetMapping("/bookingDetail.do")
