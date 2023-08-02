@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.workit.member.model.dao.MemberDao;
 import com.workit.member.model.dto.Member;
+import com.workit.member.model.vo.ApprovMemberVO;
 @Service
 public class MemberServiceImpl implements MemberService {
 	@Autowired
@@ -25,5 +26,22 @@ public class MemberServiceImpl implements MemberService {
 		Member loginMember=dao.selectMemberByParam(Map.of("userId",username));
 		return loginMember;
 	}
+
+	@Override
+	public int updateProfileImg(Map<String, Object> param) {
+		return dao.updateProfileImg(param);
+	}
+
+	@Override
+	public int insertApprovMember(Map<String, Object> param) {
+		return dao.insertApprovMember(param);
+	}
+
+	@Override
+	public ApprovMemberVO selectApprovMember(String memberId) {
+		return dao.selectApprovMember(memberId);
+	}
+	
+	
 
 }
