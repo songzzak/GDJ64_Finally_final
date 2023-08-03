@@ -82,7 +82,7 @@
 								</tr>
 								<c:if test="${not empty approv }">
 									<tr>
-										<td>${approv.memberId }</td>
+										<td>${approv.memberName }</td>
 										<td>${approv.approvalMember }</td>
 										<td>${approv.updateComment }</td>
 										<td>${approv.requestDate }</td>

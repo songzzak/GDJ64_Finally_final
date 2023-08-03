@@ -1,5 +1,6 @@
 package com.workit.member.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -40,6 +41,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ApprovMemberVO selectApprovMember(String memberId) {
 		return dao.selectApprovMember(memberId);
+	}
+
+	@Override
+	public int selectApprovCount() {
+		return dao.selectApprovCount();
+	}
+
+	@Override
+	public List<ApprovMemberVO> selectApprovAll(Map<String, Object> param) {
+		return dao.selectApprovAll(param);
 	}
 	
 	

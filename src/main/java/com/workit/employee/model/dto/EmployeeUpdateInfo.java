@@ -1,19 +1,24 @@
-package com.workit.member.model.vo;
+package com.workit.employee.model.dto;
 
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApprovMemberVO {
+@Builder
+public class EmployeeUpdateInfo {
 	private int memberUpdateNo;
 	private String memberId;
-	private String memberName;
+	private String phone;
+	private String address;
+	private String email;
 	private String approvalMember;
 	private String approvalFl;
 	private String updateComment;
 	private Date requestDate;
+	private String subAddress;
 }

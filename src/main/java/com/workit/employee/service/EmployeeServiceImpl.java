@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.workit.employee.dao.EmployeeDao;
+import com.workit.employee.model.dto.EmployeeUpdateInfo;
 import com.workit.employee.model.vo.DepartmentVO;
 import com.workit.employee.model.vo.JobVO;
 import com.workit.member.model.dto.Department;
@@ -77,4 +78,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return dao.updateEmpInfo(param);
 	}
 
+	@Override
+	public EmployeeUpdateInfo selectApprovEmp(String no) {
+		return dao.selectApprovEmp(no);
+	}
+
+	@Override
+	public int deleteApprov(String no) {
+		return dao.deleteApprov(no);
+	}
+
+	@Override
+	public int updateApprov(Map<String, Object> param) {
+		return dao.updateApprov(param);
+	}
+	
+	
 }

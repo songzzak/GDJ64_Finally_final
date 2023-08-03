@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.common.Pagenation;
+import com.workit.employee.model.dto.EmployeeUpdateInfo;
 import com.workit.employee.service.EmployeeService;
 import com.workit.member.service.MemberService;
 
@@ -150,5 +150,33 @@ public class EmployeeController {
 			model.addAttribute("url", "/employee/memberId?id=" + param.get("memberId"));
 		}
 		return "common/msg";
+	}
+	
+	@GetMapping("/approv")
+	public String selectApprovalRequest(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage) {
+		model.addAttribute("approvList",memberService.selectApprovAll(Map.of("cPage",cPage,"numPerpage",10)));
+		int totalData=memberService.selectApprovCount();
+		model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/employee/approv"));
+		return "employee/updateEmpInfo";
+	}
+	
+	@GetMapping("/approv/info")
+	@ResponseBody()
+	public EmployeeUpdateInfo selectApprovEmp(@RequestParam(value="no") String no) {
+		EmployeeUpdateInfo info=service.selectApprovEmp(no);
+		log.info("info : "+info);
+		return info;
+	}
+	
+	@DeleteMapping("/approv")
+	@ResponseBody()
+	public int deleteApprovalRequest(@RequestParam(value="no") String no) {
+		return service.deleteApprov(no);
+	}
+	
+	@PutMapping("/approv")
+	@ResponseBody()
+	public int updateApproval(@RequestBody Map<String,Object> param) {
+		return service.updateApprov(param);
 	}
 }
