@@ -26,6 +26,12 @@ public class ApproveDaoImpl implements ApproveDao {
 	public List<Member> changeDep(SqlSession session, String deptName) {
 		return session.selectList("approve.changeDep",deptName);
 	}
+
+	@Override
+	public Member printMember(SqlSession session, String memberId) {
+		return session.selectOne("approve.printMember",memberId);
+	}
+	
 	
 	
 

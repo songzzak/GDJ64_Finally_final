@@ -34,10 +34,10 @@ public class ApproveController {
 	      String time = now.format(formatter);
 	    
 	    List<Department> deps = eservice.selectDept();
-	    List<Member> members = service.selectAllMember();
+		/* List<Member> members = service.selectAllMember(); */
 	 
 	    
-	    m.addAttribute("members",members);
+		/* m.addAttribute("members",members); */
 	    m.addAttribute("deps",deps);
 		m.addAttribute("time",time); // 현재날짜 전달
 		return "approve/extends-app";
@@ -48,6 +48,12 @@ public class ApproveController {
 		  LocalDate now = LocalDate.now();
 	      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	      String time = now.format(formatter);
+		    List<Department> deps = eservice.selectDept();
+			/* List<Member> members = service.selectAllMember(); */
+		 
+		    
+			/* m.addAttribute("members",members); */
+		    m.addAttribute("deps",deps);
 
 		m.addAttribute("time",time); // 현재날짜 전달
 		return "approve/attendance-app";
@@ -58,6 +64,12 @@ public class ApproveController {
 		  LocalDate now = LocalDate.now();
 	      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	      String time = now.format(formatter);
+		    List<Department> deps = eservice.selectDept();
+			/* List<Member> members = service.selectAllMember(); */
+		 
+		    
+			/* m.addAttribute("members",members); */
+		    m.addAttribute("deps",deps);
 
 		m.addAttribute("time",time); // 현재날짜 전달
 		return "approve/expenditure-app";
@@ -76,12 +88,19 @@ public class ApproveController {
 		return "approve/waiting-approve";
 	}
 	
-	@PostMapping("/changeDep.do")
+	@PostMapping("/changeDep.do") // 결재선에서 부서클릭시 맞는 부서들 출력
 	@ResponseBody // 비동기식으로 받기위해서 @ResponseBody 어노테이션을 사용해야함
 	public List<Member> changeDep(String deptName){ // 선택한 부서에 맞는 사원들 리스트로 반환
 		List<Member> m = service.changeDep(deptName);
-		System.out.println(m);
 		return m;
 	}
+	
+	
+	@PostMapping("/printMember.do")
+	@ResponseBody // 비동기식으로 받기위해서 @ResponseBody 어노테이션을 사용해야함
+	public Member printMember(String memberId){ // 선택한 부서에 맞는 사원들 리스트로 반환
+		return service.printMember(memberId);
+	}
+	
 	
 }

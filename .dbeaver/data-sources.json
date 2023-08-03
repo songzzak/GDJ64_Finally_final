@@ -1,10 +1,10 @@
 {
 	"folders": {},
 	"connections": {
-		"oracle_thin-189b0deb713-ef200fbe6ac8e9d": {
+		"oracle_thin-189b8e87b0a-3ce4582343141a69": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
-			"name": "final",
+			"name": "14.36.141.71",
 			"save-password": true,
 			"configuration": {
 				"host": "14.36.141.71",
@@ -12,7 +12,7 @@
 				"database": "XE",
 				"url": "jdbc:oracle:thin:@14.36.141.71:8877:XE",
 				"configurationType": "MANUAL",
-				"home": "C:\\app\\bogdu\\product\\18.0.0\\dbhomeXE",
+				"home": "C:\\app\\GDJ\\product\\18.0.0\\dbhomeXE",
 				"type": "dev",
 				"provider-properties": {
 					"@dbeaver-connection-type@": "BASIC",

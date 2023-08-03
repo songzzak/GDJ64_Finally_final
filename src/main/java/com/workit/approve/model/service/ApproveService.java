@@ -10,4 +10,5 @@ public interface ApproveService {
 	public List<Approve> selectAllWaitingApprove(String memberId);
 	public List<Member> selectAllMember();
 	public List<Member> changeDep(String deptName);
+	public Member printMember(String memberId);
 }

@@ -1,49 +1,7 @@
 {
 	"folders": {},
 	"connections": {
-<<<<<<< HEAD
-		"oracle_thin-189904093e2-42e478c4a87de15a": {
-			"provider": "oracle",
-			"driver": "oracle_thin",
-			"name": "14.36.141.71",
-			"save-password": true,
-			"configuration": {
-				"host": "14.36.141.71",
-				"port": "10000",
-				"database": "XE",
-				"url": "jdbc:oracle:thin:@//14.36.141.71:10000/XE",
-				"configurationType": "MANUAL",
-				"type": "dev",
-				"provider-properties": {
-					"@dbeaver-connection-type@": "BASIC",
-					"@dbeaver-sid-service@": "SERVICE"
-				},
-				"auth-model": "oracle_native"
-			}
-		},
-		"oracle_thin-189961e7e31-3db5b6d749bc804f": {
-=======
-		"oracle_thin-1899037e3bd-374d517922922f92": {
-			"provider": "oracle",
-			"driver": "oracle_thin",
-			"name": "10000 web",
-			"save-password": true,
-			"configuration": {
-				"host": "14.36.141.71",
-				"port": "10000",
-				"database": "XE",
-				"url": "jdbc:oracle:thin:@//14.36.141.71:10000/XE",
-				"configurationType": "MANUAL",
-				"type": "dev",
-				"provider-properties": {
-					"@dbeaver-connection-type@": "BASIC",
-					"@dbeaver-sid-service@": "SERVICE"
-				},
-				"auth-model": "oracle_native"
-			}
-		},
-		"oracle_thin-189ab9b9469-3820c555f791f1ce": {
->>>>>>> branch 'joo' of https://github.com/songzzak/GDJ64_Finally_final.git
+		"oracle_thin-189b0deb713-ef200fbe6ac8e9d": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
 			"name": "final",

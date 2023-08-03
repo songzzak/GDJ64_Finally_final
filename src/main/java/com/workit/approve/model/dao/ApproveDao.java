@@ -11,4 +11,5 @@ public interface ApproveDao {
 	public List<Approve> selectAllWaitingApprove(SqlSession session,String mId);
 	public List<Member> selectAllMember(SqlSession session);
 	public List<Member> changeDep(SqlSession session,String deptName);
+	public Member printMember(SqlSession session,String memberId);
 }

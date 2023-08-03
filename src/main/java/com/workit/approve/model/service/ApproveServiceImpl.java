@@ -32,6 +32,11 @@ public class ApproveServiceImpl implements ApproveService {
 	public List<Member> changeDep(String deptName) {
 		return dao.changeDep(session,deptName);
 	}
+
+	@Override
+	public Member printMember(String memberId) {
+		return dao.printMember(session,memberId);
+	}
 	
 	
 
