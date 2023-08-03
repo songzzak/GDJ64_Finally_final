@@ -1,7 +1,9 @@
 package com.workit.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +33,19 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public ApprovMemberVO selectApprovMember(String memberId) {
 		return mapper.selectApprovMember(memberId);
+	}
+
+	@Override
+	public int selectApprovCount() {
+		return mapper.selectApprovCount();
+	}
+
+	@Override
+	public List<ApprovMemberVO> selectApprovAll(Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return mapper.selectApprovAll(rb);
 	}
 	
 }
