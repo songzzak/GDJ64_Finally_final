@@ -1,5 +1,6 @@
 package com.workit.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.workit.member.model.dto.Member;
@@ -13,4 +14,8 @@ public interface MemberDao {
 	int insertApprovMember(Map<String, Object> param);
 
 	ApprovMemberVO selectApprovMember(String memberId);
+
+	int selectApprovCount();
+
+	List<ApprovMemberVO> selectApprovAll(Map<String, Object> param);
 }

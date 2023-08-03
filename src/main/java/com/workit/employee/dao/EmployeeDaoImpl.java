@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.workit.employee.mapper.EmployeeMapper;
+import com.workit.employee.model.dto.EmployeeUpdateInfo;
 import com.workit.employee.model.vo.DepartmentVO;
 import com.workit.employee.model.vo.JobVO;
 import com.workit.member.model.dto.Department;
@@ -87,4 +88,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return mapper.updateEmpInfo(param);
 	}
 
+	@Override
+	public EmployeeUpdateInfo selectApprovEmp(String no) {
+		return mapper.selectApprovEmp(no);
+	}
+
+	@Override
+	public int deleteApprov(String no) {
+		return mapper.deleteApprov(no);
+	}
+
+	@Override
+	public int updateApprov(Map<String, Object> param) {
+		return mapper.updateApprov(param);
+	}
+	
 }
