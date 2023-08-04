@@ -2,7 +2,6 @@ package com.workit.approve.model.dto;
 
 import java.sql.Date;
 
-import com.workit.member.model.dto.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

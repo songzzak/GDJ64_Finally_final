@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.workit.employee.model.dto.EmployeeUpdateInfo;
 import com.workit.employee.model.vo.DepartmentVO;
 import com.workit.employee.model.vo.JobVO;
 import com.workit.member.model.dto.Department;
@@ -15,7 +16,7 @@ import com.workit.member.model.dto.Member;
 @Mapper
 public interface EmployeeMapper {
 	List<Department> selectAllDept();
-	 List<Member> selectMemberAllByJob();
+	List<Member> selectMemberAllByJob();
     List<Department> selectDeptAll();
 
     List<Job> selectJobAll();
@@ -39,4 +40,10 @@ public interface EmployeeMapper {
 	int updateDept(Map<String,Object> param);
 
 	int updateEmpInfo(Map<String, Object> param);
+	
+	EmployeeUpdateInfo selectApprovEmp(String no);
+	
+	int deleteApprov(String no);
+	
+	int updateApprov(Map<String, Object> param);
 }

@@ -14,26 +14,26 @@
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
 
 	<div class="approve-section section-shadow">
-		<div id="approve_name">결재서이름 + 신청</div>
+		<div id="approve_name">기안서신청</div>
 
 		<div>
 			<div id="one-width">
-				<div id="kind" class="answer"></div>
+				<div id="kind">연장근무신청서</div>
 				<div id="app-line" class="answer"></div>
 			</div>
 
 			<div id="one-width">
 				<div id="department" class="question">부서</div>
-				<div id="department-answer" class="answer"></div>
+				<div id="department-answer" class="answer">${loginMember.dept.deptName}</div>
 				<div id="writer" class="question">기안자</div>
-				<div id="writer-answer" class="answer"></div>
+				<div id="writer-answer" class="answer">${loginMember.memberName}</div>
 				<div id="position" class="question">직책</div>
-				<div id="position-answer" class="answer"></div>
+				<div id="position-answer" class="answer">${loginMember.job.jobName}</div>
 			</div>
-						
+			
 			<div id="one-width">
 				<div id="extendWorkWriteDate" class="question">작성일</div>
-				<div id="extendWorkWriteDate-answer" class="answer"></div>
+				<div id="extendWorkWriteDate-answer" class="answer">${time}</div>
 			</div>
 			
 			<div id="one-width">
