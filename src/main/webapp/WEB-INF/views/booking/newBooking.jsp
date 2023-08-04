@@ -12,7 +12,6 @@
 	<!-- 상담은 한시간, 회의는 두시간으로 설정 -->
 	<!--  -->
 		<form id="bookingForm">
-			<button>예약하기</button>
 			<div>
 				<span>예약자</span>
 				<input type="text" name="memberId" value="" readonly>
@@ -23,18 +22,14 @@
 				<label><input id="purpose" type="radio" name="purpose" value="1">회의</label>
 			</div>
 			<div>
-				<span>주관부서</span>
-				<input type="text" name="deptCode" value="" readonly>
-			</div>
-			<div>
 				<span>이용시설</span>
-	<!-- 			<label><input id="facility" type="radio" name="facNo" value="a1">제 1회의실</label>
+	 			<label><input id="facility" type="radio" name="facNo" value="a1">제 1회의실</label>
 				<label><input id="facility" type="radio" name="facNo" value="a2">제 2회의실</label>
 				<label><input id="facility" type="radio" name="facNo" value="a3">제 3회의실</label>
-				<label><input id="facility" type="radio" name="facNo" value="a4">제 4회의실</label> -->
-				<c:forEach var="f" items="facList">
+				<label><input id="facility" type="radio" name="facNo" value="a4">제 4회의실</label>
+			<%--  	<c:forEach var="f" items="facList">
 					<label><input id="facility" type="radio" name="facNo" value="${f.facNo }">${f.facName }</label>
-				</c:forEach>
+				</c:forEach> --%>
 			</div>
 			<div>
 				<span>이용날짜</span>
@@ -44,6 +39,7 @@
 				<span>이용시간</span>
 				<input>
 			</div>
+			<button>예약하기</button>
 		</form>
 		</div>
 	</div>

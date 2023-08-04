@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.workit.booking.model.dto.Booking;
+import com.workit.booking.model.dto.Facility;
 
 @Repository
 public class BookingDaoImpl implements BookingDao {
@@ -45,6 +46,12 @@ public class BookingDaoImpl implements BookingDao {
 	public List<Booking> selectMyBooking(SqlSession session, String userName) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Facility> selectAllFacilities(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("booking.selectAllFacilities");
 	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.workit.booking.dao.BookingDao;
 import com.workit.booking.model.dto.Booking;
+import com.workit.booking.model.dto.Facility;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -45,5 +46,11 @@ public class BookingServiceImpl implements BookingService {
 	public List<Booking> selectMyBooking(String userName) {
 		// TODO Auto-generated method stub
 		return dao.selectMyBooking(session,userName);
+	}
+
+	@Override
+	public List<Facility> selectAllFacilities() {
+		// TODO Auto-generated method stub
+		return dao.selectAllFacilities(session);
 	}
 }
