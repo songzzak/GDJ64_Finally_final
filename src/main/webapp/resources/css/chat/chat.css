@@ -83,7 +83,17 @@ h5 {
 	width: 20px;
 	margin-left: auto;
 }
-
+/*.chat-room span {
+	display: none;
+}*/
+.prev-chat hr{
+	border: var(--border-bottom);
+	border-style: dashed;
+	margin: 2% 0;
+}
+.prev-chat button {
+	margin-right: 0;
+}
 .chatRoom{
 	margin: 0 3rem;
 	height: auto;

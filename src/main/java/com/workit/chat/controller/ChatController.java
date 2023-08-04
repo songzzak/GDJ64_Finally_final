@@ -46,23 +46,32 @@ public class ChatController {
 	@RequestMapping("/")
 	public String selectMyChatroomById(Model model, HttpSession session){
 		Member loginMember = (Member)session.getAttribute("loginMember");
-		String memberId = loginMember.getMemberId();
-		model.addAttribute("chatroomList",service.selectMyChatroomById(memberId));
+		Map<String, Object> param = service.selectMyChatroomList(loginMember.getMemberId());
+		model.addAttribute("chat",param.get("chat"));
+		model.addAttribute("roomNumbers",param.get("roomNumbers"));
 		return "/chat/chat";
 	}
 	
 	// 선택한 채팅창 보여주기
-//	@PostMapping("/chatroom")
-//	public String selectChatroom(Map<String, Object> param, String chatroomId, Model model) {
+//	@GetMapping("/chatroom")
+//	public String selectChatroom(@RequestParam(value="chatroomId")String chatroomId, Model model, HttpSession session) {
 //		log.info("{}", chatroomId);
-//		log.info("{}", service.selectChatroomByroomId(chatroomId));
-//		model.addAttribute("chatroom", service.selectChatroomByroomId(chatroomId));
+//		log.info("{}", service.selectChatByChatroomId(chatroomId));
+//		Member loginMember = (Member)session.getAttribute("loginMember");
+//		String memberId = loginMember.getMemberId();
+//		model.addAttribute("chatroomList",service.selectMyChatroomById(memberId));
+//		model.addAttribute("chatroom", service.selectChatByChatroomId(chatroomId));
 //		return "/chat/chat";
 //	}
 	
-	@PostMapping("/chatroom")
+	@GetMapping("/chatroom")
 	@ResponseBody
-	public List<MyChatroom> selectChatroom(Map<String, Object> param, String chatroomId) {
+	public List<MyChatroom> selectChatroom(Map<String, Object> param, @RequestParam(value="chatroomId")String chatroomId,HttpSession session, Model model) {
+		Member loginMember = (Member)session.getAttribute("loginMember");
+		String memberId = loginMember.getMemberId();
+		model.addAttribute("chatroomList",service.selectMyChatroomById(memberId));
+		model.addAttribute("chatroomId",chatroomId);
+		session.setAttribute("chatroomId", chatroomId);
 		log.info("{}", chatroomId);
 		log.info("{}", service.selectChatroomByroomId(chatroomId));
 		return service.selectChatroomByroomId(chatroomId);
@@ -86,14 +95,25 @@ public class ChatController {
 	}
 	
 	// 채팅 웹소켓
+//	@GetMapping("/start")
+//	public String startChat() {
+//		return "/chat/chattingpage";
+//	}
 	@GetMapping("/chatting")
 	public String startChat() {
 		return "/chat/chat";
 	}
 	
+	@PostMapping("/search")
+	@ResponseBody
+	public String searchChatroomByKeyword(@RequestParam(value="chatroomId")String chatroomId, @RequestParam(value="keyword")String keyword) {
+		service.searchChatroomByKeyword(Map.of("chatroomId",chatroomId, "keyword",keyword));
+		return "chat/chatroom";
+	}
+	
 	// 채팅 생성
-	@PostMapping("/insertChat")
-	public String insertChat(@RequestParam(value="chatroomTitle")String chatroomTitle, @RequestParam(value="memberId")String memberId, Model model, HttpSession session) {
+	@PostMapping("/start")
+	public String insertChatroom(@RequestParam(value="chatroomTitle")String chatroomTitle, @RequestParam(value="memberId")String memberId, Model model, HttpSession session) {
 		
 		String chatroomCode="";
 		String[] member = null;
@@ -116,26 +136,19 @@ public class ChatController {
 		param.put("loginMember",loginMember);
 		param.put("member", member);
 		
-		List<MyChatroom> list = service.insertChat(param);
-		log.info("{}", list);
-		if(list!=null) {
-			model.addAttribute("chatroom",list);
-			return "chat/chat";
-		}else {
-			model.addAttribute("msg","생성 실패");
-			model.addAttribute("url","/chat/");
-			return "common/msg";
-		}
+		String chatroomId = service.insertChatroom(param);
+		model.addAttribute("chatroomId",chatroomId);
+		return "chat/chat";
 	}
 	
 	// 채팅 나가기 
 	@DeleteMapping("/delete")
-	public String deleteMyChatroom(@RequestParam(value="chatroomId")String chatroomId, HttpSession session) {
+	@ResponseBody
+	public int deleteMyChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam(value="loginMember")String loginMember) {
 		log.info("{}", chatroomId);
-		Member member = (Member)session.getAttribute("loginMember");
-		String loginMember = member.getMemberId();
-		//int result = service.deleteMyChatroom(chatroomId, loginMember);
-		return "common/msg";
+//		Member member = (Member)session.getAttribute("loginMember");
+//		String loginMember = member.getMemberId();
+		return service.deleteMyChatroom(Map.of("chatroomId",chatroomId, "loginMember",loginMember));
 	}
 	
 	// 파일 업로드 

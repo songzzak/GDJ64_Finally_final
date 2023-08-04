@@ -42,3 +42,4 @@ build/
 .vscode/
 .dbeaver/
 .Scripts/
+/.DS_Store
