@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.workit.booking.model.dto.Booking;
+import com.workit.booking.model.dto.Facility;
 
 public interface BookingDao {
 
@@ -18,5 +19,7 @@ public interface BookingDao {
 	int selectBookingCountByKeyword(SqlSession session, Map<String, Object> param);
 
 	List<Booking> selectMyBooking(SqlSession session, String userName);
+
+	List<Facility> selectAllFacilities(SqlSession session);
 
 }
