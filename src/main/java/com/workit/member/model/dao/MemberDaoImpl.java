@@ -47,5 +47,11 @@ public class MemberDaoImpl implements MemberDao {
 		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
 		return mapper.selectApprovAll(rb);
 	}
+
+	@Override
+	public int updatePwd(Map<String, Object> param) {
+		return mapper.updatePwd(param);
+	}
+	
 	
 }

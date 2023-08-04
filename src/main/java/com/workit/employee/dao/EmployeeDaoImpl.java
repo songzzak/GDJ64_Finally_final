@@ -102,5 +102,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public int updateApprov(Map<String, Object> param) {
 		return mapper.updateApprov(param);
 	}
+
+	@Override
+	public int updateEmployee(EmployeeUpdateInfo approvEmpInfo) {
+		return mapper.updateEmployee(approvEmpInfo);
+	}
 	
 }

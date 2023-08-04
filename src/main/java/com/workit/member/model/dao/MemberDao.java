@@ -18,4 +18,6 @@ public interface MemberDao {
 	int selectApprovCount();
 
 	List<ApprovMemberVO> selectApprovAll(Map<String, Object> param);
+
+	int updatePwd(Map<String, Object> param);
 }

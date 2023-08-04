@@ -90,7 +90,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public int updateApprov(Map<String, Object> param) {
-		return dao.updateApprov(param);
+		int result=dao.updateEmployee(dao.selectApprovEmp(String.valueOf(param.get("no")))); //회원 테이블에 정보 업데이트 먼저 실행
+		if(result>0) {
+			return dao.updateApprov(param);			
+		}else {
+			return 0;
+		}
 	}
 	
 	

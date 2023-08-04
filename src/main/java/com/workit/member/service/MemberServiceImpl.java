@@ -52,6 +52,15 @@ public class MemberServiceImpl implements MemberService {
 	public List<ApprovMemberVO> selectApprovAll(Map<String, Object> param) {
 		return dao.selectApprovAll(param);
 	}
+
+	@Override
+	public int updatePwd(Map<String, Object> param) {
+		if(dao.selectMemberByParam(param)!=null) {
+			return dao.updatePwd(param);			
+		}else {
+			return -1;
+		}
+	}
 	
 	
 

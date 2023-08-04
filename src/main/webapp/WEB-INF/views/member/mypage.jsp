@@ -58,7 +58,7 @@
 						<div class="mypage-update">
 							<span>주소 검색</span>
 							<input type="text" name="mainAddress" value="${loginMember.address }" required>
-							<button onclick="fn_searchAddr();">검색</button>
+							<input type="button" onclick="fn_searchAddr();" value="검색">
 						</div>
 						<div class="mypage-update">
 							<span>상세 주소</span>
@@ -68,7 +68,7 @@
 							<span>변경 사유</span> <input type="text" name="updateComment" required>
 						</div>
 						<div>
-							<h4>수정 요청 현황</h4>
+							<h4>수정 대기 현황</h4>
 							<table class="update-result-tb">
 								<tr>
 									<th>신청자</th>
@@ -80,7 +80,7 @@
 								<tr>
 									<td colspan="5"><hr /></td>
 								</tr>
-								<c:if test="${not empty approv }">
+								<c:if test="${not empty approv and approv.approvalFl=='N' }">
 									<tr>
 										<td>${approv.memberName }</td>
 										<td>${approv.approvalMember }</td>
@@ -92,9 +92,9 @@
 										<td colspan="5"><hr /></td>
 									</tr>
 								</c:if>
-								<c:if test="${empty approv }">
+								<c:if test="${empty approv or approv.approvalFl=='Y'}">
 									<tr>
-										<td colspan="5">수정 요청한 내역이 없습니다.</td>
+										<td colspan="5">승인 대기 중인 요청 내역이 없습니다.</td>
 									</tr>
 									<tr>
 										<td colspan="5"><hr /></td>
@@ -111,7 +111,6 @@
 					</div>
 				</div>
 				<div class="main-section section-shadow card">
-					<form action="" method="" id="pwd-update-form">
 						<div class="right-container">
 							<h2>비밀번호 수정</h2>
 							<div class="mypage-update">
@@ -124,10 +123,9 @@
 							</div>
 							<div class="mypage-update">
 								<span>비밀번호 확인</span>
-								<input type="password" id="pwd-check">
+								<input type="password" id="pwd-check" id="pwd-ck">
 							</div>
 						</div>
-					</form>
 					<div>
 						<input type="reset" value="취소">
 						<button onclick="fn_updatePwd();">수정</button>
@@ -165,12 +163,56 @@
 	//개인 정보 수정
 	function fn_updateMember(){
 		console.log("${approv}");
-		if("${approv}"!=""){
+		if("${approv.approvalFl}"!="Y"){
 			alert("미승인된 요청 정보가 있습니다.");
-			locatiob.reload();
+			location.reload();
 		}else{
 			$("#member-update-form").submit();
 		}
+	}
+	
+	//비밀번호 수정
+	function fn_updatePwd(){
+		const oriPwd=$("#new-pwd").val();
+		const newPwd=$("#ori-pwd").val();
+		const pwdCk=$("#pwd-ck").val();
+		//프론트 입력 내용 체크
+		if(oriPwd=='' || newPwd=='' || pwdCk==''){
+			alert("내용을 전부 입력하세요.");
+			$("#ori-pwd").focus();
+			return;
+		}else if(oriPwd!=pwdCk){
+			alert("비밀번호가 일치하지 않습니다.");
+			$("#new-pwd").val('');
+			$("#pwd-ck").val('');
+			$("#new-pwd").focus();
+			return;
+		}
+		//확인한 데이터 전송
+		$.ajax({
+			method:"post",
+			url:"${path}/member/password",
+			data:JSON.stringify({
+				"password":oriPwd,
+				"newPwd":newPwd,
+				"memberId":"${loginMember.memberId}"
+			}),
+			dataType:"json",
+			contentType:"application/json;charset=UTF-8",
+			async:false
+		}).then(function (response){
+			if(response>0){
+				alert("비밀번호 변경이 완료되었습니다.");
+				location.reload();
+			}else if(response==-1){
+				alert("현재 비밀번호가 틀립니다.");
+				$("#ori-pwd").val('');
+				$("#ori-pwd").focus();
+			}else{
+				alert("비밀번호 변경을 실패했습니다.");
+				location.reload();
+			}
+		});
 	}
 </script>
 </body>

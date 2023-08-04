@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.member.model.dto.Member;
@@ -46,6 +48,8 @@ public class MemberController {
 	public String enrollView(Model model, HttpSession session) {
 		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
 		model.addAttribute("approv",service.selectApprovMember(memberId));
+		log.info(memberId);
+		log.info("요청 : "+service.selectApprovMember(memberId));
 		return "member/mypage";
 	}
 	
@@ -101,5 +105,11 @@ public class MemberController {
 			model.addAttribute("url","/mypage");
 		}
 		return "common/msg";
+	}
+	
+	@PostMapping("/member/password")
+	@ResponseBody
+	public int updatePwd(Model model, @RequestBody Map<String, Object> param) {
+		return service.updatePwd(param);
 	}
 }

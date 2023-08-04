@@ -106,6 +106,7 @@ public class EmployeeController {
 		return "employee/manageJob";
 	}
 	
+	//회원 정보 수정 화면
 	@GetMapping("/memberId")
 	public String UpdateEmpView(Model model, @RequestParam(value="id") String id) {
 		model.addAttribute("member",memberService.selectMemberByParam(Map.of("memberId",id)));
@@ -152,28 +153,31 @@ public class EmployeeController {
 		return "common/msg";
 	}
 	
+	//정보 수정 요청 화면
 	@GetMapping("/approv")
 	public String selectApprovalRequest(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage) {
 		model.addAttribute("approvList",memberService.selectApprovAll(Map.of("cPage",cPage,"numPerpage",10)));
 		int totalData=memberService.selectApprovCount();
 		model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/employee/approv"));
-		return "employee/updateEmpInfo";
+		return "employee/approvUpdateEmp";
 	}
 	
+	//요청 리스트 중 클릭한 정보 확인
 	@GetMapping("/approv/info")
 	@ResponseBody()
 	public EmployeeUpdateInfo selectApprovEmp(@RequestParam(value="no") String no) {
 		EmployeeUpdateInfo info=service.selectApprovEmp(no);
-		log.info("info : "+info);
 		return info;
 	}
 	
+	//정보 수정 요청 삭제
 	@DeleteMapping("/approv")
 	@ResponseBody()
 	public int deleteApprovalRequest(@RequestParam(value="no") String no) {
 		return service.deleteApprov(no);
 	}
 	
+	//정보 수정 요청 승인
 	@PutMapping("/approv")
 	@ResponseBody()
 	public int updateApproval(@RequestBody Map<String,Object> param) {

@@ -46,4 +46,6 @@ public interface EmployeeMapper {
 	int deleteApprov(String no);
 	
 	int updateApprov(Map<String, Object> param);
+	
+	int updateEmployee(EmployeeUpdateInfo approvEmpInfo);
 }

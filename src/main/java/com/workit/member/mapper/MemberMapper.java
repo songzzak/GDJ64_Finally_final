@@ -23,4 +23,6 @@ public interface MemberMapper {
 	int selectApprovCount();
 
 	List<ApprovMemberVO> selectApprovAll(RowBounds rb);
+
+	int updatePwd(Map<String, Object> param);
 }
