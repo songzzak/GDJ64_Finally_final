@@ -104,4 +104,17 @@ public class ApproveController {
 	}
 	
 	
+	
+	@RequestMapping("/insertDraft.do")
+	public String insertDraft(String memberId, String writeTime, String extendWorkDate, String startTime, String endTime, String content, String title) {
+		System.out.println(memberId);
+		System.out.println(extendWorkDate);
+		System.out.println(startTime);
+		System.out.println(endTime);
+		System.out.println(title);
+		System.out.println(content);
+		return null;
+	}
+	
+	
 }

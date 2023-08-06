@@ -28,7 +28,7 @@
 	    <div id="department-box">
 		<c:if test="${not empty deps}">
 			<c:forEach var="dep" items="${deps}">
-				<button onclick="changeDep(event);" value="${dep.deptName}">${dep.deptName}</button><br>
+				<button type="button" onclick="changeDep(event);" value="${dep.deptName}">${dep.deptName}</button><br>
 			</c:forEach>
 		</c:if>
 	    </div>
@@ -266,5 +266,5 @@
 	 
 
 </script>	
-	
-</html>
+
+
