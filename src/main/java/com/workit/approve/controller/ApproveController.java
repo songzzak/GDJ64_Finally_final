@@ -92,6 +92,7 @@ public class ApproveController {
 	@ResponseBody // 비동기식으로 받기위해서 @ResponseBody 어노테이션을 사용해야함
 	public List<Member> changeDep(String deptName){ // 선택한 부서에 맞는 사원들 리스트로 반환
 		List<Member> m = service.changeDep(deptName);
+		System.out.println(m);
 		return m;
 	}
 	

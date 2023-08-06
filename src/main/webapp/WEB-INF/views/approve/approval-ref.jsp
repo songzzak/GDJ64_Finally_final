@@ -7,8 +7,8 @@
 <%-- <c:set var="path" value="${pageContext.request.contextPath }"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script> --%>
 		<div class="approve-section1 section-shadow">
-		<button type="button" class="openBtn" id="regist-appline">결재선 설정</button>
-
+		<button type="button" onclick="openBtn();" id="regist-appline">결재선 설정</button>
+		<!-- class="openBtn" -->
 		<!-- <button type="button" id="regist-appline">결재선 설정</button> -->
 		<div id="regist-app">
 			<div id="appline-name">결재선</div>
@@ -84,24 +84,12 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/approve/approve.js"></script>
 
-<style>
-	#people-box {
-		font-size: 15px;
-	}
-</style>
+
 <script>
 
 
-
-/* 	$(function() {
-	
-	
-			
-	});
- */
-
-
 	 const changeDep=(e)=>{  // 결재선 선택창에서 부서 눌렀을 때
+		
 		 	const value = e.target.value;
 			$.post("${path}/approve/changeDep.do",
 					{deptName:value},  
@@ -138,7 +126,7 @@
 					}else{ // 그외에는 추가함
 						$("#line-box").append($('<div/>',{class:str[0]})); // 결재선 만들어질때, div로 묶고 만들어짐 클래스값 = 사원번호
 						$("."+str[0]).append($('<input/>', {type: 'checkbox', name: 'appBox', value:str[0],width:'30px', margin:"10px"}));
-						$("."+str[0]).append(str[0],'&nbsp;',str[1],'&nbsp;',str[2],'&nbsp;',str[3], '<br>')
+						$("."+str[0]).append(str[0]+" "+str[1]+" "+str[2]+" "+str[3],'<br>')
 					}
 
 				}else{ // flag값이 true일 경우에는 추가하지않음
@@ -239,6 +227,8 @@
 					 return false;
 				 }else{
 					 	$("#regist-app>span").remove();
+					 	$("#regist-reference>span").remove();
+					 	$("#app-line>div").remove();
 						$('input:checkbox[name="appBox"]').each(function(){  // 결재선에 추가되있는 사람을 중복확인하기위한 로직
 							
 							$.post("${path}/approve/printMember.do",
@@ -246,9 +236,13 @@
 									data=>{
 										
 										const span = $("<span>");
-										span.attr("class",data.memberId);
+										span.attr("class","appClass");
 										$("#regist-app").append(span);
-										span.append(data.memberId,'&nbsp;',data.memberName,'&nbsp;',data.job.jobName,'&nbsp;',data.dept.deptName, '<br>')
+										span.append(data.memberId+" "+data.memberName+" "+data.job.jobName+" "+data.dept.deptName,'<br>');
+										const di = $("<div>").css("border","1px solid black").height("90px").width("120px");
+										$("#app-line").append(di);
+										di.append($("<div>").css("border-bottom","1px solid black").height("30px").width("120px").text(data.memberName+" "+data.job.jobName));
+										di.append($("<div>").height("60px").width("120px"));
 									}); 
 						 }) 
 						 
@@ -258,10 +252,9 @@
 									{memberId:this.value},   // 데이터를 객체로(키,값) 전달
 									data=>{
 										const span = $("<span>");
-										span.attr("id",data.memberId);
+										span.attr("class","appId");
 										$("#regist-reference").append(span);
-										span.append(data.memberId,'&nbsp;',data.memberName,'&nbsp;',data.job.jobName,'&nbsp;',data.dept.deptName, '<br>');
-							
+										span.append(data.memberId+" "+data.memberName+" "+data.job.jobName+" "+data.dept.deptName,'<br>');	
 									}); 
 
 						 }) 
