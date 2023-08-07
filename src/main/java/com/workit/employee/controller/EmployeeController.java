@@ -71,9 +71,9 @@ public class EmployeeController {
 	//부서 관리 화면
 	@GetMapping("/dept")
 	public String deptManageView(Model model,  @RequestParam(value="cPage",defaultValue="1") int cPage) {
-		model.addAttribute("depts",service.selectDeptCount(Map.of("cPage",cPage,"numPerpage",10)));
+		model.addAttribute("depts",service.selectDeptCount(Map.of("cPage",cPage,"numPerpage",5)));
 		int totalData=service.selectGradeCount(Map.of("category","dept"));
-		model.addAttribute("pageBar",Pagenation.getPage(cPage, 10, totalData, "/employee/manage"));
+		model.addAttribute("pageBar",Pagenation.getPage(cPage, 5, totalData, "/employee/dept"));
 		return "employee/manageDept";
 	}
 	
@@ -101,9 +101,9 @@ public class EmployeeController {
 	//직책 관리 화면
 	@GetMapping("/job")
 	public String jobManageView(Model model, @RequestParam(value = "cPage", defaultValue = "1") int cPage) {
-		model.addAttribute("jobs", service.selectJobCount(Map.of("cPage", cPage, "numPerpage", 10)));
+		model.addAttribute("jobs", service.selectJobCount(Map.of("cPage", cPage, "numPerpage", 5)));
 		int totalData = service.selectGradeCount(Map.of("category", "job"));
-		model.addAttribute("pageBar", Pagenation.getPage(cPage, 10, totalData, "/employee/manage"));
+		model.addAttribute("pageBar", Pagenation.getPage(cPage, 5, totalData, "/employee/job"));
 		return "employee/manageJob";
 	}
 	

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<link rel="stylesheet" href="${path}/resources/css/employee/employee.css">
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 	<div class="main-section section-shadow card">

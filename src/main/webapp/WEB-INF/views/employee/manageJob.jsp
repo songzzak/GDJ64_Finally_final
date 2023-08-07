@@ -3,13 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<link rel="stylesheet" href="${path}/resources/css/employee/employee.css">
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
 	<div class="main-section section-shadow card">
-		<div class="right-container">
+		<div class="right-container dept-div">
 			<h2>직책 관리</h2>
-			<section>
-				<h4>직책 추가</h4>
+			<h4>직책 추가</h4>
+			<div class="dept-container-first">
 				<span>권한</span>
 				<select id="job-auth">
 					<option selected disabled>필수 선택</option>
@@ -23,9 +24,9 @@
 					<input type="text" id="job-name">
 					<button onclick="fn_insertAuth();">생성</button>
 				</div>
-			</section>
-			<section>
-				<h4>직책 삭제</h4>
+			</div>
+			<h4>직책 삭제</h4>
+			<div class="dept-container-first">
 				<div id="delete-grade">
 					<span>직책명</span>
 					<select id="delete-code">
@@ -38,10 +39,10 @@
 					</select>
 					<button onclick="fn_deleteAuth();">삭제</button>
 				</div>
-			</section>
-			<section>
+			</div>
+			<h4>직책명 수정</h4>
+			<div class="dept-container">
 				<div>
-				<h4>직책명 수정</h4>
 					<table>
 						<tr>
 							<th>직책</th>
@@ -51,7 +52,7 @@
 							<th>변경할 권한</th>
 							<th>수정</th>
 						</tr>
-						<tr><td colspan="4"><hr/></td></tr>
+						<tr><td colspan="6"><hr/></td></tr>
 						<c:if test="${jobs!=null }">
 							<c:forEach var="j" items="${jobs }">
 								<tr class="job-tr">
@@ -79,13 +80,13 @@
 										<button onclick="fn_updateAuth('${j.jobCode}');">수정</button>
 									</td>
 								</tr>
-								<tr class="job-tr"><td colspan="4"><hr/></td></tr>
+								<tr class="job-tr"><td colspan="6"><hr/></td></tr>
 							</c:forEach>
 						</c:if>
 					</table>
 				<div class="pageBar">${pageBar }</div>
 				</div>
-			</section>
+			</div>
 		</div><!-- right-container -->
 	</div>
 </section>
