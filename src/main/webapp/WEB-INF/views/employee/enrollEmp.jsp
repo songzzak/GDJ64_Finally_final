@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <section class="max1920px">
+<link rel="stylesheet" href="${path}/resources/css/employee/employee.css">
 <jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 	<div class="main-section section-shadow card">
       <div class="right-container">
@@ -11,11 +12,11 @@
          <form action="${path }/employee/enroll" method="post" id="enroll-form">
          	<div>
          		<span>이름</span>
-         		<input type="text" name="member-name">
+         		<input type="text" name="memberName">
          	</div>
          	<div>
          		<span>주민번호</span>
-         		<input type="text" name="member-no">
+         		<input type="text" name="memberNo">
          	</div>
          	<div>
          		<span>전화번호</span>
@@ -24,16 +25,16 @@
          	</div>
          	<div>
          		<span>주소 검색</span>
-         		<input type="text" name="main-address" id="main-addr">
-         		<input type="button" onclick="fn_searchAddr();" value="검색">
+         		<input type="text" name="mainAddress" id="main-addr">
+         		<input type="button" onclick="fn_searchAddr();" value="검색" class="emp-btn">
          	</div>
          	<div>
          		<span>상세 주소</span>
-         		<input type="text" name="detail-address" id="detail-addr">
+         		<input type="text" name="detailAddress" id="detail-addr">
          	</div>
          	<div>
          		<span>부서</span>
-	         	<select name="dept-code">
+	         	<select name="deptCode">
 	         		<option selected disabled>필수 선택</option>
 	         		<c:if test="${depts!=null }">
 		         		<c:forEach var="d" items="${depts }">
@@ -44,7 +45,7 @@
          	</div>
          	<div>
          		<span>직책</span>
-	         	<select name="job-code">
+	         	<select name="jobCode">
 	         		<option selected disabled>필수 선택</option>
 	         		<c:if test="${jobs!=null }">
 		         		<c:forEach var="j" items="${jobs }">
@@ -59,31 +60,15 @@
          	</div>
          	<div>
          		<span>입사일</span>
-         		<input type="date" name="enroll-date">
+         		<input type="date" name="enrollDate">
          	</div>
          </form>
          <p>* 사원 초기 비밀번호는 1234로 생성됩니다.</p>
       </div>
+	<div id="enroll-btns"><input type="reset" value="취소" class="emp-btn"> <button onclick="fn_empDataCk();">생성</button></div>
    </div>
-	<div><input type="reset" value="취소"><button onclick="fn_empDataCk();">생성</button></div>
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-	//주소 검색 메소드
-	function fn_searchAddr(){
-		//주소 API 사용
-		 new daum.Postcode({
-		        oncomplete: function(data) {
-		        	$("#main-addr").val(data.address);
-		        	$("#detail-addr").focus();
-		        }
-		    }).open();
-	}
-	
-	//데이터 입력 확인 후 넘기는 메소드
-	function fn_empDataCk(){
-		$("#enroll-form").submit();
-	}
-</script>
+<script src="${path }/resources/js/employee/enrollEmp.js"></script>
 </body>
 </html>

@@ -11,4 +11,5 @@ public class JobVO {
 	private String jobCode;
 	private String jobName;
 	private int jobCount;
+	private String jobAuth;
 }

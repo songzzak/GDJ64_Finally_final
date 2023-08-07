@@ -3,6 +3,7 @@ package com.workit.employee.service;
 import java.util.List;
 import java.util.Map;
 
+import com.workit.employee.model.dto.EmployeeUpdateInfo;
 import com.workit.employee.model.vo.DepartmentVO;
 import com.workit.employee.model.vo.JobVO;
 import com.workit.member.model.dto.Department;
@@ -33,4 +34,16 @@ public interface EmployeeService {
 	int updateDept(Map<String,Object> param);
 
 	int updateEmpInfo(Map<String, Object> param);
+
+	EmployeeUpdateInfo selectApprovEmp(String no);
+
+	int deleteApprov(String no);
+
+	int updateApprov(Map<String, Object> param);
+
+	int insertJob(Map<String, Object> param);
+
+	int deleteJob(String jobCode);
+
+	int updateJob(Map<String, Object> param);
 }

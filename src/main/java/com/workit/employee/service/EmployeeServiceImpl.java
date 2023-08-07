@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.workit.employee.dao.EmployeeDao;
+import com.workit.employee.model.dto.EmployeeUpdateInfo;
 import com.workit.employee.model.vo.DepartmentVO;
 import com.workit.employee.model.vo.JobVO;
 import com.workit.member.model.dto.Department;
@@ -29,8 +30,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public int insertEmployee(Map<String, Object> param) {
-		String address=((String)param.get("main-address"))+" "+(String)param.get("datail-address");
-		param.put("address", address);
 		return dao.insertEmployee(param);
 	}
 
@@ -79,4 +78,49 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return dao.updateEmpInfo(param);
 	}
 
+	@Override
+	public EmployeeUpdateInfo selectApprovEmp(String no) {
+		return dao.selectApprovEmp(no);
+	}
+
+	@Override
+	public int deleteApprov(String no) {
+		return dao.deleteApprov(no);
+	}
+
+	@Override
+	public int updateApprov(Map<String, Object> param) {
+		int result=dao.updateEmployee(dao.selectApprovEmp(String.valueOf(param.get("no")))); //회원 테이블에 정보 업데이트 먼저 실행
+		if(result>0) {
+			return dao.updateApprov(param);			
+		}else {
+			return 0;
+		}
+	}
+
+	@Override
+	public int insertJob(Map<String, Object> param) {
+		if(dao.selectJobByName((String)param.get("jobName"))!=null) {
+			return -1;
+		}else {
+			return dao.insertJob(param);
+		}
+	}
+
+	@Override
+	public int deleteJob(String jobCode) {
+		return dao.deleteJob(jobCode);
+	}
+
+	@Override
+	public int updateJob(Map<String, Object> param) {
+		if(dao.selectJobByName((String)param.get("jobName"))!=null) {
+			return -1;
+		}else {
+			return dao.updateJob(param);			
+		}
+	}
+	
+	
+	
 }
