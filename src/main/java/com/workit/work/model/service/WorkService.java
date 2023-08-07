@@ -22,6 +22,11 @@ public interface WorkService {
 
 	//오늘 출퇴근 정보
 	Work selectWorkByDateAndMemberId(Map<String, Object> paramMap);
+	
+	//지각계카운트
+	int lateCount(Map<String, Object> paramMap);
+	//조퇴계카운트
+	int earlyLeaveCount(Map<String, Object> paramMap);
 
 
 

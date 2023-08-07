@@ -116,7 +116,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
 		                <fmt:formatDate value="${todayWork.workEnd}" pattern="HH:mm:ss" />
 		            </c:otherwise>
 		        </c:choose>
-    </td>
+    		</td>
             </c:if>
           </tr>
         </table>
@@ -142,11 +142,15 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
             <p>잔여 연차</p>
           </li>
           <li>
-            <p class="roundBolder center" style="background-color: #5F90CB">1</p>
+            <p class="roundBolder center" style="background-color: #5F90CB" id="totalLate">
+            	 <c:out value="${lateCount }"/>
+            </p>
             <p>지각계</p>
           </li>
           <li>
-            <p class="roundBolder center">0</p>
+            <p class="roundBolder center" id="totalEarlyLeave">
+            	 <c:out value="${earlyLeaveCount }"/>
+            </p>
             <p>조퇴계</p>
           </li>
           <li>
@@ -334,10 +338,10 @@ function navigateMonth(offset) {
     	console.log(data.workList);
     	console.log(data.workList.length); */
         $(".cal_tbl tbody").empty();
-        if (!data || data.length == 0) {
+        if (!data.workList || data.workList.length == 0) {
             $(".cal_tbl tbody").append('<tr><td colspan="5">조회된 근무정보가 없습니다.</td></tr>');
         } else {
-            $.each(data, function (index, workItem) {
+            $.each(data.workList, function (index, workItem) {
                 var rowHtml = '<tr class="work-time-row">';
                 rowHtml += '<td>' + formatDateAndDay(workItem.workDate) + '</td>';
                 rowHtml += '<td>' + formatTime(workItem.workStart) + '</td>';
@@ -345,10 +349,11 @@ function navigateMonth(offset) {
                 rowHtml += '<td>' + workItem.totalWorkTime + '</td>';
                 rowHtml += '<td>' + workItem.overtime + '</td>';
                 rowHtml += '</tr>';
-
                 $(".cal_tbl tbody").append(rowHtml);
             });
         }
+        $("#totalLate").html(data.lateCount);
+        $("#totalEarlyLeave").html(data.earlyLeaveCount);
     });
 }
 //시간 포맷 함수

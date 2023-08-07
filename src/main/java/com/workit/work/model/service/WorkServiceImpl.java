@@ -52,6 +52,16 @@ public class WorkServiceImpl implements WorkService {
 		return dao.updateEndWorkTime(session, w);
 	}
 
+	@Override
+	public int lateCount(Map<String, Object> paramMap) {
+		return dao.lateCount(session,paramMap);
+	}
+
+	@Override
+	public int earlyLeaveCount(Map<String, Object> paramMap) {
+		return dao.earlyLeaveCount(session,paramMap);
+	}
+
 
 
 }

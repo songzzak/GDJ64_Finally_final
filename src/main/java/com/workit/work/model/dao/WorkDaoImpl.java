@@ -43,4 +43,14 @@ public class WorkDaoImpl implements WorkDao {
 		return session.update("work.updateEndWorkTime",w);
 	}
 
+	@Override
+	public int lateCount(SqlSessionTemplate session, Map<String, Object> paramMap) {
+		return session.selectOne("work.lateCount",paramMap);
+	}
+
+	@Override
+	public int earlyLeaveCount(SqlSessionTemplate session, Map<String, Object> paramMap) {
+		return session.selectOne("work.earlyLeaveCount",paramMap);
+	}
+
 }

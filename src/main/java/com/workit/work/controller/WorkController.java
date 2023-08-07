@@ -71,20 +71,31 @@ public class WorkController {
 	            //System.out.println(paramMap);
 	            
 	            List<Work> workList = service.getMonthWorkTime(paramMap);
+	            int lateCount = service.lateCount(paramMap);
+	            int earlyLeaveCount = service.earlyLeaveCount(paramMap);
 	            //System.out.println(workList);
 	            // 뷰에 데이터 전달
 	            model.addAttribute("workList", workList);
+	            model.addAttribute("lateCount",lateCount);
+	            model.addAttribute("earlyLeaveCount", earlyLeaveCount);
 	            return "/work/workBoard";
 	        }else {
 	            paramMap.put("currentYear", currentYear);
 	            paramMap.put("currentMonth", currentMonth);
 	            List<Work> workList = service.getMonthWorkTime(paramMap);
-	            //System.out.println(workList);
-	        	Gson gson = new Gson();
-	        	String json = gson.toJson(workList);
-	        	response.setContentType("application/json");
-	        	response.setCharacterEncoding("UTF-8");
-	        	response.getWriter().write(json);
+	            int lateCount = service.lateCount(paramMap);
+	            int earlyLeaveCount = service.earlyLeaveCount(paramMap);
+	            Gson gson = new Gson();
+
+	            Map<String, Object> data = new HashMap<>();
+	            data.put("workList", workList);
+	            data.put("lateCount", lateCount);
+	            data.put("earlyLeaveCount", earlyLeaveCount);
+
+	            String json = gson.toJson(data);
+	            response.setContentType("application/json");
+	            response.setCharacterEncoding("UTF-8");
+	            response.getWriter().write(json);
 	        }
 		 return null;
 	}

@@ -20,4 +20,8 @@ public interface WorkDao {
 	boolean isCheckOutRegisteredForDate(SqlSessionTemplate session, Map<String, String> mapParam);
 
 	int updateEndWorkTime(SqlSessionTemplate session, Work w);
+
+	int lateCount(SqlSessionTemplate session, Map<String, Object> paramMap);
+
+	int earlyLeaveCount(SqlSessionTemplate session, Map<String, Object> paramMap);
 }
