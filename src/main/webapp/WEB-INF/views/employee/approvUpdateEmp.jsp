@@ -3,12 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<link rel="stylesheet" href="${path}/resources/css/employee/employee.css">
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
 	<div class="main-section section-shadow card">
 		<div class="right-container">
 			<h2>사원 정보 수정 신청 목록</h2>
-			<table>
+			<table id="emp-table">
 				<tr>
 					<th>사번</th>
 					<th>이름</th>
@@ -41,7 +42,7 @@
 			<div id="info-container">
 				<h3>신청 내역</h3>
 				<p>수정 전 사원 정보</p>
-				<table>
+				<table class="info-table">
 					<tr>
 						<th>사번</th>
 						<th>이름</th>
@@ -50,12 +51,13 @@
 						<th>상세주소</th>
 						<th>이메일</th>
 					</tr>
+					<tr><td colspan="6"><hr/></td></tr>
 					<tr>
 						<td></td>
 					</tr>
 				</table>
 				<p>수정 신청 내역</p>
-				<table>
+				<table class="info-table">
 					<tr>
 						<th>전화번호</th>
 						<th>주소</th>
@@ -64,6 +66,7 @@
 						<th>신청 사유</th>
 						<th>신청일</th>
 					</tr>
+					<tr><td colspan="6"><hr/></td></tr>
 					<tr id="info-tr">
 					</tr>
 				</table>

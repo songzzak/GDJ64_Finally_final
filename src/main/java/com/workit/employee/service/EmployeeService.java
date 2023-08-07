@@ -40,4 +40,10 @@ public interface EmployeeService {
 	int deleteApprov(String no);
 
 	int updateApprov(Map<String, Object> param);
+
+	int insertJob(Map<String, Object> param);
+
+	int deleteJob(String jobCode);
+
+	int updateJob(Map<String, Object> param);
 }
