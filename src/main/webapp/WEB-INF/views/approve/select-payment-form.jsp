@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<script>
+const path2 = "${pageContext.request.contextPath}";
+</script>
 
   <section>
 	<div class="approve hidden-approve">

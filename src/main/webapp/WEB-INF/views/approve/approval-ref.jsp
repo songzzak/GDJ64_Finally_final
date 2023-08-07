@@ -88,10 +88,10 @@
 <script>
 
 
-	 const changeDep=(e)=>{  // 결재선 선택창에서 부서 눌렀을 때
+	  const changeDep=(e)=>{  // 결재선 선택창에서 부서 눌렀을 때
 		
 		 	const value = e.target.value;
-			$.post("${path}/approve/changeDep.do",
+			$.post("/approve/changeDep.do",
 					{deptName:value},  
 					data=>{  // 데이터를 객체로(키,값) 전달
 						$("#people-box").empty(); // #people-box 밑에 자식요소들 모두삭제
@@ -261,7 +261,7 @@
 							close(); 
 				 }
 		 }
-	 }
+	 } 
 	 
 	 
 

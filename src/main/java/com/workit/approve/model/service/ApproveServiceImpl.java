@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.workit.approve.model.dao.ApproveDao;
 import com.workit.approve.model.dto.Approve;
+import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.Time;
 import com.workit.member.model.dto.Member;
 
 @Service
@@ -36,6 +38,21 @@ public class ApproveServiceImpl implements ApproveService {
 	@Override
 	public Member printMember(String memberId) {
 		return dao.printMember(session,memberId);
+	}
+
+	@Override
+	public int insertApprove(Approve ap) {
+		return dao.insertApprove(session,ap);
+	}
+
+	@Override
+	public int insertTime(Time t) {
+		return dao.insertTime(session,t);
+	}
+
+	@Override
+	public int insertApproveAttach(ApproveAttach aa) {
+		return dao.insertApproveAttach(session,aa);
 	}
 	
 	
