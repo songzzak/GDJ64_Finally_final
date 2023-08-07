@@ -12,12 +12,18 @@ public interface WorkService {
 	
 	//출근시간 등록
 	int insertStartWorkTime(Work w);
+	//퇴근시간 등록
+	int updateEndWorkTime(Work w);
 
 	//출근여부확인
 	boolean isWorkDataRegisteredForDate(Map<String, String> mapParam);
+	//퇴근여부확인
+	boolean isCheckOutRegisteredForDate(Map<String, String> mapParam);
 
 	//오늘 출퇴근 정보
 	Work selectWorkByDateAndMemberId(Map<String, Object> paramMap);
+
+
 
 	
 }

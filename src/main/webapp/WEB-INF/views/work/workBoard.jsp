@@ -108,8 +108,15 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
             </c:if>
             <c:if test = "${not empty todayWork }">
             <td>
-            	<c:out value="${todayWork.workEnd eq null?'미등록':todayWork.workEnd}"/>
-            </td>
+		        <c:choose>
+		            <c:when test="${todayWork.workEnd eq null}">
+		                미등록
+		            </c:when>
+		            <c:otherwise>
+		                <fmt:formatDate value="${todayWork.workEnd}" pattern="HH:mm:ss" />
+		            </c:otherwise>
+		        </c:choose>
+    </td>
             </c:if>
           </tr>
         </table>
@@ -256,7 +263,45 @@ $(document).ready(function() {
         });
     });
 
- 	
+ // 퇴근 버튼 클릭 이벤트 리스너
+    $("#work-ban-container button:nth-child(2)").on("click", function() {
+        // 현재 날짜와 시간을 가져옴
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var dd = String(today.getDate()).padStart(2, '0');
+        var formattedDate = yyyy + '-' + mm + '-' + dd;
+
+        // 오늘의 퇴근 시간 확인
+        $.get("/work/checkTodayWork", { date: formattedDate }, function(response) {
+            if (response.alreadyCheckedOut) {
+                alert("이미 퇴근하셨습니다.");
+            } else {
+            	// 현재 시간을 가져옴
+                var hours = String(today.getHours()).padStart(2, '0');
+                var minutes = String(today.getMinutes()).padStart(2, '0');
+                var seconds = String(today.getSeconds()).padStart(2, '0');
+                var formattedTime = hours + ':' + minutes + ':' + seconds;
+                const currentTime = today.toISOString();
+
+             // 알림창 띄우기
+                var isConfirmed = window.confirm(formattedTime + "에 퇴근하시겠습니까?");
+                if (isConfirmed) {
+                    $.post("/work/workEnd", { workEndTime: currentTime },
+                        function(response) {
+                             console.log(response);
+                             if (response.status === "success") {
+                                 alert(response.msg);
+                                 location.assign('${path}/work/workTime');
+                             } else {
+                                 alert(response.msg);
+                             }
+                    });
+                }
+
+            }
+        });
+    });
  	
  	
  	

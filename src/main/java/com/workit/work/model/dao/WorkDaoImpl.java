@@ -32,4 +32,15 @@ public class WorkDaoImpl implements WorkDao {
 		return session.selectOne("work.selectWorkByDateAndMemberId",paramMap);
 	}
 
+	@Override
+	public boolean isCheckOutRegisteredForDate(SqlSessionTemplate session, Map<String, String> mapParam) {
+		int count = session.selectOne("work.isCheckOutRegisteredForDate",mapParam); 
+		return count>0;
+	}
+
+	@Override
+	public int updateEndWorkTime(SqlSessionTemplate session, Work w) {
+		return session.update("work.updateEndWorkTime",w);
+	}
+
 }

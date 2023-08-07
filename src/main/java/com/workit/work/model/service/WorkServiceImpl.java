@@ -42,6 +42,16 @@ public class WorkServiceImpl implements WorkService {
 		return dao.selectWorkByDateAndMemberId(session,paramMap);
 	}
 
+	@Override
+	public boolean isCheckOutRegisteredForDate(Map<String, String> mapParam) {
+		return dao.isCheckOutRegisteredForDate(session,mapParam);
+	}
+
+	@Override
+	public int updateEndWorkTime(Work w) {
+		return dao.updateEndWorkTime(session, w);
+	}
+
 
 
 }

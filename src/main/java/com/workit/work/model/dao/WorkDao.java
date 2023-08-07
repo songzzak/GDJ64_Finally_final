@@ -16,4 +16,8 @@ public interface WorkDao {
 	boolean isWorkDataRegisteredForDate(SqlSessionTemplate session, Map<String, String> mapParam);
 
 	Work selectWorkByDateAndMemberId(SqlSessionTemplate session, Map<String, Object> paramMap);
+
+	boolean isCheckOutRegisteredForDate(SqlSessionTemplate session, Map<String, String> mapParam);
+
+	int updateEndWorkTime(SqlSessionTemplate session, Work w);
 }

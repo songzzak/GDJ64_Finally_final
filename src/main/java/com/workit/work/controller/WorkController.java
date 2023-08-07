@@ -1,13 +1,14 @@
 package com.workit.work.controller;
 
 import java.io.IOException;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -132,6 +132,46 @@ public class WorkController {
 
 	        return result;
 	    }
+	 
+	 @PostMapping("/workEnd")
+	 @ResponseBody
+	 public Map<String, String> endWork(@RequestParam("workEndTime") String workEndTime) {
+	     Map<String, String> result = new HashMap<>();
+
+	     // 임시 사용자 ID
+	     String memberId = "user01";
+	     Timestamp currentTimestamp = null;
+
+	     try {
+	         SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+	         utcFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // UTC 시간대로 설정
+	         java.util.Date parsedDate = utcFormat.parse(workEndTime);  // UTC 기준 java.util.Date로 변경
+
+	         currentTimestamp = new Timestamp(parsedDate.getTime());
+
+	         Work w = Work.builder()
+	                      .memberId(memberId)
+	                      .workEnd(currentTimestamp)
+	                      .build();
+
+	         if(service.updateEndWorkTime(w) > 0) {
+	             result.put("status", "success");
+	             result.put("msg", "퇴근 시간이 저장되었습니다.");
+	         } else {
+	             result.put("status", "error");
+	             result.put("msg", "저장 중 오류가 발생했습니다.");
+	         }
+	     } catch (ParseException e) {
+	         e.printStackTrace();
+	         result.put("status", "error");
+	         result.put("msg", "잘못된 시간 형식입니다.");
+	     }
+
+	     return result;
+	 }
+
+
+
 
 	 @GetMapping("/checkTodayWork")
 	 @ResponseBody
@@ -144,8 +184,10 @@ public class WorkController {
 	     //System.out.println(mapParam);
 	     Map<String, Boolean> result = new HashMap<>();
 	     boolean alreadyRegistered = service.isWorkDataRegisteredForDate(mapParam);
+	     boolean alreadyCheckedOut = service.isCheckOutRegisteredForDate(mapParam);
 	    //System.out.println(alreadyRegistered);
 	     result.put("alreadyRegistered", alreadyRegistered);
+	     result.put("alreadyCheckedOut", alreadyCheckedOut);
 	     return result;
 	 }
 
