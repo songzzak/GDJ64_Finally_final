@@ -98,7 +98,7 @@ public class WorkController {
 	        // 임시 사용자 ID
 	        String memberId = "user01";
 	        Timestamp currentTimestamp = null;
-	        
+	        String workStatus = null;
 	        try {
 	        	SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 	            utcFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // UTC 시간대로 설정
@@ -110,6 +110,10 @@ public class WorkController {
 	            parsedDate = seoulFormat.parse(seoulTime); // 다시 Date 객체로 변환
 
 	            currentTimestamp = new Timestamp(parsedDate.getTime());
+	            // 시간을 24시간 형식으로 구해서 9시 이후인지 체크
+	            LocalDateTime currentTime = currentTimestamp.toLocalDateTime();
+	            int hour = currentTime.getHour();
+	            workStatus = (hour >= 9) ? "지각" : "정상출근";
 	        } catch (ParseException e) {
 	            e.printStackTrace();
 	            result.put("status", "error");
@@ -120,6 +124,7 @@ public class WorkController {
 	        Work w = Work.builder()
 	                        .memberId(memberId)
 	                        .workStart(currentTimestamp)
+	                        .workStatus(workStatus)
 	                        .build();
 	        
 	        if(service.insertStartWorkTime(w) > 0) {
@@ -136,39 +141,58 @@ public class WorkController {
 	 @PostMapping("/workEnd")
 	 @ResponseBody
 	 public Map<String, String> endWork(@RequestParam("workEndTime") String workEndTime) {
-	     Map<String, String> result = new HashMap<>();
+	      Map<String, String> result = new HashMap<>();
 
-	     // 임시 사용자 ID
-	     String memberId = "user01";
-	     Timestamp currentTimestamp = null;
+	      // 임시 사용자 ID
+	      String memberId = "user01";
+	      Timestamp currentTimestamp = null;
+	      String workStatus = "지각";
+	      try {
+	          SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+	          utcFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // UTC 시간대로 설정
+	          java.util.Date parsedDate = utcFormat.parse(workEndTime);  // UTC 기준 java.util.Date로 변경
 
-	     try {
-	         SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-	         utcFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // UTC 시간대로 설정
-	         java.util.Date parsedDate = utcFormat.parse(workEndTime);  // UTC 기준 java.util.Date로 변경
+	          currentTimestamp = new Timestamp(parsedDate.getTime());
+	          // 시간을 24시간 형식으로 구해서 18시 이전인지 체크
+	          LocalDateTime currentTime = currentTimestamp.toLocalDateTime();
+	          int hour = currentTime.getHour();
+	          
+	          // 해당 날짜에 대한 근무데이터
+	          LocalDate today = LocalDate.now();//2023-08-07
+	          Map<String, Object> paramMap = new HashMap<>();
+	          paramMap.put("memberId", memberId);
+	          paramMap.put("today", today);
+	          Work todayWork = service.selectWorkByDateAndMemberId(paramMap);
+	          System.out.println(todayWork);
 
-	         currentTimestamp = new Timestamp(parsedDate.getTime());
+	          // 작업 상태가 지각이 아닌 경우에만 상태를 재설정
+	          if (todayWork.getWorkStatus().equals("정상출근")) {
+	              workStatus = (hour < 18) ? "조퇴" : "정상출근";
+	          } else {
+	              workStatus = todayWork.getWorkStatus();
+	          }
 
-	         Work w = Work.builder()
-	                      .memberId(memberId)
-	                      .workEnd(currentTimestamp)
-	                      .build();
+	          Work w = Work.builder()
+	                       .memberId(memberId)
+	                       .workEnd(currentTimestamp)
+	                       .workStatus(workStatus)
+	                       .build();
 
-	         if(service.updateEndWorkTime(w) > 0) {
-	             result.put("status", "success");
-	             result.put("msg", "퇴근 시간이 저장되었습니다.");
-	         } else {
-	             result.put("status", "error");
-	             result.put("msg", "저장 중 오류가 발생했습니다.");
-	         }
-	     } catch (ParseException e) {
-	         e.printStackTrace();
-	         result.put("status", "error");
-	         result.put("msg", "잘못된 시간 형식입니다.");
-	     }
-
-	     return result;
+	          if(service.updateEndWorkTime(w) > 0) {
+	              result.put("status", "success");
+	              result.put("msg", "퇴근 시간이 저장되었습니다.");
+	          } else {
+	              result.put("status", "error");
+	              result.put("msg", "저장 중 오류가 발생했습니다.");
+	          }
+	      } catch (ParseException e) {
+	          e.printStackTrace();
+	          result.put("status", "error");
+	          result.put("msg", "잘못된 시간 형식입니다.");
+	      }
+	      return result;
 	 }
+
 
 
 
