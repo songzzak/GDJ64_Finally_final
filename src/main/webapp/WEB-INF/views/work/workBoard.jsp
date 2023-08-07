@@ -124,7 +124,8 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
       <div class="column" id="work-ban-container">
         <button>출근</button>
         <button>퇴근</button>
-        <button>시간 수정 요청</button>
+		<button id="request-btn">시간 수정 요청</button>
+
       </div>
       <hr style="margin: 20px 30px;">
       <div id="annualLeaveDiv">
@@ -160,6 +161,20 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
         </ul>
       </div>
     </div>
+    		<!-- 모달 팝업창 (처음에는 숨김 상태로) -->
+		<div id="request-modal" style="display: none;"  class="section-shadow bgc-fff">
+		  <h2>시간 수정 요청</h2>
+		  <label for="request-date">요청일자: </label>
+		  <input type="date" id="request-date">
+		  <label for="start-time">출근시간: </label>
+		  <input type="time" id="start-time">
+		  <label for="end-time">퇴근시간: </label>
+		  <input type="time" id="end-time">
+		  <label for="request-reason">신청사유: </label>
+		  <textarea id="request-reason"></textarea>
+		  <button id="submit-btn">전송</button>
+		  <button id="cancel-btn">취소</button>
+		</div>
     <div class="section-shadow bgc-fff">
       <div class="sec_cal">
         <div class="cal_nav">
@@ -415,6 +430,52 @@ function formatDateAndDay(dateString) {
 		}
 		return zero + num;
 	}
+	
+	/* 출퇴근 수정요청 */
+$("#request-btn").click(function() {
+  $("#request-modal").show();
+});
+
+$("#cancel-btn").click(function() {
+  $("#request-modal").hide();
+});
+
+$("#request-date").change(function() {
+	  var date = $(this).val();
+	  $.ajax({
+	    type: "POST",
+	    url: "/getTime", 
+	    data: { date: date },
+	    success: function(response) {
+	      $("#start-time").val(response.startTime);
+	      $("#end-time").val(response.endTime);
+	    }
+	  });
+	});
+	
+$("#submit-btn").click(function() {
+	  var date = $("#request-date").val();
+	  var startTime = $("#start-time").val();
+	  var endTime = $("#end-time").val();
+	  var reason = $("#request-reason").val();
+
+	  $.ajax({
+	    type: "POST",
+	    url: "/requestTimeChange",
+	    data: {
+	      date: date,
+	      startTime: startTime,
+	      endTime: endTime,
+	      reason: reason
+	    },
+	    success: function(response) {
+	      alert("시간 수정 요청이 전송되었습니다.");
+	      $("#request-modal").hide();
+	    }
+	  });
+	});
+
+
 </script>
 
 
