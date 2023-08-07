@@ -12,83 +12,24 @@ import com.workit.work.model.dto.Work;
 public class WorkDaoImpl implements WorkDao {
 
 	@Override
-	public int insertStartTime(SqlSessionTemplate session, Work w) {
-		return session.insert("work.insertStartTime", w);
-	}
-
-	@Override
-	public Work selectStartTime(SqlSessionTemplate session, String memberId) {
-		return session.selectOne("work.selectStartTime",memberId);
-	}
-
-	@Override
-	public int updateEndTime(SqlSessionTemplate session, Work w) {
-		return session.insert("work.updateEndTime", w);
-	}
-
-	@Override
-	public Work selectEndTime(SqlSessionTemplate session, String memberId) {
-		return session.selectOne("work.selectEndTime",memberId);
-	}
-
-	@Override
-	public int updateStatus(SqlSessionTemplate session, Work w) {
-		return session.update("work.updateStatus", w);
-	}
-
-	@Override
-	public Work selectWeekTime(SqlSessionTemplate session, String memberId) {
-		return session.selectOne("work.selectWeekTime",memberId);
-	}
-
-	@Override
-	public Work selectMonthTime(SqlSessionTemplate session, String memberId) {
-		return session.selectOne("work.selectMonthTime",memberId);
-	}
-
-	@Override
-	public List<Work> monthWorkTime(SqlSessionTemplate session, Map<String, String> param) {
-		return session.selectList("work.monthWorkTime",param);
-	}
-
-	@Override
-	public List<Work> selectDeptStatus(SqlSessionTemplate session, String memberId) {
-		return session.selectList("work.selectDeptStatus",memberId);
-	}
-
-	@Override
-	public List<Work> selectDeptWork(SqlSessionTemplate session, Map<String, String> param) {
-		return session.selectList("work.selectDeptWork",param);
-	}
-
-	@Override
-	public List<Work> commuteList(SqlSessionTemplate session, Map<String, String> param) {
-		return session.selectList("work.commuteList",param);
-	}
-
-	@Override
-	public List<Work> overworkList(SqlSessionTemplate session, Map<String, String> param) {
-		return session.selectList("work.overworkList",param);
-	}
-
-	@Override
-	public Work monthTotalTime(SqlSessionTemplate session, Map<String, String> param) {
-		return session.selectOne("work.monthTotalTime",param);
-	}
-
-	@Override
-	public List<Work> selectDeptWeekList(SqlSessionTemplate session, Map<String, String> param) {
-		return session.selectList("work.selectDeptWeekList",param);
-	}
-
-	@Override
-	public Work selectMember(SqlSessionTemplate session, String memberId) {
-		return session.selectOne("work.selectMember",memberId);
-	}
-
-	@Override
 	public List<Work> getMonthWorkTime(SqlSessionTemplate session, Map<String, Object> paramMap) {
 		return session.selectList("work.getMonthWorkTime", paramMap);
+	}
+
+	@Override
+	public int insertStartWorkTime(SqlSessionTemplate session, Work w) {
+		return session.insert("work.insertStartWorkTime",w);
+	}
+
+	@Override
+	public boolean isWorkDataRegisteredForDate(SqlSessionTemplate session, Map<String, String> mapParam) {
+		int count = session.selectOne("work.isWorkDataRegisteredForDate",mapParam);
+		return count>0;
+	}
+
+	@Override
+	public Work selectWorkByDateAndMemberId(SqlSessionTemplate session, Map<String, Object> paramMap) {
+		return session.selectOne("work.selectWorkByDateAndMemberId",paramMap);
 	}
 
 }

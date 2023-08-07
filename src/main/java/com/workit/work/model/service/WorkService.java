@@ -10,35 +10,14 @@ public interface WorkService {
 	// 월별 근무 정보 가져오기
 	List<Work> getMonthWorkTime(Map<String, Object> paramMap);
 	
-	int insertStartTime(Work w);
+	//출근시간 등록
+	int insertStartWorkTime(Work w);
 
-	Work selectStartTime(String memberId);
+	//출근여부확인
+	boolean isWorkDataRegisteredForDate(Map<String, String> mapParam);
 
-	int updateEndTime(Work w);
-
-	Work selectEndTime(String memberId);
-
-	int updateStatus(Work w);
-
-	Work selectWeekTime(String memberId);
-
-	Work selectMonthTime(String memberId);
-
-	List<Work> monthWorkTime(Map<String, String> param);
-
-	List<Work> selectDeptStatus(String memberId);
-
-	List<Work> selectDeptWork(Map<String, String> param);
-
-	List<Work> commuteList(Map<String, String> param);
-
-	List<Work> overworkList(Map<String, String> param);
-
-	Work monthTotalTime(Map<String, String> param);
-
-	List<Work> selectDeptWeekList(Map<String, String> param);
-
-	Work selectMember(String memberId);
+	//오늘 출퇴근 정보
+	Work selectWorkByDateAndMemberId(Map<String, Object> paramMap);
 
 	
 }

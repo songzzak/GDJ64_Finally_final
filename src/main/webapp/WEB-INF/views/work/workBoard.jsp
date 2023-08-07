@@ -92,11 +92,25 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
         <table id="workTimeTbl">
           <tr>
             <th>출근시간</th>
-            <td>08:53:09</td>
+            <c:if test="${empty todayWork }">
+            <td>미등록</td>
+            </c:if>
+            <c:if test = "${not empty todayWork }">
+            <td>
+            	<fmt:formatDate value="${todayWork.workStart}" pattern="HH:mm:ss" />
+			</td>
+            </c:if>
           </tr>
           <tr>
             <th>퇴근시간</th>
+            <c:if test="${empty todayWork }">
             <td>미등록</td>
+            </c:if>
+            <c:if test = "${not empty todayWork }">
+            <td>
+            	<c:out value="${todayWork.workEnd eq null?'미등록':todayWork.workEnd}"/>
+            </td>
+            </c:if>
           </tr>
         </table>
       </div>
@@ -163,9 +177,9 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
 			<c:if test="${not empty workList }">
 				<c:forEach var="workItem" items="${workList }">
 					 <tr class="work-time-row">
-		                <td>${workItem.workDate}</td>
-		                <td>${workItem.workStart}</td>
-		                <td>${workItem.workEnd}</td>
+		                <td> <fmt:formatDate value="${workItem.workDate}" pattern="d E" /></td>
+		                <td><fmt:formatDate value="${workItem.workStart}" pattern="HH:mm:ss" /></td>
+		                <td><fmt:formatDate value="${workItem.workEnd}" pattern="HH:mm:ss" /></td>
 		                <td>${workItem.totalWorkTime}</td>
 		                <td>${workItem.overtime}</td>
           			  </tr>
@@ -198,6 +212,56 @@ $(document).ready(function() {
         e.preventDefault();
         navigateMonth(1);
     });
+    
+ 	// 출근 버튼 클릭 이벤트 리스너
+    $("#work-ban-container button:first-child").on("click", function() {
+        // 현재 날짜를 가져옴
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var dd = String(today.getDate()).padStart(2, '0');
+        var formattedDate = yyyy + '-' + mm + '-' + dd;
+
+        // 오늘의 출근 시간 확인
+        $.get("/work/checkTodayWork", { date: formattedDate }, function(response) {
+            if (response.alreadyRegistered) {
+                alert("이미 출근등록 하셨습니다.");
+            } else {
+                // 현재 시간을 가져옴
+                var hours = String(today.getHours()).padStart(2, '0');
+                var minutes = String(today.getMinutes()).padStart(2, '0');
+                var seconds = String(today.getSeconds()).padStart(2, '0');
+                var formattedTime = hours + ':' + minutes + ':' + seconds;
+                const currentTime = today.toISOString();
+
+                // 알림창 띄우기
+                var isConfirmed = window.confirm(formattedTime + "에 출근하시겠습니까?");
+                console.log(currentTime);
+                
+                if(isConfirmed) {
+                    // 출근시간 등록
+                    $.post("/work/workStart",{ workStartTime: currentTime },
+                        function (response) {
+                            console.log(response);
+
+                            if (response.status === "success") {
+                                alert(response.msg);
+                               	location.assign('${path}/work/workTime');
+                            } else {
+                                alert(response.msg);
+                            }
+                        });
+                }
+            }
+        });
+    });
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
 });
 
 function navigateMonth(offset) {
@@ -217,7 +281,7 @@ function navigateMonth(offset) {
     //console.log(year);
     //console.log(month);
 
-    $.get("workTime.do", {
+    $.get("/work/workTime", {
         currentYear: year,
         currentMonth: month
     }, function (data) {
@@ -230,9 +294,9 @@ function navigateMonth(offset) {
         } else {
             $.each(data, function (index, workItem) {
                 var rowHtml = '<tr class="work-time-row">';
-                rowHtml += '<td>' + workItem.workDate + '</td>';
-                rowHtml += '<td>' + workItem.workStart + '</td>';
-                rowHtml += '<td>' + workItem.workEnd + '</td>';
+                rowHtml += '<td>' + formatDateAndDay(workItem.workDate) + '</td>';
+                rowHtml += '<td>' + formatTime(workItem.workStart) + '</td>';
+                rowHtml += '<td>' + formatTime(workItem.workEnd) + '</td>';
                 rowHtml += '<td>' + workItem.totalWorkTime + '</td>';
                 rowHtml += '<td>' + workItem.overtime + '</td>';
                 rowHtml += '</tr>';
@@ -242,6 +306,37 @@ function navigateMonth(offset) {
         }
     });
 }
+//시간 포맷 함수
+function formatTime(time) {
+    var date = new Date(time);
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+    return (hours < 10 ? "0" + hours : hours) + ":" 
+        + (minutes < 10 ? "0" + minutes : minutes) + ":" 
+        + (seconds < 10 ? "0" + seconds : seconds);
+}
+//요일 구하는 함수
+function getDayString(day) {
+    var days = ['일', '월', '화', '수', '목', '금', '토'];
+    return days[day];
+}
+//일자와 요일을 리턴하는 함수
+function formatDateAndDay(dateString) {
+    var dateArray = dateString.split(" ");
+    console.log(dateArray);
+    var month = dateArray[0].replace("월", "");
+    var day = dateArray[1].replace(",", ""); 
+    var year = dateArray[2];
+
+    var date = new Date(year + "/" + month + "/" + day);
+    console.log(date);
+
+    var dayString = getDayString(date.getDay());
+    return date.getDate() + ' ' + dayString;
+}
+
+
 
 	// 현재 시간을 출력하는 함수
 	function printClock() {
