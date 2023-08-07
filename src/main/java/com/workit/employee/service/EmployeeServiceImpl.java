@@ -97,6 +97,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return 0;
 		}
 	}
+
+	@Override
+	public int insertJob(Map<String, Object> param) {
+		if(dao.selectJobByName((String)param.get("jobName"))!=null) {
+			return -1;
+		}else {
+			return dao.insertJob(param);
+		}
+	}
+
+	@Override
+	public int deleteJob(String jobCode) {
+		return dao.deleteJob(jobCode);
+	}
+
+	@Override
+	public int updateJob(Map<String, Object> param) {
+		if(dao.selectJobByName((String)param.get("jobName"))!=null) {
+			return -1;
+		}else {
+			return dao.updateJob(param);			
+		}
+	}
+	
 	
 	
 }

@@ -48,4 +48,13 @@ public interface EmployeeMapper {
 	int updateApprov(Map<String, Object> param);
 	
 	int updateEmployee(EmployeeUpdateInfo approvEmpInfo);
+	
+	Job selectJobByName(String jobName);
+	
+	int insertJob(Map<String, Object> param);
+	
+	int deleteJob(String jobCode);
+	
+	int updateJob(Map<String, Object> param);
+	
 }

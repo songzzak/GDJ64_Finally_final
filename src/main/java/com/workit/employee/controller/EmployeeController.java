@@ -106,6 +106,26 @@ public class EmployeeController {
 		return "employee/manageJob";
 	}
 	
+	//직책 추가
+	@PostMapping("/job")
+	@ResponseBody
+	public int insertJob(@RequestBody Map<String,Object> param) {
+		return service.insertJob(param);
+	}
+	
+	//직책 삭제
+	@DeleteMapping("/job")
+	@ResponseBody
+	public int deleteJob(@RequestParam(value="jobCode") String jobCode) {
+		return service.deleteJob(jobCode);
+	}
+	
+	@PutMapping("/job")
+	@ResponseBody
+	public int updateJob(@RequestBody Map<String,Object> param) {
+		return service.updateJob(param);
+	}
+	
 	//회원 정보 수정 화면
 	@GetMapping("/memberId")
 	public String UpdateEmpView(Model model, @RequestParam(value="id") String id) {

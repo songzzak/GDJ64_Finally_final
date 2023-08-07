@@ -107,5 +107,25 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public int updateEmployee(EmployeeUpdateInfo approvEmpInfo) {
 		return mapper.updateEmployee(approvEmpInfo);
 	}
+
+	@Override
+	public Job selectJobByName(String jobName) {
+		return mapper.selectJobByName(jobName);
+	}
+
+	@Override
+	public int insertJob(Map<String, Object> param) {
+		return mapper.insertJob(param);
+	}
+
+	@Override
+	public int deleteJob(String jobCode) {
+		return mapper.deleteJob(jobCode);
+	}
+
+	@Override
+	public int updateJob(Map<String, Object> param) {
+		return mapper.updateJob(param);
+	}
 	
 }
