@@ -2,8 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.workit.member.model.dto.Member"  %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
-         
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>        
  <%
    Member loginMember=(Member)session.getAttribute("loginMember");
   %>                  

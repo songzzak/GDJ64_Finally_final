@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<script>
-const path2 = "${pageContext.request.contextPath}";
-</script>
 
   <section>
 	<div class="approve hidden-approve">
@@ -29,5 +26,6 @@ const path2 = "${pageContext.request.contextPath}";
 </section>  
 <link rel="stylesheet" href="${path}/resources/css/approve/select-payment-form.css">
 <script src="${path}/resources/js/approve/select-payment-form.js"></script>
+
 
   

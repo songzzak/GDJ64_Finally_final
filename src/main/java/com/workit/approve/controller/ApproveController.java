@@ -2,6 +2,8 @@ package com.workit.approve.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.Time;
 import com.workit.approve.model.service.ApproveService;
 import com.workit.employee.service.EmployeeService;
 import com.workit.member.model.dto.Department;
@@ -123,31 +126,29 @@ public class ApproveController {
         
 		
         
-		/*
-		 * Approve ap = Approve.builder().approveTitle(title).approveContent(content)
-		 * .memberId(memberId).approveKind(approveKind).build(); int result =
-		 * service.insertApprove(ap); // 기안서 테이블 생성 System.out.println(result);
-		 * 
-		 * 
-		 * 
-		 * startTime = extendWorkDate+" "+startTime; endTime =
-		 * extendWorkDate+" "+endTime;
-		 * 
-		 * DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); Date date =
-		 * df.parse(startTime); long stime = date.getTime();
-		 * 
-		 * Date date2 = df.parse(endTime); long etime = date2.getTime();
-		 * 
-		 * Timestamp st = new Timestamp(stime); Timestamp et = new Timestamp(etime);
-		 * 
-		 * System.out.println(st.getClass().getName()); System.out.println(st);
-		 * 
-		 * System.out.println(et.getClass().getName()); System.out.println(et); Time t =
-		 * Time.builder().startTime(st).endTime(et).build();
-		 * 
-		 * int result2 = service.insertTime(t); System.out.println(result2);
-		 */
+
+		Approve ap = Approve.builder().approveTitle(title).approveContent(content)
+				.memberId(memberId).approveKind(approveKind).build(); 
+		int result = service.insertApprove(ap); // 기안서 테이블 생성 System.out.println(result);
+
+
+		 startTime = extendWorkDate+" "+startTime; 
+		 endTime = extendWorkDate+" "+endTime;
+		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+		 Date date = df.parse(startTime); 
+		 long stime = date.getTime();
+
+		 Date date2 = df.parse(endTime); 
+		 long etime = date2.getTime();
 		
+		 Timestamp st = new Timestamp(stime); Timestamp et = new Timestamp(etime);
+		 System.out.println(st.getClass().getName()); System.out.println(st);
+		 
+		 System.out.println(et.getClass().getName()); System.out.println(et); 
+		 Time t = Time.builder().startTime(st).endTime(et).build();
+		
+		 int result2 = service.insertTime(t); System.out.println(result2);
+
 		
 		if (!upFile.getOriginalFilename().equals("")) {  // 첨부파일 추가했을경우
 			String oriName=upFile.getOriginalFilename(); // 원본이름
@@ -159,7 +160,7 @@ public class ApproveController {
 			try {
 				upFile.transferTo(new File(path + rename));
 				ApproveAttach aa = ApproveAttach.builder().oriName(oriName).saveName(rename).build();
-				int result3 = service.insertApproveAttach(aa);
+				int result3 = service.insertApproveAttach(aa);  // 첨부파일 테이블 생성
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
