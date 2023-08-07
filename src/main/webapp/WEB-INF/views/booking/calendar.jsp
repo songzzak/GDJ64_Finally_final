@@ -3,6 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <section class="max1920px">
+<link href='fullcalendar/main.css' rel='stylesheet' />
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.8/index.global.min.js'></script>
 	<!-- <script>
@@ -50,7 +51,6 @@
       				<div class="fc-button-group">
       					<button type="button" title="day view" aria-pressed="true" class="fc-resourceTimelineDay-button fc-button fc-button-primary fc-button-active">day</button>
       					<button type="button" title="week view" aria-pressed="false" class="fc-resourceTimelineWeek-button fc-button fc-button-primary">week</button>
-      					<button type="button" title="month view" aria-pressed="false" class="fc-resourceTimelineMonth-button fc-button fc-button-primary">month</button>
       				</div>
       			</div>
       		</div>
@@ -97,22 +97,6 @@
       										<div class="fc-timeline-header">
       											<table aria-hidden="true" class="fc-scrollgrid-sync-table" style="min-width: 1440px; width: 637px;">
       												<colgroup>
-      													<%-- <col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;"> --%>
       													<col style="min-width: 30px;">
       													<col style="min-width: 30px;">
       													<col style="min-width: 30px;">
@@ -140,54 +124,9 @@
       													<col style="min-width: 30px;">
       													<col style="min-width: 30px;">
       													<col style="min-width: 30px;">
-      											<%-- 		<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;"> --%>
       												</colgroup>
       												<tbody>
       													<tr class="fc-timeline-header-row fc-timeline-header-row-chrono">
-      														<th colspan="2" data-date="2023-08-07T00:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-past">
-      														<!-- 	<div class="fc-timeline-slot-frame" style="height: 33px;">
-      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner" style="left: 287.438px; right: 287.438px; top: 0px;">12am</a>
-      															</div>
-      														</th>
-      														<th colspan="2" data-date="2023-08-07T01:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-past">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;">
-      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">1am</a>
-      															</div>
-      														</th>
-      														<th colspan="2" data-date="2023-08-07T02:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;">
-      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">2am</a>
-      															</div>
-      														</th>
-      														<th colspan="2" data-date="2023-08-07T03:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;">
-      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">3am</a>
-      															</div>
-      														</th>
-      														<th colspan="2" data-date="2023-08-07T04:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;">
-      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">4am</a>
-      															</div>
-      														</th>
-      														<th colspan="2" data-date="2023-08-07T05:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;">
-      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">5am</a>
-      															</div>
-      														</th>
-      														<th colspan="2" data-date="2023-08-07T06:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;">
-      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">6am</a>
-      															</div>
-      														</th>
-      														<th colspan="2" data-date="2023-08-07T07:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;">
-      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">7am</a>
-      															</div>
-      														</th> -->
       														<th colspan="2" data-date="2023-08-07T08:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
       															<div class="fc-timeline-slot-frame" style="height: 33px;">
       																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">8am</a>
@@ -234,26 +173,30 @@
       															</div>
       														</th>
       														<th colspan="2" data-date="2023-08-07T17:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;"><a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">5pm</a></div>
+      															<div class="fc-timeline-slot-frame" style="height: 33px;">
+      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">5pm</a>
+      															</div>
       														</th>
       														<th colspan="2" data-date="2023-08-07T18:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;"><a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">6pm</a></div>
+      															<div class="fc-timeline-slot-frame" style="height: 33px;">
+      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">6pm</a>
+      															</div>
       														</th>
       														<th colspan="2" data-date="2023-08-07T19:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;"><a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">7pm</a></div>
+      															<div class="fc-timeline-slot-frame" style="height: 33px;">
+      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">7pm</a>
+      															</div>
       														</th>
       														<th colspan="2" data-date="2023-08-07T20:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;"><a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">8pm</a></div>
+      															<div class="fc-timeline-slot-frame" style="height: 33px;">
+      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">8pm</a>
+      															</div>
       														</th>
       														<th colspan="2" data-date="2023-08-07T21:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;"><a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">9pm</a></div>
+      															<div class="fc-timeline-slot-frame" style="height: 33px;">
+      																<a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">9pm</a>
+      															</div>
       														</th>
-      												<!-- 		<th colspan="2" data-date="2023-08-07T22:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;"><a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">10pm</a></div>
-      														</th>
-      														<th colspan="2" data-date="2023-08-07T23:00:00" class="fc-timeline-slot fc-timeline-slot-label fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      															<div class="fc-timeline-slot-frame" style="height: 33px;"><a class="fc-timeline-slot-cushion fc-scrollgrid-sync-inner">11pm</a></div>
-      														</th> -->
       													</tr>
       												</tbody>
       											</table>
@@ -345,246 +288,6 @@
       														</div>
       													</td>
       												</tr>
-      										<!-- 		<tr role="row">
-      													<td role="gridcell" data-resource-id="g" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium G</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="h" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium H</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="i" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium I</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="j" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium J</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="k" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium K</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="l" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium L</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="m" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium M</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="n" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium N</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="o" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium O</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="p" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium P</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="q" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium Q</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="r" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium R</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="s" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium S</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="t" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium T</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="u" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium U</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="v" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium V</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="w" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium W</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="x" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium X</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="y" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium Y</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr>
-      												<tr role="row">
-      													<td role="gridcell" data-resource-id="z" class="fc-datagrid-cell fc-resource">
-      														<div class="fc-datagrid-cell-frame" style="height: 33px;">
-      															<div class="fc-datagrid-cell-cushion fc-scrollgrid-sync-inner">
-      																<span class="fc-datagrid-expander fc-datagrid-expander-placeholder">
-      																	<span class="fc-icon"></span>
-      																</span>
-      																<span class="fc-datagrid-cell-main">Auditorium Z</span>
-      															</div>
-      														</div>
-      													</td>
-      												</tr> -->
       											</tbody>
       										</table>
       									</div>
@@ -597,22 +300,6 @@
       										<div class="fc-timeline-body " style="min-width: 1440px;">
       											<div class="fc-timeline-slots"><table aria-hidden="true" class="" style="min-width: 1440px; width: 637px;">
       												<colgroup>
-      													<%-- <col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;"> --%>
       													<col style="min-width: 30px;">
       													<col style="min-width: 30px;">
       													<col style="min-width: 30px;">
@@ -640,62 +327,9 @@
       													<col style="min-width: 30px;">
       													<col style="min-width: 30px;">
       													<col style="min-width: 30px;">
-      											<%-- 		<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;">
-      													<col style="min-width: 30px;"> --%>
       												</colgroup>
       											<tbody>
       												<tr>
-      													<!-- <td data-date="2023-08-07T00:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-past">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T00:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-past">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T01:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-past">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T01:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-past">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T02:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T02:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T03:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T03:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T04:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T04:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T05:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T05:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T06:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T06:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T07:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T07:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td> -->
       													<td data-date="2023-08-07T08:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
       														<div></div>
       													</td>
@@ -777,21 +411,6 @@
       													<td data-date="2023-08-07T21:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
       														<div></div>
       													</td>
-<!--       													<td data-date="2023-08-07T21:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T22:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T22:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T23:00:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-major fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td>
-      													<td data-date="2023-08-07T23:30:00" class="fc-timeline-slot fc-timeline-slot-lane fc-timeline-slot-minor fc-slot fc-slot-mon fc-slot-today fc-slot-future">
-      														<div></div>
-      													</td> -->
       												</tr>
       											</tbody>
       										</table>

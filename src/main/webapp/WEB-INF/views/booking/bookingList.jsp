@@ -30,7 +30,6 @@
 					<th>이용날짜</th>
 					<th>이용시설</th>
 					<th>이용시간</th>
-					<th>주관부서</th>
 					<th>비고</th>
 				</tr>
 				<c:if test="${empty list }">
@@ -40,12 +39,11 @@
 				</c:if>
 				<c:forEach var="b" items="${list }">
 					<tr>
-						<td>${b.purpose }</td>
-						<td>${b.bookingName }</td>
+						<td><c:if test="${b.purpose }==0?"상담":"회의"/></td>
+						<td>${b.memberId }</td>
 						<td>${b.bookingDate }</td>
 						<td>${b.facNo }</td>
 						<td>${b.startTime }~${b.endTime }</td>
-						<td>${b.deptCode }</td>
 						<td><a href="${path }/booking/bookingDetail.do?bookingNo=${b.bookingNo}">더보기</a></td>
 					</tr>
 				</c:forEach>
