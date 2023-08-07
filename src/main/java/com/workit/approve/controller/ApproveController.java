@@ -92,6 +92,7 @@ public class ApproveController {
 	@ResponseBody // 비동기식으로 받기위해서 @ResponseBody 어노테이션을 사용해야함
 	public List<Member> changeDep(String deptName){ // 선택한 부서에 맞는 사원들 리스트로 반환
 		List<Member> m = service.changeDep(deptName);
+		System.out.println(m);
 		return m;
 	}
 	
@@ -100,6 +101,19 @@ public class ApproveController {
 	@ResponseBody // 비동기식으로 받기위해서 @ResponseBody 어노테이션을 사용해야함
 	public Member printMember(String memberId){ // 선택한 부서에 맞는 사원들 리스트로 반환
 		return service.printMember(memberId);
+	}
+	
+	
+	
+	@RequestMapping("/insertDraft.do")
+	public String insertDraft(String memberId, String writeTime, String extendWorkDate, String startTime, String endTime, String content, String title) {
+		System.out.println(memberId);
+		System.out.println(extendWorkDate);
+		System.out.println(startTime);
+		System.out.println(endTime);
+		System.out.println(title);
+		System.out.println(content);
+		return null;
 	}
 	
 	
