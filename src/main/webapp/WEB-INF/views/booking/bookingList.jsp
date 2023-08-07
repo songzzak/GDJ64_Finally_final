@@ -5,11 +5,13 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <section class="max1920px">
 <jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 	<div class="main-section section-shadow card">
       	<div class="right-container">
 			<h3>시설 예약 내역</h3>
 	<!-- 전체 예약(사용 전/후 모두 포함)에 대한 내역조회 -->
 	<!-- 신청자/날짜로 조회 가능 -->
+			<button onclick="location.assign('${path}/booking/calendar.jsp')">캘린더</button>
 			<form id="searchBookingFrm">
 				<select name="type">
 					<option value="" selected>날짜/예약자로 검색</option>
