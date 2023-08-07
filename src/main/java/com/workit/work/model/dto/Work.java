@@ -19,4 +19,7 @@ public class Work {
 	private Timestamp workEnd;
 	private String workStatus;
 	private String memberId;
+	//DB를 이용해서 계산식이 필요한 필드추가
+	private String totalWorkTime;
+    private String overtime;
 }
