@@ -55,15 +55,8 @@
 	let loginMember = '${loginMember.memberId}';
 	console.log(loginMember);
 	let chatroomContainer = $(".chat-room-list");
+	let chatroomHeader = $(".chatRoom-container .chat-header .title");
 	
-	// null값 체크하는 함수 
-	function fn_checkNull(str) {
-		let newStr = str;
-		if (newStr == null || newStr == "" || newStr == undefined || newStr == "undefined") {
-			newStr = "";
-		}
-		return newStr;
-	}
 	$(".searchChatRoomIcon").click(e => {
 		let keyword = $(".searchChatRoomList").val();
 		$.ajax({
@@ -80,59 +73,129 @@
 			}
 		})
 	})
+	const checkId = $(".chat-msg-Id").length;
+	let adsgd = document.querySelector(".chat-msg-Id");
+	var chatMsg;
+	const fn_openChatroom=()=>{
+		$.ajax({
+			url: "${path}/chat/chatroom",
+			//type:"post",
+			type: "get",
+			data: {
+				chatroomId: chatroomId
+			},
+			/* beforeSend: data => { // ajax 통신 시작 전
+				alert("gg");
+				console.log("chatroomid :" , chatroomId);
+			}, */
+			success: data => {
+				console.log(data);
+				fn_viewChatMsg(data);
+			}
+		});
+	}
+	
+	const fn_viewChatMsg=(data)=>{
+		data.forEach(e => {
+			$(".chatRoom-container .chat-header .title").text(e.chatroomTitle)
+;			let divPrevChat = $("<div>").attr("class","prev-chat");
+			if(chatroomId!=null && chatroomId==e.chatroomId){
+				console.log("e =", e);
+				$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
+				if(e.chatroomCode =="P") {
+					$(".addPersonIcon").attr("class","chatHidden");
+				}
+				$(".chat-input-container").css("display","flex");
+				$(".chat-room-nothing").attr("class","chatHidden");
+				var chat = (e.chat);
+				
+				chat.forEach(c => {
+					
+					if (c.memberId == loginMember) {
+						var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
+						chatMsg.append($("<span>").attr("class", "chat-date").text(c.chatDate));
+						chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
+						chatMsg.append($("<input type='hidden'>").attr("value",c.chatId).attr("class","chat-msg-Id"));
+
+					} else {
+						var chatMsg = $("<div>").attr("class", "chat-msg");
+						chatMsg.append($("<h5>").append($("<a>").text(c.memberId).attr("class",c.memberId)));
+						chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
+						chatMsg.append($("<span>").attr("class", "chat-date").text(c.chatDate));
+						chatMsg.append($("<input type='hidden'>").attr("value",c.chatId).attr("class","chat-msg-Id"));
+					}
+					chatMsg.append($("<input>").attr("type", "hidden").attr("value", e.chatroomId).attr("class","roomId"));
+					divPrevChat.append(chatMsg);
+				})
+				$(".chatRoom-container .chat-room-inner .chat-msgBox-container").append(divPrevChat);
+				
+			}
+		}) 
+	}
 	$(".chat-room").click(e => {
 		if ($(e.target) == $(".chat-room")) {
 			//roomId = $(e.target).find($('input[type="hidden"]')).val();
 			console.log($(e.target));
 		} else {
-			roomId = $(e.target).parent().find($('input[type="hidden"]')).val();
-			console.log(roomId);
+			chatroomId = $(e.target).parent().find($('input[type="hidden"]')).val();
+			console.log(chatroomId);
 		}
-		$.ajax({
+		$(".chat-msgBox-container").empty();
+		fn_openChatroom();
+		/* $.ajax({
 			url: "${path}/chat/chatroom",
 			//type:"post",
 			type: "get",
 			data: {
 				chatroomId: roomId
 			}
-			, success: data => {
+			,success: data => {
 				console.log(data);
 				data.forEach(e => {
 					//open("${path}/chat/chattingpage","_blank","width:400","height:500");
 					//location.assign("${path}/chat/chatting?id=" + e.chatroomId);
-					console.log(e)
+					console.log("e =", e);
+					$(".chatRoom-container .chat-header .title").text(e.chatroomTitle);
+					$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
+					if(e.chatroomCode =="P") {
+						$(".addPersonIcon").attr("class","chatHidden");
+					}
+					$(".chat-input-container").css("display","flex");
+					$(".chat-room-nothing").attr("class","chatHidden");
 					var chat = (e.chat);
 					let divPrevChat = $("<div>").attr("class","prev-chat");
-					//divPrevChat.append($("<hr>")).append($("<h5>").text("이전 메세지"));
+					
 					chat.forEach(c => {
-						if (e.memberId == loginMember) {
+						if (c.memberId == loginMember) {
 							var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
+							chatMsg.append($("<span>").attr("class", "chat-date").text(c.chatDate));
+							chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
 	
 						} else {
-							var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
-							chatMsg.append($("<h5>").text(e.memberName));
+							var chatMsg = $("<div>").attr("class", "chat-msg");
+							chatMsg.append($("<h5>").text(c.memberId));
+							chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
+							chatMsg.append($("<span>").attr("class", "chat-date").text(c.chatDate));
 	
 						}
-						chatMsg.append($("<span>").attr("class", "chat-date").text(c.chatDate));
-						chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
 						chatMsg.append($("<input>").attr("type", "hidden").attr("value", e.chatroomId).attr("class","roomId"));
 						divPrevChat.append(chatMsg);
 					})
-					divPrevChat.append($("<hr>")).append($("<button class='startChat'>").text("채팅 시작"));
 					$(".chatRoom-container .chat-room-inner").append(divPrevChat);
 				}) 
 			}
-		});
+		}); */
 	})
 	
 	
-	$(document).on("click",".startChat",function(e){
+	/* $(document).on("click",".startChat",function(e){
 		//alert("sgsd");
 		let target = e.target;
 		let id = target.previousElementSibling.previousElementSibling.lastChild.value;
 		console.log(id);
 		location.href="${path}/chat/chatting";
-	});
+	}); */
+	
 	function fn_exitCreateChat() {
 		$(".modalNewChat").css("display", "none");
 	}
@@ -172,29 +235,20 @@
 	
 	// 채팅 추가
 	$(".addChatIcon").click(e => {
+		$(".chat-room-nothing").attr("class","chatHidden");
+		chatroomHeader.text("채팅 생성");
 		let modalNewChatDiv = $(".modalNewChat");
 		//$(document).css("overflow","auto");
 		//$(".chatRoom-container *").css('display','none');
-		modalNewChatDiv.css("display", "block");
+		/* modalNewChatDiv.css("display", "block");
 		const header = $("<h3>").text("채팅 생성");
 		const exit = $("<button onclick='fn_exitCreateChat()'>").text("X");
 		modalNewChatDiv.append(header);
-		modalNewChatDiv.append(exit);
+		modalNewChatDiv.append(exit); */
 		chatCode = 'P';
-	
-		// 부서 출력 
-		const deptDiv = $("<form class='chat-DeptContainer'>");
-		deptDiv.attr("method", "post");
-		deptDiv.attr("action", "${path}/chat/start");
-		deptDiv.append($("<label>").attr("for", "chatroomTitle").text("채팅 방 제목"));
-		deptDiv.append($("<input type='text' name='chatroomTitle'>"));
-		let deptArr = ['운영팀', '취업팀', '인사팀', '경영팀', '홍보팀', '행정팀'];
-		deptArr.forEach(e => {
-			chatDept = $("<div class='chat-dept'>")
-			chatDept.append($("<h4 class='title'>").append($("<a class='chatDept'>").text(e)));
-			deptDiv.append(chatDept);
-			modalNewChatDiv.append(deptDiv);
-		});
+		
+		open("${path}/chat/modalMember","_blank","width=600,height=600");
+		
 	
 		// 부서명 누르면 해당 직원 출력
 		$(".chat-dept").click(e => {
@@ -239,17 +293,6 @@
 			success: data => {
 				console.log(data);
 				fn_viewChatList(data);
-				/* let chatroom = $(".chat-room");
-				chatroom.text("");
-				data.forEach(e=>{
-					chatroom.append($("<h5>").text(e.chatroomTitle));
-					var chat = (e.chat)
-					chat.forEach(c=>{
-						chatroom.append($("<span>").text(c.chatContent));
-						chatroom.append($("<span>").text(c.chatDate));
-					})
-					chatroom.append($("<input>").attr("type","hidden").attr("value",e.chatroomId));
-				}) */
 			}
 		});
 	})

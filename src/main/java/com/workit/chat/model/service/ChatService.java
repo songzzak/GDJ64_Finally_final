@@ -23,4 +23,7 @@ public interface ChatService {
 	
 	int insertChat(Chat chat);
 	List<MyChatroom> selectChatMember(String chatroomId);
+	
+	
+	List<MyChatroom> checkChatroomMember(String chatroomId);
  }

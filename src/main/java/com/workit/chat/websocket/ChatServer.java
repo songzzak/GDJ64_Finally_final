@@ -14,7 +14,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workit.chat.model.dto.Chat;
-import com.workit.chat.model.dto.MyChatroom;
 import com.workit.chat.model.service.ChatService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,11 +31,13 @@ public class ChatServer extends TextWebSocketHandler {
 	}
 	
 	private Map<String,WebSocketSession> clients = new HashMap<String, WebSocketSession>();
+	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.info("{}","접속");
-		log.info("{}",session.getId());
+		log.info(session.getId()+" "+session.getRemoteAddress());
 	}
+	
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -46,39 +47,31 @@ public class ChatServer extends TextWebSocketHandler {
 		log.info("{}", chat);
 		int result = service.insertChat(chat);
 		if(result>0) {
-			//성공
 			log.info("{}","성공");
-			sendChat(chat);
 			log.info("{}",service.selectChatMember(chat.getChatroomId()));
-			List<MyChatroom> chatMembers = service.selectChatMember(chat.getChatroomId());
-			chattingMember(chatMembers);
+			String sender = chat.getMemberId();
+			clients.put(sender, session);
+			log.info("sender");
+			log.info("{}", sender);
+			log.info("현재접속자 : "+clients.size());
+			sendChat(chat);
 		}else {
-			// fail z
-		}
-	}
-	private Map<String, Object> members= null;
-	
-	private void chattingMember(List<MyChatroom> chatMembers) {
-		log.info("{}", chatMembers);
-		for(MyChatroom m : chatMembers) {
-			log.info("{}",m.getMember().getMemberId());
 		}
 	}
 	
 	private void sendChat(Chat chat) {
-//		Set<Map.Entry<String,WebSocketSession>> clients=this.clients.entrySet();
-//		try {
-//			for(Map.Entry<String,WebSocketSession> client:clients) {
-//				String userId=client.getKey();
-//				log.info("{}", userId);
-//				client.getValue().sendMessage(
-//						new TextMessage(mapper.writeValueAsString(chat))
-//						);
-//				log.info("{}", client.getValue());
-//			}
-//		}catch(IOException e){
-//			e.printStackTrace();
-//		}
+		log.info("send Chat method");
+		Set<Map.Entry<String,WebSocketSession>> clients=this.clients.entrySet();
+		try {
+			for(Map.Entry<String,WebSocketSession> client:clients) {
+				String userId=client.getKey();
+				log.info("{}", userId);
+				client.getValue().sendMessage(new TextMessage(mapper.writeValueAsString(chat)));
+				log.info("{}", client.getValue());
+			}
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	

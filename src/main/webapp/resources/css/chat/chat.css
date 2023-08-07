@@ -55,6 +55,13 @@ h5 {
 	width: 70%;
 	margin-top: 0;
 }
+.chat-msgBox-container {
+	width:100%;
+	max-height: 700px;
+	overflow-y: scroll;
+    overflow-x: hidden;
+    padding-bottom: 1%;
+}
 .chat-inner{
 	position: relative;
 }
@@ -139,7 +146,9 @@ h5 {
 .chat-send>.chat-msgbx {
 	background-color: var(--msg-color-blue);
 }
-
+.chat-input-container {
+	margin: 1rem 3rem;
+}
 .chat-msgform {
 	position: absolute;
 	bottom: 2rem;
@@ -258,6 +267,16 @@ h5 {
 	display: block;
 }
 
+.chat-room-nothing{
+	text-align: center;
+	margin: 30% 0;
+}
+.chat-room-nothing img{
+	margin-bottom: 2%;
+}
+.chatHidden {
+	display: none;
+}
 
 
 

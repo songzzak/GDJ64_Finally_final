@@ -105,6 +105,12 @@ public class ChatDaoImpl implements ChatDao {
 		log.info("{}", mapper.selectChatMember(chatroomId));
 		return mapper.selectChatMember(chatroomId);
 	}
+
+	@Override
+	public List<MyChatroom> checkChatroomMemberAll(String chatroomId) {
+		return mapper.checkChatroomMemberAll(chatroomId);
+	}
+	
 	
 	
 	

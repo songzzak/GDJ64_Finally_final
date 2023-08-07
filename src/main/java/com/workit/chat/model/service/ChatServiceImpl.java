@@ -131,6 +131,11 @@ public class ChatServiceImpl implements ChatService {
 	public List<MyChatroom> selectChatMember(String chatroomId) {
 		return dao.selectChatMember(chatroomId);
 	}
+
+	@Override
+	public List<MyChatroom> checkChatroomMember(String chatroomId) {
+		return dao.checkChatroomMemberAll(chatroomId);
+	}
 	
 	
 	

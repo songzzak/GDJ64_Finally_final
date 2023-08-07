@@ -37,4 +37,6 @@ public interface ChatMapper {
 	
 	int insertChat(Chat chat);
 	List<MyChatroom> selectChatMember(String chatroomId);
+	
+	List<MyChatroom> checkChatroomMemberAll(String chatroomId);
 }

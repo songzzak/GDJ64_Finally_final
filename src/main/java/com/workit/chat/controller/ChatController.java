@@ -25,6 +25,7 @@ import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
 import com.workit.chat.model.service.ChatService;
+import com.workit.employee.service.EmployeeService;
 import com.workit.member.model.dto.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +38,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatController {
 	
 	private ChatService service;
+	private EmployeeService empService;
 	
-	public ChatController(ChatService service) {
+	public ChatController(ChatService service, EmployeeService empService) {
 		this.service = service;
+		this.empService = empService;
 	}
 	
 	// 전체 채팅창 목록
@@ -52,24 +55,9 @@ public class ChatController {
 		return "/chat/chat";
 	}
 	
-	// 선택한 채팅창 보여주기
-//	@GetMapping("/chatroom")
-//	public String selectChatroom(@RequestParam(value="chatroomId")String chatroomId, Model model, HttpSession session) {
-//		log.info("{}", chatroomId);
-//		log.info("{}", service.selectChatByChatroomId(chatroomId));
-//		Member loginMember = (Member)session.getAttribute("loginMember");
-//		String memberId = loginMember.getMemberId();
-//		model.addAttribute("chatroomList",service.selectMyChatroomById(memberId));
-//		model.addAttribute("chatroom", service.selectChatByChatroomId(chatroomId));
-//		return "/chat/chat";
-//	}
-	
 	@GetMapping("/chatroom")
 	@ResponseBody
 	public List<MyChatroom> selectChatroom(Map<String, Object> param, @RequestParam(value="chatroomId")String chatroomId,HttpSession session, Model model) {
-		Member loginMember = (Member)session.getAttribute("loginMember");
-		String memberId = loginMember.getMemberId();
-		model.addAttribute("chatroomList",service.selectMyChatroomById(memberId));
 		model.addAttribute("chatroomId",chatroomId);
 		session.setAttribute("chatroomId", chatroomId);
 		log.info("{}", chatroomId);
@@ -94,11 +82,6 @@ public class ChatController {
 		return service.selectMemberAll();
 	}
 	
-	// 채팅 웹소켓
-//	@GetMapping("/start")
-//	public String startChat() {
-//		return "/chat/chattingpage";
-//	}
 	@GetMapping("/chatting")
 	public String startChat() {
 		return "/chat/chat";
@@ -138,17 +121,35 @@ public class ChatController {
 		
 		String chatroomId = service.insertChatroom(param);
 		model.addAttribute("chatroomId",chatroomId);
-		return "chat/chat";
+		return "chat/";
 	}
 	
 	// 채팅 나가기 
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public int deleteMyChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam(value="loginMember")String loginMember) {
-		log.info("{}", chatroomId);
+		//log.info("{}", chatroomId);
 //		Member member = (Member)session.getAttribute("loginMember");
 //		String loginMember = member.getMemberId();
 		return service.deleteMyChatroom(Map.of("chatroomId",chatroomId, "loginMember",loginMember));
+	}
+	
+	@RequestMapping("/modalMember")
+	public String viewModalMember(HttpSession session, Model model) {
+		log.info("{}", session.getAttribute("chatroomId"));
+		String chatroomId = (String)session.getAttribute("chatroomId");
+		model.addAttribute("chatMemberNow",service.checkChatroomMember(chatroomId));
+		model.addAttribute("dept", empService.selectDept());
+		model.addAttribute("members", service.selectMemberAll());
+		return "chat/modalMember";
+	}
+	
+	@PostMapping("/member")
+	@ResponseBody
+	public List<MyChatroom> selectChatMemberById(@RequestParam(value="chatroomId")String chatroomId){
+		log.info("{}", chatroomId);
+		log.info("{}", service.checkChatroomMember(chatroomId));
+		return service.checkChatroomMember(chatroomId);
 	}
 	
 	// 파일 업로드 

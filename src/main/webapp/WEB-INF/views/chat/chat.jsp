@@ -14,19 +14,24 @@
 			<jsp:include page="/WEB-INF/views/chat/chattingpage.jsp"/>
 		</div>
 </section>
-<script>
+<!-- <script>
+	function fn_chatReload(){ 
+		console.log("reload");
+	    $(".chatRoom-container .chat-room-inner").load(window.location.href + ".chatRoom-container .chat-room-inner");
+	}
 	chatroomId= '${chatroomId}';
 		console.log(chatroomId);
 		console.log(loginMember);
 		const websocket= new WebSocket("ws://localhost:8080/chatting");
 		websocket.onopen=data=>{
 			console.log(data);
-			//websocket.send(JSON.stringify(new Chat("1","user","hi")));
+			websocket.send(JSON.stringify(new Chat("",loginMember,"")));
 		}
 		websocket.onmessage=data=>{
 			console.log(data);
 			const chat=JSON.parse(data.data);
 			console.log(chat);
+			fn_chatReload();
 		}
 		$(".sendChat").click(e=>{
 			const chatContent=$(".chat-msg-input").val();
@@ -40,7 +45,7 @@
 				this.chatContent = chatContent;
 			}
 		} 
-</script>
+</script> -->
 <script src="${path}/resources/js/chat/chat.js"></script>
 </body>
 </html>

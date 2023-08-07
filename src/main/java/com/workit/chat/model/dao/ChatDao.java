@@ -23,11 +23,15 @@ public interface ChatDao {
 	void insertChatroom(Map<String, Object> param);
 	int insertMyChatroom(Map<String, Object> param);
 	List<Member> selectMemberAll();
+	
 	int deleteMyChatroom(Map<String, Object> param);
 	List<MyChatroom> selectChatByChatroomId(String chatroomId);
 	List<MyChatroom> searchChatroomByKeyword(Map<String, Object> param);
 	
 	int insertChat(Chat chat);
 	List<MyChatroom> selectChatMember(String chatroomId);
+	List<MyChatroom> checkChatroomMemberAll(String chatroomId);
+	
+	
 	
 }
