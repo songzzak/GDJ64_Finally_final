@@ -27,4 +27,6 @@ public interface WorkDao {
 	int earlyLeaveCount(SqlSessionTemplate session, Map<String, Object> paramMap);
 
 	int insertWorkchange(SqlSessionTemplate session, WorkChange wc);
+
+	List<WorkChange> selectAllWorkChange(SqlSessionTemplate session);
 }

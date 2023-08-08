@@ -68,6 +68,11 @@ public class WorkServiceImpl implements WorkService {
 		return dao.insertWorkchange(session,wc);
 	}
 
+	@Override
+	public List<WorkChange> selectAllWorkChange() {
+		return dao.selectAllWorkChange(session);
+	}
+
 
 
 }

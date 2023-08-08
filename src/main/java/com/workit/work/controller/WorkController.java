@@ -277,6 +277,15 @@ public class WorkController {
          response.getWriter().write(json);
 	 }
 
+	 @GetMapping("/workChange")
+	 public String workChangeList(Model model) {
+		 
+		 List<WorkChange> workChangeList = service.selectAllWorkChange();
+		 model.addAttribute("workChangeList", workChangeList);
+		workChangeList.forEach(System.out::println);
+		
+		 return "/work/workChangeList";
+	 }
 
 	 	
 	 	

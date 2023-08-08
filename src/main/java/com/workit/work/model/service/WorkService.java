@@ -31,6 +31,8 @@ public interface WorkService {
 
 	//출퇴근 수정요청
 	int insertWorkchange(WorkChange wc);
+	//출퇴근 요청 리스트
+	List<WorkChange> selectAllWorkChange();
 
 
 

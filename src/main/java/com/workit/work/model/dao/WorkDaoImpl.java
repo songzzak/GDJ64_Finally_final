@@ -59,4 +59,9 @@ public class WorkDaoImpl implements WorkDao {
 		return session.insert("work.insertWorkchange",wc);
 	}
 
+	@Override
+	public List<WorkChange> selectAllWorkChange(SqlSessionTemplate session) {
+		return session.selectList("work.selectAllWorkChange");
+	}
+
 }
