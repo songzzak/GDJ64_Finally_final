@@ -6,9 +6,6 @@
 <section class="max1920px">
 <jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-<style type="text/css">
-	form
-</style>
 	<div class="main-section section-shadow card">
       	<div class="right-container">
 			<h3>시설 예약 내역</h3>
@@ -16,30 +13,30 @@
 	<!-- 신청자/날짜로 조회 가능 -->
 			<button type="button" onclick="location.assign('${path}/booking/showCalendar.do')">캘린더</button>
 			
-			<form id="searchBookingFrm">
-				<select name="type" id="searchType" onchange="changeSelection()">
-					<option value="" selected disabled>날짜/예약자로 검색</option>
-					<option value="bookingDate">날짜</option>
-					<option value="memberId">예약자</option>
-				</select>
+			<div id="search-container">
+			<select name="type" id="searchType">
+				<option value="" selected disabled>날짜/예약자로 검색</option>
+				<option value="bookingDate">날짜</option>
+				<option value="memberId">예약자</option>
+			</select>
 				<!-- <input type="date" name="bookingDate">
 				<input type="text" name="memberId" placeholder="예약자 이름을 입력하세요">
 				<button>검색</button> -->
-				<div id="searchDate">
-					<form action="${path }/booking/searchDate.do">
-						<input type="hidden" name="searchType" value="bookingDate">
-						<input type="text" name="searchKeyword" size="25" placeholder="예)2023년 8월 1일=>20230801">
-						<button type="submit">검색</button>
-					</form>
-				</div>
-				<div id="searchMemberId">
-					<form action="${path }/booking/searchMemberId.do">
-						<input type="hidden" name="searchType" value="memberId">
-						<input type="text" name="searchKeyword" placeholder="예약자 이름을 입력하세요">
-						<button type="submit">검색</button>
-					</form>
-				</div>
-			</form>
+			<div id="search-bookingDate">
+				<form action="${path }/booking/searchDate.do">
+					<input type="hidden" name="searchType" value="bookingDate">
+					<input type="text" name="searchKeyword" size="25" placeholder="예)2023년 8월 1일=>20230801">
+					<button type="submit">검색</button>
+				</form>
+			</div>
+			<div id="search-memberId">
+				<form action="${path }/booking/searchMemberId.do">
+					<input type="hidden" name="searchType" value="memberId">
+					<input type="text" name="searchKeyword" placeholder="예약자 이름을 입력하세요">
+					<button type="submit">검색</button>
+				</form>
+			</div>
+			</div>
 			
 			<button type="button" onclick="location.assign('${path}/booking/addBooking.do')">예약하기</button>
  			
@@ -90,10 +87,11 @@
 </section>
 <script>
 /* select 바뀌는것에 따라 뒤의 인풋 종류 바뀌게] */
-	function changeSelection(){ 
- 		
- 		${"#searchOption oprion:selected"}.val()
-	}
+	${"#searchType"}.change(e=>{
+		const type=${e.target}.val();
+		${e.target}.parent().find("div").css("display","none");
+		${"#search-"+type}.css("display","inline-block");
+	})
 /*display:none으로 먼저 두고 앞의 셀렉트 타입에 맞게 선택되면 그 인풋 보이도록 */
 /*부모창에서 모달로 데이터 넘기기 */
     $('#exampleModal').on('show.bs.modal', function (event) {
@@ -103,10 +101,13 @@
   		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   		var modal = $(this)
   		modal.find('.modal-title').text('New message to ' + recipient)
- 		 modal.find('.modal-body input').val(recipient)
+ 		modal.find('.modal-body input').val(recipient)
 	});
 </script>
-
+<style>
+	#search-memberId{display:none}
+	#search-bookingDate{display:none}
+</style>
 
 </body>
 </html>
