@@ -3,11 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<link rel="stylesheet" href="${path}/resources/css/employee/employee.css">
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
 	<div class="main-section section-shadow card">
-		<div class="right-container">
-			<h2>사원 조회</h2>
+		<div class="right-container emp-div">
+			<h2 class="title">사원 조회</h2>
 			<select id="ent-flag">
 				<option selected disable>퇴사 여부</option>
 				<option value="N">재직</option>
@@ -20,7 +21,7 @@
 				<option value="dept">부서</option>
 				<option value="job">직책</option>
 			</select>
-			<table>
+			<table id="emp-table">
 				<tr>
 					<th>사번</th>
 					<th>이름</th>

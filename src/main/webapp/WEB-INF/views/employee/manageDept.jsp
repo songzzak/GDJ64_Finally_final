@@ -3,23 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<link rel="stylesheet" href="${path}/resources/css/employee/employee.css">
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
 	<div class="main-section section-shadow card">
-		<div class="right-container">
-			<h2>부서 관리</h2>
-			<section>
+		<div class="right-container dept-div">
+			<h2 class="title">부서 관리</h2>
+			<div class="dept-container-first">
 				<h4>부서 추가</h4>
 				<div id="insert-grade">
 					<span>부서명</span>
 					<input type="text" id="dept-name">
 					<button onclick="fn_insertDept();">생성</button>
 				</div>
-			</section>
-			<section>
-				<h4>부서 삭제</h4>
+			</div>
+			<h4>부서 삭제</h4>
+			<p>* 해당 부서에 사원이 존재하면 삭제할 수 없습니다.</p>
+			<div class="dept-container">
 				<div id="delete-grade">
-					<p>* 해당 부서에 사원이 존재하면 삭제할 수 없습니다.</p>
 					<table>
 						<tr>
 							<th>부서</th>
@@ -50,9 +51,9 @@
 					</table>
 					<div class="pageBar">${pageBar }</div>
 				</div>
-			</section>
-			<section>
-				<h4>부서 수정</h4>
+			</div>
+			<h4>부서 수정</h4>
+			<div class="dept-container">
 				<div>
 					<table>
 						<tr>
@@ -84,7 +85,7 @@
 					</table>
 					<div class="pageBar">${pageBar }</div>
 				</div>
-			</section>
+			</div>
 		</div>
 		<!-- right-container -->
 	</div>

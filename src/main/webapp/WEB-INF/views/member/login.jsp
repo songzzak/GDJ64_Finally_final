@@ -15,7 +15,7 @@
 <body>
 	<section class="login-container">
         <div class="login-div">
-            <form action="${path }/" method="post" id="login-form">
+            <form action="${path }/login" method="post" id="login-form">
             	<div class="logo-container">
                 	<img src="${path }/resources/images/common/workit.svg">
             	</div>

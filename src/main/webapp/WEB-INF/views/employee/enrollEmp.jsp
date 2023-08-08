@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <section class="max1920px">
+<link rel="stylesheet" href="${path}/resources/css/employee/employee.css">
 <jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 	<div class="main-section section-shadow card">
       <div class="right-container">
@@ -25,7 +26,7 @@
          	<div>
          		<span>주소 검색</span>
          		<input type="text" name="mainAddress" id="main-addr">
-         		<input type="button" onclick="fn_searchAddr();" value="검색">
+         		<input type="button" onclick="fn_searchAddr();" value="검색" class="emp-btn">
          	</div>
          	<div>
          		<span>상세 주소</span>
@@ -64,26 +65,10 @@
          </form>
          <p>* 사원 초기 비밀번호는 1234로 생성됩니다.</p>
       </div>
+	<div id="enroll-btns"><input type="reset" value="취소" class="emp-btn"> <button onclick="fn_empDataCk();">생성</button></div>
    </div>
-	<div><input type="reset" value="취소"><button onclick="fn_empDataCk();">생성</button></div>
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-	//주소 검색 메소드
-	function fn_searchAddr(){
-		//주소 API 사용
-		 new daum.Postcode({
-		        oncomplete: function(data) {
-		        	$("#main-addr").val(data.address);
-		        	$("#detail-addr").focus();
-		        }
-		    }).open();
-	}
-	
-	//데이터 입력 확인 후 넘기는 메소드
-	function fn_empDataCk(){
-		$("#enroll-form").submit();
-	}
-</script>
+<script src="${path }/resources/js/employee/enrollEmp.js"></script>
 </body>
 </html>

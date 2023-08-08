@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -70,9 +71,9 @@ public class EmployeeController {
 	//부서 관리 화면
 	@GetMapping("/dept")
 	public String deptManageView(Model model,  @RequestParam(value="cPage",defaultValue="1") int cPage) {
-		model.addAttribute("depts",service.selectDeptCount(Map.of("cPage",cPage,"numPerpage",10)));
+		model.addAttribute("depts",service.selectDeptCount(Map.of("cPage",cPage,"numPerpage",5)));
 		int totalData=service.selectGradeCount(Map.of("category","dept"));
-		model.addAttribute("pageBar",Pagenation.getPage(cPage, 10, totalData, "/employee/manage"));
+		model.addAttribute("pageBar",Pagenation.getPage(cPage, 5, totalData, "/employee/dept"));
 		return "employee/manageDept";
 	}
 	
@@ -100,12 +101,33 @@ public class EmployeeController {
 	//직책 관리 화면
 	@GetMapping("/job")
 	public String jobManageView(Model model, @RequestParam(value = "cPage", defaultValue = "1") int cPage) {
-		model.addAttribute("jobs", service.selectJobCount(Map.of("cPage", cPage, "numPerpage", 10)));
+		model.addAttribute("jobs", service.selectJobCount(Map.of("cPage", cPage, "numPerpage", 5)));
 		int totalData = service.selectGradeCount(Map.of("category", "job"));
-		model.addAttribute("pageBar", Pagenation.getPage(cPage, 10, totalData, "/employee/manage"));
+		model.addAttribute("pageBar", Pagenation.getPage(cPage, 5, totalData, "/employee/job"));
 		return "employee/manageJob";
 	}
 	
+	//직책 추가
+	@PostMapping("/job")
+	@ResponseBody
+	public int insertJob(@RequestBody Map<String,Object> param) {
+		return service.insertJob(param);
+	}
+	
+	//직책 삭제
+	@DeleteMapping("/job")
+	@ResponseBody
+	public int deleteJob(@RequestParam(value="jobCode") String jobCode) {
+		return service.deleteJob(jobCode);
+	}
+	
+	@PutMapping("/job")
+	@ResponseBody
+	public int updateJob(@RequestBody Map<String,Object> param) {
+		return service.updateJob(param);
+	}
+	
+	//회원 정보 수정 화면
 	@GetMapping("/memberId")
 	public String UpdateEmpView(Model model, @RequestParam(value="id") String id) {
 		model.addAttribute("member",memberService.selectMemberByParam(Map.of("memberId",id)));
@@ -152,28 +174,31 @@ public class EmployeeController {
 		return "common/msg";
 	}
 	
+	//정보 수정 요청 화면
 	@GetMapping("/approv")
 	public String selectApprovalRequest(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage) {
 		model.addAttribute("approvList",memberService.selectApprovAll(Map.of("cPage",cPage,"numPerpage",10)));
 		int totalData=memberService.selectApprovCount();
 		model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/employee/approv"));
-		return "employee/updateEmpInfo";
+		return "employee/approvUpdateEmp";
 	}
 	
+	//요청 리스트 중 클릭한 정보 확인
 	@GetMapping("/approv/info")
 	@ResponseBody()
 	public EmployeeUpdateInfo selectApprovEmp(@RequestParam(value="no") String no) {
 		EmployeeUpdateInfo info=service.selectApprovEmp(no);
-		log.info("info : "+info);
 		return info;
 	}
 	
+	//정보 수정 요청 삭제
 	@DeleteMapping("/approv")
 	@ResponseBody()
 	public int deleteApprovalRequest(@RequestParam(value="no") String no) {
 		return service.deleteApprov(no);
 	}
 	
+	//정보 수정 요청 승인
 	@PutMapping("/approv")
 	@ResponseBody()
 	public int updateApproval(@RequestBody Map<String,Object> param) {
