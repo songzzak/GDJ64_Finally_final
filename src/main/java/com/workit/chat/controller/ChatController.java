@@ -3,6 +3,8 @@ package com.workit.chat.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,13 +17,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.chat.model.dto.Attachment;
-import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
 import com.workit.chat.model.service.ChatService;
@@ -38,40 +40,59 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatController {
 	
 	private ChatService service;
-	private EmployeeService empService;
 	
-	public ChatController(ChatService service, EmployeeService empService) {
+	public ChatController(ChatService service) {
 		this.service = service;
-		this.empService = empService;
 	}
 	
-	// 전체 채팅창 목록
 	@RequestMapping("/")
 	public String selectMyChatroomById(Model model, HttpSession session){
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		Map<String, Object> param = service.selectMyChatroomList(loginMember.getMemberId());
 		model.addAttribute("chat",param.get("chat"));
 		model.addAttribute("roomNumbers",param.get("roomNumbers"));
+		model.addAttribute("members", param.get("members"));
+		model.addAttribute("dept",param.get("dept"));
 		return "/chat/chat";
 	}
 	
 	@GetMapping("/chatroom")
 	@ResponseBody
-	public List<MyChatroom> selectChatroom(Map<String, Object> param, @RequestParam(value="chatroomId")String chatroomId,HttpSession session, Model model) {
-		model.addAttribute("chatroomId",chatroomId);
-		session.setAttribute("chatroomId", chatroomId);
-		log.info("{}", chatroomId);
-		log.info("{}", service.selectChatroomByroomId(chatroomId));
-		return service.selectChatroomByroomId(chatroomId);
+	public Map<String, Object> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, HttpSession session, Model model) {
+//		log.info("chatroom start");
+//		log.info("{}", chatroomId);
+		Map<String, Object> result = service.selectChatroomByroomId(chatroomId);
+		List<MyChatroom> chatroomMembers =(List<MyChatroom>) result.get("chatroomMember");
+		model.addAttribute("chatroomMembers",chatroomMembers);
+//		log.info("chatroommember");
+//		log.info("{}", chatroomMembers);
+		return result;
 	}
 	
-	// 키워드로 검색
 	@PostMapping("/keyword")
 	@ResponseBody
-	public String searchAllByKeyword(@RequestParam(value="keyword")String keyword, Model model){
-		model.addAttribute("result",service.searchAllByKeyword(keyword));
+	public List<MyChatroom> searchAllByKeyword(@RequestParam(value="keyword")String keyword, Model model){
+		log.info("{}", keyword);
 		log.info("{}", service.searchAllByKeyword(keyword));
-		return "chat/chat";
+		//model.addAttribute("result",service.searchAllByKeyword(keyword));
+		return service.searchAllByKeyword(keyword);
+	}
+	
+	@PostMapping("/update")
+	@ResponseBody
+	public String updateChatroomMember(@RequestParam(value="memberId")String memberId, HttpSession session, Model model) {
+		log.info("update");
+		log.info("{}", memberId);
+		String chatroomId = (String)session.getAttribute("chatroomId");
+		String msg, loc;
+		if(service.updateChatroomMember(Map.of("member",memberId,"chatroomId",chatroomId))>0) {
+			model.addAttribute("msg", "채팅 멤버 추가 성공 :)");
+			model.addAttribute("loc", "/chat/chat");
+		}else {
+			model.addAttribute("msg", "채팅 멤버 추가 실패 :<");
+			model.addAttribute("loc", "/chat/chat");
+		}
+		return "common/msg";
 	}
 	
 	// 채팅 생성을 위한 전체 회원 조회
@@ -94,37 +115,21 @@ public class ChatController {
 		return "chat/chatroom";
 	}
 	
-	// 채팅 생성
-	@PostMapping("/start")
-	public String insertChatroom(@RequestParam(value="chatroomTitle")String chatroomTitle, @RequestParam(value="memberId")String memberId, Model model, HttpSession session) {
-		
-		String chatroomCode="";
-		String[] member = null;
+	@PostMapping("/insert")
+	@ResponseBody
+	public Map<String, Object> insert(@RequestBody Chatroom chatroom, HttpSession session, Model model) {
+		//log.info("{}", chatroom);
 		Member m = (Member)session.getAttribute("loginMember");
 		String loginMember = m.getMemberId();
-		member = memberId.split(",");
+		String chatroomId = service.insertChatroom(loginMember, chatroom);
+//		log.info("{}",chatroomId);
+//		log.info("{}",service.selectChatroomByroomId(chatroomId));
+		List<MyChatroom> chatroomMembers =(List<MyChatroom>) service.selectChatroomByroomId(chatroomId).get("chatroomMember");
+		model.addAttribute("chatroomMembers",chatroomMembers);
 		
-		if(member.length>1) {
-			chatroomCode="G";
-		}else {
-			chatroomCode="P";
-		}
-		if(chatroomTitle == null || chatroomTitle =="") {
-			chatroomTitle = memberId+"("+member.length+")";
-		}
-		
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("chatroomTitle", chatroomTitle);
-		param.put("chatroomCode", chatroomCode);
-		param.put("loginMember",loginMember);
-		param.put("member", member);
-		
-		String chatroomId = service.insertChatroom(param);
-		model.addAttribute("chatroomId",chatroomId);
-		return "chat/";
+		return service.selectChatroomByroomId(chatroomId);
 	}
 	
-	// 채팅 나가기 
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public int deleteMyChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam(value="loginMember")String loginMember) {
@@ -134,29 +139,16 @@ public class ChatController {
 		return service.deleteMyChatroom(Map.of("chatroomId",chatroomId, "loginMember",loginMember));
 	}
 	
-	@RequestMapping("/modalMember")
-	public String viewModalMember(HttpSession session, Model model) {
-		log.info("{}", session.getAttribute("chatroomId"));
-		String chatroomId = (String)session.getAttribute("chatroomId");
-		model.addAttribute("chatMemberNow",service.checkChatroomMember(chatroomId));
-		model.addAttribute("dept", empService.selectDept());
-		model.addAttribute("members", service.selectMemberAll());
-		return "chat/modalMember";
-	}
-	
 	@PostMapping("/member")
 	@ResponseBody
-	public List<MyChatroom> selectChatMemberById(@RequestParam(value="chatroomId")String chatroomId){
-		log.info("{}", chatroomId);
-		log.info("{}", service.checkChatroomMember(chatroomId));
-		return service.checkChatroomMember(chatroomId);
+	public List<Member> selectChatMemberById(@RequestParam(value="chatroomId")String chatroomId){
+		return service.selectMemberAll();
 	}
 	
 	// 파일 업로드 
-	@RequestMapping("/attatch")
-	public String upFile(Chat c, MultipartFile [] upFile, HttpSession session, Model m, Chatroom ch) {
-		log.info("{}", c);
-		log.info("{}", upFile);
+	@RequestMapping("/attach")
+	public String upFile(MultipartFile [] uploadFile, HttpSession session, Model m, Chatroom ch) {
+		log.info("{}", uploadFile);
 		
 		//MultipartFile에서 제공하는 메소드를 이용해서 
 		//파일을 저장할 수 있음 -> transferTo()메소드를 이용
@@ -165,11 +157,14 @@ public class ChatController {
 		//파일명에 대한 renamed규칙을 설정
 		//직접리네임규칙을 만들어서 저장해보자.
 		//yyyyMMdd_HHmmssSSS_랜덤값
-//		List<Attachment> files=new ArrayList();
-		if(upFile!=null) {
-			for(MultipartFile mf:upFile) {
+		log.info("{}", path);
+		List<Attachment> files=new ArrayList<Attachment>();
+		log.info("{}", files);
+		if(uploadFile!=null) {
+			for(MultipartFile mf:uploadFile) {
 				if(!mf.isEmpty()) {
 					String oriName=mf.getOriginalFilename();
+					log.info("{}", oriName);
 					String ext=oriName.substring(oriName.lastIndexOf("."));
 					Date today=new Date(System.currentTimeMillis());
 					SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
@@ -185,6 +180,7 @@ public class ChatController {
 					Attachment file=Attachment.builder()
 							.originalFile(oriName)
 							.renameFile(rename)
+							.uploadPath(path)
 							.build();
 					
 					//ch.getFile().add(file);
@@ -203,9 +199,7 @@ public class ChatController {
 //			return "common/msg";
 //		}
 		
-		
-		
-		return "redirect:/board/boardList.do";
+		return "chat/chat";
 	}
 	
 }

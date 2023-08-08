@@ -30,9 +30,6 @@
 		
 	}
 	
-	$(".side-menu").click(e =>{
-	})
-	
 	/* 전자결재 클릭시 토글 on,off */
 	$("#approve-menu").click(e=>{
         $("#div-approve>button").toggle();

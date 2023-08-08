@@ -11,7 +11,7 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 </head>
 <body>
-	<div class="modal-addChatMember chatHidden">
+	<div class="modal-addChatMember chatHidden section-shadow">
 		<div class="modal-content">
 			<c:if test="${empty chatMemberNow }">
 				<h3>채팅 생성</h3>
@@ -31,7 +31,7 @@
 			<div class="changeChatMembers"></div>
 			<!-- <button id="changeMemberBtn">추가</button> -->
 			<c:if test="${not empty members}">
-				<form class="chat-DeptContainer" method="post" action="${path}/chat/start">
+				<form class="chat-DeptContainer" method="post" action="">
 					<label for="chatroomTitle">채팅 제목 : </label><input type="text" name="chatroomTitle" placeholder="채팅 제목"><br>
 					<span>채팅 제목 미 설정 시 채팅 멤버 아이디+채팅 참여 멤버 수로 설정됩니다</span>
 					<div class="chat-dept">
@@ -43,13 +43,15 @@
 							<c:if test="${dept.deptCode == member.dept.deptCode}">
 							<!-- 이미 채팅중인 멤버 분기처리하기 -->
 							<!-- <div class="memberByDept chatHidden"> -->
-									<input type="checkbox" value="${member.memberId}"><label for ="${member.memberId}">${member.memberName} ${member.job.jobName }</label>
+								<c:if test="${member.memberId!=loginMember.memberId }">
+									<input type="checkbox" value="${member.memberId}" name="memberId"><label for ="${member.memberId}">${member.memberName} ${member.job.jobName }</label>
+								</c:if>
 							<!-- </div> -->
 							</c:if>
 							</c:forEach>
 						</c:forEach>
 					</div>
-					<input type="submit" value="선택">
+					<input type="submit" value="채팅 시작" class="chat-start">
 				</form>
 			</c:if>
 			<!-- <button id="changeMemberBtn">변경</button>
@@ -57,8 +59,13 @@
 		</div>
 	</div>
 <script>
-	$(".chat-dept-title").click(e =>{
-		
+	$(".chat-start").click(e=>{
+		$(".chat-DeptContainer").attr("action","${path}/chat/start");
+		$(".chat-DeptContainer").submit();
+		window.open("about:blank","_self").close();
+	})
+	$(".modal-addChatMember").click(e=>{
+		$(".modal-addChatMember").css("display","block");
 	})
 </script>
 </body>

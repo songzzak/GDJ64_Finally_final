@@ -11,6 +11,7 @@ import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
 import com.workit.employee.mapper.EmployeeMapper;
+import com.workit.member.model.dto.Department;
 import com.workit.member.model.dto.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,96 +21,99 @@ public class ChatDaoImpl implements ChatDao {
 	
 	
 	@Autowired
-	private ChatMapper mapper;
+	private ChatMapper chatMapper;
 	
 	@Autowired
-	private EmployeeMapper Emapper;
+	private EmployeeMapper EmpMapper;
 	
-	
+	public ChatDaoImpl(ChatMapper chatMapper, EmployeeMapper EmpMapper) {
+		this.chatMapper = chatMapper;
+		this.EmpMapper = EmpMapper;
+	}
 	
 	@Override
 	public List<Chatroom> selectMyChatroomId(String memberId) {
-		return mapper.selectMyChatroomId(memberId);
+		return chatMapper.selectMyChatroomId(memberId);
 	}
 
 	@Override
 	public Chat selectAllMyChatroom(String chatroomId) {
-		return mapper.selectAllMyChatroom(chatroomId);
+		return chatMapper.selectAllMyChatroom(chatroomId);
 	}
 
 	@Override
-	public List<MyChatroom> selectMyChatroomById(String memberId) {
-		return mapper.selectMyChatroomById(memberId);
+	public List<Chatroom> selectChatroomByroomId(String chatroomId) {
+		return chatMapper.selectChatroomByroomId(chatroomId);
 	}
-
-	@Override
-	public List<MyChatroom> selectChatroomByroomId(String chatroomId) {
-		return mapper.selectChatroomByroomId(chatroomId);
-	}
-
+	
 	@Override
 	public List<MyChatroom> searchAllByKeyword(String keyword) {
-		return mapper.searchAllByKeyword(keyword);
+		return chatMapper.searchAllByKeyword(keyword);
 	}
 
 	@Override
 	public void insertChatroom(Map<String, Object> param) {
-		mapper.insertChatroom(param);
-		
+		chatMapper.insertChatroom(param);
 	}
 
 	@Override
 	public int insertMyChatroom(Map<String, Object> param) {
-		return mapper.insertMyChatroom(param);
+		return chatMapper.insertMyChatroom(param);
 	}
 
 	@Override
 	public List<Member> selectMemberAll() {
-		return Emapper.selectMemberAllByJob();
+		return EmpMapper.selectMemberAllByJob();
+	}
+	
+	@Override
+	public List<Department> selectDeptAll() {
+		return EmpMapper.selectDeptAll();
 	}
 
 	@Override
 	public int deleteMyChatroom(Map<String, Object> param) {
-		return mapper.deleteMyChatroom(param);
+		return chatMapper.deleteMyChatroom(param);
 	}
 
 	@Override
 	public List<MyChatroom> selectChatByChatroomId(String chatroomId) {
-		log.info("{}", mapper.selectChatByChatroomId(chatroomId));
-		return mapper.selectChatByChatroomId(chatroomId);
+		log.info("{}", chatMapper.selectChatByChatroomId(chatroomId));
+		return chatMapper.selectChatByChatroomId(chatroomId);
 	}
 
 	@Override
 	public List<MyChatroom> searchChatroomByKeyword(Map<String, Object> param) {
-		return mapper.searchChatroomByKeyword(param);
+		return chatMapper.searchChatroomByKeyword(param);
 	}
 
 	@Override
 	public List<MyChatroom> selectChatroomIdById(String id) {
-		return mapper.selectChatroomIdById(id);
+		return chatMapper.selectChatroomIdById(id);
 	}
 
 	@Override
 	public List<MyChatroom> checkChatroomMember(String chatroomId) {
-		log.info("{}",mapper.checkChatroomMember(chatroomId));
-		return mapper.checkChatroomMember(chatroomId);
-	}
-
-	@Override
-	public int insertChat(Chat chat) {
-		return mapper.insertChat(chat);
+		log.info("{}",chatMapper.checkChatroomMember(chatroomId));
+		return chatMapper.checkChatroomMember(chatroomId);
 	}
 
 	@Override
 	public List<MyChatroom> selectChatMember(String chatroomId) {
-		log.info("{}", mapper.selectChatMember(chatroomId));
-		return mapper.selectChatMember(chatroomId);
+		log.info("{}", chatMapper.selectChatMember(chatroomId));
+		return chatMapper.selectChatMember(chatroomId);
 	}
 
 	@Override
 	public List<MyChatroom> checkChatroomMemberAll(String chatroomId) {
-		return mapper.checkChatroomMemberAll(chatroomId);
+		return chatMapper.checkChatroomMemberAll(chatroomId);
 	}
+
+	@Override
+	public int updateChatroomMember(Map<String, Object> param) {
+		return chatMapper.updateChatroomMember(param);
+	}
+	
 	
 	
 	

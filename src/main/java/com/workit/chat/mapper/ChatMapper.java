@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.workit.chat.model.dto.Chat;
+import com.workit.chat.model.dto.ChatMsg;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
 import com.workit.member.model.dto.Member;
@@ -17,9 +18,9 @@ public interface ChatMapper {
 	List<Chatroom> selectMyChatroomId(String memberId);
 	Chat selectAllMyChatroom(String chatroomId);
 	
+	List<Chatroom> selectChatroomByroomId(String chatroomId);
+	//List<MyChatroom> selectChatroomByroomId(String chatroomId);
 	
-	List<MyChatroom> selectMyChatroomById(String memberId);
-	List<MyChatroom> selectChatroomByroomId(String chatroomId);
 	List<MyChatroom> searchAllByKeyword(String keyword);
 	
 	List<MyChatroom> selectChatroomIdById(String id);
@@ -35,8 +36,12 @@ public interface ChatMapper {
 	
 	List<MyChatroom> searchChatroomByKeyword(Map<String, Object> param);
 	
-	int insertChat(Chat chat);
+//	int insertChat(Chat chat);
+	int insertChat(ChatMsg chat);
+	
 	List<MyChatroom> selectChatMember(String chatroomId);
 	
 	List<MyChatroom> checkChatroomMemberAll(String chatroomId);
+	
+	int updateChatroomMember(Map<String, Object> param);
 }

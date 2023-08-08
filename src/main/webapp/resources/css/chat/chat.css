@@ -78,11 +78,11 @@ h5 {
 .chat-room * {
 	margin: 0.2rem 0;
 }
-.chat-room *:nth-child(odd){
-	width: 80%;
+.chat-room .chat-content{
+	width: 100%;
 }
-.chat-room *:nth-child(4){
-	width: 20%;
+.chat-room .chat-date{
+	width: 100%;
 	text-align: right;
 	font-size: var(--font-small);
 }
@@ -190,17 +190,9 @@ h5 {
 	text-align:center;
 	font-size: var(--font-small);
 }
-/* 채팅 모달창 닫기 버튼 */
-.modal-close {
-	text-align: right;
-	padding: 5%;
-}
 .modal-content h4 {
 	padding: 5%;
 }
-.modal-content>h4:first-child{
-	border-bottom: var(--border-bottom);
- }
 
 /* 검색 모달창 */
 .modal-searchContainer {
@@ -277,6 +269,52 @@ h5 {
 .chatHidden {
 	display: none;
 }
+/*.chat-DeptContainer {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
 
+.chat-DeptContainer label{
+	align-items: center;
+}
+.chat-DeptContainer input[type=checkbox]{
+	width: 1rem;
+	display: inline;
+}*/
 
+.scroll::-webkit-scrollbar {
+  display: none;
+}
 
+.scroll {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+.modal-new-chat-title {
+	margin-bottom: 5%;
+}
+.dept-list-container {
+	width: 100%;
+	display: flex;
+	
+}
+.dept-title {
+	width: 30%;
+}
+.dept-list-container label{
+	display: block;
+}
+.chat-DeptContainer input[type=checkbox]{
+	width: 1rem;
+	display: inline;
+}
+.modal-memberList {
+	margin-left : 5%;
+	align-items: center;
+	text-align: center;
+}
+/*button.insert-chat-btn {
+	background-color: var(--main-color-bl);
+}*/

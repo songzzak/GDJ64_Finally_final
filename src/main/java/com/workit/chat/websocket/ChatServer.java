@@ -2,7 +2,6 @@ package com.workit.chat.websocket;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,7 +12,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.workit.chat.model.dto.Chat;
+import com.workit.chat.model.dto.ChatMsg;
+import com.workit.chat.model.service.ChatMsgService;
 import com.workit.chat.model.service.ChatService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ChatServer extends TextWebSocketHandler {
 	
-	private ChatService service;
+	private ChatService chatService;
+	private ChatMsgService chatMsgService;
 	private ObjectMapper mapper;
 	
-	public ChatServer(ChatService service, ObjectMapper mapper) {
-		this.service = service;
+	public ChatServer(ChatService chatService, ChatMsgService chatMsgService, ObjectMapper mapper) {
+		this.chatService = chatService;
+		this.chatMsgService = chatMsgService;
 		this.mapper = mapper;
 	}
 	
@@ -42,13 +44,14 @@ public class ChatServer extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		log.info("{}",message.getPayload());
-		Chat chat =mapper.readValue(message.getPayload(),Chat.class);
+		
+		ChatMsg chat =mapper.readValue(message.getPayload(),ChatMsg.class);
 		session.getAttributes().put("chat", chat);
 		log.info("{}", chat);
-		int result = service.insertChat(chat);
+		int result = chatMsgService.insertChat(chat);
 		if(result>0) {
 			log.info("{}","성공");
-			log.info("{}",service.selectChatMember(chat.getChatroomId()));
+			log.info("{}",chatService.selectChatMember(chat.getChatroomId()));
 			String sender = chat.getMemberId();
 			clients.put(sender, session);
 			log.info("sender");
@@ -59,7 +62,7 @@ public class ChatServer extends TextWebSocketHandler {
 		}
 	}
 	
-	private void sendChat(Chat chat) {
+	private void sendChat(ChatMsg chat) {
 		log.info("send Chat method");
 		Set<Map.Entry<String,WebSocketSession>> clients=this.clients.entrySet();
 		try {
