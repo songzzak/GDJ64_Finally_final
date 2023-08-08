@@ -1,7 +1,4 @@
 
-const path = "pageContext.request.contextPath";
-
-
   const close = () => {
     document.querySelector(".modal").classList.add("hidden");
     $("#people-box").empty();  
@@ -49,12 +46,10 @@ const path = "pageContext.request.contextPath";
   
   
   
-/*  	 const changeDep=(e)=>{  // 결재선 선택창에서 부서 눌렀을 때
+const changeDep=(e)=>{  // 결재선 선택창에서 부서 눌렀을 때
 		 	const value = e.target.value;
-		 	console.log(path);
-		 	console.log(`"${path}/approve/changeDep.do"`	);
 		 	
-			$.post(`${path}/approve/changeDep.do`,
+			$.post(path+"/approve/changeDep.do",
 					{deptName:value},  
 					data=>{  // 데이터를 객체로(키,값) 전달
 						$("#people-box").empty(); // #people-box 밑에 자식요소들 모두삭제
@@ -194,7 +189,7 @@ const path = "pageContext.request.contextPath";
 					 	$("#app-line>div").remove();
 						$('input:checkbox[name="appBox"]').each(function(){  // 결재선에 추가되있는 사람을 중복확인하기위한 로직
 							
-							$.post("${path}/approve/printMember.do",
+							$.post(path+"/approve/printMember.do",
 									{memberId:this.value},   // 데이터를 객체로(키,값) 전달
 									data=>{
 										
@@ -211,7 +206,7 @@ const path = "pageContext.request.contextPath";
 						 
 						 
 						$('input:checkbox[name="referBox"]').each(function(){  // 결재선에 추가되있는 사람을 중복확인하기위한 로직
-							$.post("${path}/approve/printMember.do",
+							$.post(path+"/approve/printMember.do",
 									{memberId:this.value},   // 데이터를 객체로(키,값) 전달
 									data=>{
 										const span = $("<span>");
@@ -224,4 +219,4 @@ const path = "pageContext.request.contextPath";
 							close(); 
 				 }
 		 }
-	 }*/
+	 }

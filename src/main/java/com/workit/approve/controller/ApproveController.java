@@ -1,8 +1,17 @@
 package com.workit.approve.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,8 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.approve.model.dto.Approve;
+import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.Time;
 import com.workit.approve.model.service.ApproveService;
 import com.workit.employee.service.EmployeeService;
 import com.workit.member.model.dto.Department;
@@ -106,14 +118,57 @@ public class ApproveController {
 	
 	
 	@RequestMapping("/insertDraft.do")
-	public String insertDraft(String memberId, String writeTime, String extendWorkDate, String startTime, String endTime, String content, String title) {
-		System.out.println(memberId);
-		System.out.println(extendWorkDate);
-		System.out.println(startTime);
-		System.out.println(endTime);
-		System.out.println(title);
-		System.out.println(content);
-		return null;
+	public String insertDraft(String memberId, String writeTime, String extendWorkDate, String startTime, String endTime, 
+			String content, String title, String approveKind, MultipartFile upFile, HttpSession session) throws ParseException{
+		
+
+		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
+        
+		
+        
+
+		Approve ap = Approve.builder().approveTitle(title).approveContent(content)
+				.memberId(memberId).approveKind(approveKind).build(); 
+		int result = service.insertApprove(ap); // 기안서 테이블 생성 System.out.println(result);
+
+
+		 startTime = extendWorkDate+" "+startTime; 
+		 endTime = extendWorkDate+" "+endTime;
+		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+		 Date date = df.parse(startTime); 
+		 long stime = date.getTime();
+
+		 Date date2 = df.parse(endTime); 
+		 long etime = date2.getTime();
+		
+		 Timestamp st = new Timestamp(stime); Timestamp et = new Timestamp(etime);
+		 System.out.println(st.getClass().getName()); System.out.println(st);
+		 
+		 System.out.println(et.getClass().getName()); System.out.println(et); 
+		 Time t = Time.builder().startTime(st).endTime(et).build();
+		
+		 int result2 = service.insertTime(t); System.out.println(result2);
+
+		
+		if (!upFile.getOriginalFilename().equals("")) {  // 첨부파일 추가했을경우
+			String oriName=upFile.getOriginalFilename(); // 원본이름
+			Date today = new Date(System.currentTimeMillis());
+			String ext=oriName.substring(oriName.lastIndexOf("."));
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			int random = (int) (Math.random() * 10000) + 1;
+			String rename = sdf.format(today) + "_" + random+ext;
+			try {
+				upFile.transferTo(new File(path + rename));
+				ApproveAttach aa = ApproveAttach.builder().oriName(oriName).saveName(rename).build();
+				int result3 = service.insertApproveAttach(aa);  // 첨부파일 테이블 생성
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		return "redirect:/";
 	}
 	
 	
