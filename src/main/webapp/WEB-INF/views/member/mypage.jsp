@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="${path}/resources/css/member/mypage.css">
 <section class="max1920px">
 <jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
-
 <section class="mypage-section">
 	<div class="main-section section-shadow card profile-info">
 		<div class="right-container">

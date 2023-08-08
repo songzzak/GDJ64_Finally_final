@@ -3,28 +3,29 @@ package com.workit.member.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.workit.member.model.dao.MemberDao;
-import com.workit.member.model.dto.Member;
 import com.workit.member.model.vo.ApprovMemberVO;
+import com.workit.member.model.vo.MemberVO;
 @Service
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceImpl implements MemberService, UserDetailsService {
 	@Autowired
 	private MemberDao dao;
 	
 	@Override
-	public Member selectMemberByParam(Map<String, Object> param) {
+	public MemberVO selectMemberByParam(Map<String, Object> param) {
 		return dao.selectMemberByParam(param);
 	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Member loginMember=dao.selectMemberByParam(Map.of("userId",username));
+		MemberVO loginMember=dao.selectMemberByParam(Map.of("memberId",username));
+		if(loginMember==null) return null;
 		return loginMember;
 	}
 
