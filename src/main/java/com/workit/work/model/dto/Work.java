@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import com.workit.member.model.dto.Member;
+import com.workit.member.model.vo.MemberVO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class Work {
 	private Timestamp workStart;
 	private Timestamp workEnd;
 	private String workStatus;
-	private Member member;
+	private MemberVO member;
 	//DB를 이용해서 계산식이 필요한 필드추가
 	private String totalWorkTime;
     private String overtime;

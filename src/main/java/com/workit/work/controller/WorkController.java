@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.workit.member.model.dto.Member;
+import com.workit.member.model.vo.MemberVO;
 import com.workit.member.service.MemberService;
 import com.workit.work.model.dto.Work;
 import com.workit.work.model.dto.WorkChange;
@@ -112,8 +113,7 @@ public class WorkController {
 	        Map<String, String> result = new HashMap<>();
 	        Map<String,Object> param=new HashMap<>();
 	        String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
-	        param.put("memberId", memberId);
-	        Member m = memberService.selectMemberByParam(param);
+	        MemberVO m = memberService.selectMemberById(memberId);
 	        System.out.println(m);
 	        // 임시 사용자 ID
 	        //String memberId = "user01";

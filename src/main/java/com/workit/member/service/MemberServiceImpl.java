@@ -62,6 +62,11 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 			return -1;
 		}
 	}
+
+	@Override
+	public MemberVO selectMemberById(String memberId) {
+		return dao.selectMemberById(memberId);
+	}
 	
 	
 
