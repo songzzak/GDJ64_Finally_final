@@ -55,16 +55,16 @@ public class WorkController {
             @RequestParam(required = false) Integer currentMonth,
             HttpSession session,
 			HttpServletRequest request, HttpServletResponse response, Model model) throws IOException{
-		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 		 // 오늘의 날짜 정보를 가져옴
 	    LocalDate today = LocalDate.now();//2023-08-07
 
 	    Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("memberId", memberId);
         paramMap.put("workDate", today);
-        //System.out.println(paramMap);
 	    // 오늘의 근태 정보 조회
 	    Work todayWork = service.selectWorkByDateAndMemberId(paramMap);
+	    //System.out.println(paramMap);
 	    //System.out.println(todayWork);
 	    model.addAttribute("todayWork", todayWork); // 오늘의 근태 정보를 모델에 추가
 		
@@ -111,10 +111,8 @@ public class WorkController {
 	 @ResponseBody
 	    public Map<String, String> startWork(@RequestParam("workStartTime") String workStartTime,HttpSession session) {
 	        Map<String, String> result = new HashMap<>();
-	        Map<String,Object> param=new HashMap<>();
-	        String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+	        String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 	        MemberVO m = memberService.selectMemberById(memberId);
-	        System.out.println(m);
 	        // 임시 사용자 ID
 	        //String memberId = "user01";
 	        Timestamp currentTimestamp = null;
@@ -162,7 +160,7 @@ public class WorkController {
 	 @ResponseBody
 	 public Map<String, String> endWork(@RequestParam("workEndTime") String workEndTime,HttpSession session) {
 	      Map<String, String> result = new HashMap<>();
-	      String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+	      String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 	      // 임시 사용자 ID
 	      //String memberId = "user01";
 	      Timestamp currentTimestamp = null;
@@ -218,7 +216,7 @@ public class WorkController {
 	 public Map<String, Boolean> checkTodayWork(@RequestParam("date") String workDate,HttpSession session) {
 	     // 임시 사용자 ID
 	     //String memberId = "user01";
-		 String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		 String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 	     Map<String, String> mapParam = new HashMap<>();
 	     mapParam.put("memberId", memberId);
 	     mapParam.put("workDate", workDate);
@@ -239,7 +237,7 @@ public class WorkController {
 			 HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
 		 // 임시 사용자 ID
 	     //String memberId = "user01";
-		 String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		 String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 	     Map<String, Object> paramMap = new HashMap<>();
 	     paramMap.put("memberId", memberId);
 	     paramMap.put("workDate", workDate);
@@ -259,7 +257,7 @@ public class WorkController {
 			 HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
 		 // 임시 사용자 ID
 	     //String memberId = "user01";
-		 String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		 String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 	     Map<String, Object> paramMap = new HashMap<>();
 	     paramMap.put("memberId", memberId);
 	     paramMap.put("workDate", workDate);

@@ -16,10 +16,12 @@ import com.workit.member.model.dto.MemberAuthority;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class MemberVO implements UserDetails{
 	/**
 	 * 
@@ -86,4 +88,6 @@ public class MemberVO implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
+	
 }
