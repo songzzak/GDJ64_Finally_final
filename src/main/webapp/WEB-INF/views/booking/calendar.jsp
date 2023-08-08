@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <section class="max1920px">
 <link href='fullcalendar/main.css' rel='stylesheet' />
-	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
-	<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.8/index.global.min.js'></script>
+<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.8/index.global.min.js'></script>
 	<!-- <script>
 
 	document.addEventListener('DOMContentLoaded', function() {
@@ -216,6 +216,7 @@
       												<col>
       											</colgroup>
       											<tbody role="presentation">
+      											<!-- facility_tb의 fac_no리스트 시작 -->
       												<tr role="row">
       													<td role="gridcell" data-resource-id="a" class="fc-datagrid-cell fc-resource">
       														<div class="fc-datagrid-cell-frame" style="height: 33px;">
@@ -288,12 +289,13 @@
       														</div>
       													</td>
       												</tr>
+      												<!-- facility_tb의 fac_no리스트 끝 -->
       											</tbody>
       										</table>
       									</div>
       								</div>
       							</td>
-      							<td role="presentation" class="fc-resource-timeline-divider fc-cell-shaded"></td>
+      							<td role="presentation" class="fc-resource-timeline-divider fc-cell-shaded"></td><!-- 우측 타임라인을 있게하는 코드 -->
       							<td role="presentation">
       								<div class="fc-scroller-harness fc-scroller-harness-liquid">
       									<div class="fc-scroller fc-scroller-liquid-absolute" style="overflow: scroll;">
@@ -418,6 +420,7 @@
       									<div class="fc-timeline-bg"></div>
       									<table aria-hidden="true" class="fc-scrollgrid-sync-table " style="min-width: 1440px; width: 637px;">
       										<tbody>
+      											<!-- room A의 이벤트 표시 -->
       											<tr>
       												<td data-resource-id="a" class="fc-timeline-lane fc-resource">
       													<div class="fc-timeline-lane-frame" style="height: 33px;">
@@ -427,6 +430,7 @@
       													</div>
       												</td>
       											</tr>
+      											<!-- room B의 이벤트 표시 -->
       											<tr>
       												<td data-resource-id="b" class="fc-timeline-lane fc-resource">
       													<div class="fc-timeline-lane-frame" style="height: 33px;">
@@ -450,6 +454,7 @@
       													</div>
       												</td>
       											</tr>
+      											<!-- room C의 이벤트 표시 -->
       											<tr>
       												<td data-resource-id="c" class="fc-timeline-lane fc-resource">
       													<div class="fc-timeline-lane-frame" style="height: 33px;">
@@ -472,6 +477,7 @@
       													</div>
       												</td>
       											</tr>
+      											<!-- room D의 이벤트 표시 -->
       											<tr>
       												<td data-resource-id="d" class="fc-timeline-lane fc-resource">
       													<div class="fc-timeline-lane-frame" style="height: 32px;">
@@ -494,6 +500,7 @@
       													</div>
       												</td>
       											</tr>
+      											<!-- room E의 이벤트 표시 -->
       											<tr>
       												<td data-resource-id="e" class="fc-timeline-lane fc-resource">
       													<div class="fc-timeline-lane-frame" style="height: 33px;">
@@ -517,6 +524,7 @@
       													</div>
       												</td>
       											</tr>
+      											<!-- room F의 이벤트 표시 -->
       											<tr>
       												<td data-resource-id="f" class="fc-timeline-lane fc-resource">
       													<div class="fc-timeline-lane-frame" style="height: 33px;">
@@ -537,185 +545,6 @@
       																</a>
       															</div>
       														</div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="g" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="h" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="i" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="j" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="k" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="l" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="m" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="n" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="o" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="p" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="q" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="r" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="s" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="t" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="u" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div><div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="v" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="w" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="x" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="y" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
-      													</div>
-      												</td>
-      											</tr>
-      											<tr>
-      												<td data-resource-id="z" class="fc-timeline-lane fc-resource">
-      													<div class="fc-timeline-lane-frame" style="height: 33px;">
-      														<div class="fc-timeline-lane-misc"></div>
-      														<div class="fc-timeline-bg"></div>
-      														<div class="fc-timeline-events fc-scrollgrid-sync-inner" style="height: 0px;"></div>
       													</div>
       												</td>
       											</tr>
