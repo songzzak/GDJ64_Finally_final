@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.workit.work.model.dto.Work;
+import com.workit.work.model.dto.WorkChange;
 
 public interface WorkDao {
 	
@@ -24,4 +25,6 @@ public interface WorkDao {
 	int lateCount(SqlSessionTemplate session, Map<String, Object> paramMap);
 
 	int earlyLeaveCount(SqlSessionTemplate session, Map<String, Object> paramMap);
+
+	int insertWorkchange(SqlSessionTemplate session, WorkChange wc);
 }

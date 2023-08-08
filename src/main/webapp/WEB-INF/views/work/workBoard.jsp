@@ -26,6 +26,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
   .center { display: flex; align-items: center; justify-content: center; text-align: center; }
   .bgc-fff { background-color: #fff; }
   .bgc-F8FCFF { background-color: #F8FCFF; }
+  .margin10px label, .margin10px input, .margin10px textarea,.margin10px button{margin: 10px;}
 
   /* 출근부 nav */
   .head-nav { height: 56px; display: flex; align-items: center; }
@@ -135,11 +136,11 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
             <p>총연차</p>
           </li>
           <li>
-            <p class="roundBolder center">2</p>
+            <p class="roundBolder center">0</p>
             <p>사용 연차</p>
           </li>
           <li>
-            <p class="roundBolder center">13</p>
+            <p class="roundBolder center"></p>
             <p>잔여 연차</p>
           </li>
           <li>
@@ -162,18 +163,25 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
       </div>
     </div>
     		<!-- 모달 팝업창 (처음에는 숨김 상태로) -->
-		<div id="request-modal" style="display: none;"  class="section-shadow bgc-fff">
-		  <h2>시간 수정 요청</h2>
-		  <label for="request-date">요청일자: </label>
-		  <input type="date" id="request-date">
-		  <label for="start-time">출근시간: </label>
-		  <input type="time" id="start-time">
-		  <label for="end-time">퇴근시간: </label>
-		  <input type="time" id="end-time">
-		  <label for="request-reason">신청사유: </label>
-		  <textarea id="request-reason"></textarea>
-		  <button id="submit-btn">전송</button>
-		  <button id="cancel-btn">취소</button>
+		<div id="request-modal" style="display: none;justify-content: space-around;height: 320px;"
+			class="section-shadow bgc-fff center column">
+		  <h3>출퇴근 시간 수정 요청</h3>
+		  <div id="modalInputContainer" class="row center margin10px">
+		  	<label for="request-date">요청일자: </label>
+		  	<input type="date" id="request-date" required="required">
+		  	<label for="start-time">출근시간: </label>
+		  	<input type="time" id="start-time" readonly="readonly">
+		  	<label for="end-time">퇴근시간: </label>
+			<input type="time" id="end-time" readonly="readonly">
+		  </div>
+		  <div id="modalTextContainer" class="center margin10px">
+		  	<label for="request-reason">신청사유: </label>
+		  	<textarea id="request-reason" required="required" cols="118" rows="5"></textarea>
+		  </div>
+		  <div id="modalBtnContainer" class="margin10px">
+			  <button id="submit-btn">신청</button>
+			  <button id="cancel-btn">취소</button>
+		  </div>
 		</div>
     <div class="section-shadow bgc-fff">
       <div class="sec_cal">
@@ -222,6 +230,13 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	//총연차와 사용연차 값
+	let totalLeave = parseInt($('#annualLeaveDiv .row li:nth-child(1) .roundBolder').text(), 10);
+    let usedLeave = parseInt($('#annualLeaveDiv .row li:nth-child(2) .roundBolder').text(), 10);
+    // 잔여 연차의 값
+    let remainingLeave = totalLeave - usedLeave;    
+    $('#annualLeaveDiv .row li:nth-child(3) .roundBolder').text(remainingLeave);
+	
     // 현재의 년도와 월
     var currentYear = new Date().getFullYear();
     var currentMonth = new Date().getMonth() + 1;
@@ -439,36 +454,33 @@ $("#request-btn").click(function() {
 $("#cancel-btn").click(function() {
   $("#request-modal").hide();
 });
-
+//날짜를 선택하면 해당 출퇴근 시간 가져오기
 $("#request-date").change(function() {
 	  var date = $(this).val();
 	  $.ajax({
 	    type: "POST",
-	    url: "/getTime", 
+	    url: "/work/getTime", 
 	    data: { date: date },
 	    success: function(response) {
-	      $("#start-time").val(response.startTime);
-	      $("#end-time").val(response.endTime);
+	    	 var formattedStart = formatTime(response.workStart);
+	         var formattedEnd = formatTime(response.workEnd);
+
+	         $("#start-time").val(formattedStart);
+	         $("#end-time").val(formattedEnd);
 	    }
 	  });
 	});
-	
+//출퇴근시간, 사유 데이터 보내기
 $("#submit-btn").click(function() {
-	  var date = $("#request-date").val();
-	  var startTime = $("#start-time").val();
-	  var endTime = $("#end-time").val();
-	  var reason = $("#request-reason").val();
-
 	  $.ajax({
 	    type: "POST",
-	    url: "/requestTimeChange",
+	    url: "/work/requestTimeChange",
 	    data: {
-	      date: date,
-	      startTime: startTime,
-	      endTime: endTime,
-	      reason: reason
+	      date: $("#request-date").val(),
+	      reason: $("#request-reason").val()
 	    },
 	    success: function(response) {
+	    	console.log(response)
 	      alert("시간 수정 요청이 전송되었습니다.");
 	      $("#request-modal").hide();
 	    }

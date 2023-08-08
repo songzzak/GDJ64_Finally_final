@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.workit.work.model.dto.Work;
+import com.workit.work.model.dto.WorkChange;
 
 public interface WorkService {
 	
@@ -27,6 +28,9 @@ public interface WorkService {
 	int lateCount(Map<String, Object> paramMap);
 	//조퇴계카운트
 	int earlyLeaveCount(Map<String, Object> paramMap);
+
+	//출퇴근 수정요청
+	int insertWorkchange(WorkChange wc);
 
 
 

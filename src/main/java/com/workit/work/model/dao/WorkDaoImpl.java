@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.workit.work.model.dto.Work;
+import com.workit.work.model.dto.WorkChange;
 
 @Repository
 public class WorkDaoImpl implements WorkDao {
@@ -51,6 +52,11 @@ public class WorkDaoImpl implements WorkDao {
 	@Override
 	public int earlyLeaveCount(SqlSessionTemplate session, Map<String, Object> paramMap) {
 		return session.selectOne("work.earlyLeaveCount",paramMap);
+	}
+
+	@Override
+	public int insertWorkchange(SqlSessionTemplate session, WorkChange wc) {
+		return session.insert("work.insertWorkchange",wc);
 	}
 
 }

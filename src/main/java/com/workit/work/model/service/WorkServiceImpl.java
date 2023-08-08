@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.workit.work.model.dao.WorkDao;
 import com.workit.work.model.dto.Work;
+import com.workit.work.model.dto.WorkChange;
 
 @Service
 public class WorkServiceImpl implements WorkService {
@@ -60,6 +61,11 @@ public class WorkServiceImpl implements WorkService {
 	@Override
 	public int earlyLeaveCount(Map<String, Object> paramMap) {
 		return dao.earlyLeaveCount(session,paramMap);
+	}
+
+	@Override
+	public int insertWorkchange(WorkChange wc) {
+		return dao.insertWorkchange(session,wc);
 	}
 
 

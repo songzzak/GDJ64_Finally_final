@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Work {
-	private int workNo;
+	private int workNo;//SEQ_WORK_NO
 	private Date workDate;
 	private Timestamp workStart;
 	private Timestamp workEnd;

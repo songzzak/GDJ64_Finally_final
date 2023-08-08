@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.workit.work.model.dto.Work;
+import com.workit.work.model.dto.WorkChange;
 import com.workit.work.model.service.WorkService;
 
 @Controller
@@ -55,7 +56,7 @@ public class WorkController {
 
 	    Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("memberId", memberId);
-        paramMap.put("today", today);
+        paramMap.put("workDate", today);
 	    // 오늘의 근태 정보 조회
 	    Work todayWork = service.selectWorkByDateAndMemberId(paramMap);
 	    //System.out.println(todayWork);
@@ -100,7 +101,6 @@ public class WorkController {
 		 return null;
 	}
 
-	
 	 @PostMapping("/workStart")
 	 @ResponseBody
 	    public Map<String, String> startWork(@RequestParam("workStartTime") String workStartTime) {
@@ -172,7 +172,7 @@ public class WorkController {
 	          LocalDate today = LocalDate.now();//2023-08-07
 	          Map<String, Object> paramMap = new HashMap<>();
 	          paramMap.put("memberId", memberId);
-	          paramMap.put("today", today);
+	          paramMap.put("workDate", today);
 	          Work todayWork = service.selectWorkByDateAndMemberId(paramMap);
 	          System.out.println(todayWork);
 
@@ -204,10 +204,6 @@ public class WorkController {
 	      return result;
 	 }
 
-
-
-
-
 	 @GetMapping("/checkTodayWork")
 	 @ResponseBody
 	 public Map<String, Boolean> checkTodayWork(@RequestParam("date") String workDate) {
@@ -226,6 +222,49 @@ public class WorkController {
 	     return result;
 	 }
 
+	 @PostMapping("/getTime")
+	 @ResponseBody
+	 public void getWorkTime(@RequestParam("date") String workDate,
+			 HttpServletRequest request, HttpServletResponse response) throws IOException {
+		 // 임시 사용자 ID
+	     String memberId = "user01";
+	     Map<String, Object> paramMap = new HashMap<>();
+	     paramMap.put("memberId", memberId);
+	     paramMap.put("workDate", workDate);
+	     //System.out.println(paramMap);
+	     Work w = service.selectWorkByDateAndMemberId(paramMap);
+	     //System.out.println(w);
+	     Gson gson = new Gson();
+	     String json = gson.toJson(w);
+         response.setContentType("application/json");
+         response.setCharacterEncoding("UTF-8");
+         response.getWriter().write(json);
+	 }
+	 
+	 @PostMapping("/requestTimeChange")
+	 @ResponseBody
+	 public void requestTimeChange(@RequestParam("date") String workDate,@RequestParam("reason") String reason,
+			 HttpServletRequest request, HttpServletResponse response) throws IOException {
+		 // 임시 사용자 ID
+	     String memberId = "user01";
+	     Map<String, Object> paramMap = new HashMap<>();
+	     paramMap.put("memberId", memberId);
+	     paramMap.put("workDate", workDate);
+	     Work w = service.selectWorkByDateAndMemberId(paramMap);
+	     WorkChange wc = WorkChange.builder()
+	    		 .work(w)
+	    		 .changeStatus("수정 요청")
+	    		 .reason(reason)
+	    		 .build();
+	     int insertResult = service.insertWorkchange(wc);
+	     boolean result = insertResult>0;
+
+	     Gson gson = new Gson();
+	     String json = gson.toJson(result);
+         response.setContentType("application/json");
+         response.setCharacterEncoding("UTF-8");
+         response.getWriter().write(json);
+	 }
 
 
 	 	
