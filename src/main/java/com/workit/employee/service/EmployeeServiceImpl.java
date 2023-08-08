@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.workit.employee.dao.EmployeeDao;
@@ -14,9 +18,11 @@ import com.workit.member.model.dto.Department;
 import com.workit.member.model.dto.Job;
 import com.workit.member.model.dto.Member;
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private EmployeeDao dao;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	@Override
 	public List<Department> selectDept() {
@@ -30,6 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public int insertEmployee(Map<String, Object> param) {
+		param.put("password", encoder.encode("1234"));
 		return dao.insertEmployee(param);
 	}
 
@@ -120,6 +127,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return dao.updateJob(param);			
 		}
 	}
+
+	
 	
 	
 	

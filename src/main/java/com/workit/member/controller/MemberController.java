@@ -7,9 +7,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.workit.member.model.dto.Member;
+import com.workit.member.model.vo.MemberVO;
 import com.workit.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,25 +38,49 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
-	@RequestMapping("/login")
+	@RequestMapping("/loginpage")
 	public String loginpage() {
 		return "member/login";
 	}
 	
-	@RequestMapping("/")
-	public String mainpage(@RequestParam Map<String,Object> param, HttpSession session) {
-		//Object loginMember=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Member loginMember=service.selectMemberByParam(param);
+	
+	@RequestMapping("/login/fail")
+	public String loginFail(Model model) throws IllegalAccessException{
+		model.addAttribute("msg","로그인 실패했습니다.");
+		model.addAttribute("url","/loginpage");
+		return "common/msg";
+	}
+	
+	@RequestMapping("/login/success")
+	public String login(@RequestParam Map<String,Object> param, HttpSession session){
+		MemberVO loginMember=(MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		session.setAttribute("loginMember", loginMember);
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/error/auth")
+	public String errorAuth(Model model) throws IllegalAccessException{
+		model.addAttribute("msg","사용 권한이 없습니다.");
+		model.addAttribute("url","/");
+		return "common/msg";
+	}
+	
+	@RequestMapping("/error/login")
+	public String errorLogin(Model model) throws IllegalAccessException{
+		model.addAttribute("msg","로그인 후 이용 가능합니다.");
+		model.addAttribute("url","/loginpage");
+		return "common/msg";
+	}
+	
+	@GetMapping("/")
+	public String mainpage(@RequestParam Map<String,Object> param, HttpSession session) {
 		return "index";
 	}
 	
 	@GetMapping("/mypage")
 	public String enrollView(Model model, HttpSession session) {
-		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 		model.addAttribute("approv",service.selectApprovMember(memberId));
-		log.info(memberId);
-		log.info("요청 : "+service.selectApprovMember(memberId));
 		return "member/mypage";
 	}
 	
@@ -59,8 +90,8 @@ public class MemberController {
 	}
 	
 	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
+	public String logout(HttpServletRequest request, HttpServletResponse reponse) {
+		new SecurityContextLogoutHandler().logout(request, reponse, SecurityContextHolder.getContext().getAuthentication());
 		return "member/login";
 	}
 	
@@ -81,7 +112,7 @@ public class MemberController {
 			}
 			Map<String,Object> param=new HashMap<>();
 			param.put("profileImg", rename);
-			param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+			param.put("memberId", ((MemberVO)session.getAttribute("loginMember")).getMemberId());
 			if(service.updateProfileImg(param)>0) {
 				model.addAttribute("msg","프로필 수정되었습니다.");
 				model.addAttribute("url","/mypage");
@@ -96,7 +127,6 @@ public class MemberController {
 	
 	@PostMapping("/member/info")
 	public String insertApprovMember(Model model, @RequestParam Map<String,Object> param) {
-		log.info("detailAddress : "+param.get("detailAddress"));
 		if(service.insertApprovMember(param)>0) {
 			model.addAttribute("msg","요청 전송하였습니다.");
 			model.addAttribute("url","/mypage");

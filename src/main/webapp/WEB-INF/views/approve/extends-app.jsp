@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -13,7 +13,7 @@
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
 	
-	<form action="#" id="appForm">
+	<form action="#" id="appForm" method="post" enctype="multipart/form-data">
 	
 	<div class="approve-section section-shadow">
 		<div id="approve_name">기안서신청</div>
@@ -34,6 +34,7 @@
 			</div>
 			
 			<input type="hidden" name="memberId" value="${loginMember.memberId}">
+			<input type="hidden" name="approveKind" value="연장근무신청서">
 			
 			<div id="one-width">
 				<div id="extendWorkWriteDate" class="question">작성일</div>
@@ -67,14 +68,14 @@
 			<div id="one-width">
 				<div id="appAttachment" class="question">첨부파일</div>
 				<div id="appAttachment-answer" class="answer">
-					<input type="file" id="appAttachment-input">
+					<input type="file" id="appAttachment-input" name="upFile">
 				</div>
 			</div>
 
 			<div id="one-width">
 				<button type="button" onclick="backs();" id="back">돌아가기</button>
 				<button type="button" onclick="saves();" id="save">임시저장</button>
-				<button type="submit" onclick="signs();" id="sign">결재상신</button>
+				<button type="button" onclick="signs();" id="sign">결재상신</button>
 			</div>
 
 		</div>
@@ -109,7 +110,6 @@
 		
  		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
 		$("#appForm").submit(); 
- 		location.assign("${path}/approve/insertDraft.do"); 
 		
 	}
 	
