@@ -16,6 +16,7 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.workit.member.model.dto.Member;
+import com.workit.member.service.MemberService;
 import com.workit.work.model.dto.Work;
 import com.workit.work.model.dto.WorkChange;
 import com.workit.work.model.service.WorkService;
@@ -36,27 +39,29 @@ import com.workit.work.model.service.WorkService;
 public class WorkController {
 
 	private WorkService service;
+	
+	private MemberService memberService;
 
 	@Autowired
-	public WorkController(WorkService service) {
+	public WorkController(WorkService service,MemberService memberService) {
 		this.service = service;
+		this.memberService = memberService;
 	}
 
 	@GetMapping("/workTime")
 	public String monthWorkTime(
 			@RequestParam(required = false) Integer currentYear, 
             @RequestParam(required = false) Integer currentMonth,
+            HttpSession session,
 			HttpServletRequest request, HttpServletResponse response, Model model) throws IOException{
-		//HttpSession session = request.getSession();
-//		Member m = (Member) session.getAttribute("loginUser");
-//		String memberId = m.getmId();
-		String memberId = "user01";
+		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
 		 // 오늘의 날짜 정보를 가져옴
 	    LocalDate today = LocalDate.now();//2023-08-07
 
 	    Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("memberId", memberId);
         paramMap.put("workDate", today);
+        //System.out.println(paramMap);
 	    // 오늘의 근태 정보 조회
 	    Work todayWork = service.selectWorkByDateAndMemberId(paramMap);
 	    //System.out.println(todayWork);
@@ -103,11 +108,15 @@ public class WorkController {
 
 	 @PostMapping("/workStart")
 	 @ResponseBody
-	    public Map<String, String> startWork(@RequestParam("workStartTime") String workStartTime) {
+	    public Map<String, String> startWork(@RequestParam("workStartTime") String workStartTime,HttpSession session) {
 	        Map<String, String> result = new HashMap<>();
-	        
+	        Map<String,Object> param=new HashMap<>();
+	        String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+	        param.put("memberId", memberId);
+	        Member m = memberService.selectMemberByParam(param);
+	        System.out.println(m);
 	        // 임시 사용자 ID
-	        String memberId = "user01";
+	        //String memberId = "user01";
 	        Timestamp currentTimestamp = null;
 	        String workStatus = null;
 	        try {
@@ -133,7 +142,7 @@ public class WorkController {
 	        }
 	        
 	        Work w = Work.builder()
-	                        .memberId(memberId)
+	                        .member(m)
 	                        .workStart(currentTimestamp)
 	                        .workStatus(workStatus)
 	                        .build();
@@ -151,11 +160,11 @@ public class WorkController {
 	 
 	 @PostMapping("/workEnd")
 	 @ResponseBody
-	 public Map<String, String> endWork(@RequestParam("workEndTime") String workEndTime) {
+	 public Map<String, String> endWork(@RequestParam("workEndTime") String workEndTime,HttpSession session) {
 	      Map<String, String> result = new HashMap<>();
-
+	      String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
 	      // 임시 사용자 ID
-	      String memberId = "user01";
+	      //String memberId = "user01";
 	      Timestamp currentTimestamp = null;
 	      String workStatus = "지각";
 	      try {
@@ -184,7 +193,7 @@ public class WorkController {
 	          }
 
 	          Work w = Work.builder()
-	                       .memberId(memberId)
+	        		  		.member(memberService.selectMemberByParam(Map.of("memberId",memberId)))
 	                       .workEnd(currentTimestamp)
 	                       .workStatus(workStatus)
 	                       .build();
@@ -206,9 +215,10 @@ public class WorkController {
 
 	 @GetMapping("/checkTodayWork")
 	 @ResponseBody
-	 public Map<String, Boolean> checkTodayWork(@RequestParam("date") String workDate) {
+	 public Map<String, Boolean> checkTodayWork(@RequestParam("date") String workDate,HttpSession session) {
 	     // 임시 사용자 ID
-	     String memberId = "user01";
+	     //String memberId = "user01";
+		 String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
 	     Map<String, String> mapParam = new HashMap<>();
 	     mapParam.put("memberId", memberId);
 	     mapParam.put("workDate", workDate);
@@ -219,15 +229,17 @@ public class WorkController {
 	    //System.out.println(alreadyRegistered);
 	     result.put("alreadyRegistered", alreadyRegistered);
 	     result.put("alreadyCheckedOut", alreadyCheckedOut);
+	     //System.out.println(result);
 	     return result;
 	 }
 
 	 @PostMapping("/getTime")
 	 @ResponseBody
 	 public void getWorkTime(@RequestParam("date") String workDate,
-			 HttpServletRequest request, HttpServletResponse response) throws IOException {
+			 HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
 		 // 임시 사용자 ID
-	     String memberId = "user01";
+	     //String memberId = "user01";
+		 String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
 	     Map<String, Object> paramMap = new HashMap<>();
 	     paramMap.put("memberId", memberId);
 	     paramMap.put("workDate", workDate);
@@ -244,9 +256,10 @@ public class WorkController {
 	 @PostMapping("/requestTimeChange")
 	 @ResponseBody
 	 public void requestTimeChange(@RequestParam("date") String workDate,@RequestParam("reason") String reason,
-			 HttpServletRequest request, HttpServletResponse response) throws IOException {
+			 HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
 		 // 임시 사용자 ID
-	     String memberId = "user01";
+	     //String memberId = "user01";
+		 String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
 	     Map<String, Object> paramMap = new HashMap<>();
 	     paramMap.put("memberId", memberId);
 	     paramMap.put("workDate", workDate);

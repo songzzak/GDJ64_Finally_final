@@ -13,7 +13,7 @@ public class MyWebMvcConfiguration implements WebMvcConfigurer{
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("index");
-		registry.addViewController("/workBoard").setViewName("/work/workBoard");
+		registry.addViewController("/workChangeList").setViewName("/work/workChangeList");
 	}
 
 }
