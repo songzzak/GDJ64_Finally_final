@@ -1,6 +1,7 @@
 package com.workit.approve.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class ApproveServiceImpl implements ApproveService {
 		return dao.selectAllMember(session);
 	}
 
+
 	@Override
 	public List<Member> changeDep(String deptName) {
 		return dao.changeDep(session,deptName);
@@ -55,6 +57,15 @@ public class ApproveServiceImpl implements ApproveService {
 		return dao.insertApproveAttach(session,aa);
 	}
 	
+	@Override
+	public int insertApproveLine(Map<String, Object> param) {
+		return dao.insertApproveLine(session,param);
+	}
+
+	@Override
+	public int insertReferLine(Map<String, Object> param) {
+		return dao.insertReferLine(session,param);
+	}
 	
 
 }

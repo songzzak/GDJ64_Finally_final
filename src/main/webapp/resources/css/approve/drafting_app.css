@@ -359,6 +359,19 @@
     text-align: center;
     line-height: 70px;
  }
+ 
+ 
+ #hBetweenTime,#gBetweenTime{
+	 margin-right: 10px;
+	 color: black;
+	font-weight: bold;
+ }
+ 
+  #hStartDate,#hStartTime,#hEndTime,#gStartDate,#gEndDate{
+	 margin-right: 10px;
+ }
+ 
+
   /* ----------------- */
   
    /* 근태신청서 css */
@@ -373,7 +386,7 @@
    
    #div-annual{ /* 연차 */
 	   height: 50px; 
-	   width: 105px;
+	   width: 126px;
 	   text-align: center;
 	   line-height: 50px;
 	   border-top: none;
@@ -387,7 +400,7 @@
    
    #div-halfAnuual{ /* 반차 */
 	   height: 50px;
-	   width: 105px;
+	   width: 126px;
        line-height: 50px;
        text-align: center;
        border-top: none;
@@ -401,7 +414,7 @@
    
    #div-health{  /* 보건 */
 	   height: 50px;
-	   width: 105px;
+	   width: 126px;
        line-height: 50px;
        text-align: center;
        border-top: none;
@@ -415,7 +428,7 @@
   
    #div-condolences{  /* 경조 */
 	   height: 50px;
-	   width: 105px;
+	   width: 126px;
        line-height: 50px;
        text-align: center;
        border-top: none;
@@ -427,23 +440,10 @@
 	   vertical-align:sub;
    }
    
-   #div-training{  /* 훈련 */
-	   height: 50px;
-	   width: 105px;
-       line-height: 50px;
-       text-align: center;
-       border-top: none;
-       border-right: none;
-   }
-   
-   #training{
-	   width: 40px;
-	   vertical-align:sub;
-   }
-   
+
    #div-outing{  /* 외출 */
 	   height: 50px;
-	   width: 104px;
+	   width: 126px;
        line-height: 50px;
        text-align: center;
        border-top: none;
@@ -474,6 +474,8 @@
    }
    
    
+   
+   
    /* 지출결의서 css */
    #account{
 	 height: 50px;
@@ -492,7 +494,7 @@
    #price{
 	 height: 50px;
      width:  155px;
-         text-align: center;
+     text-align: center;
     line-height: 50px;
    }
    

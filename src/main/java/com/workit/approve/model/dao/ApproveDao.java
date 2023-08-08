@@ -1,6 +1,7 @@
 package com.workit.approve.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -17,4 +18,6 @@ public interface ApproveDao {
 	public int insertApprove(SqlSession session, Approve ap);
 	public int insertTime(SqlSession session, Time t);
 	public int insertApproveAttach(SqlSession session, ApproveAttach aa);
+	public int insertApproveLine(SqlSession session, Map<String,Object> param);
+	public int insertReferLine(SqlSession session, Map<String,Object> param);
 }

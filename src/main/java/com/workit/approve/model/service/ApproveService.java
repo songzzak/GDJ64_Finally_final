@@ -1,6 +1,7 @@
 package com.workit.approve.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
@@ -16,4 +17,6 @@ public interface ApproveService {
 	public int insertApprove(Approve ap);
 	public int insertTime(Time t);
 	public int insertApproveAttach(ApproveAttach aa);
+	public int insertApproveLine(Map<String,Object> param);
+	public int insertReferLine(Map<String,Object> param);
 }
