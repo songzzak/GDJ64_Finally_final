@@ -282,7 +282,7 @@ public class WorkController {
 		 
 		 List<WorkChange> workChangeList = service.selectAllWorkChange();
 		 model.addAttribute("workChangeList", workChangeList);
-		workChangeList.forEach(System.out::println);
+		//workChangeList.forEach(System.out::println);
 		
 		 return "/work/workChangeList";
 	 }

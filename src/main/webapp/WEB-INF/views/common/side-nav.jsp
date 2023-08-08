@@ -25,7 +25,8 @@
       <div>
          <a class="side-menu"><img src="${path}/resources/images/common/work.svg">근태 관리</a>
          <ul class="menu-toggle" style="display:none">
-            <li><a href="${path }/">메뉴</a></li>
+            <li><a href="${path }/work/workTime">내 출근부</a></li>
+            <li><a href="${path }/work/workChange">출퇴근 시간 수정</a></li>
          </ul>
       </div>
       <div>
