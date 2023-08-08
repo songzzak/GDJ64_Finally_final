@@ -8,9 +8,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.workit.member.model.dto.Member;
 import com.workit.member.model.vo.ApprovMemberVO;
+import com.workit.member.model.vo.MemberVO;
 
 public interface MemberService {
-	Member selectMemberByParam(Map<String,Object> param);
+	MemberVO selectMemberByParam(Map<String,Object> param);
 
 	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 

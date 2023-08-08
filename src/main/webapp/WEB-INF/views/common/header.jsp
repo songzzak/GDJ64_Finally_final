@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.workit.member.model.dto.Member"  %>
+<%@ page import="com.workit.member.model.vo.MemberVO"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
@@ -15,7 +15,7 @@
 </head>
 <body>
 <%
-	Member loginMember=(Member)session.getAttribute("loginMember");
+	MemberVO loginMember=(MemberVO)session.getAttribute("loginMember");
 %>
 <header class="max100per">
 	<div class="header-container max90per">
