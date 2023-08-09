@@ -144,12 +144,10 @@ const backs=()=>{
 			alert("각 목록마다 한칸이상씩 입력");
 			return false;	
 		}else{
-			if(result == true){
-				
-			}else{
+			if(result == false){
 				alert("각 줄의 목록을 다 입력");
-				return false;				
-			}		
+				return false;	
+			}
 		}
 		
  		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 

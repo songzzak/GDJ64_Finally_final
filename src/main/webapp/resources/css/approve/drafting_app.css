@@ -526,6 +526,17 @@
 			margin-right: 20px;
 		}
 		
+		#department-box>button{
+			justify-content: center;
+			background-color: white;
+		}
+/*--main-color-lt:#BDDFFF;  밝은 하늘색 버튼 
+  --main-color-bl:#96C1E8;  하늘색 버튼 
+  --main-color-dk:#5F90CB;  어두운 하늘색 버튼 */
+		#department-box>button:hover{
+			color: #96C1E8;
+		}
+		
 		#people-box{
 			height:430px;
 			width:350px;

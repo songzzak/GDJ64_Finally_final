@@ -20,6 +20,7 @@ const openBtn = () => {
 
 		$("#line-box").append($('<div/>', { class: str[0] })); // 결재선 만들어질때, div로 묶고 만들어짐 클래스값 = 사원번호
 		$("." + str[0]).append($('<input/>', { type: 'checkbox', name: 'appBox', value: str[0], width: '30px', margin: "10px" }));
+		$("." + str[0]).append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
 		$("." + str[0]).append(str[0] + " " + str[1] + " " + str[2] + " " + str[3], '<br>');
 	});
 
@@ -35,6 +36,7 @@ const openBtn = () => {
 
 		$("#refer-box").append(obj); // 결재선 만들어질때, div로 묶고 만들어짐 클래스값 = 사원번호
 		$(obj).append($('<input/>', { type: 'checkbox', name: 'referBox', value: str[0], width: '30px', margin: "10px" }));
+		$(obj).append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
 		$(obj).append(str[0], '&nbsp;', str[1], '&nbsp;', str[2], '&nbsp;', str[3], '<br>')
 	});
 
@@ -55,7 +57,8 @@ const changeDep = (e) => {  // 결재선 선택창에서 부서 눌렀을 때
 			$("#people-box").empty(); // #people-box 밑에 자식요소들 모두삭제
 			for (let i = 0; i < data.length; i++) {
 				var a = [data[i].memberId, data[i].memberName, data[i].job.jobName, data[i].dept.deptName];
-				$("#people-box").append($('<input/>', { type: 'checkbox', name: 'peopleBox', value: a, width: '30px', margin: "10px" }));
+				$("#people-box").append($('<input/>', { type: 'checkbox', name: 'peopleBox', value: a, width: '30px'}));
+				$("#people-box").append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
 				$("#people-box").append(data[i].memberId, '&nbsp;', data[i].memberName, '&nbsp;', data[i].job.jobName, '&nbsp;', data[i].dept.deptName, '<br>')
 			}
 		});
@@ -84,6 +87,7 @@ const applyOn = () => { // 결재선 목록에 -> 화살표눌렀을 때
 				} else { // 그외에는 추가함
 					$("#line-box").append($('<div/>', { class: str[0] })); // 결재선 만들어질때, div로 묶고 만들어짐 클래스값 = 사원번호
 					$("." + str[0]).append($('<input/>', { type: 'checkbox', name: 'appBox', value: str[0], width: '30px', margin: "10px" }));
+					$("." + str[0]).append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
 					$("." + str[0]).append(str[0] + " " + str[1] + " " + str[2] + " " + str[3], '<br>')
 				}
 
@@ -135,6 +139,7 @@ const referOn = () => { // 참조선 목록에 -> 버튼 눌렀을 때
 					console.log(obj);
 					$("#refer-box").append(obj); // 결재선 만들어질때, div로 묶고 만들어짐 클래스값 = 사원번호
 					$(obj).append($('<input/>', { type: 'checkbox', name: 'referBox', value: str[0], width: '30px', margin: "10px" }));
+					$(obj).append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
 					$(obj).append(str[0], '&nbsp;', str[1], '&nbsp;', str[2], '&nbsp;', str[3], '<br>')
 				}
 
@@ -200,6 +205,7 @@ const registButton = () => {  // 결재선 등록버튼 눌렀을 때
 						const span = $("<span>");
 						span.attr("class", "appClass");
 						$("#regist-app").append(span);
+						span.append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
 						span.append(data[i].memberId + " " + data[i].memberName + " " + data[i].job.jobName + " " + data[i].dept.deptName, '<br>');
 						span.append($("<input/>", { type: 'hidden', name: 'paraApp', value: data[i].memberId })); // 파라미터로 넘길 결재선 값들
 						const di = $("<div>").css("border", "1px solid black").height("98px").width("120px");
@@ -224,6 +230,7 @@ const registButton = () => {  // 결재선 등록버튼 눌렀을 때
 						const span = $("<span>");
 						span.attr("class", "appId");
 						$("#regist-reference").append(span);
+						span.append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
 						span.append(data[j].memberId + " " + data[j].memberName + " " + data[j].job.jobName + " " + data[j].dept.deptName, '<br>');
 						span.append($("<input/>", { type: 'hidden', name: 'paraRefer', value: data[j].memberId })); // 파라미터로넘길 참조선값들		
 					}

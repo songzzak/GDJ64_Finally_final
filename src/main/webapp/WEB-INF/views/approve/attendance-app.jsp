@@ -177,8 +177,6 @@
 			}
 		}
 
-		
-		
  		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
 		$("#appForm").submit(); 
 		

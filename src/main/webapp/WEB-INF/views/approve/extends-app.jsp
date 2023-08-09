@@ -92,6 +92,8 @@
 	}
 	
 	const saves=()=>{
+ 		$("#appForm").attr("action","${path}/approve/saveExtends.do"); 
+		$("#appForm").submit(); 
 		
 	}
 	
@@ -100,18 +102,13 @@
 		if($(".appClass").length < 1){
 			alert("결재선에 최소 한명이상 선택하세요");
 			return false;
-		}else{
-			
 		}
 		
 		if($(".appId").length < 1){
 			alert("참조선에 최소 한명이상 선택하세요");
 			return false;
-		}else{
-			
 		}
-				
-				
+					
 		if(document.getElementById("title-input").value == "" || document.getElementById("content-textarea").value == ""){
 			alert("제목 내용 입력");
 			return false;
@@ -123,13 +120,9 @@
 			return false;
 		}
 		
-		
-		
  		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
 		$("#appForm").submit(); 
-		
 	}
-	
 </script>
 
 

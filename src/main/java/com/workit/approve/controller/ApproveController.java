@@ -131,12 +131,13 @@ public class ApproveController {
 	
 	
 	@RequestMapping("/insertDraft.do")
-	public String insertDraft(String memberId, String writeTime, String startDate, String endDate, String startTime, String endTime, 
+	public String insertDraft(String memberId, String startDate, String endDate, String startTime, String endTime, 
 			String content, String title, String approveKind, String geuntae, String account[], String useHistory[], String price[],
 			String paraApp[], String paraRefer[], 
 			MultipartFile upFile, HttpSession session) throws ParseException{
-		
+				
 		String approveState = "결재대기";
+		
 		
 		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
         
@@ -217,8 +218,10 @@ public class ApproveController {
 		if(account != null) {  // 지출결의서 내용 테이블 생성
 			
 			for(int i=0; i<account.length; i++) {
-				Expenditure ex = Expenditure.builder().account(account[i]).useHistory(useHistory[i]).price(price[i]).build();
-				int result6 = service.insertExpenditure(ex);
+				if(!account[i].equals("")) {  // 내용부분이 비어있으면 생성 x
+					Expenditure ex = Expenditure.builder().account(account[i]).useHistory(useHistory[i]).price(price[i]).build();
+					int result6 = service.insertExpenditure(ex);					
+				}
 			}
 		}
 		
@@ -249,13 +252,85 @@ public class ApproveController {
 				}
 			}
 			System.out.println("참조선 테이블 성공횟수 = "+referSuccess); 
-		}
-		
-		
-		
+		} 
 		
 		return "redirect:/";
 	}
+	
+	
+	
+	@RequestMapping("/saveExtends.do")
+	public String saveDraft(String memberId, String startDate, String startTime, String endTime, 
+			String content, String title, String approveKind, String paraApp[], String paraRefer[], 
+			MultipartFile upFile, HttpSession session) throws ParseException{
+		
+		String approveState = "임시저장";
+		
+		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
+        
+		Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveState(approveState).approveKind(approveKind).build(); 
+		int result = service.insertApprove(ap); // 기안서 테이블 생성 
+		
+			startTime = startDate+" "+startTime; 
+			endTime = startDate+" "+endTime;
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+			Date date = df.parse(startTime); 
+			long stime = date.getTime();
+			
+			Date date2 = df.parse(endTime); 
+			long etime = date2.getTime();
+			
+			Timestamp st = new Timestamp(stime); Timestamp et = new Timestamp(etime);
+			
+			Time t = Time.builder().startTime(st).endTime(et).build(); // 시간테이블 생성
+			int result2 = service.insertTime(t); 
+				
+		if (!upFile.getOriginalFilename().equals("")) {  // 첨부파일 추가했을경우
+			String oriName=upFile.getOriginalFilename(); // 원본이름
+			Date today = new Date(System.currentTimeMillis());
+			String ext=oriName.substring(oriName.lastIndexOf("."));
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			int random = (int) (Math.random() * 10000) + 1;
+			String rename = sdf.format(today) + "_" + random+ext;
+			try {
+				upFile.transferTo(new File(path + rename));
+				ApproveAttach aa = ApproveAttach.builder().oriName(oriName).saveName(rename).build();
+				int result3 = service.insertApproveAttach(aa);  // 첨부파일 테이블 생성
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if(paraApp != null) {
+			int appSuccess = 0;
+			for(int i=0; i<paraApp.length; i++) {
+				Map<String,Object> param=new HashMap<>();
+				param.put("memberId", paraApp[i]);
+				param.put("order", i+1);
+				int result4 = service.insertApproveLine(param); // 결재선 테이블 추가
+				if(result4 >= 1) { //결재선테이블 추가 성공할때마다 1증가
+					appSuccess+=1;
+				}
+			}
+			System.out.println("결재선 테이블 성공횟수 = "+appSuccess);
+		}
+		
+		if(paraRefer != null) {
+			int referSuccess = 0;
+			for(int i=0; i<paraRefer.length; i++) {
+				Map<String,Object> param=new HashMap<>();
+				param.put("memberId", paraRefer[i]);
+				int result5 = service.insertReferLine(param); // 결재선 테이블 추가
+				if(result5 >= 1) { //결재선테이블 추가 성공할때마다 1증가
+					referSuccess+=1;
+				}
+			}
+			System.out.println("참조선 테이블 성공횟수 = "+referSuccess); 
+		} 
+		return "redirect:/";
+	}
+	
 	
 	
 }
