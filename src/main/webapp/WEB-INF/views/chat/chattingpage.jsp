@@ -143,7 +143,6 @@
 					if(data>0){
 						alert("채팅 멤버 초대에 성공했습니다 :)");
 						fn_closeChatModal();
-						
 					}else{
 						alert("채팅 멤버 초대에 실패했습니다 ;<");
 						fn_closeChatModal();
