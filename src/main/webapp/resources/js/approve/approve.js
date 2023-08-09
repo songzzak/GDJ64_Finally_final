@@ -202,11 +202,11 @@ const registButton = () => {  // 결재선 등록버튼 눌렀을 때
 						$("#regist-app").append(span);
 						span.append(data[i].memberId + " " + data[i].memberName + " " + data[i].job.jobName + " " + data[i].dept.deptName, '<br>');
 						span.append($("<input/>", { type: 'hidden', name: 'paraApp', value: data[i].memberId })); // 파라미터로 넘길 결재선 값들
-						const di = $("<div>").css("border", "1px solid black").height("90px").width("120px");
+						const di = $("<div>").css("border", "1px solid black").height("98px").width("120px");
 						$("#app-line").append(di);
-						di.append($("<div>").css("border-bottom", "1px solid black").height("30px").width("120px").text(data[i].memberName + " " + data[i].job.jobName));
+						di.append($("<div>").css("border-bottom", "1px solid black").height("30px").width("120px").text(data[i].memberName + " " + data[i].job.jobName).css("text-align","center"));
 						di.append($("<div>").height("40px").width("120px"));
-						di.append($("<div>").css("border-top", "1px solid black").height("20px").width("120px").text(i+1));
+						di.append($("<div>").css("border-top", "1px solid black").height("28px").width("120px").text(i+1).css("text-align","center"));
 						
 					}
 				});

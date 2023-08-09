@@ -112,8 +112,6 @@
 		}
 				
 				
-				
-				
 		if(document.getElementById("title-input").value == "" || document.getElementById("content-textarea").value == ""){
 			alert("제목 내용 입력");
 			return false;

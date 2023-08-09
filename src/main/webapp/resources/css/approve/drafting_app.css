@@ -174,7 +174,7 @@
   /* ---------- 첨부파일부분 ----------- */
   #appAttachment{
     height: 55px;
-    width:  126px;
+    width:  156px;
     border-right: none;
     border-top: none;
     text-align: center;
@@ -183,7 +183,8 @@
   
   #appAttachment-answer{
     border-top: none;
-    width:  634px;
+    width:  604px;
+    height: 55px;
     text-align: center;
     line-height: 50px;
     	  margin-bottom: 10px;	
