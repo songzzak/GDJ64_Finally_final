@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="${path}/resources/css/chat/chat.css">
 <div class="modal-addChatMember chatHidden scroll chatmodal">
 	<div class="modal-content section-shadow">
+	<h4 class="modal-close">X</h4>
 	<h2 class="title">채팅 멤버 선택</h2>
 	<div class="modal-current-member"></div>
 	<div class="chat-DeptContainer">
@@ -15,44 +16,40 @@
 			<span>채팅 제목 미 설정 시 채팅 멤버 아이디, 채팅 참여 멤버 수로 설정됩니다</span>
 		</div>
 		<c:if test="${not empty dept && not empty members}">
-		<div class="">
 			<c:forEach var="dept" items="${dept}">
 				<div class="dept-list-container section-shadow">
 					<h4 class="dept-title"><c:out value="${dept.deptName}"/></h4>
 					<form class="modal-memberList chatHidden">
 						<c:forEach var="member" items="${members }">
 							<c:if test="${dept.deptCode == member.dept.deptCode && member.memberId!=loginMember.memberId}">
-								<label for="memberId"></label><input type="checkbox" name="memberId" value="${member.memberId }"><c:out value="${member.memberName }"/> <c:out value="${member.job.jobName }"/>
+								<label for="memberId"><input type="checkbox" name="memberId" value="${member.memberId }"><span><c:out value="${member.memberName }"/></span><c:out value="${member.job.jobName }"/></label>
 							</c:if>
 						</c:forEach>
 					</form>
 				</div>
 			</c:forEach>
-		</div>
-		<c:if test="${empty chatroomMembers}">
-			<button class="insert-chat-btn">채팅 시작</button>
-		</c:if>
-		<c:if test="${not empty chatroomMembers}">
-			<h4><c:out value="${chatroomMembers}"/></h4>
-			<button class="update-chat">멤버 추가</button>
-		</c:if>
+			<button class="modal-chat-btn">채팅 시작</button>
 		</c:if>
 	</div>
 	</div>
 </div>
 <div class="chatRoom-container section-shadow">
 	<div class="chat-header">
-		<h3 class="title"></h3>
+		<div class="title-container">
+			<h3 class="title"></h3>
+			<span class="chat-member"></span>
+		</div>
 		<div class="chat-icon-container chatHidden">
 			<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="searchChatIcon">
 			<img src="${path}/resources/images/common/attach.svg" alt="chat-attach" class="attachChatIcon">
 			<img src="${path}/resources/images/chat/addPerson.svg" alt="chat-addPerson" class="addPersonIcon">
+			<img src="${path}/resources/images/common/setting.svg" alt="chat-setting" class="settingIcon">
 		</div>
 	</div>
 	<div class="chat-room-inner">
 		<div class="modalNewChat section-shadow chatHidden"></div>
 		<div class="chat-room-nothing">
-			<img src="${path }/resources/images/common/workit.svg">
+			<img src="${path}/resources/images/common/workit.svg">
 			<h2 class="title">선택한 채팅이 없습니다</h2>
 		</div>
 		<div class="modal-searchRoomContainer chatHidden">
@@ -63,11 +60,9 @@
 		<div class="chat-msgBox-container scroll"></div>
 	</div>
 	<div class="chat-input-container chatHidden">
-		<!-- <form action="" class="chat-fileform" method="post" enctype="multipart/form-data"> -->
 		<form action="${path}/chat/attach" class="chat-fileform" method="post" enctype="multipart/form-data">
 			<input type="file" name="uploadFile" multiple class="chat-upFile chatHidden">
 			<button name="chat-attatch" class="chat-addAttatch">+</button>
-			<!-- <button type="submit" name="chat-attatch" class="chat-addAttatch">+</button> -->
 		</form>
 		<input type="text" name="chat-msg" class="chat-msg-input">
 		<button class="sendChat">send</button>
@@ -82,23 +77,26 @@
 		</form> -->
 	</div>
 </div>
+<style>
+	.chatHidden{
+	display: none;}
+</style>
 <script>
 	const fn_closeChatModal=()=>{
-		$('html').click(function(e) {   
-			if(!$(e.target).hasClass("modal")) {
-				alert('영역 밖입니다.');
-				$(".modal-addChatMember").css("display","none");
-			}
-		});    
+		$(".modal-addChatMember").css("display","none");
 	}
-	$(".insert-chat-btn").click(e=>{
+	$(".modal-close").click(e=>{
+		fn_closeChatModal();
+	})
+	$(".modal-chat-btn").click(e=>{
 		var chatroomCode;
 		var chatMember="";
-		//var chatMemberArr=[];
 		let chatroomTitle;
 		let selectedMember = $(".modal-memberList input:checked");
 		if($("input[name=chatroomTitle]").val()==null ||$("input[name=chatroomTitle]").val()==""){
-			chatroomTitle = $("input[name=chatroomTitle]").val()+" ("+(selectedMember.length+1)+")";
+			//console.log("제목없음 : ",selectedMember.parent().text());
+			console.log("제목없음 : ",selectedMember.next().text());
+			chatroomTitle = "그룹채팅 "+selectedMember.next().text()+" ("+(selectedMember.length+1)+")";
 		}else{
 			chatroomTitle = $("input[name=chatroomTitle]").val();
 		}
@@ -112,30 +110,53 @@
 				chatMember+=selectedMember[i].value+",";
 			}
 			chatMember = chatMember.slice(0, -1);
-			console.log(chatMember);
 			newChatroom = new Chatroom("", 'G', chatroomTitle, "", chatMember);
 		}
-		$.ajax({
-			url: "${path}/chat/insert",
-			type: "post",
-			data:JSON.stringify(newChatroom),
-			contentType:"application/json;charset=utf-8",
-			success: data => {
-				console.log(data);
-			},
-			done:data =>{
-				fn_closeChatModal();
-			}
-		});
+		if(chatroomId==null && chatroomId==null && chatMember==null || chatMember==""){
+			alert("선택한 채팅 멤버가 없습니다 다시 선택해주세요");
+		}
+		else if(chatroomId=="" || chatroomId==null && chatMember!=null && chatMember!=""){
+			$.ajax({
+				url: "${path}/chat/insert",
+				type: "post",
+				data:JSON.stringify(newChatroom),
+				contentType:"application/json;charset=utf-8",
+				success: data => {
+					console.log("insert Data ",data);
+					fn_closeChatModal();
+				},error : data =>{
+					alert("error 발생");
+				}
+			});
+		}else if(chatroomId!="" || chatroomId!=null && chatroomMembers!=null || chatroomMembers!=""){
+			console.log("curMember",chatroomMembers);
+			$.ajax({
+				url: "${path}/chat/update",
+				type: "post",
+				data:{
+					chatroomId : chatroomId,
+					chatMember : chatMember
+				},
+				//contentType:"application/json;charset=utf-8",
+				success: data => {
+					console.log(data);
+					if(data>0){
+						alert("채팅 멤버 초대에 성공했습니다 :)");
+						fn_closeChatModal();
+						
+					}else{
+						alert("채팅 멤버 초대에 실패했습니다 ;<");
+						fn_closeChatModal();
+					}
+				}
+			});
+		}
 	})
 	$(".dept-title").click(e=>{
 		console.log($(e.target));
 		$(e.target).next().toggle();
 	})
-	$(".modal-addChatMember").click(e=>{
-		//$(".modal-content").attr("class","chatHidden");
-		//$(e.target).attr("class","chatHidden");
-	})
+
 	let sendDate = new Date();
 	const timeElapsed = Date.now();
 	const today = new Date(timeElapsed);
@@ -177,9 +198,11 @@
 				data.forEach(e =>{
 					/* if(e.memberId!=loginMember.memberId && e.memberId!=chatroomMembers){ */
 					if(e.memberId!=loginMember){
-					memberDiv.append($("<label>").attr("for", e.memberId).text(e.memberName + " " + e.job.jobName));
-					memberDiv.append($("<input type='checkbox' name='memberId'>").attr("value", e.memberId));
-					memberDiv.append($("<br>"));
+					var inputDiv = $("<div class='dept-member-input'>");
+					inputDiv.append("<label>").attr("for", e.memberId).text(e.memberName + " " + e.job.jobName);
+					inputDiv.append($("<input type='checkbox' name='memberId'>").attr("value", e.memberId));
+					inputDiv.append($("<br>"));
+					memberDiv.append(inputDiv);
 					$(".chat-DeptContainer").append(memberDiv);
 					}
 				})
@@ -190,10 +213,26 @@
 	$(".addPersonIcon").click(e => {
 		$(".chat-room-nothing").attr("class","chatHidden");
 		$(".modal-addChatMember").css("display","block");
+		let input = $(".modal-memberList input[name=memberId]");
+		let inputArr = Object.values(input);
+		var cMember="";
+		inputArr.forEach(a=>{
+			if(chatroomMembers!=null){
+				//console.log(chatroomMembers);				
+				chatroomMembers.forEach(e=>{
+					if((a.value)==e) {
+						$(a).css("display","none");
+						$(a).parent().css("display","none");
+					}
+				})			
+			}
+		})
+		//console.log(cMember.split(","));
+		
 	})
 
-	console.log(chatroomId);
-	console.log(loginMember);
+	/* console.log(chatroomId);
+	console.log(loginMember); */
 	const websocket= new WebSocket("ws://localhost:8080/chatting");
 	websocket.onopen=data=>{
 		console.log(data);

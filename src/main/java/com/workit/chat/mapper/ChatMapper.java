@@ -24,7 +24,7 @@ public interface ChatMapper {
 	List<MyChatroom> searchAllByKeyword(String keyword);
 	
 	List<MyChatroom> selectChatroomIdById(String id);
-	List<MyChatroom> checkChatroomMember(String chatroomId);
+	//List<MyChatroom> checkChatroomMember(String chatroomId);
 	
 	void insertChatroom(Map<String, Object> param);
 	int insertMyChatroom(String memberId);
@@ -41,7 +41,8 @@ public interface ChatMapper {
 	
 	List<MyChatroom> selectChatMember(String chatroomId);
 	
-	List<MyChatroom> checkChatroomMemberAll(String chatroomId);
+	List<MyChatroom> selectCurrentChatMembers(String chatroomId);
 	
 	int updateChatroomMember(Map<String, Object> param);
+	
 }

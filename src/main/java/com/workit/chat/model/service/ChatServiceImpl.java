@@ -50,7 +50,7 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public Map<String, Object> selectChatroomByroomId(String chatroomId) {
-		return Map.of("chatroomList",chatDao.selectChatroomByroomId(chatroomId), "chatroomMember", chatDao.checkChatroomMember(chatroomId));
+		return Map.of("chatroomList",chatDao.selectChatroomByroomId(chatroomId), "chatroomMember", chatDao.selectChatMember(chatroomId));
 	}
 	
 	@Override
@@ -61,7 +61,6 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public String insertChatroom(String loginMember, Chatroom chatroom) {
-	//public String insertChatroom(Map<String, Object> param) {
 		String chatroomCode = chatroom.getChatroomCode();
 		log.info("{}", chatroomCode);
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -81,26 +80,6 @@ public class ChatServiceImpl implements ChatService {
 		}
 		return (String)param.get("chatroomIdSeq");
 	}
-//	public String insertChatroom(String loginMember, Chatroom chatroom) {
-//		//public String insertChatroom(Map<String, Object> param) {
-//			//Chatroom chatroom =(Chatroom)param.get("chatroom");
-//			log.info("{}", chatroom.getChatroomCode());
-//			String chatroomCode = chatroom.getChatroomCode();
-//			
-//			
-//			param.put("chatroomCode", chatroomCode);
-//			log.info("{}", chatroom);
-////			String[] member = chatroom.getMemberId().split(",");
-////			param.put("member", member);
-////			log.info("{}", Arrays.toString((String[])param.get("member")));
-//			
-//			chatDao.insertChatroom(param);
-//			
-//			for(String id:(String[])param.get("member")) {
-//				chatDao.insertMyChatroom(Map.of("id",id,"chatroomIdSeq",param.get("chatroomIdSeq")));
-//			}
-//			return (String)param.get("chatroomIdSeq");
-//		}
 
 	@Override
 	public List<Member> selectMemberAll() {
@@ -128,26 +107,26 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<MyChatroom> checkChatroomMember(String chatroomId) {
-		return chatDao.checkChatroomMemberAll(chatroomId);
+	public List<MyChatroom> selectCurrentChatMembers(String chatroomId) {
+		return chatDao.selectCurrentChatMembers(chatroomId);
 	}
 
 	@Override
 	public int updateChatroomMember(Map<String, Object> param) {
-		log.info("{}", param.get("member"));
 		String[] memberArr= ((String)param.get("member")).split(",");
 		log.info("{}", param.get("chatroomId"));
 		log.info("{}", Arrays.toString(memberArr));
 		log.info("{}", memberArr.length);
 		String chatroomId = (String)param.get("chatroomId");
-		if(memberArr.length >1) {
-			for(String m : memberArr) {
+		if(memberArr!=null && memberArr.length >1) {
+			for(String arr : memberArr) {
 				log.info("for문 안");
-				log.info("m: "+m);
-				log.info("{}", chatDao.updateChatroomMember(Map.of("memberId", m,"chatroomId", chatroomId)));
-				return chatDao.updateChatroomMember(Map.of("memberId", m,"chatroomId", chatroomId));
+				log.info("m: "+arr);
+				log.info("{}", chatDao.updateChatroomMember(Map.of("memberId", arr,"chatroomId", chatroomId)));
+				return chatDao.updateChatroomMember(Map.of("memberId", arr,"chatroomId", chatroomId));
 			}
 		}
+		
 		return chatDao.updateChatroomMember(Map.of("memberId",param.get("member"),"chatroomId", chatroomId));
 	}
 	

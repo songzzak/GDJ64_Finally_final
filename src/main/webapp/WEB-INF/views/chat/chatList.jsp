@@ -21,13 +21,11 @@
 				<h4 class="chatRoomGroup">그룹 채팅</h4>
 			</div>
 		</div>
-		<!-- 검색 아이콘 누르면 나오는 모달창 -->
 		<div class="modal-searchContainer" style="display: none">
 			<input type="search" name="searchChatList" placeholder="이름, 파일명 검색">
 			<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="modalSearchAllIcon">
 			<span class="search-close">X</span>
 		</div>
-		<!-- select 해서 가져오기 없으면 분기처리-->
 		<c:if test="${empty roomNumbers}">
 			<div class="chat-room">
 				<h3 class="title">참여 중인 채팅이 없습니다</h3>
@@ -35,14 +33,14 @@
 		</c:if>
 		<c:if test="${not empty roomNumbers}">
 			<c:forEach var="r" items="${roomNumbers}">
-				<div class="chat-room">
-					<h5>${r.chatroomTitle }</h5>
+				<div class="chat-room chat-select">
+					<h5 class="chatroom-title chat-select">${r.chatroomTitle }</h5>
 					<img src="${path}/resources/images/common/more.svg" alt="chat-delete" class="deleteChatRoom">
 					<input type="hidden" value="${r.chatroomId}" name="chatRoomId" class="roomId">
 					<c:forEach var="c" items="${chat}">
 						<c:if test="${r.chatroomId == c.chatroomId}">
-							<span class="chat-content">${c.chatContent}</span>
-							<span class="chat-date"><fmt:formatDate value="${c.chatDate}" type="both" pattern="yyyy-MM-dd (E) hh:mm:ss"/></span>
+							<span class="chat-content chat-select">${c.chatContent}</span>
+							<span class="chat-date chat-select"><fmt:formatDate value="${c.chatDate}" type="both" pattern="yyyy-MM-dd (E) hh:mm:ss"/></span>
 							<input type="hidden" value="${c.chatroomId}" name="chatRoomId" class="roomId">
 						</c:if>
 					</c:forEach>
@@ -51,50 +49,50 @@
 		</c:if>
 	</div>
 </div>
-<style>
-.modal-addChatMember {
-	position: fixed;
-	z-index: 100000;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-	display: none;
-	text-align:center;
-}
-
-.modal-content{
-	background-color: #FFFFFF;
-	margin: 15% auto;
-	width: 50%;
-	text-align:center;
-	padding: 2rem;
-	height: 500px;
-	overflow-y: scroll;
-}
-</style>
 <script>
 	let chatroomId= '${chatroomId}';
 	let loginMember = '${loginMember.memberId}';
 	console.log(loginMember);
 	let chatroomContainer = $(".chat-room-list");
+	let chatroomTitle;
 	
+	/* $(".chat-room").click(e => {
+		console.log("this : ",$(this));
+		fn_openChatroom();
+	}); */
+	/* 
+	 $(".chat-select").click(e => {
+		//console.log("this : ",$(this));
+		if($(e.target)==$(".chat-date") || $(e.target) ==$(".chat-content") || $(e.target)==$(".chatroom-title")) {
+			console.log("chatroom 이외 ",$(e.target));
+			//chatroomId = $(e.target).children().last().val();
+			//console.log("target ", chatroomId);
+		}
+		else if($(e.target) == $(".chat-room")) {
+			console.log("chatroom", $(e.target));
+			/* chatroomId = $(e.target).parent().find($('input[type="hidden"]')).val();
+			console.log(chatroomId); 
+		}
+		//chatroomTitle= $(e.target).children().first().text();
+		$(".chatRoom-container .chat-header").empty();
+		$(".chat-msgBox-container").empty();
+		//fn_openChatroom();
+	}); */
 	$(".chat-room").click(e => {
 		if ($(e.target) == $(".chat-room")) {
-			console.log($(e.target));
+			chatroomId = $(e.target).find($('input[type="hidden"]')).val();
+			console.log("chatroom",$(e.target));
 		} else {
 			chatroomId = $(e.target).parent().find($('input[type="hidden"]')).val();
 			console.log(chatroomId);
 		}
 		$(".chat-msgBox-container").empty();
 		fn_openChatroom();
-	});
-	
+	 });
 	var chatMsg;
 	const fn_openChatroom=()=>{
 		console.log("fn_openchatroom start");
+		console.log(chatroomId);
 		$.ajax({
 			url: "${path}/chat/chatroom",
 			//type:"post",
@@ -103,26 +101,49 @@
 				chatroomId: chatroomId
 			},
 			success: data => {
+				console.log("open chatroom success");
+				console.log(data);
 				fn_viewChatMsg(data);
+				
+			},
+			error : data =>{
+				console.log("error");
 			}
 		});
 	}
 	
-	let chatroomMembers = [];
+	let chatroomMembers;
 	
 	const fn_viewChatMsg=(data)=>{
+		console.log("data : ",data);
 		let chatroomMember = data.chatroomMember;
+		console.log(data.chatroomMember);
+		let chatroomMemberName="";
+		chatroomMembers= [];
 		chatroomMember.forEach(cm =>{
 			chatroomMembers.push(cm.member.memberId);
+			chatroomMemberName += cm.member.memberName+", ";
 		})
+		console.log(chatroomMemberName);
 		let currentChatroom = data.chatroomList;
+		//$("span.chat-member").text(chatroomMemberName+" ( "+chatroomMembers.length+" )");
+		console.log("ciur",currentChatroom);
+		$(".chatRoom-container .chat-header .title").text(chatroomMemberName+" ( "+chatroomMembers.length+" )");
+		/* if(currentChatroom=="" || currentChatroom==null){
+			alert("sdgasjdlg");
+		} */
+		
+		if(data.chatroomList=="" || data.chatroomList==null){
+			$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
+			$(".chatRoom-container .chat-header .title").text(chatroomTitle);
+		}
 		
 		currentChatroom.forEach(e => {
-			$(".chatRoom-container .chat-header .title").text(e.chatroomTitle);
 			let divPrevChat = $("<div>").attr("class","prev-chat");
 			if(chatroomId!=null && chatroomId==e.chatroomId){
+				//$(".chatRoom-container .chat-header .title").text(e.chatroomTitle);
 				$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
-				if(e.chatroomCode =="P") {
+				if(e.chatroomCode == 'P') {
 					$(".addPersonIcon").attr("class","chatHidden");
 				}
 				$(".chat-input-container").css("display","flex");
@@ -158,18 +179,12 @@
 		$(".modalNewChat").css("display", "none");
 	}
 	
-	/* let deptName;
-	let chatCode;
-	let chatDept = $("<div class='chat-dept'>");
-	let chatmemberContainer; */
-	
-	// 채팅 추가
 	$(".addChatIcon").click(e => {
 		$(".chat-room-nothing").attr("class","chatHidden");
 		$(".modal-new-chat-title").css("display","block");
 		$(".modal-addChatMember").css("display","block");
 	})
-	// 채팅 목록에서 검색 
+	
 	$(".modalSearchAllIcon").click(e => {
 		const keyword = $(e.target).prev().val();
 		console.log(keyword);
@@ -203,8 +218,7 @@
 		})
 	})
 	
-	$(".deleteChatRoom").click(e => {
-		let chatroomId = $(e.target).siblings()[3].value;
+	const fn_deleteChatroom=(chatroomId)=>{
 		console.log(chatroomId);
 		swal('채팅방 나가기', "한 번 나간 채팅방의 내용은 복구되지 않습니다", 'warning')
 			.then(function() {
@@ -219,13 +233,19 @@
 						console.log(data);
 						if (data > 0) {
 							swal("삭제 완료");
+							//location.href='${path}/chat/chat.jsp';
+							fn_closeChatModal();
 						} else {
 							swal("삭제 실패")
 						}
 					}
 				});
 			});
-	})
+	}
+	$(".deleteChatRoom").click(e => {
+		chatroomId = $(e.target).next().val();
+		fn_deleteChatroom(chatroomId);
+	}) 
 </script>
 </body>
 </html>

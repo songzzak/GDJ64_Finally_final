@@ -62,10 +62,10 @@ public class ChatController {
 //		log.info("chatroom start");
 //		log.info("{}", chatroomId);
 		Map<String, Object> result = service.selectChatroomByroomId(chatroomId);
-		List<MyChatroom> chatroomMembers =(List<MyChatroom>) result.get("chatroomMember");
-		model.addAttribute("chatroomMembers",chatroomMembers);
-//		log.info("chatroommember");
-//		log.info("{}", chatroomMembers);
+//		List<MyChatroom> chatroomMembers =(List<MyChatroom>) result.get("chatroomMember");
+//		model.addAttribute("chatroomMembers",chatroomMembers);
+		log.info("chatroom result");
+		log.info("{}", result.get("chatroomList"));
 		return result;
 	}
 	
@@ -80,19 +80,8 @@ public class ChatController {
 	
 	@PostMapping("/update")
 	@ResponseBody
-	public String updateChatroomMember(@RequestParam(value="memberId")String memberId, HttpSession session, Model model) {
-		log.info("update");
-		log.info("{}", memberId);
-		String chatroomId = (String)session.getAttribute("chatroomId");
-		String msg, loc;
-		if(service.updateChatroomMember(Map.of("member",memberId,"chatroomId",chatroomId))>0) {
-			model.addAttribute("msg", "채팅 멤버 추가 성공 :)");
-			model.addAttribute("loc", "/chat/chat");
-		}else {
-			model.addAttribute("msg", "채팅 멤버 추가 실패 :<");
-			model.addAttribute("loc", "/chat/chat");
-		}
-		return "common/msg";
+	public int updateChatroomMember(@RequestParam(value="chatMember")String chatMember, @RequestParam(value="chatroomId") String chatroomId, HttpSession session, Model model) {
+		return service.updateChatroomMember(Map.of("member",chatMember,"chatroomId",chatroomId));
 	}
 	
 	// 채팅 생성을 위한 전체 회원 조회

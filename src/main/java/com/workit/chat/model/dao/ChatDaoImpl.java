@@ -3,7 +3,6 @@ package com.workit.chat.model.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.workit.chat.mapper.ChatMapper;
@@ -20,10 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatDaoImpl implements ChatDao {
 	
 	
-	@Autowired
 	private ChatMapper chatMapper;
-	
-	@Autowired
 	private EmployeeMapper EmpMapper;
 	
 	public ChatDaoImpl(ChatMapper chatMapper, EmployeeMapper EmpMapper) {
@@ -92,27 +88,22 @@ public class ChatDaoImpl implements ChatDao {
 		return chatMapper.selectChatroomIdById(id);
 	}
 
-	@Override
-	public List<MyChatroom> checkChatroomMember(String chatroomId) {
-		log.info("{}",chatMapper.checkChatroomMember(chatroomId));
-		return chatMapper.checkChatroomMember(chatroomId);
-	}
 
 	@Override
-	public List<MyChatroom> selectChatMember(String chatroomId) {
-		log.info("{}", chatMapper.selectChatMember(chatroomId));
-		return chatMapper.selectChatMember(chatroomId);
-	}
-
-	@Override
-	public List<MyChatroom> checkChatroomMemberAll(String chatroomId) {
-		return chatMapper.checkChatroomMemberAll(chatroomId);
+	public List<MyChatroom> selectCurrentChatMembers(String chatroomId) {
+		return chatMapper.selectCurrentChatMembers(chatroomId);
 	}
 
 	@Override
 	public int updateChatroomMember(Map<String, Object> param) {
 		return chatMapper.updateChatroomMember(param);
 	}
+
+	@Override
+	public List<MyChatroom> selectChatMember(String chatroomId) {
+		return chatMapper.selectChatMember(chatroomId);
+	}
+	
 	
 	
 	

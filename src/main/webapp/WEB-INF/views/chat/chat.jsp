@@ -10,7 +10,6 @@
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 		<div class="main-section section-shadow">
 			<jsp:include page="/WEB-INF/views/chat/chatList.jsp"/>
-			<%-- <jsp:include page="/WEB-INF/views/chat/chatroom.jsp"/> --%>
 			<jsp:include page="/WEB-INF/views/chat/chattingpage.jsp"/>
 		</div>
 </section>

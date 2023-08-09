@@ -28,6 +28,6 @@ public interface ChatService {
 	List<MyChatroom> selectChatMember(String chatroomId);
 	
 	
-	List<MyChatroom> checkChatroomMember(String chatroomId);
+	List<MyChatroom> selectCurrentChatMembers(String chatroomId);
 	int updateChatroomMember(Map<String, Object> param);
  }

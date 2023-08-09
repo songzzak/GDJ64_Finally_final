@@ -21,7 +21,7 @@ public interface ChatDao {
 	List<MyChatroom> searchAllByKeyword(String keyword);
 	
 	List<MyChatroom> selectChatroomIdById(String id);
-	List<MyChatroom> checkChatroomMember(String chatroomId);
+	//List<MyChatroom> checkChatroomMember(String chatroomId);
 	
 	void insertChatroom(Map<String, Object> param);
 	int insertMyChatroom(Map<String, Object> param);
@@ -35,9 +35,8 @@ public interface ChatDao {
 	
 	//int insertChat(Chat chat);
 	List<MyChatroom> selectChatMember(String chatroomId);
-	List<MyChatroom> checkChatroomMemberAll(String chatroomId);
+	List<MyChatroom> selectCurrentChatMembers(String chatroomId);
 	
 	int updateChatroomMember(Map<String, Object> param);
-	
 	
 }
