@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.workit.approve.model.dao.ApproveDao;
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.Time;
 import com.workit.member.model.dto.Member;
 
@@ -67,5 +68,9 @@ public class ApproveServiceImpl implements ApproveService {
 		return dao.insertReferLine(session,param);
 	}
 	
+	@Override
+	public int insertExpenditure(Expenditure ex) {
+		return dao.insertExpenditure(session, ex);
+	}
 
 }

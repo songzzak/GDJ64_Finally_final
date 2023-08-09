@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.Time;
 import com.workit.member.model.dto.Member;
 
@@ -60,6 +61,8 @@ public class ApproveDaoImpl implements ApproveDao {
 		return session.insert("approve.insertReferLine",param);
 	}
 	
-	
-
+	@Override
+	public int insertExpenditure(SqlSession session, Expenditure ex) {
+		return session.insert("approve.insertExpenditure",ex);
+	}
 }

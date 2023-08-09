@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.Time;
 import com.workit.approve.model.service.ApproveService;
 import com.workit.employee.service.EmployeeService;
@@ -131,27 +132,35 @@ public class ApproveController {
 	
 	@RequestMapping("/insertDraft.do")
 	public String insertDraft(String memberId, String writeTime, String startDate, String endDate, String startTime, String endTime, 
-			String content, String title, String approveKind, String geuntae,
+			String content, String title, String approveKind, String geuntae, String account[], String useHistory[], String price[],
 			String paraApp[], String paraRefer[], 
 			MultipartFile upFile, HttpSession session) throws ParseException{
 		
-		System.out.println(approveKind);
-		System.out.println(geuntae);
+		String approveState = "결재대기";
 		
 		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
         
-		if(geuntae == null) { // 근태신청서가 아닌경우
-			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveKind(approveKind).build(); 
+		if(geuntae == null && title!= null) { // 연장근무신청서의 경우
+			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveState(approveState).approveKind(approveKind).build(); 
 			int result = service.insertApprove(ap); // 기안서 테이블 생성 
-
-		}else {  // 연장근무신청서의 경우
-			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveKind(geuntae).build();
+		}
+		
+		if(geuntae != null){  // 근태신청서의 경우
+			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveState(approveState).approveKind(geuntae).build();
 			int result = service.insertApprove(ap); // 기안서 테이블 생성 
+		}
+		
+		if(account != null && useHistory !=null && price!= null) { // 지출결의서의 경우
+			System.out.println(approveKind);
+			System.out.println(title);
+			System.out.println(content);
+			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveState(approveState).approveKind(approveKind).build();
+			int result = service.insertApprove(ap);
 		}
 			
 
 		
-		if(endDate == null) {  // endDate가 null일경우 -> 연장근무신청서, 반차, 외출의 경우(한 날짜에서 시작시간과 끝시간을 고름)
+		if(endDate == null && account==null) {  // endDate가 null일경우 -> 연장근무신청서, 반차, 외출의 경우(한 날짜에서 시작시간과 끝시간을 고름)
 			startTime = startDate+" "+startTime; 
 			endTime = startDate+" "+endTime;
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
@@ -164,9 +173,10 @@ public class ApproveController {
 			Timestamp st = new Timestamp(stime); Timestamp et = new Timestamp(etime);
 			
 			Time t = Time.builder().startTime(st).endTime(et).build();
-			
-			int result2 = service.insertTime(t); 			
-		}else {  // -> 연차, 보건, 경조의 경우
+			int result2 = service.insertTime(t); 
+		}
+		
+		if(endDate != null && account==null){  // -> 연차, 보건, 경조의 경우
 			startTime = startDate+" "+"00:00"; 
 			endTime = startDate+" "+"00:00";
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
@@ -186,9 +196,8 @@ public class ApproveController {
 			int result2 = service.insertTime(t); 
 		}
 	
-		 
 		
-	/*	if (!upFile.getOriginalFilename().equals("")) {  // 첨부파일 추가했을경우
+		if (!upFile.getOriginalFilename().equals("")) {  // 첨부파일 추가했을경우
 			String oriName=upFile.getOriginalFilename(); // 원본이름
 			Date today = new Date(System.currentTimeMillis());
 			String ext=oriName.substring(oriName.lastIndexOf("."));
@@ -205,29 +214,42 @@ public class ApproveController {
 		}
 		
 		
-		int appSuccess = 0;
-		for(int i=0; i<paraApp.length; i++) {
-			Map<String,Object> param=new HashMap<>();
-			param.put("memberId", paraApp[i]);
-			param.put("order", i+1);
-			int result4 = service.insertApproveLine(param); // 결재선 테이블 추가
-			if(result4 >= 1) { //결재선테이블 추가 성공할때마다 1증가
-				appSuccess+=1;
+		if(account != null) {  // 지출결의서 내용 테이블 생성
+			
+			for(int i=0; i<account.length; i++) {
+				Expenditure ex = Expenditure.builder().account(account[i]).useHistory(useHistory[i]).price(price[i]).build();
+				int result6 = service.insertExpenditure(ex);
 			}
 		}
-		System.out.println("결재선 테이블 성공횟수 = "+appSuccess);
 		
 		
-		int referSuccess = 0;
-		for(int i=0; i<paraRefer.length; i++) {
-			Map<String,Object> param=new HashMap<>();
-			param.put("memberId", paraRefer[i]);
-			int result5 = service.insertReferLine(param); // 결재선 테이블 추가
-			if(result5 >= 1) { //결재선테이블 추가 성공할때마다 1증가
-				referSuccess+=1;
+		if(paraApp != null) {
+			int appSuccess = 0;
+			for(int i=0; i<paraApp.length; i++) {
+				Map<String,Object> param=new HashMap<>();
+				param.put("memberId", paraApp[i]);
+				param.put("order", i+1);
+				int result4 = service.insertApproveLine(param); // 결재선 테이블 추가
+				if(result4 >= 1) { //결재선테이블 추가 성공할때마다 1증가
+					appSuccess+=1;
+				}
 			}
+			System.out.println("결재선 테이블 성공횟수 = "+appSuccess);
 		}
-		System.out.println("참조선 테이블 성공횟수 = "+referSuccess); */ 
+		
+		
+		if(paraRefer != null) {
+			int referSuccess = 0;
+			for(int i=0; i<paraRefer.length; i++) {
+				Map<String,Object> param=new HashMap<>();
+				param.put("memberId", paraRefer[i]);
+				int result5 = service.insertReferLine(param); // 결재선 테이블 추가
+				if(result5 >= 1) { //결재선테이블 추가 성공할때마다 1증가
+					referSuccess+=1;
+				}
+			}
+			System.out.println("참조선 테이블 성공횟수 = "+referSuccess); 
+		}
 		
 		
 		
