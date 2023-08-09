@@ -132,7 +132,9 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
       <div id="annualLeaveDiv">
         <ul class="row">
           <li>
-            <p class="roundBolder center">15</p>
+            <p class="roundBolder center">
+            	<c:out value="${loginMember.leave }"/>
+            </p>
             <p>총연차</p>
           </li>
           <li>
@@ -196,6 +198,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
          	<thead>
          		<tr>
          			<th>일자</th>
+         			<th>근무상태</th>
          			<th>출근시간</th>
          			<th>퇴근시간</th>
          			<th>근무시간</th>
@@ -212,6 +215,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
 				<c:forEach var="workItem" items="${workList }">
 					 <tr class="work-time-row">
 		                <td> <fmt:formatDate value="${workItem.workDate}" pattern="d E" /></td>
+		                <td>${workItem.workStatus}</td>
 		                <td><fmt:formatDate value="${workItem.workStart}" pattern="HH:mm:ss" /></td>
 		                <td><fmt:formatDate value="${workItem.workEnd}" pattern="HH:mm:ss" /></td>
 		                <td>${workItem.totalWorkTime}</td>
