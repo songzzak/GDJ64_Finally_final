@@ -3,6 +3,7 @@ package com.workit.work.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -60,8 +61,36 @@ public class WorkDaoImpl implements WorkDao {
 	}
 
 	@Override
-	public List<WorkChange> selectAllWorkChange(SqlSessionTemplate session) {
-		return session.selectList("work.selectAllWorkChange");
+	public List<WorkChange> selectAllWorkChange(SqlSessionTemplate session, Map<String, Integer> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return session.selectList("work.selectAllWorkChange","",rb);
+	}
+
+	@Override
+	public int selectWorkChangeCount(SqlSessionTemplate session) {
+		return session.selectOne("work.selectWorkChangeCount");
+	}
+
+	@Override
+	public Work selectWorkByNo(SqlSessionTemplate session, int no) {
+		return session.selectOne("work.selectWorkByNo",no);
+	}
+
+	@Override
+	public int updateWorkTime(SqlSessionTemplate session, Work w) {
+		return session.update("work.updateWorkTime",w);
+	}
+
+	@Override
+	public int updateWorkChangeStatus(SqlSessionTemplate session, Map<String, Object> paramMap) {
+		return session.update("work.updateWorkChangeStatus",paramMap);
+	}
+
+	@Override
+	public int deleteWorkChange(SqlSessionTemplate session, int workChangeNo) {
+		return session.delete("work.deleteWorkChange",workChangeNo);
 	}
 
 }

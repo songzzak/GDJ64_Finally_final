@@ -32,7 +32,18 @@ public interface WorkService {
 	//출퇴근 수정요청
 	int insertWorkchange(WorkChange wc);
 	//출퇴근 요청 리스트
-	List<WorkChange> selectAllWorkChange();
+	List<WorkChange> selectAllWorkChange(Map<String, Integer> map);
+	int selectWorkChangeCount();
+	
+	//workNo로 구하기
+	Work selectWorkByNo(int no);
+	//출퇴근 수정처리
+	int updateWorkTime(Work w);
+	//상태를 수정완료로 처리
+	int updateWorkChangeStatus(Map<String, Object> paramMap);
+	//출퇴근요청 삭제
+	int deleteWorkChange(int workChangeNo);
+
 
 
 

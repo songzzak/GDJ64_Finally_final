@@ -6,9 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
-import com.workit.member.model.dto.Member;
+import com.workit.common.Pagenation;
 import com.workit.member.model.vo.MemberVO;
 import com.workit.member.service.MemberService;
 import com.workit.work.model.dto.Work;
@@ -278,15 +277,73 @@ public class WorkController {
 	 }
 
 	 @GetMapping("/workChange")
-	 public String workChangeList(Model model) {
-		 
-		 List<WorkChange> workChangeList = service.selectAllWorkChange();
+	 public String workChangeList(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage) {
+		 List<WorkChange> workChangeList = service.selectAllWorkChange(Map.of("cPage",cPage,"numPerpage",10));
+		 int totalData=service.selectWorkChangeCount();
 		 model.addAttribute("workChangeList", workChangeList);
-		//workChangeList.forEach(System.out::println);
-		
+		 model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/work/workChange"));
 		 return "/work/workChangeList";
 	 }
 
-	 	
+	 @PostMapping("/approveRequest")
+	 public void approveRequest(@RequestParam("workChangeNo") int workChangeNo,
+			 @RequestParam("workNo") int no,@RequestParam("workStatus") String workStatus,
+			 @RequestParam("workStart") String workStart,@RequestParam("workEnd") String workEnd,
+			 HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+		 
+		 switch (workStatus) {
+		 	case "normal":workStatus = "정상출근"; break;
+		 	case "late":workStatus = "지각"; break;
+		 	case "early_leave":workStatus = "조퇴"; break;
+		}
+		 
+		 Work w = service.selectWorkByNo(no);
+		 
+		// 날짜 정보 추출
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String existingDate = dateFormat.format(w.getWorkStart());
+
+		// 날짜와 시간을 결합하여 수정된 timestamp 생성
+		SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date tempWorkStart = datetimeFormat.parse(existingDate + " " + workStart);
+		Date tempWorkEnd = datetimeFormat.parse(existingDate + " " + workEnd);
+		// work 객체의 시작 및 종료 시간 설정 (Date를 Timestamp로 변환)
+		Timestamp newWorkStart = new Timestamp(tempWorkStart.getTime());
+		Timestamp newWorkEnd = new Timestamp(tempWorkEnd.getTime());
+		System.out.println("세팅전"+w);
+		 w.setWorkStart(newWorkStart);
+		 w.setWorkEnd(newWorkEnd);
+		 w.setWorkStatus(workStatus);
+		 System.out.println("세팅후"+w);
+		 int result = service.updateWorkTime(w);
+		 
+		 int statusResult=0;
+		 if(result>0) {
+			 String status="수정 완료";
+			 Map<String, Object> paramMap = new HashMap<>();
+			 paramMap.put("changeStatus", status);
+			 paramMap.put("workChangeNo", workChangeNo);
+			 statusResult = service.updateWorkChangeStatus(paramMap);
+		 }
+		 
+		 Gson gson = new Gson();
+	     String json = gson.toJson(statusResult);
+         response.setContentType("application/json");
+         response.setCharacterEncoding("UTF-8");
+         response.getWriter().write(json);
+	 }
+	 
+	 @PostMapping("/deleteRequest")
+	 public void approveRequest(@RequestParam("workChangeNo") int workChangeNo,
+			 HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+		 
+		 int result = service.deleteWorkChange(workChangeNo);
+		 
+		 Gson gson = new Gson();
+	     String json = gson.toJson(result);
+         response.setContentType("application/json");
+         response.setCharacterEncoding("UTF-8");
+         response.getWriter().write(json);
+	 }
 	 	
 }

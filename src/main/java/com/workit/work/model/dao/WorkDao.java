@@ -28,5 +28,15 @@ public interface WorkDao {
 
 	int insertWorkchange(SqlSessionTemplate session, WorkChange wc);
 
-	List<WorkChange> selectAllWorkChange(SqlSessionTemplate session);
+	List<WorkChange> selectAllWorkChange(SqlSessionTemplate session, Map<String, Integer> map);
+
+	int selectWorkChangeCount(SqlSessionTemplate session);
+
+	Work selectWorkByNo(SqlSessionTemplate session, int no);
+
+	int updateWorkTime(SqlSessionTemplate session, Work w);
+
+	int updateWorkChangeStatus(SqlSessionTemplate session, Map<String, Object> paramMap);
+
+	int deleteWorkChange(SqlSessionTemplate session, int workChangeNo);
 }

@@ -69,8 +69,33 @@ public class WorkServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<WorkChange> selectAllWorkChange() {
-		return dao.selectAllWorkChange(session);
+	public List<WorkChange> selectAllWorkChange(Map<String, Integer> map) {
+		return dao.selectAllWorkChange(session,map);
+	}
+
+	@Override
+	public int selectWorkChangeCount() {
+		return dao.selectWorkChangeCount(session);
+	}
+
+	@Override
+	public Work selectWorkByNo(int no) {
+		return dao.selectWorkByNo(session, no);
+	}
+
+	@Override
+	public int updateWorkTime(Work w) {
+		return dao.updateWorkTime(session, w);
+	}
+
+	@Override
+	public int updateWorkChangeStatus(Map<String, Object> paramMap) {
+		return dao.updateWorkChangeStatus(session,paramMap);
+	}
+
+	@Override
+	public int deleteWorkChange(int workChangeNo) {
+		return dao.deleteWorkChange(session, workChangeNo);
 	}
 
 
