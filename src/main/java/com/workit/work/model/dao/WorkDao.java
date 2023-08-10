@@ -6,35 +6,39 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.workit.work.model.dto.Work;
+import com.workit.work.model.dto.WorkChange;
 
 public interface WorkDao {
-	int insertStartTime(SqlSessionTemplate session, Work w);
+	
+	List<Work> getMonthWorkTime(SqlSessionTemplate session, Map<String, Object> paramMap);
 
-	Work selectStartTime(SqlSessionTemplate session, String memberId);
+	int insertStartWorkTime(SqlSessionTemplate session, Work w);
 
-	int updateEndTime(SqlSessionTemplate session, Work w);
+	boolean isWorkDataRegisteredForDate(SqlSessionTemplate session, Map<String, String> mapParam);
 
-	Work selectEndTime(SqlSessionTemplate session, String memberId);
+	Work selectWorkByDateAndMemberId(SqlSessionTemplate session, Map<String, Object> paramMap);
 
-	int updateStatus(SqlSessionTemplate session, Work w);
+	boolean isCheckOutRegisteredForDate(SqlSessionTemplate session, Map<String, String> mapParam);
 
-	Work selectWeekTime(SqlSessionTemplate session, String memberId);
+	int updateEndWorkTime(SqlSessionTemplate session, Work w);
 
-	Work selectMonthTime(SqlSessionTemplate session, String memberId);
+	int lateCount(SqlSessionTemplate session, Map<String, Object> paramMap);
 
-	List<Work> monthWorkTime(SqlSessionTemplate session, Map<String, String> param);
+	int earlyLeaveCount(SqlSessionTemplate session, Map<String, Object> paramMap);
 
-	List<Work> selectDeptStatus(SqlSessionTemplate session, String memberId);
+	int insertWorkchange(SqlSessionTemplate session, WorkChange wc);
 
-	List<Work> selectDeptWork(SqlSessionTemplate session, Map<String, String> param);
+	List<WorkChange> selectAllWorkChange(SqlSessionTemplate session, Map<String, Integer> map);
 
-	List<Work> commuteList(SqlSessionTemplate session, Map<String, String> param);
+	int selectWorkChangeCount(SqlSessionTemplate session);
 
-	List<Work> overworkList(SqlSessionTemplate session, Map<String, String> param);
+	Work selectWorkByNo(SqlSessionTemplate session, int no);
 
-	Work monthTotalTime(SqlSessionTemplate session, Map<String, String> param);
+	int updateWorkTime(SqlSessionTemplate session, Work w);
 
-	List<Work> selectDeptWeekList(SqlSessionTemplate session, Map<String, String> param);
+	int updateWorkChangeStatus(SqlSessionTemplate session, Map<String, Object> paramMap);
 
-	Work selectMember(SqlSessionTemplate session, String memberId);
+	int deleteWorkChange(SqlSessionTemplate session, int workChangeNo);
+
+	List<Work> getMonthWorkTimeByTeam(SqlSessionTemplate session, Map<String, Object> paramMap);
 }

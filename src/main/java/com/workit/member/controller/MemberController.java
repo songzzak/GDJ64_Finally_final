@@ -6,15 +6,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -37,6 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	private MemberService service;
+	@Autowired
+	private JavaMailSender javaMailSender;
 	
 	@RequestMapping("/loginpage")
 	public String loginpage() {
@@ -55,6 +57,7 @@ public class MemberController {
 	public String login(@RequestParam Map<String,Object> param, HttpSession session){
 		MemberVO loginMember=(MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		session.setAttribute("loginMember", loginMember);
+		//첫 로그인 시 firstLogin으로 전환 추가 예정
 		return "redirect:/";
 	}
 	
@@ -125,6 +128,7 @@ public class MemberController {
 		return "common/msg";
 	}
 	
+	//사원 정보 변경 요청
 	@PostMapping("/member/info")
 	public String insertApprovMember(Model model, @RequestParam Map<String,Object> param) {
 		if(service.insertApprovMember(param)>0) {
@@ -137,9 +141,50 @@ public class MemberController {
 		return "common/msg";
 	}
 	
+	//패스워드 변경
 	@PostMapping("/member/password")
 	@ResponseBody
 	public int updatePwd(Model model, @RequestBody Map<String, Object> param) {
-		return service.updatePwd(param);
+		return service.updateMember(param);
+	}
+	
+	//첫 로그인 시 화면
+	@GetMapping("/member/first")
+	public String firstLoginView() {
+		return "member/firstLogin";
+	}
+	
+	//첫 로그인 데이터 업데이트
+	@PostMapping("/member/first")
+	public String fistLoginInfo(@RequestParam Map<String,Object> param, Model model) {
+		if(service.updateMember(param)>0) {
+			model.addAttribute("msg","인증 성공했습니다.");
+			model.addAttribute("loc","/");
+		}else{
+			model.addAttribute("msg","인증 실패했습니다.");
+			model.addAttribute("loc","/login/first");
+		}
+		
+		return "common/msg";
+	}
+	
+	//email 인증
+	@PostMapping("/email")
+	@ResponseBody
+	public String sendEmail(@RequestParam(value="email") String email) {
+		String key="";
+		Random random=new Random();
+		SimpleMailMessage message=new SimpleMailMessage();
+		message.setTo(email);
+		for(int i=0;i<4;i++) {
+			int alpa=random.nextInt(25)+65; //A~Z 랜덤 알파벳 생성
+			key+=(char)alpa;
+		}
+		int number=random.nextInt(9999)+1000; //4자리 랜덤 숫자
+		key+=number;
+		message.setSubject("workit 이메일 인증 코드입니다."); //메일 제목
+		message.setText("인증 번호 : "+key);
+		javaMailSender.send(message);
+		return key;
 	}
 }
