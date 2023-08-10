@@ -20,6 +20,7 @@
         <div class="login-div">
         <form action="${path }/member/first" method="post" id="first-form">
         	<input type="hidden" name="memberId" value="${loginMember.memberId }">
+        	<input type="hidden" name="password" value="1234">
             <div class="logo-container">
                 <img src="${path }/resources/images/common/workit.svg">
             </div>

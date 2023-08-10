@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.workit.member.model.dao.MemberDao;
@@ -16,6 +17,8 @@ import com.workit.member.model.vo.MemberVO;
 public class MemberServiceImpl implements MemberService, UserDetailsService {
 	@Autowired
 	private MemberDao dao;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	@Override
 	public MemberVO selectMemberByParam(Map<String, Object> param) {
@@ -56,6 +59,8 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Override
 	public int updateMember(Map<String, Object> param) {
+		param.put("password", encoder.encode((String)param.get("password"))); //기존 비밀번호 암호화
+		param.put("newPwd", encoder.encode((String)param.get("newPwd"))); //신규 비밀번호 암호화
 		if(dao.selectMemberByParam(param)!=null) {
 			return dao.updateMember(param);			
 		}else {
