@@ -21,4 +21,7 @@ public interface ApproveService {
 	public int insertApproveLine(Map<String,Object> param);
 	public int insertReferLine(Map<String,Object> param);
 	public int insertExpenditure(Expenditure ex);
+	public List<Approve> selectAllSaveDocument(Map<String,Object> param);
+	public List<Approve> detailSave(Map<String,Object> param);
+	
 }

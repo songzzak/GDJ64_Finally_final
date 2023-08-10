@@ -19,7 +19,10 @@
 		font-weight: bold;
 		margin: 20px;
 	}
-	
+
+	#form-column>a:hover{
+		color: #BDDFFF;
+	}	
 
 	#form-choice{  /* 결재서 양식 선택하는 곳 */
 		border: 1px solid #D9D9D9;

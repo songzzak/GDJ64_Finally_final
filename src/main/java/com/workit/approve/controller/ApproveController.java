@@ -104,6 +104,38 @@ public class ApproveController {
 		return "approve/waiting-approve";
 	}
 	
+	@RequestMapping("/saveDocument.do") // 임시저장함문서로 이동
+	public String saveDocument(Model m,@RequestParam(value="mId") String mId) {
+		Map<String,Object> param = new HashMap<>();
+		
+		param.put("state", "임시저장");
+		param.put("mId",mId);
+		
+		List<Approve> saveApps = service.selectAllSaveDocument(param);
+
+		m.addAttribute("saveApps", saveApps);
+		
+		return "approve/save-document";
+	}  
+	
+	
+	@RequestMapping("/detailSave.do") // 임시저장함 문서에서 해당 문서들 상세보기
+	public String detailSave(Model m, String approveNo, String approveKind) {
+
+		Map<String,Object> param = new HashMap<>();
+		param.put("approveNo", approveNo);
+		param.put("approveKind",approveKind);
+		
+		List<Approve> saveApps = service.detailSave(param);
+		System.out.println(saveApps.toString());
+		
+		m.addAttribute("saveApps", saveApps);
+		return null;
+		/* return "approve/save-document"; */
+	}  
+	
+	
+	
 	@PostMapping("/changeDep.do") // 결재선에서 부서클릭시 맞는 부서들 출력
 	@ResponseBody // 비동기식으로 받기위해서 @ResponseBody 어노테이션을 사용해야함
 	public List<Member> changeDep(String deptName){ // 선택한 부서에 맞는 사원들 리스트로 반환
@@ -130,24 +162,24 @@ public class ApproveController {
 	
 	
 	
-	@RequestMapping("/insertDraft.do")
+	@RequestMapping("/insertDraft.do") // 모든 기안서 작성할때 이 컨트롤러 사용함
 	public String insertDraft(String memberId, String startDate, String endDate, String startTime, String endTime, 
 			String content, String title, String approveKind, String geuntae, String account[], String useHistory[], String price[],
 			String paraApp[], String paraRefer[], 
 			MultipartFile upFile, HttpSession session) throws ParseException{
 				
 		String approveState = "결재대기";
-		
+		Member m = Member.builder().memberId(memberId).build();
 		
 		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
         
 		if(geuntae == null && title!= null) { // 연장근무신청서의 경우
-			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveState(approveState).approveKind(approveKind).build(); 
+			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(m).approveState(approveState).approveKind(approveKind).build(); 
 			int result = service.insertApprove(ap); // 기안서 테이블 생성 
 		}
 		
 		if(geuntae != null){  // 근태신청서의 경우
-			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveState(approveState).approveKind(geuntae).build();
+			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(m).approveState(approveState).approveKind(geuntae).build();
 			int result = service.insertApprove(ap); // 기안서 테이블 생성 
 		}
 		
@@ -155,12 +187,11 @@ public class ApproveController {
 			System.out.println(approveKind);
 			System.out.println(title);
 			System.out.println(content);
-			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveState(approveState).approveKind(approveKind).build();
+			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(m).approveState(approveState).approveKind(approveKind).build();
 			int result = service.insertApprove(ap);
 		}
 			
 
-		
 		if(endDate == null && account==null) {  // endDate가 null일경우 -> 연장근무신청서, 반차, 외출의 경우(한 날짜에서 시작시간과 끝시간을 고름)
 			startTime = startDate+" "+startTime; 
 			endTime = startDate+" "+endTime;
@@ -259,18 +290,20 @@ public class ApproveController {
 	
 	
 	
-	@RequestMapping("/saveExtends.do")
+	@RequestMapping("/saveExtends.do") // 연장근무신청서 임시저장할때 사용하는 컨트롤러
 	public String saveDraft(String memberId, String startDate, String startTime, String endTime, 
 			String content, String title, String approveKind, String paraApp[], String paraRefer[], 
 			MultipartFile upFile, HttpSession session) throws ParseException{
-		
+		Member m = Member.builder().memberId(memberId).build();
 		String approveState = "임시저장";
 		
 		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
         
-		Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(memberId).approveState(approveState).approveKind(approveKind).build(); 
+		Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(m).approveState(approveState).approveKind(approveKind).build(); 
 		int result = service.insertApprove(ap); // 기안서 테이블 생성 
 		
+		
+		if(!startDate.equals("") && !startTime.equals("") && !endTime.equals("")) {
 			startTime = startDate+" "+startTime; 
 			endTime = startDate+" "+endTime;
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
@@ -284,6 +317,11 @@ public class ApproveController {
 			
 			Time t = Time.builder().startTime(st).endTime(et).build(); // 시간테이블 생성
 			int result2 = service.insertTime(t); 
+		}else {
+			Time t = Time.builder().startTime(null).endTime(null).build(); // 시간테이블 생성
+			int result2 = service.insertTime(t); 
+		}
+			
 				
 		if (!upFile.getOriginalFilename().equals("")) {  // 첨부파일 추가했을경우
 			String oriName=upFile.getOriginalFilename(); // 원본이름
@@ -300,7 +338,6 @@ public class ApproveController {
 				e.printStackTrace();
 			}
 		}
-		
 		
 		if(paraApp != null) {
 			int appSuccess = 0;
@@ -331,6 +368,176 @@ public class ApproveController {
 		return "redirect:/";
 	}
 	
+	
+	@RequestMapping("/saveAttendance.do") // 근태신청서 임시저장할때 사용하는 컨트롤러
+	public String saveAttendance(String memberId, String startDate, String startTime, String endTime, String endDate,
+			String content, String title, String geuntae, String paraApp[], String paraRefer[], 
+			MultipartFile upFile, HttpSession session) throws ParseException{
+		Member m = Member.builder().memberId(memberId).build();
+		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
+		String approveState = "임시저장";
+		
+		Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(m).approveState(approveState).approveKind(geuntae).build();
+		int result = service.insertApprove(ap); // 기안서 테이블 생성 
+	
+	
+		if(geuntae.equals("반차") || geuntae.equals("외출")) {  // endDate가 null일경우 -> 반차, 외출의 경우(한 날짜에서 시작시간과 끝시간을 고름)
+			if(!startDate.equals("") && !startTime.equals("") && !endTime.equals("")) {
+				startTime = startDate+" "+startTime; 
+				endTime = startDate+" "+endTime;
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+				Date date = df.parse(startTime); 
+				long stime = date.getTime();
+				
+				Date date2 = df.parse(endTime); 
+				long etime = date2.getTime();
+				
+				Timestamp st = new Timestamp(stime); Timestamp et = new Timestamp(etime);
+				
+				Time t = Time.builder().startTime(st).endTime(et).build();
+				int result2 = service.insertTime(t); 				
+			}else {
+				Time t = Time.builder().startTime(null).endTime(null).build();
+				int result2 = service.insertTime(t); 			
+			}
+		}
+		
+		if(geuntae.equals("연차") || geuntae.equals("보건") || geuntae.equals("경조")) {  // -> 연차, 보건, 경조의 경우
+			if(!startDate.equals("") && !endDate.equals("")){
+				startTime = startDate+" "+"00:00"; 
+				endTime = startDate+" "+"00:00";
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+				Date date = df.parse(startTime); 
+				long stime = date.getTime();
+				
+				Date date2 = df.parse(endTime); 
+				long etime = date2.getTime();
+				
+				System.out.println(stime);
+				System.out.println(etime);
+				
+				Timestamp st = new Timestamp(stime); Timestamp et = new Timestamp(etime);
+				
+				Time t = Time.builder().startTime(st).endTime(et).build();				
+				int result2 = service.insertTime(t); 
+			}else {
+				Time t = Time.builder().startTime(null).endTime(null).build();				
+				int result2 = service.insertTime(t); 
+			}
+		}
+	
+		if (!upFile.getOriginalFilename().equals("")) {  // 첨부파일 추가했을경우
+			String oriName=upFile.getOriginalFilename(); // 원본이름
+			Date today = new Date(System.currentTimeMillis());
+			String ext=oriName.substring(oriName.lastIndexOf("."));
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			int random = (int) (Math.random() * 10000) + 1;
+			String rename = sdf.format(today) + "_" + random+ext;
+			try {
+				upFile.transferTo(new File(path + rename));
+				ApproveAttach aa = ApproveAttach.builder().oriName(oriName).saveName(rename).build();
+				int result3 = service.insertApproveAttach(aa);  // 첨부파일 테이블 생성
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(paraApp != null) {
+			int appSuccess = 0;
+			for(int i=0; i<paraApp.length; i++) {
+				Map<String,Object> param=new HashMap<>();
+				param.put("memberId", paraApp[i]);
+				param.put("order", i+1);
+				int result4 = service.insertApproveLine(param); // 결재선 테이블 추가
+				if(result4 >= 1) { //결재선테이블 추가 성공할때마다 1증가
+					appSuccess+=1;
+				}
+			}
+			System.out.println("결재선 테이블 성공횟수 = "+appSuccess);
+		}
+		
+		if(paraRefer != null) {
+			int referSuccess = 0;
+			for(int i=0; i<paraRefer.length; i++) {
+				Map<String,Object> param=new HashMap<>();
+				param.put("memberId", paraRefer[i]);
+				int result5 = service.insertReferLine(param); // 결재선 테이블 추가
+				if(result5 >= 1) { //결재선테이블 추가 성공할때마다 1증가
+					referSuccess+=1;
+				}
+			}
+			System.out.println("참조선 테이블 성공횟수 = "+referSuccess); 
+		} 
+		return "redirect:/";
+	}
+	
+	
+	@RequestMapping("/saveExpenditure.do") // 근태신청서 임시저장할때 사용하는 컨트롤러
+	public String saveExpenditure(String memberId, String content, String title, String approveKind, 
+			String paraApp[], String paraRefer[], String account[], String useHistory[], String price[],
+			MultipartFile upFile, HttpSession session) throws ParseException{
+		Member m = Member.builder().memberId(memberId).build();
+		String approveState = "임시저장";
+		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
+        
+		Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(m).approveState(approveState).approveKind(approveKind).build(); 
+		int result = service.insertApprove(ap); // 기안서 테이블 생성 
+		
+		if (!upFile.getOriginalFilename().equals("")) {  // 첨부파일 추가했을경우
+			String oriName=upFile.getOriginalFilename(); // 원본이름
+			Date today = new Date(System.currentTimeMillis());
+			String ext=oriName.substring(oriName.lastIndexOf("."));
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			int random = (int) (Math.random() * 10000) + 1;
+			String rename = sdf.format(today) + "_" + random+ext;
+			try {
+				upFile.transferTo(new File(path + rename));
+				ApproveAttach aa = ApproveAttach.builder().oriName(oriName).saveName(rename).build();
+				int result3 = service.insertApproveAttach(aa);  // 첨부파일 테이블 생성
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(account != null) {  // 지출결의서 내용 테이블 생성
+			for(int i=0; i<account.length; i++) {
+				if(!account[i].equals("")) {  // 내용부분이 비어있으면 생성 x
+					Expenditure ex = Expenditure.builder().account(account[i]).useHistory(useHistory[i]).price(price[i]).build();
+					int result6 = service.insertExpenditure(ex);					
+				}
+			}
+		}
+		
+		if(paraApp != null) {
+			int appSuccess = 0;
+			for(int i=0; i<paraApp.length; i++) {
+				Map<String,Object> param=new HashMap<>();
+				param.put("memberId", paraApp[i]);
+				param.put("order", i+1);
+				int result4 = service.insertApproveLine(param); // 결재선 테이블 추가
+				if(result4 >= 1) { //결재선테이블 추가 성공할때마다 1증가
+					appSuccess+=1;
+				}
+			}
+			System.out.println("결재선 테이블 성공횟수 = "+appSuccess);
+		}
+		
+		
+		if(paraRefer != null) {
+			int referSuccess = 0;
+			for(int i=0; i<paraRefer.length; i++) {
+				Map<String,Object> param=new HashMap<>();
+				param.put("memberId", paraRefer[i]);
+				int result5 = service.insertReferLine(param); // 결재선 테이블 추가
+				if(result5 >= 1) { //결재선테이블 추가 성공할때마다 1증가
+					referSuccess+=1;
+				}
+			}
+			System.out.println("참조선 테이블 성공횟수 = "+referSuccess); 
+		} 
+		
+		return "redirect:/";
+	}
 	
 	
 }

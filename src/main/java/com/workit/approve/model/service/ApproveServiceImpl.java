@@ -34,6 +34,17 @@ public class ApproveServiceImpl implements ApproveService {
 
 
 	@Override
+	public List<Approve> selectAllSaveDocument(Map<String, Object> param) {
+		return dao.selectAllSaveDocument(session,param);
+	}
+
+	@Override
+	public List<Approve> detailSave(Map<String, Object> param) {
+		return dao.detailSave(session,param);
+	}
+	
+	
+	@Override
 	public List<Member> changeDep(String deptName) {
 		return dao.changeDep(session,deptName);
 	}

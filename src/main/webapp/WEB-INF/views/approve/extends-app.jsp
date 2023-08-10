@@ -92,9 +92,19 @@
 	}
 	
 	const saves=()=>{
+		if(document.getElementById("extendWorkDate-input").value == "" || document.getElementById("extendWorkTime1-input").value == "" ||
+				document.getElementById("extendWorkTime2-input").value == ""){
+			
+			if(document.getElementById("extendWorkDate-input").value == "" && document.getElementById("extendWorkTime1-input").value == "" 
+					&& document.getElementById("extendWorkTime2-input").value == ""){
+			}else{
+				alert("시간입력");
+				return false;				
+			}		
+		}
+		
  		$("#appForm").attr("action","${path}/approve/saveExtends.do"); 
 		$("#appForm").submit(); 
-		
 	}
 	
 	const signs=()=>{
