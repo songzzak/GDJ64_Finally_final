@@ -350,13 +350,15 @@ public class WorkController {
 		public String monthWorkTimeByTeam(
 				@RequestParam(required = false) Integer currentYear, 
 	            @RequestParam(required = false) Integer currentMonth,
+	            @RequestParam(required = false) String memberName,
 	            HttpSession session,
 				HttpServletRequest request, HttpServletResponse response, Model model) throws IOException{
 			String deptName=((MemberVO)session.getAttribute("loginMember")).getDept().getDeptName();
 
 		    Map<String, Object> paramMap = new HashMap<>();
 	        paramMap.put("deptName", deptName);
-			
+	        paramMap.put("memberName", memberName);
+			System.out.println(paramMap);
 			 if (currentYear == null || currentMonth == null) {
 		            Calendar cal = Calendar.getInstance();
 		            currentYear = cal.get(Calendar.YEAR);
@@ -364,15 +366,17 @@ public class WorkController {
 		            // 년월 정보를 Map에 담기
 		            paramMap.put("currentYear", currentYear);//2023
 		            paramMap.put("currentMonth", currentMonth);//8
+		            
 		            List<Work> workList = service.getMonthWorkTimeByTeam(paramMap);
+//		            System.out.println(paramMap);
+//		            System.out.println(workList);
 		            model.addAttribute("workList", workList);
 		            return "/work/workBoard-team";
 		        }else {
 		            paramMap.put("currentYear", currentYear);
 		            paramMap.put("currentMonth", currentMonth);
 		            List<Work> workList = service.getMonthWorkTimeByTeam(paramMap);
-		            System.out.println(paramMap);
-		            System.out.println(workList);
+		            
 		            Gson gson = new Gson();
 		            String json = gson.toJson(workList);
 		            response.setContentType("application/json");

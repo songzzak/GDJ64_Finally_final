@@ -74,6 +74,10 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
     </div>
     <div class="section-shadow bgc-fff">
       <div class="sec_cal">
+	      <div style="margin: 20px;">
+		    <input type="text" id="searchEmployeeName" placeholder="사원명 검색" />
+		    <button id="searchBtn">검색</button>
+		  </div>
         <div class="cal_nav">
           <a href="#" class="go-prev">prev</a>
           <div class="year-month"></div>
@@ -140,18 +144,22 @@ $(document).ready(function() {
         navigateMonth(1);
     });
 
+    $("#searchBtn").on("click", function() {
+        var searchName = $("#searchEmployeeName").val();
+        if(searchName.trim() === "") {
+            alert("사원명을 입력해주세요.");
+            return;
+        }
+        navigateMonth(0, searchName);
+    });
  	
- 	
- 	
- 	
- 	
+
 });
 
-function navigateMonth(offset) {
+function navigateMonth(offset, searchName) {
     var dateParts = $(".year-month").text().split('년 ');
     var year = parseInt(dateParts[0].trim());
     var month = parseInt(dateParts[1].replace('월', '').trim());
-
     month += offset;
     if (month === 0) {
         month = 12;
@@ -164,7 +172,8 @@ function navigateMonth(offset) {
 
     $.get("/work/workTimeByTeam", {
         currentYear: year,
-        currentMonth: month
+        currentMonth: month,
+        memberName: searchName
     }, function (data) {
         $(".cal_tbl tbody").empty();
         if (!data || data.length == 0) {
