@@ -44,39 +44,56 @@
 			<div id="one-width">
 				<div id="extendWork" class="question">근무일시</div>
 				<div id="extendWork-answer" class="answer">
-					<input type="date" id="extendWorkDate-input" name="startDate">
-					<input type="time" id="extendWorkTime1-input" name="startTime">
+					<input type="date" id="extendWorkDate-input" name="startDate" value="${date}">
+					<%-- value="${saveExtends[0].time.startTime.toLocalDateTime().getYear()}${'-0'}${saveExtends[0].time.startTime.toLocalDateTime().getMonthValue()}${'-'}${saveExtends[0].time.startTime.toLocalDateTime().getDayOfMonth()} --%>
+					
+					<input type="time" id="extendWorkTime1-input" name="startTime" value="${stime}">
 					<span id="betweenTime">~</span>
-					<input type="time" id="extendWorkTime2-input" name="endTime">
+					<input type="time" id="extendWorkTime2-input" name="endTime" value="${etime}">
 				</div>
 			</div>
 	
 			<div id="one-width">
 				<div id="extendTimeTitle" class="question">제목</div>
 				<div id="extendTimeTitle-answer" class="answer">
-					<input type="text" id="title-input" name="title">
+					<input type="text" id="title-input" name="title" value="${saveExtends[0].approveTitle}">
 				</div>
 			</div>
 			
 			<div id="one-width">
 				<div id="content" class="question">신청사유</div>
 				<div id="content-answer" class="answer">
-					<textarea id="content-textarea" name="content"></textarea>
+					<textarea id="content-textarea" name="content">${saveExtends[0].approveContent}</textarea>
 				</div>
 			</div>
 
 			<div id="one-width">
 				<div id="appAttachment" class="question">첨부파일</div>
 				<div id="appAttachment-answer" class="answer">
-					<input type="file" id="appAttachment-input" name="upFile">
+					<input type="file" id="appAttachment-input" name="upFile" value="${saveExtends[0].approveAttach.oriName}">
 				</div>
 			</div>
+			
+			<c:choose>
+				<c:when test="${saveExtends[0].approveState eq '임시저장'}">
+					<div id="one-width">
+						<button type="button" onclick="remove();" id="remove">삭제하기</button>
+						<button type="button" onclick="saves();" id="save">임시저장</button>
+						<button type="button" onclick="signs();" id="sign">결재상신</button>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div id="one-width">
+						<button type="button" onclick="backs();" id="back">돌아가기</button>
+						<button type="button" onclick="saves();" id="save">임시저장</button>
+						<button type="button" onclick="signs();" id="sign">결재상신</button>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			
 
-			<div id="one-width">
-				<button type="button" onclick="backs();" id="back">돌아가기</button>
-				<button type="button" onclick="saves();" id="save">임시저장</button>
-				<button type="button" onclick="signs();" id="sign">결재상신</button>
-			</div>
+
+
 
 		</div>
 	</div> 
@@ -95,12 +112,14 @@
 		if(document.getElementById("extendWorkDate-input").value == "" || document.getElementById("extendWorkTime1-input").value == "" ||
 				document.getElementById("extendWorkTime2-input").value == ""){
 			
-			if(document.getElementById("extendWorkDate-input").value == "" && document.getElementById("extendWorkTime1-input").value == "" 
+/* 			if(document.getElementById("extendWorkDate-input").value == "" && document.getElementById("extendWorkTime1-input").value == "" 
 					&& document.getElementById("extendWorkTime2-input").value == ""){
 			}else{
 				alert("시간입력");
 				return false;				
-			}		
+			}	 */	
+			alert("시간입력");
+			return false;	
 		}
 		
  		$("#appForm").attr("action","${path}/approve/saveExtends.do"); 

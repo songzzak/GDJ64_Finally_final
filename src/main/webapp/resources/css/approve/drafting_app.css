@@ -254,6 +254,12 @@
 	margin-left: 30px;  
   }
   
+  #remove{ /* 삭제하기버튼 */
+	 background-color: red;
+	  color: white;	
+	  margin-left: 350px;
+  }
+  
   #regist-appline{  /**/
 	  width: 450px;
 	  height: 70px;

@@ -53,7 +53,7 @@
 	#saveDocument{
 		background-color:white;
 		border: 1px solid #D9D9D9;
-		width:1700px;
+		width:1575px;
 		height:900px;
 		margin-left: 50px;
 	}

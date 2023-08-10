@@ -50,10 +50,7 @@ public class ApproveController {
 	      String time = now.format(formatter);
 	    
 	    List<Department> deps = eservice.selectDept();
-		/* List<Member> members = service.selectAllMember(); */
-	 
-	    
-		/* m.addAttribute("members",members); */
+
 	    m.addAttribute("deps",deps);
 		m.addAttribute("time",time); // 현재날짜 전달
 		return "approve/extends-app";
@@ -122,16 +119,74 @@ public class ApproveController {
 	@RequestMapping("/detailSave.do") // 임시저장함 문서에서 해당 문서들 상세보기
 	public String detailSave(Model m, String approveNo, String approveKind) {
 
+		List<Department> deps = eservice.selectDept();
 		Map<String,Object> param = new HashMap<>();
 		param.put("approveNo", approveNo);
 		param.put("approveKind",approveKind);
 		
-		List<Approve> saveApps = service.detailSave(param);
-		System.out.println(saveApps.toString());
+		if(approveKind.equals("연장근무신청서")) {  // 임시저장 문서의 종류가 연장근무신청서의 경우 
+			List<Approve> saveExtends = service.detailSave(param);
+			
+			LocalDate now = LocalDate.now();
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		    String time = now.format(formatter);
+			
+			String date = "";
+			String stime = "";
+			String etime = "";
+	
+					date+=saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getYear();//년
+					date+="-";
+					if(saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMonthValue()<10) {
+						date+="0";
+					}
+					date+=saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMonthValue();//월
+					
+					date+="-";
+					
+					if(saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getDayOfMonth() < 10) {
+						date+="0";
+					}
+					date+=saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getDayOfMonth();
+					
+					if(saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getHour() < 10) {
+						stime+="0";
+					}
+					stime+= saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getHour();
+					stime+=":";
+					if(saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMinute() < 10) {
+						stime+="0";
+					}
+					stime+=saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMinute();
+					
+					if(saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getHour() < 10) {
+						etime+="0";
+					}
+					etime+= saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getHour();
+					etime+=":";
+					if(saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getMinute() < 10) {
+						etime+="0";
+					}
+					etime+=saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getMinute();
+					
+			
+			System.out.println(saveExtends.toString());
+		    
+
+		    m.addAttribute("deps",deps); // 결재선에서 출력될 부서들
+			m.addAttribute("time",time); // 작성일
+			m.addAttribute("stime",stime); // 시작시간
+			m.addAttribute("etime",etime); // 날짜
+			m.addAttribute("date",date); // 날짜
+			
+			m.addAttribute("saveExtends", saveExtends);
+			
+			return "approve/extends-app"; 	
+		}
 		
-		m.addAttribute("saveApps", saveApps);
+		
 		return null;
-		/* return "approve/save-document"; */
+
 	}  
 	
 	
@@ -140,7 +195,6 @@ public class ApproveController {
 	@ResponseBody // 비동기식으로 받기위해서 @ResponseBody 어노테이션을 사용해야함
 	public List<Member> changeDep(String deptName){ // 선택한 부서에 맞는 사원들 리스트로 반환
 		List<Member> m = service.changeDep(deptName);
-		System.out.println(m);
 		return m;
 	}
 	
