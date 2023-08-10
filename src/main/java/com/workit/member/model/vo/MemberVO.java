@@ -18,10 +18,12 @@ import com.workit.member.model.dto.MemberAuthority;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class MemberVO implements UserDetails{
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -85,4 +87,6 @@ public class MemberVO implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	
 }

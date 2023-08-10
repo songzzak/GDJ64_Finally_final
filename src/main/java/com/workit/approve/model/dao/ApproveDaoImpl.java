@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.Time;
 import com.workit.member.model.dto.Member;
 
@@ -46,9 +47,22 @@ public class ApproveDaoImpl implements ApproveDao {
 	}
 
 	@Override
-	public int insertApproveAttach(SqlSession session, ApproveAttach aa) {
+	public int insertApproveAttach(SqlSession session, ApproveAttach aa) { // 결재서 첨부파일 테이블 생성
 		return session.insert("approve.insertApproveAttach",aa);
 	}
-	
 
+	@Override
+	public int insertApproveLine(SqlSession session, Map<String, Object> param) { // 결재선 테이블 생성
+		return session.insert("approve.insertApproveLine",param);
+	}
+
+	@Override
+	public int insertReferLine(SqlSession session, Map<String, Object> param) { // 참조선 테이블 생성
+		return session.insert("approve.insertReferLine",param);
+	}
+	
+	@Override
+	public int insertExpenditure(SqlSession session, Expenditure ex) {
+		return session.insert("approve.insertExpenditure",ex);
+	}
 }

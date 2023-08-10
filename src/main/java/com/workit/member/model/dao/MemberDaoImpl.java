@@ -52,6 +52,12 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateMember(Map<String, Object> param) {
 		return mapper.updateMember(param);
 	}
+
+	//윤진추가
+	@Override
+	public MemberVO selectMemberById(String memberId) {
+		return mapper.selectMemberById(memberId);
+	}
 	
 	
 }
