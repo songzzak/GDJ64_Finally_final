@@ -21,4 +21,5 @@ public class Approve {
 	private String approveState;
 	private String approveKind;
 	private List<ApproveLine> approveLine;
+	
 }

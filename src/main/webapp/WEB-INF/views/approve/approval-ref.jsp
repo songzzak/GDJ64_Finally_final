@@ -1,4 +1,4 @@
-<!-- 모든양식에서 공통으로 사용할 결재선 UI -->
+ <!-- 모든양식에서 공통으로 사용할 결재선 UI -->
 
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="UTF-8"%>	

@@ -44,7 +44,7 @@
 			<div id="one-width">
 				<div id="extendWork" class="question">근무일시</div>
 				<div id="extendWork-answer" class="answer">
-					<input type="date" id="extendWorkDate-input" name="extendWorkDate">
+					<input type="date" id="extendWorkDate-input" name="startDate">
 					<input type="time" id="extendWorkTime1-input" name="startTime">
 					<span id="betweenTime">~</span>
 					<input type="time" id="extendWorkTime2-input" name="endTime">
@@ -92,11 +92,23 @@
 	}
 	
 	const saves=()=>{
+ 		$("#appForm").attr("action","${path}/approve/saveExtends.do"); 
+		$("#appForm").submit(); 
 		
 	}
 	
 	const signs=()=>{
 
+		if($(".appClass").length < 1){
+			alert("결재선에 최소 한명이상 선택하세요");
+			return false;
+		}
+		
+		if($(".appId").length < 1){
+			alert("참조선에 최소 한명이상 선택하세요");
+			return false;
+		}
+					
 		if(document.getElementById("title-input").value == "" || document.getElementById("content-textarea").value == ""){
 			alert("제목 내용 입력");
 			return false;
@@ -110,9 +122,7 @@
 		
  		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
 		$("#appForm").submit(); 
-		
 	}
-	
 </script>
 
 
