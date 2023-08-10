@@ -98,6 +98,11 @@ public class WorkServiceImpl implements WorkService {
 		return dao.deleteWorkChange(session, workChangeNo);
 	}
 
+	@Override
+	public List<Work> getMonthWorkTimeByTeam(Map<String, Object> paramMap) {
+		return dao.getMonthWorkTimeByTeam(session, paramMap);
+	}
+
 
 
 }

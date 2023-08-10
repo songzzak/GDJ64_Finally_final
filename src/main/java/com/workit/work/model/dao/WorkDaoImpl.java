@@ -93,4 +93,9 @@ public class WorkDaoImpl implements WorkDao {
 		return session.delete("work.deleteWorkChange",workChangeNo);
 	}
 
+	@Override
+	public List<Work> getMonthWorkTimeByTeam(SqlSessionTemplate session, Map<String, Object> paramMap) {
+		return session.selectList("work.getMonthWorkTimeByTeam",paramMap);
+	}
+
 }

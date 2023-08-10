@@ -44,6 +44,9 @@ public interface WorkService {
 	//출퇴근요청 삭제
 	int deleteWorkChange(int workChangeNo);
 
+	//부서별 근무 정보
+	List<Work> getMonthWorkTimeByTeam(Map<String, Object> paramMap);
+
 
 
 

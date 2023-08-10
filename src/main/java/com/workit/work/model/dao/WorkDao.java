@@ -39,4 +39,6 @@ public interface WorkDao {
 	int updateWorkChangeStatus(SqlSessionTemplate session, Map<String, Object> paramMap);
 
 	int deleteWorkChange(SqlSessionTemplate session, int workChangeNo);
+
+	List<Work> getMonthWorkTimeByTeam(SqlSessionTemplate session, Map<String, Object> paramMap);
 }

@@ -208,7 +208,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
          	<tbody>
          	<c:if test="${empty workList }">
          	<tr>
-         		<td colspan="5">조회된 근무정보가 없습니다.</td>
+         		<td colspan="6">조회된 근무정보가 없습니다.</td>
          	</tr>
          	</c:if>
 			<c:if test="${not empty workList }">
@@ -373,11 +373,12 @@ function navigateMonth(offset) {
     	console.log(data.workList.length); */
         $(".cal_tbl tbody").empty();
         if (!data.workList || data.workList.length == 0) {
-            $(".cal_tbl tbody").append('<tr><td colspan="5">조회된 근무정보가 없습니다.</td></tr>');
+            $(".cal_tbl tbody").append('<tr><td colspan="6">조회된 근무정보가 없습니다.</td></tr>');
         } else {
             $.each(data.workList, function (index, workItem) {
                 var rowHtml = '<tr class="work-time-row">';
                 rowHtml += '<td>' + formatDateAndDay(workItem.workDate) + '</td>';
+                rowHtml += '<td>' + workItem.workStatus + '</td>';
                 rowHtml += '<td>' + formatTime(workItem.workStart) + '</td>';
                 rowHtml += '<td>' + formatTime(workItem.workEnd) + '</td>';
                 rowHtml += '<td>' + workItem.totalWorkTime + '</td>';

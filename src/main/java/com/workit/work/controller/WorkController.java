@@ -310,11 +310,11 @@ public class WorkController {
 		// work 객체의 시작 및 종료 시간 설정 (Date를 Timestamp로 변환)
 		Timestamp newWorkStart = new Timestamp(tempWorkStart.getTime());
 		Timestamp newWorkEnd = new Timestamp(tempWorkEnd.getTime());
-		System.out.println("세팅전"+w);
+		//System.out.println("세팅전"+w);
 		 w.setWorkStart(newWorkStart);
 		 w.setWorkEnd(newWorkEnd);
 		 w.setWorkStatus(workStatus);
-		 System.out.println("세팅후"+w);
+		 //System.out.println("세팅후"+w);
 		 int result = service.updateWorkTime(w);
 		 
 		 int statusResult=0;
@@ -346,4 +346,39 @@ public class WorkController {
          response.getWriter().write(json);
 	 }
 	 	
+		@GetMapping("/workTimeByTeam")
+		public String monthWorkTimeByTeam(
+				@RequestParam(required = false) Integer currentYear, 
+	            @RequestParam(required = false) Integer currentMonth,
+	            HttpSession session,
+				HttpServletRequest request, HttpServletResponse response, Model model) throws IOException{
+			String deptName=((MemberVO)session.getAttribute("loginMember")).getDept().getDeptName();
+
+		    Map<String, Object> paramMap = new HashMap<>();
+	        paramMap.put("deptName", deptName);
+			
+			 if (currentYear == null || currentMonth == null) {
+		            Calendar cal = Calendar.getInstance();
+		            currentYear = cal.get(Calendar.YEAR);
+		            currentMonth = cal.get(Calendar.MONTH) + 1;
+		            // 년월 정보를 Map에 담기
+		            paramMap.put("currentYear", currentYear);//2023
+		            paramMap.put("currentMonth", currentMonth);//8
+		            List<Work> workList = service.getMonthWorkTimeByTeam(paramMap);
+		            model.addAttribute("workList", workList);
+		            return "/work/workBoard-team";
+		        }else {
+		            paramMap.put("currentYear", currentYear);
+		            paramMap.put("currentMonth", currentMonth);
+		            List<Work> workList = service.getMonthWorkTimeByTeam(paramMap);
+		            System.out.println(paramMap);
+		            System.out.println(workList);
+		            Gson gson = new Gson();
+		            String json = gson.toJson(workList);
+		            response.setContentType("application/json");
+		            response.setCharacterEncoding("UTF-8");
+		            response.getWriter().write(json);
+		        }
+			 return null;
+		}
 }
