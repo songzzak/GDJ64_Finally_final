@@ -44,15 +44,17 @@
 						</div>
 						<div class="mypage-update">
 							<span>이메일</span>
-							<input type="email" name="email" value="${loginMember.email }" required>
-							<button onclick="fn_requestEmail();">인증 요청</button>
+							<input type="email" name="email" class="first-input" id="mail">
+			                <input type="button" onclick="fn_requestEmail();" value="전송">
+			                <span>5:00</span>
 						</div>
 						<!-- 인증 요청 버튼을 누르면 보일 구간 -->
 						<div class="mypage-update">
 							<span>인증 번호</span>
-							<input type="text" name="email_check_number">
-							<button onclick="fn_checkEmailNumber();">인증</button>
+							<input type="text" id="check-number" class="first-input">
+                			<input type="button" onclick="fn_checkEmailNumber();" value="인증">
 						</div>
+						<div id="check-info"></div>
 						<!--  -->
 						<div class="mypage-update">
 							<span>주소 검색</span>
@@ -212,6 +214,48 @@
 				location.reload();
 			}
 		});
+	}
+	
+	//인증 메일 전송
+	val emailFl=false;
+	function fn_requestEmail(){
+		const email=$("#mail").val();
+		if(email==''){
+			alert("이메일 주소를 입력하세요.");
+			$("#mail").focus();
+		}else{
+			$.ajax({
+				method:"post",
+				url:"${path}/email",
+				data:"email="+email,
+				dataType:"text"
+			}).then(function (response){
+				alert("전송되었습니다. 이메일을 확인해주세요.");
+				const emailNum=$("<input>").attr({
+					"type":"hidden",
+					"id":"email-number"
+				});
+				emailNum.val(response);
+				$("#check-info").append(emailNum);
+			});
+		}
+	}
+	
+	//이메일 인증 번호 확인
+	function fn_checkEmailNumber(){
+		$("#check-info").find("span").remove();
+		const checkNum=$("#check-number").val();
+		const emailNum=$("#email-number").val();
+		if(checkNum==''||checkNum.length<8){
+			$("#check-info").append($("<span>").text("인증 번호를 정확하게 입력하세요."));
+			$("#check-number").focus();
+		}else if(checkNum==emailNum){
+			$("#check-info").append($("<span>").text("인증되었습니다. :)"));
+			emailFl=true;
+		}else{
+			$("#check-info").append($("<span>").text("인증 번호가 일치하지 않습니다."));
+			$("#check-number").focus();
+		}
 	}
 </script>
 </body>
