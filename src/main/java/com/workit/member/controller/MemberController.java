@@ -57,6 +57,7 @@ public class MemberController {
 	public String login(@RequestParam Map<String,Object> param, HttpSession session){
 		MemberVO loginMember=(MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		session.setAttribute("loginMember", loginMember);
+		//첫 로그인 시 firstLogin으로 전환 추가 예정
 		return "redirect:/";
 	}
 	
@@ -144,13 +145,27 @@ public class MemberController {
 	@PostMapping("/member/password")
 	@ResponseBody
 	public int updatePwd(Model model, @RequestBody Map<String, Object> param) {
-		return service.updatePwd(param);
+		return service.updateMember(param);
 	}
 	
-	//첫 로그인 시 인증
-	@GetMapping("/login/first")
+	//첫 로그인 시 화면
+	@GetMapping("/member/first")
 	public String firstLoginView() {
 		return "member/firstLogin";
+	}
+	
+	//첫 로그인 데이터 업데이트
+	@PostMapping("/member/first")
+	public String fistLoginInfo(@RequestParam Map<String,Object> param, Model model) {
+		if(service.updateMember(param)>0) {
+			model.addAttribute("msg","인증 성공했습니다.");
+			model.addAttribute("loc","/");
+		}else{
+			model.addAttribute("msg","인증 실패했습니다.");
+			model.addAttribute("loc","/login/first");
+		}
+		
+		return "common/msg";
 	}
 	
 	//email 인증

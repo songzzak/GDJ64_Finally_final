@@ -55,9 +55,9 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	}
 
 	@Override
-	public int updatePwd(Map<String, Object> param) {
+	public int updateMember(Map<String, Object> param) {
 		if(dao.selectMemberByParam(param)!=null) {
-			return dao.updatePwd(param);			
+			return dao.updateMember(param);			
 		}else {
 			return -1;
 		}

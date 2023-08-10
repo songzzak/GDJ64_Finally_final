@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.workit.member.model.dto.Department;
 import com.workit.member.model.dto.Job;
@@ -21,10 +23,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberVO implements UserDetails{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	
 	private String memberId;
 	private String memberName;
 	private String profileImg;
@@ -66,24 +67,22 @@ public class MemberVO implements UserDetails{
 		return password;
 	}
 	
-	@Override //퇴사 기간 지나면 권한 만료
+	@Override
 	public boolean isAccountNonExpired() {
-		Date today=new Date();
-		return entDate!=null&&today.before(entDate);
+		return true;
 	}
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	@Override
+	@Override  //퇴사 기간 지나면 권한 만료
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
+		Date today=new Date();
+		return entDate==null||today.before(entDate);
 	}
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 }

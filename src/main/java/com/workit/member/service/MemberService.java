@@ -25,5 +25,5 @@ public interface MemberService {
 
 	List<ApprovMemberVO> selectApprovAll(Map<String, Object> param);
 
-	int updatePwd(Map<String, Object> param);
+	int updateMember(Map<String, Object> param);
 }
