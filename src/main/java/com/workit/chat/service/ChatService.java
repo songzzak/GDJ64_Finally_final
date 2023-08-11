@@ -1,4 +1,4 @@
-package com.workit.chat.model.service;
+package com.workit.chat.service;
 
 import java.util.List;
 import java.util.Map;

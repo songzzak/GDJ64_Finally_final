@@ -103,22 +103,28 @@
 			success: data => {
 				console.log("open chatroom success");
 				console.log(data);
+				fn_startChat();
 				fn_viewChatMsg(data);
-				
 			},
 			error : data =>{
 				console.log("error");
+			}
+			,done : data =>{
+				
 			}
 		});
 	}
 	
 	let chatroomMembers;
+	let chatroomFiles;
+	let divPrevChat;
 	
 	const fn_viewChatMsg=(data)=>{
 		console.log("data : ",data);
 		let chatroomMember = data.chatroomMember;
-		console.log(data.chatroomMember);
 		let chatroomMemberName="";
+		chatroomFiles = data.chatroomFile;
+		console.log("chatroomFiles : ", chatroomFiles);
 		chatroomMembers= [];
 		chatroomMember.forEach(cm =>{
 			chatroomMembers.push(cm.member.memberId);
@@ -137,9 +143,8 @@
 			$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
 			$(".chatRoom-container .chat-header .title").text(chatroomTitle);
 		}
-		
+		divPrevChat = $("<div>").attr("class","prev-chat");
 		currentChatroom.forEach(e => {
-			let divPrevChat = $("<div>").attr("class","prev-chat");
 			if(chatroomId!=null && chatroomId==e.chatroomId){
 				//$(".chatRoom-container .chat-header .title").text(e.chatroomTitle);
 				$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
@@ -168,11 +173,38 @@
 					}
 					chatMsg.append($("<input>").attr("type", "hidden").attr("value", e.chatroomId).attr("class","roomId"));
 					divPrevChat.append(chatMsg);
+					$(".chat-fileform input[type='hidden']").attr("value",e.chatroomId);
 				})
 				$(".chatRoom-container .chat-room-inner .chat-msgBox-container").append(divPrevChat);
 				
 			}
 		}) 
+		if(data.chatroomFile!=null){
+			fn_viewChatroomFile(data);
+		}
+	}
+	const fn_viewChatroomFile=(data)=>{
+			chatroomFiles.forEach(f=>{
+				console.log("fieleelele", f);
+				let receiveFile = f.chatroomFile;
+				/* var chatMsg = $("<div>").attr("class", "chat-msg");
+				chatMsg.append($("<img class='fileName'>").attr("src","${path}/resources/images/common/attach.svg").css("width","16px"));
+				chatMsg.append($("<span>").attr("class", "fileName chat-msgbx").text(f.chatroomFile.originalFile));
+				chatMsg.append($("<span>").attr("class", "chat-date").text(chatfileDate));
+				chatMsg.append($("<input type='hidden'>").attr("value",f.fileId).attr("class","chat-msg-Id")); */
+				divPrevChat.append(chatMsg);
+				receiveFile.forEach(ff=>{
+					const fDate = new Date(ff.fileId.uploadDate);
+					const chatfileDate = fDate.toLocaleString('ko-KO');
+					console.log(ff);
+					var chatMsg = $("<div>").attr("class", "chat-msg");
+					chatMsg.append($("<img class='fileName'>").attr("src","${path}/resources/images/common/attach.svg").css("width","16px"));
+					chatMsg.append($("<span>").attr("class", "fileName chat-msgbx").text(ff.fileId.originalFile));
+					chatMsg.append($("<span>").attr("class", "chat-date").text(chatfileDate));
+					chatMsg.append($("<input type='hidden'>").attr("value",ff.fileId).attr("class","chat-msg-Id"));
+					divPrevChat.append(chatMsg);
+				})
+			})
 	}
 	
 	function fn_exitCreateChat() {
@@ -246,6 +278,19 @@
 		chatroomId = $(e.target).next().val();
 		fn_deleteChatroom(chatroomId);
 	}) 
+	
+	$(".fileName").click(e=>{
+		alert('sdjgoiwej')
+	})
+	
+	$(document).on("click", ".fileName", function (e) {
+		let currfileId = $(e.target).next().next().val();
+		console.log("selected file Id : ",currfileId);
+		
+		
+	});
+
+	
 </script>
 </body>
 </html>

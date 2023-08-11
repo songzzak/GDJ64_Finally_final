@@ -9,6 +9,8 @@ import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.ChatMsg;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
+import com.workit.chatroom.model.dto.ChatroomFile;
+import com.workit.chatroom.model.dto.AttachedFile;
 import com.workit.member.model.dto.Member;
 
 
@@ -44,5 +46,13 @@ public interface ChatMapper {
 	List<MyChatroom> selectCurrentChatMembers(String chatroomId);
 	
 	int updateChatroomMember(Map<String, Object> param);
+	
+	int saveFile(Map<String, Object> param);
+	
+	int uploadFile(Map<String, Object> param);
+	
+	AttachedFile selectFileById(String fileId);
+	
+	List<ChatroomFile> selectFileByChatroomId(String chatroomId);
 	
 }

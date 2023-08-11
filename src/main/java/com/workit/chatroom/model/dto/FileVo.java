@@ -1,6 +1,4 @@
-package com.workit.chat.model.dto;
-
-import java.sql.Date;
+package com.workit.chatroom.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,11 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Attachment {
-	private String fileId;
+public class FileVo {
 	private String originalFile;
-	private String renameFile;
+	private String uploadFile;
 	private String uploadPath;
-	private Date uploadDate;
-	private String fileStatus;
 }

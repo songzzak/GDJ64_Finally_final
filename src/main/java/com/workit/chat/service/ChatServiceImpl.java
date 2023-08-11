@@ -1,4 +1,4 @@
-package com.workit.chat.model.service;
+package com.workit.chat.service;
 
 
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import com.workit.chat.model.dao.ChatDao;
 import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
+import com.workit.chatroom.dao.ChatroomDao;
 import com.workit.member.model.dto.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +24,11 @@ public class ChatServiceImpl implements ChatService {
 	
 	@Autowired
 	private ChatDao chatDao;
+	private ChatroomDao chatroomDao;
 	
-	public ChatServiceImpl(ChatDao chatDao) {
+	public ChatServiceImpl(ChatDao chatDao, ChatroomDao chatroomDao) {
 		this.chatDao = chatDao;
+		this.chatroomDao = chatroomDao;
 	}
 	
 	@Override
@@ -50,7 +53,8 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public Map<String, Object> selectChatroomByroomId(String chatroomId) {
-		return Map.of("chatroomList",chatDao.selectChatroomByroomId(chatroomId), "chatroomMember", chatDao.selectChatMember(chatroomId));
+		return Map.of("chatroomList",chatDao.selectChatroomByroomId(chatroomId), "chatroomMember", chatDao.selectChatMember(chatroomId), "chatroomFile", chatroomDao.selectFileByChatroomId(chatroomId));
+		//return Map.of("chatroomList",chatDao.selectChatroomByroomId(chatroomId), "chatroomMember", chatDao.selectChatMember(chatroomId));
 	}
 	
 	@Override
