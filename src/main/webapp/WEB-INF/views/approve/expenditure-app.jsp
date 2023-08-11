@@ -104,7 +104,38 @@ const backs=()=>{
 	}
 	
 	const saves=()=>{
+		// 아래의 3개의 배열들역할 -> 각 칸들의 값들의 index 값을 넣어서, 해당 칸들의 개수가 일치해야 하는 조건을 추가할 수 있고
+		// 칸들의 개수는 일치하지만, 각 칸들의 위치가 다를 수 있으므로, 배열의 인덱스번호를 추가함
+		let arrayAccount = [];  
+		let arrayUseHistory = [];
+		let arrayPrice = [];
+		$("input[name='account']").each(function(i){  // i로 인덱스번호 체크
+			if(this.value != "") arrayAccount.push(i);
+		})
+		$("input[name='useHistory']").each(function(i){ 
+			if(this.value != "") arrayUseHistory.push(i);
+		})
+		$("input[name='price']").each(function(i){
+			if(this.value != "") arrayPrice.push(i);
+		})
 		
+		// equals1, equals2 -> 배열은 == 비교가 불가능함(주소이기때문에) -> JSON.stringify를 통해서 비교 -> 3개의 배열을 비교
+ 		const equals1 = (arrayAccount, arrayUseHistory) => JSON.stringify(arrayAccount) == JSON.stringify(arrayUseHistory)
+ 		const equals2 = (arrayUseHistory, arrayPrice) => JSON.stringify(arrayUseHistory) == JSON.stringify(arrayPrice);
+  		const result = equals1(arrayAccount, arrayUseHistory) && equals2(arrayUseHistory,arrayPrice);
+
+		if(arrayAccount.length<=0 || arrayUseHistory.length<=0 || arrayPrice.length<=0){
+			alert("각 목록마다 한칸이상씩 입력");
+			return false;	
+		}else{
+			if(result == false){
+				alert("각 줄의 목록을 다 입력");
+				return false;	
+			}
+		}
+		
+ 		$("#appForm").attr("action","${path}/approve/saveExpenditure.do"); 
+		$("#appForm").submit(); 	
 	}
 	
 	const signs=()=>{

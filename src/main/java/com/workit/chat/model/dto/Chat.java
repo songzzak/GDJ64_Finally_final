@@ -1,7 +1,8 @@
 package com.workit.chat.model.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
+import com.workit.member.model.dto.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Chat {
 	private String chatId;
 	private String chatroomId;
-	private String memberId;
+	private Member member;
 	private String chatContent;
 	private Date chatDate;
 }

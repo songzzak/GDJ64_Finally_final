@@ -3,6 +3,7 @@
 #enroll-form>div>input[type=text]{
 	height: 30px;
 	width: 250px;
+	padding: 0px;
 }
 
 .emp-btn{
@@ -21,6 +22,11 @@
 	justify-content: right;
 	margin: 30px 50px;
 }
+.emp-btn{
+	display: flex;
+	justify-content: right;
+	
+}
 /* 사원 리스트 */
 #emp-table{
 	width: 100%;
@@ -34,6 +40,15 @@
 	text-align: center;
 }
 
+/* 사원 수정 상세 */
+#back-btn{
+	width: 130px;
+}
+.emp-header{
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
 /* 부서관리 */
 .dept-container{
 	height: 350px;

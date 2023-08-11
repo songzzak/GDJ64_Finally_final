@@ -24,7 +24,7 @@
 				<!-- 반복문 처리될 구간 -->
 				<c:if test="${not empty approvList }">
 					<c:forEach var="a" items="${approvList }">
-					<tr onclick="fn_approvContent(${a.memberUpdateNo});">
+					<tr onclick="fn_approvContent(${a.memberUpdateNo},${a.memberId });">
 						<td>${a.memberId }</td>
 						<td>${a.memberName }</td>
 						<td>${a.updateComment }</td>
@@ -41,7 +41,7 @@
 			<div class="pageBar">${pageBar }</div>
 			<div id="info-container">
 				<h3>신청 내역</h3>
-				<p>수정 전 사원 정보</p>
+				<h4>수정 전 사원 정보</h4>
 				<table class="info-table">
 					<tr>
 						<th>사번</th>
@@ -52,11 +52,9 @@
 						<th>이메일</th>
 					</tr>
 					<tr><td colspan="6"><hr/></td></tr>
-					<tr>
-						<td></td>
-					</tr>
+					<tr id="member-tr"></tr>
 				</table>
-				<p>수정 신청 내역</p>
+				<h4>수정 신청 내역</h4>
 				<table class="info-table">
 					<tr>
 						<th>전화번호</th>
@@ -67,8 +65,7 @@
 						<th>신청일</th>
 					</tr>
 					<tr><td colspan="6"><hr/></td></tr>
-					<tr id="info-tr">
-					</tr>
+					<tr id="info-tr"></tr>
 				</table>
 			</div>
 		</div>
@@ -76,9 +73,8 @@
 	</div>
 </section>
 <script>
-	function fn_approvContent(updateNo){
+	function fn_approvContent(updateNo,memberId){
 		$.get("${path}/employee/approv/info?no="+updateNo,data=>{
-			console.log(data);
 			const tr=$("#info-tr");
 			tr.children().remove();
 			tr.append($("<td>").text(data.phone))
@@ -87,6 +83,17 @@
 				.append($("<td>").text(data.email))
 				.append($("<td>").text(data.updateComment))
 				.append($("<td>").text(data.requestDate));
+		});
+		$.get("${path}/employee/approv/member?no="+memberId,data=>{
+			console.log(data);
+			const tr=$("#member-tr");
+			tr.children().remove();
+			tr.append($("<td>").text(data.memberId))
+				.append($("<td>").text(data.memberName))
+				.append($("<td>").text(data.phone))
+				.append($("<td>").text(data.address))
+				.append($("<td>").text(data.subAddress))
+				.append($("<td>").text(data.email));
 		});
 	}
 	

@@ -65,9 +65,7 @@
 				<div id="one-width">
 					<div id="applicationDate" class="question">신청일</div>
 					<div id="applicationDate-answer" class="answer">
-						<input type="date" id="gStartDate" name="startDate"> <span
-							id="gBetweenTime">~</span> <input type="date" id="gEndDate"
-							name="endDate">
+
 					</div>
 				</div>
 
@@ -136,7 +134,40 @@
 	}
 	
 	const saves=()=>{
+		const kind = $("input:radio[name='geuntae']:checked").val();
 		
+ 		if($("input[name='startDate']").length == 0){
+			alert("시간을선택해주세요");
+			return false;
+		} 
+		
+		if(kind == "반차" || kind == "외출"){
+			if(document.getElementById("hStartDate").value == "" || document.getElementById("hStartTime").value == "" ||
+					document.getElementById("hEndTime").value == ""){
+				
+/* 				if(document.getElementById("hStartDate").value == "" && document.getElementById("hStartTime").value == "" 
+					&& document.getElementById("hEndTime").value == ""){
+				}else{
+					alert("시간입력");
+					return false;				
+				}	 */	
+				alert("시간입력");
+				return false;	
+			}
+		}else{  // 연차, 보건, 경조 경우
+			if(document.getElementById("gStartDate").value == "" || document.getElementById("gEndDate").value == ""){
+/* 				if(document.getElementById("gStartDate").value == "" && document.getElementById("gEndDate").value == ""){
+				}else{
+					alert("시간입력");
+					return false;				
+				}	 */	
+				alert("시간입력");
+				return false;	
+			}
+		}
+		
+ 		$("#appForm").attr("action","${path}/approve/saveAttendance.do"); 
+		$("#appForm").submit(); 		
 	}
 	
 	const signs=()=>{

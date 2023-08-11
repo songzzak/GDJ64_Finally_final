@@ -26,6 +26,16 @@ public class ApproveDaoImpl implements ApproveDao {
 	}
 
 	@Override
+	public List<Approve> selectAllSaveDocument(SqlSession session, Map<String, Object> param) {
+		return session.selectList("approve.selectAllSaveDocument",param);
+	}
+
+	@Override
+	public List<Approve> detailSave(SqlSession session, Map<String, Object> param) {
+		return session.selectList("approve.detailSave",param);
+	}
+
+	@Override
 	public List<Member> changeDep(SqlSession session, String deptName) {  // 부서클릭할때 각 부서마다 사원들 조회
 		return session.selectList("approve.changeDep",deptName);
 	}

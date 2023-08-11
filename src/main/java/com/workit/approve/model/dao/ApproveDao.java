@@ -22,4 +22,7 @@ public interface ApproveDao {
 	public int insertApproveLine(SqlSession session, Map<String,Object> param);
 	public int insertReferLine(SqlSession session, Map<String,Object> param);
 	public int insertExpenditure(SqlSession session, Expenditure ex);
+	public List<Approve> selectAllSaveDocument(SqlSession session, Map<String,Object> param);
+	public List<Approve> detailSave(SqlSession session, Map<String,Object> param);
+	
 }

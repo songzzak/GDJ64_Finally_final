@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>                            
- <c:set var="path" value="${pageContext.request.contextPath }"/>     
+<c:set var="path" value="${pageContext.request.contextPath }"/>     
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <link rel="stylesheet" href="${path}/resources/css/chat/chat.css">
 <link rel="stylesheet" href="${path}/resources/css/chat/chat-modal.css">
@@ -10,37 +10,9 @@
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 		<div class="main-section section-shadow">
 			<jsp:include page="/WEB-INF/views/chat/chatList.jsp"/>
-			<%-- <jsp:include page="/WEB-INF/views/chat/chatroom.jsp"/> --%>
-			<jsp:include page="/WEB-INF/views/chat/chattingpage.jsp"/>
+			<jsp:include page="/WEB-INF/views/chat/chating.jsp"/>
 		</div>
 </section>
-<script>
-	chatroomId= '${chatroomId}';
-		console.log(chatroomId);
-		console.log(loginMember);
-		const websocket= new WebSocket("ws://localhost:8080/chatting");
-		websocket.onopen=data=>{
-			console.log(data);
-			//websocket.send(JSON.stringify(new Chat("1","user","hi")));
-		}
-		websocket.onmessage=data=>{
-			console.log(data);
-			const chat=JSON.parse(data.data);
-			console.log(chat);
-		}
-		$(".sendChat").click(e=>{
-			const chatContent=$(".chat-msg-input").val();
-			console.log(chatContent);
-			websocket.send(JSON.stringify(new Chat(chatroomId, loginMember, chatContent)));
-		});
-		class Chat {
-			constructor(chatroomId = "", memberId = "", chatContent = ""){
-				this.chatroomId = chatroomId;
-				this.memberId = memberId;
-				this.chatContent = chatContent;
-			}
-		} 
-</script>
 <script src="${path}/resources/js/chat/chat.js"></script>
 </body>
 </html>
