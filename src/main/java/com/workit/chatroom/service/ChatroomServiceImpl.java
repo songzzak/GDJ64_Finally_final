@@ -34,10 +34,6 @@ public class ChatroomServiceImpl implements ChatroomService {
 		return chatroomDao.insertChat(chat);
 	}
 	
-//	@Value("${file.dir}")
-//    private String fileDir;
-
-    //private final FileRepository fileRepository;
 	
 	// root 경로
 	private final String path = System.getProperty("user.dir");
@@ -83,17 +79,6 @@ public class ChatroomServiceImpl implements ChatroomService {
         param.put("uploadPath", uploadPath);
         
         
-        // 파일 엔티티 생성
-//        Attachment newFile = Attachment.builder()
-//                .originalFile(origName)
-//                .uploadFile(uploadName)
-//                .uploadPath(uploadPath)
-//                .build();
-//        log.info("{}", newFile);
-
-        // 실제로 로컬에 uuid를 파일명으로 저장
-        //files.transferTo(new File(uploadPath));
-
         // 데이터베이스에 파일 정보 저장 
         int result = chatroomDao.saveFile(param);
         log.info("{}", param.get("fileId"));
@@ -120,89 +105,12 @@ public class ChatroomServiceImpl implements ChatroomService {
         }
         return new AttachedFile();
     }
-//	public AttachedFile saveFile(AttachedFile files, String chatroomId) {
-//        // 원래 파일 이름 추출
-//        String origName = files.getOriginalFile();
-//        log.info("oriName");
-//        log.info("{}", origName);
-//        
-//        
-//        log.info("fileDir ");
-//    	log.info("{}",fileDir);
-//        
-//        // 확장자 추출(ex : .png)
-//        String extension = origName.substring(origName.lastIndexOf("."));
-//		Date today = new Date(System.currentTimeMillis());
-//		SimpleDateFormat redate = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-//		int round = (int)(Math.random()*10000)+1;
-//		
-//		// 날짜와 확장자 결합
-//		String uploadName = redate.format(today) + "_" + round + extension;
-//		log.info("uploadName");
-//		log.info(uploadName);
-//
-//
-//        // 파일을 불러올 때 사용할 파일 경로
-//        //String uploadPath = fileDir + uploadName;
-//        
-//        String uploadPath = fileDir;
-////        File file = File.builder()
-////        			.fileId("")
-////        			.originalFile(origName)
-////        			.uploadFile(uploadName)
-////        			.uploadPath(uploadPath)
-////        			.uploadDate(today)
-////        			.fileStatus("Y")
-////        			.build();
-////        MultipartFile mf = (MultipartFile) file;
-//        
-//        
-//        // DB에 저장하기 위해 Map생성 
-//        Map<String, Object> param = new HashMap<String, Object>();
-//        param.put("originalFile", origName);
-//        param.put("uploadFile", uploadName);
-//        param.put("uploadPath", uploadPath);
-//        
-//        
-//        // 파일 엔티티 생성
-////        Attachment newFile = Attachment.builder()
-////                .originalFile(origName)
-////                .uploadFile(uploadName)
-////                .uploadPath(uploadPath)
-////                .build();
-////        log.info("{}", newFile);
-//
-//        // 실제로 로컬에 uuid를 파일명으로 저장
-//        //files.transferTo(new File(uploadPath));
-//
-//        // 데이터베이스에 파일 정보 저장 
-//        int result = chatroomDao.saveFile(param);
-//        log.info("{}", param.get("fileId"));
-//        
-//        if(result>0) {
-//        	param.put("chatroomId", chatroomId);
-//        	log.info("saveFile 메소드 끝난 후");
-//        	log.info(chatroomId);
-//        	
-//        	int uploadResult = chatroomDao.uploadFile(param);
-//        	if(uploadResult>0) {
-//        		log.info("join테이블 입력 완료 ");
-//        		String fileId = (String)param.get("fileId");
-//        		AttachedFile uploadFile = chatroomDao.selectFileById(fileId);
-//        		log.info("저장하고 가져온 파일");
-//        		log.info("{}", uploadFile);
-//        		
-//        		try {
-//                	((MultipartFile) uploadFile).transferTo(new File(uploadPath + uploadName)); 
-//                }catch(IOException e) {
-//                	e.printStackTrace();
-//                }
-//                
-//        		return uploadFile;
-//        	}
-//        	
-//        }
-//        return new AttachedFile();
-//    }
 
+	@Override
+	public List<ChatroomFile> selectFileByChatroomId(String chatroomId) {
+		return chatroomDao.selectFileByChatroomId(chatroomId);
+	}
+
+	
+	
 }

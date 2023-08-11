@@ -3,7 +3,6 @@ package com.workit.chat.service;
 import java.util.List;
 import java.util.Map;
 
-import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
 import com.workit.member.model.dto.Member;

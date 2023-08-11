@@ -17,4 +17,5 @@ public interface ChatroomDao {
 	AttachedFile selectFileById(String fileId);
 	
 	List<ChatroomFile> selectFileByChatroomId(String chatroomId);
+	
 }
