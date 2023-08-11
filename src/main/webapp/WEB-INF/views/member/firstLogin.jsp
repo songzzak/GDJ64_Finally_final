@@ -74,25 +74,25 @@
 				dataType:"text",
 				error: function() {
 					alert("인증 메일 전송에 실패했습니다. 다시 시도해주세요.");
+				},
+				success: function (response){
+					alert("전송되었습니다. 이메일을 확인해주세요."+response);
+					const emailNum=$("<input>").attr({
+						"type":"hidden",
+						"id":"email-number"
+					});
+					emailNum.val(response);
+					$("#first-form").append(emailNum);
+					var fn_time=setInterval(function(){
+						time--;
+						min=parseInt(time/60);
+						sec=time%60;
+						$("#email-time").text(min+" : "+sec);
+						if(time<0){
+							$("#email-time").text("0:00");
+						}
+					},1000);
 				}
-			}).then(function (response){
-				alert("전송되었습니다. 이메일을 확인해주세요.");
-				const emailNum=$("<input>").attr({
-					"type":"hidden",
-					"id":"email-number"
-				});
-				emailNum.val(response);
-				$("#first-form").append(emailNum);
-				var fn_time=setInterval(function(){
-					time--;
-					console.log("time 실행");
-					min=parseInt(time/60);
-					sec=time%60;
-					$("#email-time").text(min+" : "+sec);
-					if(time<0){
-						$("#email-time").text("0:00");
-					}
-				},1000);
 			});
 		}
 	}

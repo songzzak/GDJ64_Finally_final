@@ -59,7 +59,9 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Override
 	public int updateMember(Map<String, Object> param) {
-		param.put("password", encoder.encode((String)param.get("password"))); //기존 비밀번호 암호화
+		if(param.get("password")!=null) {
+			param.put("password", encoder.encode(dao.selectMemberByParam(param).getPassword())); //기존 비밀번호 암호화			
+		}
 		param.put("newPwd", encoder.encode((String)param.get("newPwd"))); //신규 비밀번호 암호화
 		if(dao.selectMemberByParam(param)!=null) {
 			return dao.updateMember(param);			

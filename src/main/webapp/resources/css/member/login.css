@@ -24,7 +24,9 @@
 	background-color: white;
 	position: relative;
 }
-
+.login-div>span{
+	margin: 10px 40px;
+}
 .logo-container{
 	width: 450px;
 	height: 90px;
@@ -113,4 +115,7 @@ input[type=button]:hover{
 }
 .info-msg{
 	font-size: 14px;
+}
+.pwd-info{
+	font-weight: bolder;
 }

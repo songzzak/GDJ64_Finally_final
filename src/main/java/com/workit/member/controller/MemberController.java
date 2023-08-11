@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,12 +41,13 @@ public class MemberController {
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
+	//로그인 페이지
 	@RequestMapping("/loginpage")
 	public String loginpage() {
 		return "member/login";
 	}
 	
-	
+	//로그인 실패 시
 	@RequestMapping("/login/fail")
 	public String loginFail(Model model) throws IllegalAccessException{
 		model.addAttribute("msg","로그인 실패했습니다.");
@@ -53,6 +55,7 @@ public class MemberController {
 		return "common/msg";
 	}
 	
+	//로그인 성공 시
 	@RequestMapping("/login/success")
 	public String login(@RequestParam Map<String,Object> param, HttpSession session){
 		MemberVO loginMember=(MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -61,6 +64,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	//권한 불일치
 	@RequestMapping("/error/auth")
 	public String errorAuth(Model model) throws IllegalAccessException{
 		model.addAttribute("msg","사용 권한이 없습니다.");
@@ -68,6 +72,7 @@ public class MemberController {
 		return "common/msg";
 	}
 	
+	//로그인 안 하고 접근 시
 	@RequestMapping("/error/login")
 	public String errorLogin(Model model) throws IllegalAccessException{
 		model.addAttribute("msg","로그인 후 이용 가능합니다.");
@@ -75,11 +80,13 @@ public class MemberController {
 		return "common/msg";
 	}
 	
+	//메인 페이지
 	@GetMapping("/")
 	public String mainpage(@RequestParam Map<String,Object> param, HttpSession session) {
 		return "index";
 	}
 	
+	//마이 페이지 이동
 	@GetMapping("/mypage")
 	public String enrollView(Model model, HttpSession session) {
 		String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
@@ -87,17 +94,20 @@ public class MemberController {
 		return "member/mypage";
 	}
 	
+	//비밀번호 찾기 화면
 	@GetMapping("/login/password")
 	public String loginPwdView() {
 		return "member/passwordReissue";
 	}
 	
+	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse reponse) {
 		new SecurityContextLogoutHandler().logout(request, reponse, SecurityContextHolder.getContext().getAuthentication());
 		return "member/login";
 	}
 	
+	//프로필 이미지 저장
 	@PostMapping("/member/profile")
 	public String updateProfile(MultipartFile profileImg, HttpSession session, Model model) {
 		String path = session.getServletContext().getRealPath("/resources/upload/profile/"); //파일 저장 경로
@@ -186,5 +196,28 @@ public class MemberController {
 		message.setText("인증 번호 : "+key);
 		javaMailSender.send(message);
 		return key;
+	}
+	
+	//비밀번호 재발급
+	@PutMapping("/email/password")
+	@ResponseBody()
+	public int passwordReissue(@RequestBody Map<String,Object> param) {
+		String key="";
+		Random random=new Random();
+		SimpleMailMessage message=new SimpleMailMessage();
+		message.setTo((String)param.get("email"));
+		for(int i=0;i<2;i++) {
+			key+=(char)((int)random.nextInt(25)+65); //A~Z 랜덤 알파벳 생성
+			key+=(int)random.nextInt(); //랜덤 숫자
+			key+=(char)((int)random.nextInt(25)+ 97); //a~z 랜덤 알파벳 생성
+		}
+		message.setSubject("workit 임시 비밀번호입니다."); //메일 제목
+		message.setText("임시 비밀번호 : "+key);
+		param.put("newPwd", key);
+		if(service.updateMember(param)>0) {
+			javaMailSender.send(message);
+			return 1;
+		}
+		return 0;
 	}
 }
