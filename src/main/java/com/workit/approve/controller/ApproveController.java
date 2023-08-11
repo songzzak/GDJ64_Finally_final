@@ -25,9 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
+import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
 import com.workit.approve.model.service.ApproveService;
 import com.workit.employee.service.EmployeeService;
@@ -42,6 +45,9 @@ public class ApproveController {
 	
 	@Autowired
 	private EmployeeService eservice;
+	
+	@Autowired
+	private ObjectMapper mapper;
 	
 	@RequestMapping("/extendsView.do") // 연장근무신청서 페이지로 이동
 	public String extendsView(Model m) {
@@ -125,7 +131,10 @@ public class ApproveController {
 		param.put("approveKind",approveKind);
 		
 		if(approveKind.equals("연장근무신청서")) {  // 임시저장 문서의 종류가 연장근무신청서의 경우 
-			List<Approve> saveExtends = service.detailSave(param);
+			List<Approve> saveExtends = service.detailSave(param);  // 기안서에 대해서 갖고왔으며 (시간,첨부파일,작성자에대한 멤버테이블과 조인(
+			List<ApproveLine> approveLines = service.detailApproveLines(param);
+			List<ReferLine> referLines = service.detailReferLines(param);
+			
 			
 			LocalDate now = LocalDate.now();
 		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -168,19 +177,49 @@ public class ApproveController {
 						etime+="0";
 					}
 					etime+=saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getMinute();
-					
-			
-			System.out.println(saveExtends.toString());
-		    
+			System.out.println(saveExtends.toString());					
+			System.out.println(approveLines.toString());
+			System.out.println(referLines.toString());
 
+			String aId = "";
+			String aName = "";
+			String aDept = "";
+			String aJob = "";
+			for(int i=0; i<approveLines.size(); i++) {
+				aId += approveLines.get(i).getMemberId().getMemberId();
+				aName += approveLines.get(i).getMemberId().getMemberName();
+				aDept += approveLines.get(i).getMemberId().getDept().getDeptName();
+				aJob += approveLines.get(i).getMemberId().getJob().getJobName();
+				
+				if(i!=approveLines.size()-1){
+					aId += " ";
+					aName += " ";
+					aDept += " ";
+					aJob += " ";
+				}
+			}
+			
+			System.out.println(aId);
+			
 		    m.addAttribute("deps",deps); // 결재선에서 출력될 부서들
 			m.addAttribute("time",time); // 작성일
 			m.addAttribute("stime",stime); // 시작시간
 			m.addAttribute("etime",etime); // 날짜
 			m.addAttribute("date",date); // 날짜
-			
 			m.addAttribute("saveExtends", saveExtends);
+			m.addAttribute("approveNo",approveNo);
 			
+//			ObjectMapper mapper=new ObjectMapper();// Jackson에서 제공하는(라이브러리) ObjectMapper  -> config에 빈으로 등록해서 객체 생성 생략가능
+			// 자바에서 해당 객체를 문자열로 저장한후 중간역할담당인 mapper를 통해 자바스크립트에서 객체형태로 저장이됨
+			try {
+				m.addAttribute("approveLines",mapper.writeValueAsString(approveLines));
+				m.addAttribute("referLines",mapper.writeValueAsString(referLines));
+				// m.addAttribute("lines", mapper.writeValueAsString(Map.of("referenceLine",referLines,"approveLine",approveLines))); // 한번에 map으로 객체로 저장
+				
+			}catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 			return "approve/extends-app"; 	
 		}
 		
@@ -188,6 +227,21 @@ public class ApproveController {
 		return null;
 
 	}  
+	
+	
+	@RequestMapping("/removeSave.do") // 임시저장된 연장근무신청서 삭제하기
+	public String removeSave(String deleteApproveNo, Model model) {
+		
+		if(service.removeSave(deleteApproveNo) >= 1) {
+			model.addAttribute("msg","성공적으로 삭제하였습니다.");
+			model.addAttribute("url","/approve/waitingApprove.do?");
+		}
+		else {
+			model.addAttribute("msg","삭제에 실패하였습니다.");
+			model.addAttribute("url","/");
+		}
+			return "common/msg";
+	}
 	
 	
 	
@@ -421,6 +475,9 @@ public class ApproveController {
 		} 
 		return "redirect:/";
 	}
+	
+	
+	
 	
 	
 	@RequestMapping("/saveAttendance.do") // 근태신청서 임시저장할때 사용하는 컨트롤러

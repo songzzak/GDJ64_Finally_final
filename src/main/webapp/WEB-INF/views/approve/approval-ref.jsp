@@ -67,23 +67,11 @@
 	    <div id="line-refer-box">
 	    		<div id="line-box">
 	    			<p id="line-box-text">결재선</p>
-	    			<c:if test="${not empty saveExtends[0].approveLine}">
-						<c:forEach var="app" items="${saveExtends[0].approveLine}">
-							<div class="${app.memberId}">
-								<input type="checkbox" name="appBox" value="${app.memberId}">
-								<img src="/resources/images/approve/circle_people.png" style="width: 20px; height: 20px;">
-								${app.memberId}
-								<br>
-							</div>
-	    				${app.approveOrder}
-
-	    				</c:forEach> 
-	    			</c:if>
 	    		</div>
 	    		
 	    		<div id="refer-box">
 	    			<p id="refer-box-text">참조선</p>
-	    			
+
 	    		</div>
 	    </div>
 	</div>
