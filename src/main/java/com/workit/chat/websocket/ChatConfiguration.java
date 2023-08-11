@@ -18,12 +18,9 @@ public class ChatConfiguration implements WebMvcConfigurer, WebSocketConfigurer 
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(chatServer, "/chatting");
+		registry.addHandler(chatServer, "/chating/*");
 	}
 	
-//	@Override
-//	public void addViewControllers(ViewControllerRegistry registry) {
-//		registry.addViewController("/chattingpage").setViewName("chattingpage");
-//	}
+	
 	
 }

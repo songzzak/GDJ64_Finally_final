@@ -78,10 +78,10 @@ public class MemberVO implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
-	@Override  //퇴사 기간 지나면 권한 만료
+	@Override  //퇴사 기간이 지났거나 입사 전이면 권한 없음
 	public boolean isCredentialsNonExpired() {
 		Date today=new Date();
-		return entDate==null||today.before(entDate);
+		return entDate==null||today.before(entDate)||today.after(hireDate);
 	}
 	@Override
 	public boolean isEnabled() {

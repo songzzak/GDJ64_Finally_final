@@ -36,7 +36,7 @@ public class DBConnectProvider implements AuthenticationProvider{
 		if(loginMember==null||!encoder().matches(password, loginMember.getPassword())) { //로그인 실패 시
 			throw new BadCredentialsException("인증 실패했습니다.");
 		}else {
-			if(loginMember.isCredentialsNonExpired()) { //퇴사일이 지나면 로그인 실패
+			if(loginMember.isCredentialsNonExpired()) { //입,퇴사일에 따라 로그인 실패
 				return new UsernamePasswordAuthenticationToken(loginMember,password, loginMember.getAuthorities()); //인증된 객체							
 			}else {
 				throw new BadCredentialsException("인증 실패했습니다.");

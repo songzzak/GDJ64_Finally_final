@@ -170,7 +170,7 @@ section {
 /* 헤더 아래 오른쪽 영역 inner */
 .right-container {
 	margin: var(--section-inner-margin); 
-	border: 1px solid black; /* 내부 text 영역 확인 가이드라인 */
+	/*border: 1px solid black;*/ /* 내부 text 영역 확인 가이드라인 */
 }
 
 /* 헤더 아래 왼쪽 영역 */ 

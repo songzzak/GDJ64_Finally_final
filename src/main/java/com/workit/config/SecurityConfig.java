@@ -43,7 +43,7 @@ public class SecurityConfig{
 					.antMatchers("/logout").permitAll()
 					.antMatchers("/resources/**").permitAll()
 					.antMatchers("/login/**").permitAll()
-					.antMatchers("/email").hasAuthority(MemberAuthority.EMP.name())
+					.antMatchers("/email/**").permitAll()
 					.antMatchers("/employee/job").hasAnyAuthority(MemberAuthority.SUBMASTER.name(), MemberAuthority.MASTER.name())
 					.antMatchers("/employee/enroll").hasAnyAuthority(MemberAuthority.TEAMMASTER.name())
 					.antMatchers("/employee/**").hasAuthority(MemberAuthority.DEPT_EMP.name())

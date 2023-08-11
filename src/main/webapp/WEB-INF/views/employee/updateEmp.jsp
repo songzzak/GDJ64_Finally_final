@@ -8,7 +8,10 @@
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 	<div class="main-section section-shadow card">
       <div class="right-container">
-         <h2>사원 정보 수정</h2>
+      	<div class="emp-header">
+	        <h2>사원 정보 수정</h2>
+	        <input type="button" onclick="history.back();" value="뒤로가기" id="back-btn">
+		</div>
          <form action="${path }/employee/memberId" id="update-emp-form" method="post" enctype="multipart/form-data">
          	<input type="hidden" name="memberId" value="${member.memberId }">
          	<div>
@@ -76,7 +79,9 @@
          	<p>* 퇴사일 이후로는 해당 사원 번호로 로그인 불가능합니다.</p>
          </form>
       </div>
-	<div><input type="reset" value="취소"><button onclick="fn_empDataCk();">수정</button></div>
+	<div class="emp-btn">
+		<input type="reset" value="취소"><button onclick="fn_empDataCk();">수정</button>
+	</div>
    </div>
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

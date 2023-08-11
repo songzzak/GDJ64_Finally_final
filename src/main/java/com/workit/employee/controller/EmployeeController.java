@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -25,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.workit.common.Pagenation;
 import com.workit.employee.model.dto.EmployeeUpdateInfo;
 import com.workit.employee.service.EmployeeService;
+import com.workit.member.model.vo.MemberVO;
 import com.workit.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -191,6 +191,12 @@ public class EmployeeController {
 		return info;
 	}
 	
+	//요청 리스트 중 클릭한 사원 기본 정보
+	@GetMapping("/approv/member")
+	@ResponseBody()
+	public MemberVO selectApprovMember(@RequestParam(value="no") String no) {
+		return memberService.selectMemberByParam(Map.of("memberId",no));
+	}
 	//정보 수정 요청 삭제
 	@DeleteMapping("/approv")
 	@ResponseBody()

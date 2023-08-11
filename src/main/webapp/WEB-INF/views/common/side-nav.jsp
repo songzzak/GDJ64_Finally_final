@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.workit.member.model.vo.MemberVO"  %>
+<%@ page import="com.workit.member.model.dto.Member"  %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>        
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
+         
  <%
-   MemberVO loginMember=(MemberVO)session.getAttribute("loginMember");
+   Member loginMember=(Member)session.getAttribute("loginMember");
   %>                  
  <c:set var="path" value="${pageContext.request.contextPath }"/>     
    <div class="side-nav-container max90per section-shadow">
@@ -25,32 +26,17 @@
       <div>
          <a class="side-menu"><img src="${path}/resources/images/common/work.svg">근태 관리</a>
          <ul class="menu-toggle" style="display:none">
-            <li><a href="${path }/work/workTime">내 출근부</a></li>
-            <c:if test="${loginMember.dept.deptName eq '인사팀'}">
-	            <li><a href="${path }/work/workChange">출퇴근 시간 수정</a></li>
-            </c:if>
-            <c:if test="${loginMember.job.jobName eq '팀장'}">
-	            <li><a href="${path }/work/workTimeByTeam">${loginMember.dept.deptName} 출근부</a></li>
-            </c:if>
+            <li><a href="${path }/">메뉴</a></li>
          </ul>
       </div>
       <div>
          <a class="side-menu" href=""><img src="${path}/resources/images/common/lecture.svg">수업 등록</a>
-         <ul class="menu-toggle" style="display:none">
-            <li><a href="${path }/">메뉴</a></li>
-         </ul>
       </div>
       <div>
          <a class="side-menu" href="${path }/booking/bookingList.do"><img src="${path}/resources/images/common/booking.svg">시설 예약</a>
-         <ul class="menu-toggle" style="display:none">
-            <li><a href="${path }/">메뉴</a></li>
-         </ul>
       </div>
       <div>
          <a class="side-menu" href=""><img src="${path}/resources/images/common/board.svg">게시판</a>
-         <ul class="menu-toggle" style="display:none">
-            <li><a href="${path }/">메뉴</a></li>
-         </ul>
       </div>
       <div>
          <a id="approve-menu"><img src="${path}/resources/images/common/approve.svg">전자결재</a>
@@ -59,7 +45,7 @@
             <button onclick="location.href='${path}/approve/waitingApprove.do?mId=${loginMember.memberId}';">결재대기문서</button>
             <button onclick="location.href='${path}/approve/stateApprove.do';">기안문서함</button>
             <button onclick="location.href='${path}/approve/referenceApprove.do';">참조문서함</button>
-            <button onclick="location.href='${path}/approve/saveDocument.do?mId=${loginMember.memberId}';">임시저장함</button>
+            <button onclick="location.href='${path}/approve/saveApprove.do';">임시저장함</button>
          </div>
       </div>
       <div>
