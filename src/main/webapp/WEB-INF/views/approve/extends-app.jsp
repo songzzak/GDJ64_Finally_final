@@ -4,6 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <c:set var="approveNo" value="${approveNo}"/>
+<c:set var="approveState" value="${approveState}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -47,8 +48,6 @@
 				<div id="extendWork" class="question">근무일시</div>
 				<div id="extendWork-answer" class="answer">
 					<input type="date" id="extendWorkDate-input" name="startDate" value="${date}">
-					<%-- value="${saveExtends[0].time.startTime.toLocalDateTime().getYear()}${'-0'}${saveExtends[0].time.startTime.toLocalDateTime().getMonthValue()}${'-'}${saveExtends[0].time.startTime.toLocalDateTime().getDayOfMonth()} --%>
-					
 					<input type="time" id="extendWorkTime1-input" name="startTime" value="${stime}">
 					<span id="betweenTime">~</span>
 					<input type="time" id="extendWorkTime2-input" name="endTime" value="${etime}">
@@ -72,7 +71,7 @@
 			<div id="one-width">
 				<div id="appAttachment" class="question">첨부파일</div>
 				<div id="appAttachment-answer" class="answer">
-					<input type="file" id="appAttachment-input" name="upFile" value="${saveExtends[0].approveAttach.oriName}">
+					<input type="file" id="appAttachment-input" name="upFile" value="dddd">
 				</div>
 			</div>
 			
@@ -80,9 +79,9 @@
 				<c:when test="${saveExtends[0].approveState eq '임시저장'}">
 					<div id="one-width">
 						<button type="button" onclick="remove();" id="remove">삭제하기</button>
-						<button type="button" onclick="saves();" id="save">임시저장</button>
+						<button type="button" onclick="reSaves();" id="save">임시저장</button>
 						<button type="button" onclick="signs();" id="sign">결재상신</button>
-					</div>
+`					</div>
 				</c:when>
 				<c:otherwise>
 					<div id="one-width">
@@ -139,8 +138,13 @@
 		
 	});
 	
-	const remove=()=>{
-		location.assign("${path}/approve/removeSave.do?deleteApproveNo=${approveNo}"); 
+	const remove=()=>{  // 임시저장된 기안서 삭제할때
+		location.assign("${path}/approve/removeSave.do?deleteApproveNo=${approveNo}&mId=${loginMember.memberId}"); 
+	}
+	
+	const reSaves=()=>{ // 임시저장된 기안서 다시 임시저장할 때
+ 		$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}"); 
+		$("#appForm").submit(); 
 	}
 	
 
@@ -168,6 +172,8 @@
 	
 	const signs=()=>{
 
+
+			
 		if($(".appClass").length < 1){
 			alert("결재선에 최소 한명이상 선택하세요");
 			return false;
@@ -189,8 +195,14 @@
 			return false;
 		}
 		
- 		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
-		$("#appForm").submit(); 
+		if("${approveState}" == "임시저장"){
+	 		$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}&approveState=${approveState}"); 
+			$("#appForm").submit();			
+		}else{
+	 		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
+			$("#appForm").submit(); 			
+		}
+		
 	}
 </script>
 

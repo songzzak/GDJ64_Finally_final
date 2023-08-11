@@ -93,4 +93,31 @@ public class ApproveDaoImpl implements ApproveDao {
 	public int removeSave(SqlSession session, String deleteApproveNo) { // 기안서번호를 통해 기안서 삭제(참조되는것 다 삭제)
 		return session.delete("approve.removeSave",deleteApproveNo);
 	}
+	
+	@Override
+	public int reInsertApporve(SqlSession session, Approve ap) {  // 임시저장된 화면에서 다시 임시저장할때 다시 기안서 테이블 만들어지는작업
+		return session.insert("approve.reInsertApporve",ap);
+	}
+
+	@Override
+	public int reInsertTime(SqlSession session, Time t) { // 임시저장된 화면에서 다시 임시저장할때 다시 시간테이블 만들어지는작업
+		return session.insert("approve.reInsertTime",t);
+	}
+
+	@Override
+	public int reInsertApproveAttach(SqlSession session, ApproveAttach aa) { // 임시저장된 화면에서 다시 임시저장할때 다시 첨부파일 테이블 만들어지는작업
+		return session.insert("approve.reInsertApproveAttach",aa);
+	}
+
+	@Override
+	public int reInsertApproveLine(SqlSession session, Map<String, Object> param) {// 임시저장된 화면에서 다시 임시저장할때 다시 결재서테이블 만들어지는작업
+		return session.insert("approve.reInsertApproveLine",param);
+	}
+
+	@Override
+	public int reInsertReferLine(SqlSession session, Map<String, Object> param) { // 임시저장된 화면에서 다시 임시저장할때 다시 참조선 테이블 만들어지는작업
+		return session.insert("approve.reInsertReferLine",param);
+	}
+	
+	
 }

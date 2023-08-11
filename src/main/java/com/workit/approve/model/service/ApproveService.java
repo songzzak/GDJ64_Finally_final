@@ -28,5 +28,9 @@ public interface ApproveService {
 	public List<ApproveLine> detailApproveLines(Map<String,Object> param);
 	public List<ReferLine> detailReferLines(Map<String,Object> param);
 	public int removeSave(String deleteApproveNo);
-	
+	public int reInsertApprove(Approve ap);
+	public int reInsertTime(Time t);
+	public int reInsertApproveAttach(ApproveAttach aa);
+	public int reInsertApproveLine(Map<String,Object> param);
+	public int reInsertReferLine(Map<String,Object> param);
 }

@@ -29,7 +29,7 @@
 		            			<td colspan="6">${sa.approveTitle }</td>
 		            			<td colspan="6">${sa.memberId.memberName}</td>
 		            			<td colspan="6">${sa.currentDate }</td>
-		            			<td colspan="6"><button id="saveColor" onclick="location.href='${path}/approve/detailSave.do?approveNo=${sa.approveNo}&approveKind=${sa.approveKind}';">
+		            			<td colspan="6"><button id="saveColor" onclick="location.href='${path}/approve/detailSave.do?approveNo=${sa.approveNo}&approveKind=${sa.approveKind}&approveState=${sa.approveState}';">
 		            			${sa.approveState}</button></td>
 	            		</tr>
 	            		

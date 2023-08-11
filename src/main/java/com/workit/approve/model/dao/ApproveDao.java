@@ -29,4 +29,9 @@ public interface ApproveDao {
 	public List<ApproveLine> detailApproveLines(SqlSession session, Map<String,Object> param);
 	public List<ReferLine> detailReferLines(SqlSession session, Map<String,Object> param);
 	public int removeSave(SqlSession session, String deleteApproveNo);
+	public int reInsertApporve(SqlSession session, Approve ap);
+	public int reInsertTime(SqlSession session, Time t);
+	public int reInsertApproveAttach(SqlSession session, ApproveAttach aa);
+	public int reInsertApproveLine(SqlSession session, Map<String,Object> param);
+	public int reInsertReferLine(SqlSession session, Map<String,Object> param);
 }

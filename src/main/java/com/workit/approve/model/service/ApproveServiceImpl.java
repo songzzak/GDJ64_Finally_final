@@ -75,7 +75,7 @@ public class ApproveServiceImpl implements ApproveService {
 	public int insertApprove(Approve ap) {
 		return dao.insertApprove(session,ap);
 	}
-
+	
 	@Override
 	public int insertTime(Time t) {
 		return dao.insertTime(session,t);
@@ -101,4 +101,30 @@ public class ApproveServiceImpl implements ApproveService {
 		return dao.insertExpenditure(session, ex);
 	}
 
+	@Override
+	public int reInsertApprove(Approve ap) {
+		return dao.reInsertApporve(session,ap);
+	}
+
+	@Override
+	public int reInsertTime(Time t) {
+		return dao.reInsertTime(session, t);
+	}
+
+	@Override
+	public int reInsertApproveAttach(ApproveAttach aa) {
+		return dao.reInsertApproveAttach(session, aa);
+	}
+
+	@Override
+	public int reInsertApproveLine(Map<String, Object> param) {
+		return dao.reInsertApproveLine(session, param);
+	}
+
+	@Override
+	public int reInsertReferLine(Map<String, Object> param) {
+		return dao.reInsertReferLine(session, param);
+	}
+	
+	
 }
