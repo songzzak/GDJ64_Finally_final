@@ -69,6 +69,9 @@ public class SecurityConfig{
 						}
 					})
 				.and()
+				.headers()
+				.frameOptions().sameOrigin()
+				.and()
 				.authenticationProvider(provider)
 				.build();
 	}

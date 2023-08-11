@@ -55,7 +55,7 @@
             <ul class="row">
                 <li>게시판</li>
                 <li>|</li>
-                <li>공지사항 상세</li>
+                <li>공지사항</li>
             </ul>
         </div>
         <div class="section-shadow bgc-fff padding10px">

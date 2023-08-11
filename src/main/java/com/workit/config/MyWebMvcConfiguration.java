@@ -14,6 +14,8 @@ public class MyWebMvcConfiguration implements WebMvcConfigurer{
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("index");
 		registry.addViewController("/notice").setViewName("/board/noticeView");
+		registry.addViewController("/insertnotice").setViewName("/board/insertNotice");
+		registry.addViewController("/editor").setViewName("/smarteditor/newPost");
 	}
 
 }
