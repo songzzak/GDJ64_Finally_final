@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.workit.approve.model.dao.ApproveDao;
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
+import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
 import com.workit.member.model.dto.Member;
 
@@ -43,7 +45,22 @@ public class ApproveServiceImpl implements ApproveService {
 		return dao.detailSave(session,param);
 	}
 	
+	@Override
+	public List<ApproveLine> detailApproveLines(Map<String, Object> param) {
+		return dao.detailApproveLines(session,param);
+	}
+
+	@Override
+	public List<ReferLine> detailReferLines(Map<String, Object> param) {
+		return dao.detailReferLines(session,param);
+	}
 	
+	
+	@Override
+	public int removeSave(String deleteApproveNo) {
+		return dao.removeSave(session,deleteApproveNo);
+	}
+
 	@Override
 	public List<Member> changeDep(String deptName) {
 		return dao.changeDep(session,deptName);

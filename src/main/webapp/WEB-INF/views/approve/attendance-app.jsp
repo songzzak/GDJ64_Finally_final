@@ -145,20 +145,24 @@
 			if(document.getElementById("hStartDate").value == "" || document.getElementById("hStartTime").value == "" ||
 					document.getElementById("hEndTime").value == ""){
 				
-				if(document.getElementById("hStartDate").value == "" && document.getElementById("hStartTime").value == "" 
+/* 				if(document.getElementById("hStartDate").value == "" && document.getElementById("hStartTime").value == "" 
 					&& document.getElementById("hEndTime").value == ""){
 				}else{
 					alert("시간입력");
 					return false;				
-				}		
+				}	 */	
+				alert("시간입력");
+				return false;	
 			}
 		}else{  // 연차, 보건, 경조 경우
 			if(document.getElementById("gStartDate").value == "" || document.getElementById("gEndDate").value == ""){
-				if(document.getElementById("gStartDate").value == "" && document.getElementById("gEndDate").value == ""){
+/* 				if(document.getElementById("gStartDate").value == "" && document.getElementById("gEndDate").value == ""){
 				}else{
 					alert("시간입력");
 					return false;				
-				}		
+				}	 */	
+				alert("시간입력");
+				return false;	
 			}
 		}
 		

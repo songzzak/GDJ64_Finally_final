@@ -1,6 +1,6 @@
  <!-- 모든양식에서 공통으로 사용할 결재선 UI -->
 
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>	
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
@@ -67,12 +67,11 @@
 	    <div id="line-refer-box">
 	    		<div id="line-box">
 	    			<p id="line-box-text">결재선</p>
-	    				
 	    		</div>
 	    		
 	    		<div id="refer-box">
 	    			<p id="refer-box-text">참조선</p>
-	    			
+
 	    		</div>
 	    </div>
 	</div>

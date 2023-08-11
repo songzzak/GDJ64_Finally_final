@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
@@ -9,15 +9,15 @@
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
 
 	<div id="waiting-approve-allarea">
-	  <div id="letter">°áÀç´ë±â¹®¼­</div>
+	  <div id="letter">ê²°ìž¬ëŒ€ê¸°ë¬¸ì„œ</div>
 	  <div id="waiting-approve-content">
 	  	 <table>
             <tr>
-                <th>¹øÈ£</th>
-                <th>°áÀç¾ç½Ä</th>
-                <th>Á¦¸ñ</th>
-                <th>ÀÛ¼ºÀÚ</th>
-                <th>ÀÛ¼ºÀÏ</th>
+                <th>ë²ˆí˜¸</th>
+                <th>ê²°ìž¬ì–‘ì‹</th>
+                <th>ì œëª©</th>
+                <th>ìž‘ì„±ìž</th>
+                <th>ìž‘ì„±ì¼</th>
             </tr>
          </table>
 	  </div>

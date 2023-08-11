@@ -8,31 +8,44 @@ import org.springframework.stereotype.Repository;
 
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
+import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
 import com.workit.member.model.dto.Member;
 
 @Repository
 public class ApproveDaoImpl implements ApproveDao {
 
+
 	@Override
 	public List<Approve> selectAllWaitingApprove(SqlSession session, String mId) {
 		return session.selectList("approve.selectAllWaitingApprove",mId);
 	}
-
+	
 	@Override
 	public List<Member> selectAllMember(SqlSession session) {
 		return session.selectList("approve.selectAllMember");
 	}
 
 	@Override
-	public List<Approve> selectAllSaveDocument(SqlSession session, Map<String, Object> param) {
+	public List<Approve> selectAllSaveDocument(SqlSession session, Map<String, Object> param) { // 본인이 작성한 임시저장 문서들 다 조회
 		return session.selectList("approve.selectAllSaveDocument",param);
 	}
 
 	@Override
-	public List<Approve> detailSave(SqlSession session, Map<String, Object> param) {
+	public List<Approve> detailSave(SqlSession session, Map<String, Object> param) { // 임시작성된 기안서 상세 객체 보기
 		return session.selectList("approve.detailSave",param);
+	}
+	
+	@Override
+	public List<ApproveLine> detailApproveLines(SqlSession session, Map<String, Object> param) { // 임시작성된 기안서 번호와 참조되는 결재선 상세 객체보기
+		return session.selectList("approve.detailApproveLines",param);
+	}
+
+	@Override
+	public List<ReferLine> detailReferLines(SqlSession session, Map<String, Object> param) { // 임시작성된 기안서 번호와 참조되는 참조선 상세 객체보기
+		return session.selectList("approve.detailReferLines",param);
 	}
 
 	@Override
@@ -72,7 +85,12 @@ public class ApproveDaoImpl implements ApproveDao {
 	}
 	
 	@Override
-	public int insertExpenditure(SqlSession session, Expenditure ex) {
+	public int insertExpenditure(SqlSession session, Expenditure ex) { // 지출결의서 테이블 생성
 		return session.insert("approve.insertExpenditure",ex);
+	}
+	
+	@Override
+	public int removeSave(SqlSession session, String deleteApproveNo) { // 기안서번호를 통해 기안서 삭제(참조되는것 다 삭제)
+		return session.delete("approve.removeSave",deleteApproveNo);
 	}
 }
