@@ -118,6 +118,8 @@
 				        	</div>
 				        	<div>
 					            <button class="replyBtn btnSimple">답글</button>
+					            <button class="replyUpdateBtn btnSimple">수정</button>
+					            <button class="replyDeleteBtn btnSimple">삭제</button>
 				        	</div>
 				        </div>
 			            <!-- 대댓글 작성 영역 -->
@@ -133,6 +135,10 @@
 			                    <div class="recommentContent">
 			                        감사합니다.
 			                    </div>
+			                    <div>
+				            		<button class="replyUpdateBtn btnSimple">수정</button>
+					           		<button class="replyDeleteBtn btnSimple">삭제</button>
+			        			</div>
 			                </div>
 			            </div>
 			        </div>
@@ -148,6 +154,8 @@
 			        	</div>
 			        	<div>
 				            <button class="replyBtn btnSimple">답글</button>
+				            <button class="replyUpdateBtn btnSimple">수정</button>
+					            <button class="replyDeleteBtn btnSimple">삭제</button>
 			        	</div>
 			        </div>
 		        		<!-- 대댓글 작성 영역 -->
