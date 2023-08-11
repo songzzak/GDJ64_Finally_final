@@ -1,17 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
   <section>
 	<div class="approve hidden-approve">
 	  <div class="bg-approve"></div>
 	  <div class="modalBox-approve">
-	  		<span id="form-choice-name">搬犁剧侥 急琶</span>
+	  		<span id="form-choice-name">瓴办灛鞏戩嫕 靹犿儩</span>
 	  		<div id="form-flex">
 	  			<div id="form-choice">
 	  				<div id="form-column">
-		  				<a onclick="extendsApply();">楷厘辟公脚没</a>
-		  				<a onclick="attendanceApply();">辟怕脚没</a>
-		  				<a onclick="expenditureApply();">瘤免搬狼辑脚没</a>
+		  				<a onclick="extendsApply();">鞐办灔攴茧鞁犾箔</a>
+		  				<a onclick="attendanceApply();">攴柬儨鞁犾箔</a>
+		  				<a onclick="expenditureApply();">歆�於滉舶鞚橃劀鞁犾箔</a>
 	  				</div>
 	  			</div>
 	  			<div id="form-choice-result">
@@ -19,12 +19,13 @@
 	  			</div>
 	  		</div>
 	  		
-			<button type="button" id="approval-close-button">摧扁</button>
-			<button type="button" id="approval-write-button" onclick="approvalWrite();">累己</button>
+			<button type="button" id="approval-close-button">雼赴</button>
+			<button type="button" id="approval-write-button" onclick="approvalWrite();">鞛戩劚</button>
 	  </div>
 	</div>
 </section>  
 <link rel="stylesheet" href="${path}/resources/css/approve/select-payment-form.css">
 <script src="${path}/resources/js/approve/select-payment-form.js"></script>
+
 
   

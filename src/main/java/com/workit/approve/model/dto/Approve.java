@@ -1,7 +1,9 @@
 package com.workit.approve.model.dto;
 
 import java.sql.Date;
+import java.util.List;
 
+import com.workit.member.model.dto.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +19,12 @@ public class Approve {
 	private String approveTitle;
 	private String approveContent;
 	private Date currentDate;
-	private String memberId;
 	private String approveState;
 	private String approveKind;
+	private Member memberId;
+	private ApproveAttach approveAttach;
+	private Time time;
+	private List<ApproveLine> approveLine;
+	private List<ReferLine> referLine;
+	private List<Expenditure> expenditure;
 }

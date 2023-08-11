@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="${path}/resources/css/member/mypage.css">
 <section class="max1920px">
 <jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
-
 <section class="mypage-section">
 	<div class="main-section section-shadow card profile-info">
 		<div class="right-container">
@@ -45,20 +44,22 @@
 						</div>
 						<div class="mypage-update">
 							<span>이메일</span>
-							<input type="email" name="email" value="${loginMember.email }" required>
-							<button onclick="fn_requestEmail();">인증 요청</button>
+							<input type="email" name="email" class="first-input" id="mail">
+			                <input type="button" onclick="fn_requestEmail();" value="전송">
+			                <span>5:00</span>
 						</div>
 						<!-- 인증 요청 버튼을 누르면 보일 구간 -->
 						<div class="mypage-update">
 							<span>인증 번호</span>
-							<input type="text" name="email_check_number">
-							<button onclick="fn_checkEmailNumber();">인증</button>
+							<input type="text" id="check-number" class="first-input">
+                			<input type="button" onclick="fn_checkEmailNumber();" value="인증">
 						</div>
+						<div id="check-info"></div>
 						<!--  -->
 						<div class="mypage-update">
 							<span>주소 검색</span>
 							<input type="text" name="mainAddress" value="${loginMember.address }" required>
-							<button onclick="fn_searchAddr();">검색</button>
+							<input type="button" onclick="fn_searchAddr();" value="검색">
 						</div>
 						<div class="mypage-update">
 							<span>상세 주소</span>
@@ -68,7 +69,7 @@
 							<span>변경 사유</span> <input type="text" name="updateComment" required>
 						</div>
 						<div>
-							<h4>수정 요청 현황</h4>
+							<h4>수정 대기 현황</h4>
 							<table class="update-result-tb">
 								<tr>
 									<th>신청자</th>
@@ -80,7 +81,7 @@
 								<tr>
 									<td colspan="5"><hr /></td>
 								</tr>
-								<c:if test="${not empty approv }">
+								<c:if test="${not empty approv and approv.approvalFl=='N' }">
 									<tr>
 										<td>${approv.memberName }</td>
 										<td>${approv.approvalMember }</td>
@@ -92,9 +93,9 @@
 										<td colspan="5"><hr /></td>
 									</tr>
 								</c:if>
-								<c:if test="${empty approv }">
+								<c:if test="${empty approv or approv.approvalFl=='Y'}">
 									<tr>
-										<td colspan="5">수정 요청한 내역이 없습니다.</td>
+										<td colspan="5">승인 대기 중인 요청 내역이 없습니다.</td>
 									</tr>
 									<tr>
 										<td colspan="5"><hr /></td>
@@ -111,7 +112,6 @@
 					</div>
 				</div>
 				<div class="main-section section-shadow card">
-					<form action="" method="" id="pwd-update-form">
 						<div class="right-container">
 							<h2>비밀번호 수정</h2>
 							<div class="mypage-update">
@@ -124,10 +124,9 @@
 							</div>
 							<div class="mypage-update">
 								<span>비밀번호 확인</span>
-								<input type="password" id="pwd-check">
+								<input type="password" id="pwd-ck">
 							</div>
 						</div>
-					</form>
 					<div>
 						<input type="reset" value="취소">
 						<button onclick="fn_updatePwd();">수정</button>
@@ -137,6 +136,10 @@
 	</section>
 </section><!-- max1920px -->
 <script>
+	var emailFl=false;
+	var time=300;
+	var min=5;
+	var sec=0;
 	//프로필 사진 변경
 	function fn_updateProfile(){
 		$("#profile-input").click();
@@ -153,6 +156,7 @@
 		$("#mypage-profile").attr("src","${path }/resources/upload/profile/${loginMember.profileImg}");
 	}
 	
+	//프로필 전송
 	function fn_profileSubmit(){
 		if($("#profile-input").val()!=''){
 			$("#profile-form").submit();
@@ -165,11 +169,126 @@
 	//개인 정보 수정
 	function fn_updateMember(){
 		console.log("${approv}");
-		if("${approv}"!=""){
+		if("${approv.approvalFl}"!="Y"){
 			alert("미승인된 요청 정보가 있습니다.");
-			locatiob.reload();
+			location.reload();
+		}else if(!emailFl){
+			alert("이메일 인증을 완료하세요.");
+			$("#mail").focus();
 		}else{
 			$("#member-update-form").submit();
+		}
+	}
+	
+	//비밀번호 수정
+	function fn_updatePwd(){
+		const newPwd=$("#new-pwd").val();
+		const oriPwd=$("#ori-pwd").val();
+		const pwdCk=$("#pwd-ck").val();
+		const regPwd = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+		//프론트 입력 내용 체크
+		if(oriPwd=='' || newPwd=='' || pwdCk==''){
+			alert("내용을 전부 입력하세요.");
+			$("#ori-pwd").focus();
+			return;
+		}else if(newPwd!=pwdCk){
+			alert("비밀번호가 일치하지 않습니다.");
+			$("#new-pwd").val('');
+			$("#pwd-ck").val('');
+			$("#new-pwd").focus();
+			return;
+		}else if(!regPwd.test(newPwd)){
+			alert("비밀번호는 영문자, 숫자, 특수문자를 조합해 8글자 이상이여야합니다.");
+			$("#new-pwd").val('');
+			$("#pwd-ck").val('');
+			$("#new-pwd").focus();
+			return;
+		}
+		//확인한 데이터 전송
+		$.ajax({
+			method:"post",
+			url:"${path}/member/password",
+			data:JSON.stringify({
+				"password":oriPwd,
+				"newPwd":newPwd,
+				"memberId":"${loginMember.memberId}"
+			}),
+			dataType:"json",
+			contentType:"application/json;charset=UTF-8",
+			async:false
+		}).then(function (response){
+			if(response>0){
+				alert("비밀번호 변경이 완료되었습니다.");
+				location.reload();
+			}else if(response==-1){
+				alert("현재 비밀번호가 틀립니다.");
+				$("#ori-pwd").val('');
+				$("#ori-pwd").focus();
+			}else{
+				alert("비밀번호 변경을 실패했습니다.");
+				location.reload();
+			}
+		});
+	}
+	
+	//인증 메일 전송
+	function fn_requestEmail(){
+		const email=$("#mail").val();
+		const regEmail = /^[\w\-\_]{4,}@[\w\-\_]+(\.\w+){1,3}$/;
+		if(email==''||!regEmail.test(email)){
+			alert("이메일 주소를 정확히 입력하세요.");
+			$("#mail").focus();
+		}else{
+			$.ajax({
+				method:"post",
+				url:"${path}/email",
+				data:"email="+email,
+				dataType:"text",
+				error: function() {
+					alert("인증 메일 전송에 실패했습니다. 다시 시도해주세요.");
+				}
+			}).then(function (response){
+				alert("전송되었습니다. 이메일을 확인해주세요.");
+				const emailNum=$("<input>").attr({
+					"type":"hidden",
+					"id":"email-number"
+				});
+				emailNum.val(response);
+				$("#first-form").append(emailNum);
+				var fn_time=setInterval(function(){
+					time--;
+					console.log("time 실행");
+					min=parseInt(time/60);
+					sec=time%60;
+					$("#email-time").text(min+" : "+sec);
+					if(time<0){
+						$("#email-time").text("0:00");
+					}
+				},1000);
+			});
+		}
+	}
+	
+	//이메일 인증 번호 확인
+	function fn_checkEmailNumber(){
+		if(time<0){
+			alert("인증 시간이 초과되었습니다. 다시 인증하세요.");
+			$("#email").focus();
+		}
+		$("#check-info").find("span").remove();
+		const checkNum=$("#check-number").val();
+		const emailNum=$("#email-number").val();
+		if(checkNum==''||checkNum.length<8){
+			$("#check-info").append($("<span>").text("인증 번호를 정확하게 입력하세요."));
+			$("#check-number").focus();
+			emailFl=false;
+		}else if(checkNum==emailNum){
+			$("#check-info").append($("<span>").text("인증되었습니다. :)"));
+			emailFl=true;
+		}else{
+			$("#check-info").append($("<span>").text("인증 번호가 일치하지 않습니다."));
+			$("#check-number").focus();
+			emailFl=false;
 		}
 	}
 </script>

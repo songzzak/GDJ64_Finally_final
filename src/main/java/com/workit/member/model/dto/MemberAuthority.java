@@ -1,5 +1,6 @@
 package com.workit.member.model.dto;
 
 public enum MemberAuthority {
-	MEMBER
+	EMP,TEAMMASTER,SUBMASTER,MASTER,
+	DEPT_EMP
 }

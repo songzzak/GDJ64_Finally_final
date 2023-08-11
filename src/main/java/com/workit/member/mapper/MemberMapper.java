@@ -8,11 +8,12 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.workit.member.model.dto.Member;
 import com.workit.member.model.vo.ApprovMemberVO;
+import com.workit.member.model.vo.MemberVO;
 
 @Mapper
 public interface MemberMapper {
 	
-	Member selectMemberByParam(Map<String, Object> param);
+	MemberVO selectMemberByParam(Map<String, Object> param);
 
 	int updateProfileImg(Map<String, Object> param);
 
@@ -23,4 +24,8 @@ public interface MemberMapper {
 	int selectApprovCount();
 
 	List<ApprovMemberVO> selectApprovAll(RowBounds rb);
+
+	int updateMember(Map<String, Object> param);
+	
+	MemberVO selectMemberById(String memberId);
 }

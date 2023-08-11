@@ -9,13 +9,13 @@
 <link rel="stylesheet" href="${path}/resources/css/common/common.css">
 <link rel="stylesheet" href="${path}/resources/css/member/login.css">
 <!-- jQuery library -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <title>Work IT</title>
 </head>
 <body>
 	<section class="login-container">
         <div class="login-div">
-            <form action="${path }/" method="post" id="login-form">
+            <form action="${path }/login" method="post" id="login-form">
             	<div class="logo-container">
                 	<img src="${path }/resources/images/common/workit.svg">
             	</div>

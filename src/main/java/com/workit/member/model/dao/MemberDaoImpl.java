@@ -8,15 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.workit.member.mapper.MemberMapper;
-import com.workit.member.model.dto.Member;
 import com.workit.member.model.vo.ApprovMemberVO;
+import com.workit.member.model.vo.MemberVO;
 @Repository
 public class MemberDaoImpl implements MemberDao {
 	@Autowired
 	private MemberMapper mapper;
 
 	@Override
-	public Member selectMemberByParam(Map<String, Object> param) {
+	public MemberVO selectMemberByParam(Map<String, Object> param) {
 		return mapper.selectMemberByParam(param);
 	}
 
@@ -47,5 +47,17 @@ public class MemberDaoImpl implements MemberDao {
 		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
 		return mapper.selectApprovAll(rb);
 	}
+
+	@Override
+	public int updateMember(Map<String, Object> param) {
+		return mapper.updateMember(param);
+	}
+
+	//윤진추가
+	@Override
+	public MemberVO selectMemberById(String memberId) {
+		return mapper.selectMemberById(memberId);
+	}
+	
 	
 }

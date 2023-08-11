@@ -1,37 +1,75 @@
 package com.workit.config;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsUtils;
 
 import com.workit.member.model.dto.MemberAuthority;
-@Configuration //config 클래스로 등록
-@EnableWebSecurity //security 설정
-public class SecurityConfig {
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig{
+	@Autowired
+	private DBConnectProvider provider;
+	
 	@Bean
 	public SecurityFilterChain authenticationPath(HttpSecurity http) throws Exception{
 		return http.csrf().disable()
 				.formLogin()
-					.successForwardUrl("/successLogin")
-					.failureForwardUrl("/errorLogin")
-					.passwordParameter("pw")
-					.loginProcessingUrl("/login.do")
+					.successForwardUrl("/login/success")
+					.failureForwardUrl("/login/fail")
+					.passwordParameter("password")
+					.usernameParameter("memberId")
+					.loginProcessingUrl("/login")
 					.loginPage("/loginpage")
 				.and()
-				.authorizeHttpRequests() //interceptor를 등록하는 것과 같은 기능
+				.authorizeHttpRequests()
 					.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+					.antMatchers("/error/**").permitAll()
 					.antMatchers("/loginpage").permitAll()
-					.antMatchers("/errorLogin").permitAll()
-					.antMatchers("/firstLogin").hasAnyAuthority(MemberAuthority.MEMBER.name())
+					.antMatchers("/logout").permitAll()
+					.antMatchers("/resources/**").permitAll()
+					.antMatchers("/login/**").permitAll()
+					.antMatchers("/email/**").permitAll()
+					.antMatchers("/employee/job").hasAnyAuthority(MemberAuthority.SUBMASTER.name(), MemberAuthority.MASTER.name())
+					.antMatchers("/employee/enroll").hasAnyAuthority(MemberAuthority.TEAMMASTER.name())
+					.antMatchers("/employee/**").hasAuthority(MemberAuthority.DEPT_EMP.name())
+					.antMatchers("/**").hasAuthority(MemberAuthority.EMP.name())
 				.and()
 				.logout()
-					.logoutSuccessUrl("/logout")
-					.logoutUrl("/logout.do")
+					.logoutSuccessUrl("/loginpage")
+					.logoutUrl("/logout")
+					.invalidateHttpSession(true).deleteCookies("JSESSIONID")
 				.and()
-				//.authenticationProvider(provider)
+				.exceptionHandling()
+					.authenticationEntryPoint(new AuthenticationEntryPoint() {
+						@Override
+						public void commence(HttpServletRequest request, HttpServletResponse response,
+								AuthenticationException authException) throws IOException, ServletException {
+							response.sendRedirect("/error/login");
+						}
+					}).accessDeniedHandler(new AccessDeniedHandler() {
+						@Override
+						public void handle(HttpServletRequest request, HttpServletResponse response,
+								AccessDeniedException accessDeniedException) throws IOException, ServletException {
+							response.sendRedirect("/error/auth");
+						}
+					})
+				.and()
+				.authenticationProvider(provider)
 				.build();
 	}
 }
