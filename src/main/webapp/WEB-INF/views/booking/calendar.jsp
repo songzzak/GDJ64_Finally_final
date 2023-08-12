@@ -30,6 +30,9 @@
 		});
 
     </script> -->
+<script>
+	const today=
+</script>
 	<div class="main-section section-shadow card">
       <div class="right-container">
       	<div id='calendar' class="fc fc-media-screen fc-direction-ltr fc-theme-standard">
