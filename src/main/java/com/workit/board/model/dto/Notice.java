@@ -19,5 +19,6 @@ public class Notice {
 	MemberVO member;
 	String noticeContent;
 	Date noticeDate;
-	
+	int viewCount;
+	int commentCount;
 }

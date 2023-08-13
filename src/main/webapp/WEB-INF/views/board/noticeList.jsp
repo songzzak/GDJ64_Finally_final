@@ -78,18 +78,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <c:forEach items="${noticeList }" var="n">
                             <tr>
-                                <td>2</td>
-                                <td>태풍 '카눈' 북상 관련 전사공지(2)</td>
-                                <td>김사원</td>
-                                <td>23.08.10</td>
+                                <td class="noticeNo">${n.noticeNo }</td>
+                                <td class="noticeTitle">
+									${n.noticeTitle } (${n.commentCount })
+                                </td>
+                                <td>${n.member.memberName }</td>
+                                <td>${n.noticeDate }</td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>직원 휴게실 이용 안내사항(3)</td>
-                                <td>이팀장</td>
-                                <td>23.08.09</td>
-                            </tr>
+                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -101,6 +99,16 @@
         </div>
     </div>
 </section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 공지사항 제목 클릭 이벤트
+    	 $(".noticeTitle").click(function() {
+    		 let noticeNo = $(this).closest('tr').find('.noticeNo').text().trim();
+             location.assign('${path}/board/noticeView?no='+noticeNo);
+         });
+    });
+</script>
 
 </body>
 </html>
