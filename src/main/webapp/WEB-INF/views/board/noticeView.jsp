@@ -115,7 +115,7 @@
 			    <!-- 댓글 리스트 출력 -->
 			    <div id="commentList">
 			    <c:if test="${empty commentList }">
-			    	<span>작성된 댓글이 없습니다. 첫번째 댓글을 작성해주세요!</span>
+			    	<p style="text-align: center;">작성된 댓글이 없습니다. 첫번째 댓글을 작성해주세요!</p>
 			    </c:if>
 			    <c:if test="${not empty commentList }">
 			    	<c:forEach items="${commentList }" var="comment">
@@ -251,6 +251,27 @@ $(document).ready(function() {
          });
  }
 
+ //수정페이지로 넘기는 이벤트
+ $("#updateBtn").on('click', function() {
+         location.href = "${path}/board/updateNotice?no="+${n.noticeNo};
+ });
+ 
+//삭제버튼 이벤트
+$("#deleteBtn").on('click', function() {
+	if (confirm('정말로 삭제하시겠습니까?')) {
+	     $.post(
+	             "/board/deleteNotice",
+	             {noticeNo: ${n.noticeNo}},
+	             function(response) {
+	                 if(response.status === "success") {
+	                     alert("게시글이 성공적으로 삭제되었습니다.");
+	                     location.href = "${path}/board/noticeList";
+	                 } else {
+	                     alert("게시글 삭제에 실패하였습니다.");
+	                 }
+	             });
+    }
+});
 
 
 
@@ -297,8 +318,6 @@ $('#commentList').on('click', '.confirmEditReplyBtn', function() {
 
 // 댓글 및 대댓글 수정 함수
 function updateCommentOrReply(commentNo, content) {
-	console.log(commentNo);
-	console.log(content);
     $.post(
         "/board/noticeCommentUpdate",
         {commentNo: commentNo, commentContent: content},

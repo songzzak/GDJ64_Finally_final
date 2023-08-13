@@ -107,7 +107,21 @@
     		 let noticeNo = $(this).closest('tr').find('.noticeNo').text().trim();
              location.assign('${path}/board/noticeView?no='+noticeNo);
          });
+    	// 글쓰기 버튼 클릭 이벤트
+    	 $("#writeBtn").click(function() {
+             location.assign('/board/insertNotice');
+         });
     });
+    
+    //검색 버튼 클릭 이벤트
+    $("#searchBtn").click(function() {
+        const type = $("#searchType").val();
+        const keyword = $("#searchKeyword").val();
+		console.log(type);
+		console.log(keyword);
+        location.assign('${path}/board/noticeList?type='+type+'&keyword='+keyword);
+    });
+
 </script>
 
 </body>

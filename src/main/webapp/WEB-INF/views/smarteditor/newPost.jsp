@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,23 +27,25 @@ function smartEditor() {
 	    sSkinURI: "/resources/smarteditor/SmartEditor2Skin.html",
 	    fCreator: "createSEditor2",
 	    htParams : { 
-	    	// 툴바 사용 여부 (true:사용/ false:사용하지 않음) 
-	        bUseToolbar : true, 
-			// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음) 
-			bUseVerticalResizer : false, 
-			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음) 
+	        bUseToolbar : true,
+			bUseVerticalResizer : false,
 			bUseModeChanger : false 
-	    }
+	    },
+	    fOnAppLoad: function() {
+            var noticeContent = "${notice.noticeContent}";  // escape 처리 제거
+            if (noticeContent && typeof oEditors !== 'undefined' && oEditors.getById["editorTxt"]) {
+                oEditors.getById["editorTxt"].exec("SET_CONTENTS", [noticeContent]);
+            }
+        }
 	});	
 }
 
-
 $(document).ready(function() {
-	// 스마트 에디터 초기화
 	smartEditor();
 });
 
 </script>
+
 
 </body>
 </html>

@@ -34,13 +34,29 @@ public class BoardController {
 	}
 	
 	@GetMapping("/noticeList")
-	public String noticeList(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage) {
-		List<Notice> noticeList = service.selectNoticeAll(Map.of("cPage",cPage,"numPerpage",10));
-		 int totalData=service.selectNoticeCount();
-		model.addAttribute("noticeList", noticeList);
-		model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/board/noticeList"));
-		return "board/noticeList";
+	public String noticeList(Model model, 
+	                         @RequestParam(value="cPage",defaultValue="1") int cPage,
+	                         @RequestParam(value="type", required=false) String searchType,
+	                         @RequestParam(value="keyword", required=false) String searchKeyword) {
+
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("cPage", cPage);
+	    params.put("numPerpage", 10);
+
+	    if(searchType != null && !searchType.isEmpty() && 
+	       searchKeyword != null && !searchKeyword.isEmpty()) {
+	        params.put("searchType", searchType);
+	        params.put("searchKeyword", searchKeyword);
+	    }
+
+	    List<Notice> noticeList = service.selectNoticeAll(params);
+	    int totalData = service.selectNoticeCount(params);
+
+	    model.addAttribute("noticeList", noticeList);
+	    model.addAttribute("pageBar", Pagenation.getPage(cPage,10,totalData,"/board/noticeList"));
+	    return "board/noticeList";
 	}
+
 	@GetMapping("/noticeView")
 	public String noticeView(Model model, @RequestParam int no) {
 		model.addAttribute("n", service.selectNoticeByNo(no));
@@ -103,6 +119,74 @@ public class BoardController {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
 	}
+	@PostMapping("/deleteNotice")
+	public void deleteNotice(@RequestParam int noticeNo,HttpServletResponse response) throws IOException {
+		int result = service.deleteNotice(noticeNo);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result>0) {
+			resultMap.put("status", "success");			
+		}else {
+			resultMap.put("status", "error");			
+		}
+
+	    Gson gson = new Gson();
+	    String json = gson.toJson(resultMap);
+	    response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
+	}
+	@GetMapping("/insertNotice")
+	public String insertNotice() {
+		return "board/insertNotice";
+	}
+	@PostMapping("insertNoticeEnd")
+	public void insertNoticeEnd(@RequestParam String content, @RequestParam String title,
+			 HttpServletResponse response, HttpSession session) throws IOException {
+			 Map<String, Object> map = new HashMap<>();
+			 map.put("memberId", ((MemberVO)session.getAttribute("loginMember")).getMemberId());
+			map.put("noticeContent", content);
+			map.put("noticeTitle", title);
+		    System.out.println(map);
+		    Map<String, String> resultMap = new HashMap<>();
+		    int result=service.insertNotice(map);
+		    System.out.println(result);
+		    if(result>0) {
+		    	resultMap.put("status", "success");		    	
+		    }else {
+		    	resultMap.put("status", "error");		    	
+		    }
+		    Gson gson = new Gson();
+		    String json = gson.toJson(resultMap);
+		    response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+	        response.getWriter().write(json);
+	}
 	
+	@GetMapping("/updateNotice")
+	public String updateNotice(@RequestParam int no,Model model) {
+		model.addAttribute("notice", service.selectNoticeByNo(no));
+		return "board/updateNotice";
+	}
+	@PostMapping("updateNoticeEnd")
+	public void updateNoticeEnd(@RequestParam String content, @RequestParam String title,
+			@RequestParam int no,HttpServletResponse response) throws IOException {
+			Map<String, Object> map = new HashMap<>();
+			map.put("noticeNo", no);
+			map.put("noticeContent", content);
+			map.put("noticeTitle", title);
+		    Map<String, String> resultMap = new HashMap<>();
+		    int result=service.updateNotice(map);
+		    System.out.println(result);
+		    if(result>0) {
+		    	resultMap.put("status", "success");		    	
+		    }else {
+		    	resultMap.put("status", "error");		    	
+		    }
+		    Gson gson = new Gson();
+		    String json = gson.toJson(resultMap);
+		    response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+	        response.getWriter().write(json);
+	}
 
 }

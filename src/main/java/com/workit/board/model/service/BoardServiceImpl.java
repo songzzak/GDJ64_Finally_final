@@ -23,13 +23,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Notice> selectNoticeAll(Map<String, Integer> map) {
+	public List<Notice> selectNoticeAll(Map<String, Object> map) {
 		return dao.selectNoticeAll(session,map);
 	}
 
 	@Override
-	public int selectNoticeCount() {
-		return dao.selectNoticeCount(session);
+	public int selectNoticeCount(Map<String, Object> map) {
+		return dao.selectNoticeCount(session,map);
 	}
 
 	@Override
@@ -56,6 +56,22 @@ public class BoardServiceImpl implements BoardService {
 	public int updateNoticeComment(Map<String, Object> map) {
 		return dao.updateNoticeComment(session,map);
 	}
+
+	@Override
+	public int insertNotice(Map<String, Object> map) {
+		return dao.insertNotice(session, map);
+	}
+
+	@Override
+	public int updateNotice(Map<String, Object> map) {
+		return dao.updateNotice(session, map);
+	}
+
+	@Override
+	public int deleteNotice(int commentNo) {
+		return dao.deleteNotice(session,commentNo);
+	}
+
 
 
 }

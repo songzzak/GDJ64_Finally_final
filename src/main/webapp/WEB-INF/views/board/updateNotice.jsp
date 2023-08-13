@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <style>
@@ -54,7 +56,7 @@
         </div>
 		<form action="" method="post" enctype="multipart/form-data">
 			<div class="section-shadow bgc-fff" style="padding: 20px">
-			    <input type="text" value="" id="noticeTitle" placeholder="제목" required/>
+			    <input type="text" id="noticeTitle" placeholder="제목" required value="${notice.noticeTitle }"/>
 				<div>
 					<jsp:include page="/WEB-INF/views/smarteditor/newPost.jsp" />
 				</div>
@@ -65,7 +67,7 @@
 
 				</div>
 			    <div style="text-align: right;">
-				    <button type="button" onclick="insertContent();">등록</button>
+				    <button type="button" onclick="updateContent();">수정</button>
 				    <button type="button" onclick="cancle();" class="btnSimple">취소</button>
 			    </div>
 			</div>
@@ -75,6 +77,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+
+	
+	
     // 파일명 표시 및 제거 버튼 추가
     $(".file-upload input[type='file']").change(function() {
         var fileList = $(".file-list");
@@ -92,23 +97,26 @@ $(document).ready(function() {
 
 });
 
-    function insertContent() {
+    function updateContent() {
         oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
         //console.log($("#editorTxt").val());
+        if(confirm('공지사항을 수정하시겠습니까?')){
         $.post(
-                "/board/insertNoticeEnd",
+                "/board/updateNoticeEnd",
                 {
+                	no:${notice.noticeNo},
                 	content: $("#editorTxt").val(),
                 	title: $("#noticeTitle").val()
                 	},
                 function(response) {
                     if(response.status === "success") {
-                        alert("공지사항이 성공적으로 등록되었습니다.");
+                        alert("공지사항이 성공적으로 수정되었습니다.");
                         location.href = "${path}/board/noticeList";
                     } else {
-                        alert("공지사항 등록에 실패하였습니다.");
+                        alert("공지사항 수정에 실패하였습니다.");
                     }
                 });
+        }
     }
 	function cancle(){
 		if(confirm('공지사항 작성을 취소하시겠습니까?')){

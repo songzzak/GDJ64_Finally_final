@@ -15,16 +15,16 @@ public class BoardDaoImpl implements BoardDao {
 
 
 	@Override
-	public List<Notice> selectNoticeAll(SqlSessionTemplate session, Map<String, Integer> map) {
+	public List<Notice> selectNoticeAll(SqlSessionTemplate session, Map<String, Object> map) {
 		int cPage=(int)map.get("cPage");
 		int numPerpage=(int)map.get("numPerpage");
 		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
-		return session.selectList("board.selectNoticeAll","",rb);
+		return session.selectList("board.selectNoticeAll",map,rb);
 	}
 
 	@Override
-	public int selectNoticeCount(SqlSessionTemplate session) {
-		return session.selectOne("board.selectNoticeCount");
+	public int selectNoticeCount(SqlSessionTemplate session, Map<String, Object> map) {
+		return session.selectOne("board.selectNoticeCount",map);
 	}
 
 	@Override
@@ -50,6 +50,21 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int updateNoticeComment(SqlSessionTemplate session, Map<String, Object> map) {
 		return session.update("board.updateNoticeComment",map);
+	}
+
+	@Override
+	public int insertNotice(SqlSessionTemplate session, Map<String, Object> map) {
+		return session.insert("insertNotice",map);
+	}
+
+	@Override
+	public int updateNotice(SqlSessionTemplate session, Map<String, Object> map) {
+		return session.update("board.updateNotice",map);
+	}
+
+	@Override
+	public int deleteNotice(SqlSessionTemplate session, int commentNo) {
+		return session.delete("board.deleteNotice",commentNo);
 	}
 
 }

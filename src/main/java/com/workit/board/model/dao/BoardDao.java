@@ -10,9 +10,9 @@ import com.workit.board.model.dto.NoticeComment;
 
 public interface BoardDao {
 
-	List<Notice> selectNoticeAll(SqlSessionTemplate session, Map<String, Integer> map);
+	List<Notice> selectNoticeAll(SqlSessionTemplate session, Map<String, Object> map);
 
-	int selectNoticeCount(SqlSessionTemplate session);
+	int selectNoticeCount(SqlSessionTemplate session, Map<String, Object> map);
 
 	Notice selectNoticeByNo(SqlSessionTemplate session, int no);
 
@@ -23,5 +23,11 @@ public interface BoardDao {
 	int deleteNoticeComment(SqlSessionTemplate session, int commentNo);
 
 	int updateNoticeComment(SqlSessionTemplate session, Map<String, Object> map);
+
+	int insertNotice(SqlSessionTemplate session, Map<String, Object> map);
+
+	int updateNotice(SqlSessionTemplate session, Map<String, Object> map);
+
+	int deleteNotice(SqlSessionTemplate session, int commentNo);
 
 }
