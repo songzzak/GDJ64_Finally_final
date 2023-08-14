@@ -24,10 +24,10 @@
   .head-nav ul li { margin: 0px 5px; }
 
   /* 상세화면 스타일 */
-  #noticeDetailDiv { margin: 60px 20px; padding: 20px; border-radius: 5px; }
-  #noticeTitle { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
-  #noticeContent { white-space: pre-line; margin-top: 20px; }
-  #noticeWriter, #noticeDate,#noticeViewCount { font-size: 14px; color: #888888; }
+  #boardDetailDiv { margin: 60px 20px; padding: 20px; border-radius: 5px; }
+  #boardTitle { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+  #boardContent { white-space: pre-line; margin-top: 20px; }
+  #boardWriter, #boardDate,#boardViewCount { font-size: 14px; color: #888888; }
   
   /* 댓글 영역 스타일 */
   #commentSection { margin-top: 30px; border-top: 1px solid #e0e0e0; padding-top: 20px; }
@@ -61,21 +61,21 @@
             <ul class="row">
                 <li>게시판</li>
                 <li>|</li>
-                <li>공지사항</li>
+                <li>${loginMember.dept.deptName } 게시판</li>
             </ul>
         </div>
         <div class="section-shadow bgc-fff padding10px">
-            <div id="noticeDetailDiv" class="column hrstyle">
+            <div id="boardDetailDiv" class="column hrstyle">
 	            <div>
-	                <div id="noticeTitle">${n.noticeTitle }</div>
+	                <div id="boardTitle">${b.boardTitle }</div>
 	            </div>
 	            <div class="row hrstyle">
-	                <div id="noticeWriter" class="margin10px">${n.member.memberName }</div>
-	                <div id="noticeDate" class="margin10px">${n.noticeDate }</div>
-	                <div id="noticeViewCount" class="margin10px">조회수 ${n.viewCount }</div>
+	                <div id="boardWriter" class="margin10px">${b.member.memberName }</div>
+	                <div id="boardDate" class="margin10px">${b.boardDate }</div>
+	                <div id="boardViewCount" class="margin10px">조회수 ${b.viewCount }</div>
 	            </div>
-                <div id="noticeContent">
-					${n.noticeContent }
+                <div id="boardContent">
+					${b.boardContent }
                 </div>
 				<div class="file-download">
 				    <c:if test="${empty fileList }">
@@ -95,21 +95,21 @@
             <div class="btnContainer">
 	            <div class="prevAndNext">
 	            	<div class="margin10px">
-	                	<c:if test="${empty prevNotice}">
+	                	<c:if test="${empty prevBoard}">
 	                		<span>이전글이 없습니다.</span>
 	                	</c:if>
-	                	<c:if test="${not empty prevNotice}">
+	                	<c:if test="${not empty prevBoard}">
 		                	<button id="prevBtn" class="btnSimple">이전글</button>
-	                		<span>${prevNotice.noticeTitle }</span>
+	                		<span>${prevBoard.boardTitle }</span>
 	                	</c:if>
 	            	</div>
 	            	<hr>
 	            	<div class="margin10px">
-	            		<c:if test="${empty nextNotice}">
+	            		<c:if test="${empty nextBoard}">
 	                		<span>다음글이 없습니다.</span>
 	                	</c:if>
-	                	<c:if test="${not empty nextNotice}">
-	                		<span>${nextNotice.noticeTitle }</span>
+	                	<c:if test="${not empty nextBoard}">
+	                		<span>${nextBoard.boardTitle }</span>
 		                	<button id="nextBtn" class="btnSimple">다음글</button>
 	                	</c:if>
 	            	</div>
@@ -119,7 +119,7 @@
 		                <button id="listBtn" class=" btnSimple">목록</button>
 	            	</div>
 	                <div>
-	                	<c:if test="${loginMember.memberId eq n.member.memberId }">
+	                	<c:if test="${loginMember.memberId eq b.member.memberId }">
 		                <button id="updateBtn" class="margin10px btnSimple">수정</button>
 		                <button id="deleteBtn" class=" btnSimple">삭제</button>
 		                </c:if>
@@ -194,7 +194,7 @@
 <script>
 $(document).ready(function() {
 	$('#listBtn').on('click', function() {
-        location.href = "${path}/board/noticeList";
+        location.href = "${path}/board/boardList";
     });
 	
     $('.replyBtn').on('click', function() {
@@ -204,24 +204,24 @@ $(document).ready(function() {
 
     // 이전글 버튼 클릭 이벤트
     $('#prevBtn').on('click', function() {
-            location.href = "${path}/board/noticeView?no=" + ${prevNotice.noticeNo };
+            location.href = "${path}/board/boardView?no=" + (${b.boardNo }-1);
     });
 
     // 다음글 버튼 클릭 이벤트
     $('#nextBtn').on('click', function() {
-            location.href = "${path}/board/noticeView?no=" + ${nextNotice.noticeNo };
+            location.href = "${path}/board/boardView?no=" + (${b.boardNo }+1);
     });
     
  // 댓글 등록 버튼 클릭 이벤트
     $('#submitCommentBtn').on('click', function() {
-        const noticeNo = ${n.noticeNo};
-        addCommentOrReply(noticeNo);
+        const boardNo = ${b.boardNo};
+        addCommentOrReply(boardNo);
     });
  // 대댓글 등록 버튼 클릭 이벤트
     $('#commentList').on('click', '.submitReplyBtn', function() {
         const commentNo = $(this).prev('textarea').attr('id').replace('replyInput', '');
-        const noticeNo = ${n.noticeNo};
-        addCommentOrReply(noticeNo, commentNo);
+        const boardNo = ${b.boardNo};
+        addCommentOrReply(boardNo, commentNo);
     });
 
  // 댓글 수정 버튼 클릭 이벤트
@@ -259,7 +259,7 @@ $(document).ready(function() {
 	 // 댓글 및 대댓글 삭제 함수
 	 function deleteCommentOrReply(commentNo) {
 	     $.post(
-	         "/board/noticeCommentDelete",
+	         "/board/boardCommentDelete",
 	         {commentNo: commentNo},
 	         function(response) {
 	             if(response.status === "success") {
@@ -273,19 +273,19 @@ $(document).ready(function() {
 
 	 //수정페이지로 넘기는 이벤트
 	 $("#updateBtn").on('click', function() {
-	         location.href = "${path}/board/updateNotice?no="+${n.noticeNo};
+	         location.href = "${path}/board/updateBoard?no="+${b.boardNo};
 	 });
  
 	//삭제버튼 이벤트
 	$("#deleteBtn").on('click', function() {
 		if (confirm('정말로 삭제하시겠습니까?')) {
 		     $.post(
-		             "/board/deleteNotice",
-		             {noticeNo: ${n.noticeNo}},
+		             "/board/deleteBoard",
+		             {boardNo: ${b.boardNo}},
 		             function(response) {
 		                 if(response.status === "success") {
 		                     alert("게시글이 성공적으로 삭제되었습니다.");
-		                     location.href = "${path}/board/noticeList";
+		                     location.href = "${path}/board/boardList";
 		                 } else {
 		                     alert("게시글 삭제에 실패하였습니다.");
 		                 }
@@ -297,7 +297,7 @@ $(document).ready(function() {
 });
 
 //댓글 및 대댓글 작성 함수
-function addCommentOrReply(noticeNo, parentCommentNo) {
+function addCommentOrReply(boardNo, parentCommentNo) {
     let commentContent = "";
     if(parentCommentNo) {
     	commentContent = $("#replyInput" + parentCommentNo).val();
@@ -306,9 +306,9 @@ function addCommentOrReply(noticeNo, parentCommentNo) {
     }
 
     $.post(
-        "/board/noticeCommentAdd",
+        "/board/boardCommentAdd",
         {
-            noticeNo: noticeNo,
+        	boardNo: boardNo,
             commentContent: commentContent,
             refCommentNo: parentCommentNo ? parentCommentNo : null
         },
@@ -337,7 +337,7 @@ $('#commentList').on('click', '.confirmEditReplyBtn', function() {
 // 댓글 및 대댓글 수정 함수
 function updateCommentOrReply(commentNo, content) {
     $.post(
-        "/board/noticeCommentUpdate",
+        "/board/boardCommentUpdate",
         {commentNo: commentNo, commentContent: content},
         function(response) {
             if(response.status === "success") {
@@ -349,9 +349,6 @@ function updateCommentOrReply(commentNo, content) {
         }
     );
 }
-
-
-
 </script>
 
 

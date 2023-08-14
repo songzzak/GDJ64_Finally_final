@@ -16,6 +16,9 @@ public interface BoardService {
 	int selectNoticeCount(Map<String, Object> params);
 	//공지사항 화면 출력
 	Notice selectNoticeByNo(int no);
+	Notice selectPrevNotice(int no);
+	Notice selectNextNotice(int no);
+
 	List<NoticeComment> selectCommentList(int no);
 	
 	//공지사항 댓글
@@ -52,5 +55,7 @@ public interface BoardService {
 	int deleteBoard(int commentNo);
 	//첨부파일 등록
 	int insertBoardFile();
+	int updateBoardViewCount(int no);
+	List<AttachedFile> selectFileListByBoardNo(int no);
 
 }

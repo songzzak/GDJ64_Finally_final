@@ -52,7 +52,7 @@
          <a class="side-menu"><img src="${path}/resources/images/common/board.svg">게시판</a>
          <ul class="menu-toggle" style="display:none">
             <li><a href="${path }/board/noticeList">공지사항</a></li>
-            <li><a href="${path }/">${loginMember.dept.deptName} 게시판</a></li>
+            <li><a href="${path }/board/boardList">${loginMember.dept.deptName} 게시판</a></li>
          </ul>
       </div>
       <div>

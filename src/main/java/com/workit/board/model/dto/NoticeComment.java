@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class NoticeComment {
-	int commentNo;
-	MemberVO member;
-	String commentContent;
-	Date commentDate;
-	int refCommentNo;
-	Notice notice;
+	private int commentNo;
+	private MemberVO member;
+	private String commentContent;
+	private Date commentDate;
+	private int refCommentNo;
+	private Notice notice;
 }

@@ -33,8 +33,11 @@ function smartEditor() {
 	    },
 	    fOnAppLoad: function() {
             var noticeContent = "${notice.noticeContent}";  // escape 처리 제거
+            var boardContent = "${board.boardContent}"; 
             if (noticeContent && typeof oEditors !== 'undefined' && oEditors.getById["editorTxt"]) {
                 oEditors.getById["editorTxt"].exec("SET_CONTENTS", [noticeContent]);
+            }else if (boardContent && typeof oEditors !== 'undefined' && oEditors.getById["editorTxt"]) {
+                oEditors.getById["editorTxt"].exec("SET_CONTENTS", [boardContent]);
             }
         }
 	});	

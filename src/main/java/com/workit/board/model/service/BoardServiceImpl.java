@@ -42,6 +42,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public Notice selectPrevNotice(int no) {
+		return dao.selectPrevNotice(session,no);
+	}
+
+	@Override
+	public Notice selectNextNotice(int no) {
+		return dao.selectNextNotice(session,no);
+	}
+
+	@Override
 	public int insertNoticeComment(Map<String, Object> map) {
 		return dao.insertNoticeComment(session, map);
 	}
@@ -156,6 +166,17 @@ public class BoardServiceImpl implements BoardService {
 	public int insertBoardFile() {
 		return dao.insertBoardFile(session);
 	}
+
+	@Override
+	public int updateBoardViewCount(int no) {
+		return dao.updateBoardViewCount(session, no);
+	}
+
+	@Override
+	public List<AttachedFile> selectFileListByBoardNo(int no) {
+		return dao.selectFileListByBoardNo(session, no);
+	}
+
 
 
 

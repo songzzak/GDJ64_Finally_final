@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BoardFile {
-	private int noticeFileNo;
+	private int boardFileNo;
 	private Board board;
 	private AttachedFile file;
 

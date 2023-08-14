@@ -34,6 +34,16 @@ public class BoardDaoImpl implements BoardDao {
 	public Notice selectNoticeByNo(SqlSessionTemplate session, int no) {
 		return session.selectOne("board.selectNoticeByNo",no);
 	}
+	
+	@Override
+	public Notice selectPrevNotice(SqlSessionTemplate session, int no) {
+		return session.selectOne("board.selectPrevNotice",no);
+	}
+
+	@Override
+	public Notice selectNextNotice(SqlSessionTemplate session, int no) {
+		return session.selectOne("board.selectNextNotice",no);
+	}
 
 	@Override
 	public int insertNoticeComment(SqlSessionTemplate session, Map<String, Object> map) {
@@ -136,7 +146,7 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public int insertBoard(SqlSessionTemplate session, Map<String, Object> map) {
-		return session.insert("session.insertBoard",map);
+		return session.insert("board.insertBoard",map);
 	}
 
 	@Override
@@ -153,5 +163,17 @@ public class BoardDaoImpl implements BoardDao {
 	public int insertBoardFile(SqlSessionTemplate session) {
 		return session.insert("board.insertBoardFile");
 	}
+
+	@Override
+	public List<AttachedFile> selectFileListByBoardNo(SqlSessionTemplate session, int no) {
+		return session.selectList("board.selectFileListByBoardNo",no);
+	}
+
+	@Override
+	public int updateBoardViewCount(SqlSessionTemplate session, int no) {
+		return session.update("board.updateBoardViewCount",no);
+	}
+
+
 
 }

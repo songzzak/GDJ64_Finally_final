@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class Notice {
-	int noticeNo;
-	String noticeTitle;
-	MemberVO member;
-	String noticeContent;
-	Date noticeDate;
-	int viewCount;
-	int commentCount;
+	private int noticeNo;
+	private String noticeTitle;
+	private MemberVO member;
+	private String noticeContent;
+	private Date noticeDate;
+	private int viewCount;
+	private int commentCount;
 }

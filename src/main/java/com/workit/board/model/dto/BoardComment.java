@@ -2,13 +2,23 @@ package com.workit.board.model.dto;
 
 import java.sql.Date;
 
+
 import com.workit.member.model.vo.MemberVO;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 public class BoardComment {
-	int commentNo;
-	MemberVO member;
-	String commentContent;
-	Date commentDate;
-	int refCommentNo;
-	Notice notice;
+	private int commentNo;
+	private MemberVO member;
+	private String commentContent;
+	private Date commentDate;
+	private int refCommentNo;
+	private Board board;
 }

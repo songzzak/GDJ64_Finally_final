@@ -19,6 +19,10 @@ public interface BoardDao {
 	int selectNoticeCount(SqlSessionTemplate session, Map<String, Object> map);
 
 	Notice selectNoticeByNo(SqlSessionTemplate session, int no);
+	
+	Notice selectPrevNotice(SqlSessionTemplate session, int no);
+
+	Notice selectNextNotice(SqlSessionTemplate session, int no);
 
 	int insertNoticeComment(SqlSessionTemplate session, Map<String, Object> map);
 
@@ -69,9 +73,11 @@ public interface BoardDao {
 
 	int insertBoardFile(SqlSessionTemplate session);
 
-//	List<AttachedFile> selectFileListByNo(SqlSessionTemplate session, int no);
+	List<AttachedFile> selectFileListByBoardNo(SqlSessionTemplate session, int no);
 
 //	AttachedFile selectFileById(SqlSessionTemplate session, int fileId);
 
-//	int updateViewCount(SqlSessionTemplate session, int no);
+	int updateBoardViewCount(SqlSessionTemplate session, int no);
+
+
 }
