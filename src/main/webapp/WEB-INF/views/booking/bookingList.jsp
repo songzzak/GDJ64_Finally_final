@@ -85,7 +85,7 @@
 	
 	</div>
 </section>
-<script>
+<!-- <script>
 /* select 바뀌는것에 따라 뒤의 인풋 종류 바뀌게] */
 	${"#searchType"}.change(e=>{
 		const type=${e.target}.val();
@@ -103,7 +103,7 @@
   		modal.find('.modal-title').text('New message to ' + recipient)
  		modal.find('.modal-body input').val(recipient)
 	});
-</script>
+</script> -->
 <style>
 	#search-memberId{display:none}
 	#search-bookingDate{display:none}

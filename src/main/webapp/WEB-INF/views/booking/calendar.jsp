@@ -31,7 +31,8 @@
 
     </script> -->
 <script>
-	const today=
+	let today=new Date();
+	console.log(today);
 </script>
 	<div class="main-section section-shadow card">
       <div class="right-container">
