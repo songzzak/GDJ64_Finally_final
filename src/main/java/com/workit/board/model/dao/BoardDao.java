@@ -39,4 +39,6 @@ public interface BoardDao {
 
 	AttachedFile selectFileById(SqlSessionTemplate session, int fileId);
 
+	int updateViewCount(SqlSessionTemplate session, int no);
+
 }

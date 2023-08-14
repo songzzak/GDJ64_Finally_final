@@ -88,4 +88,9 @@ public class BoardDaoImpl implements BoardDao {
 		return session.selectOne("board.selectFileById",fileId);
 	}
 
+	@Override
+	public int updateViewCount(SqlSessionTemplate session, int no) {
+		return session.update("board.updateViewCount",no);
+	}
+
 }

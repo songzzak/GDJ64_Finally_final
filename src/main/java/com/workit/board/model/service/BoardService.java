@@ -30,5 +30,7 @@ public interface BoardService {
 	//첨부파일 조회
 	List<AttachedFile> selectFileListByNo(int no);
 	AttachedFile selectFileById(int fileId);
+	//조회수 증가
+	int updateViewCount(int no);
 
 }

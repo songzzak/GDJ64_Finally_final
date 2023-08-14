@@ -93,6 +93,11 @@ public class BoardServiceImpl implements BoardService {
 		return dao.selectFileById(session, fileId);
 	}
 
+	@Override
+	public int updateViewCount(int no) {
+		return dao.updateViewCount(session,no);
+	}
+
 
 
 }

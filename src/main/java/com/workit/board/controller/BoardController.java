@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -73,7 +74,27 @@ public class BoardController {
 	}
 
 	@GetMapping("/noticeView")
-	public String noticeView(Model model, @RequestParam int no) {
+	public String noticeView(Model model, @RequestParam int no,HttpServletRequest request, HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+	    boolean isViewed = false;
+
+	    if(cookies != null) {
+	        for(Cookie cookie : cookies) {
+	            if(cookie.getName().equals("noticeView") && cookie.getValue().contains("|" + no + "|")) {
+	                isViewed = true;
+	                break;
+	            }
+	        }
+	    }
+
+	    if(!isViewed) {
+	        service.updateViewCount(no); // 조회수 증가 메서드 추가해주세요
+
+	        Cookie viewCookie = new Cookie("noticeView", "|" + no + "|");
+	        viewCookie.setMaxAge(60*60*24); // 24시간 저장
+	        response.addCookie(viewCookie);
+	    }
+		
 		model.addAttribute("n", service.selectNoticeByNo(no));
 		model.addAttribute("commentList", service.selectCommentList(no));
 		model.addAttribute("prevNotice", service.selectNoticeByNo(no-1));
