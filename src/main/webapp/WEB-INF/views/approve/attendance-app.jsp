@@ -3,7 +3,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
-
+<c:set var="approveNo" value="${approveNo}"/>
+<c:set var="approveState" value="${approveState}"/>
+<c:set var="approveKind" value="${approveKind}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -72,14 +74,14 @@
 				<div id="one-width">
 					<div id="extendTimeTitle" class="question">제목</div>
 					<div id="extendTimeTitle-answer" class="answer">
-						<input type="text" id="title-input" name="title">
+						<input type="text" id="title-input" name="title" value="${saveExtends[0].approveTitle}">
 					</div>
 				</div>
 
 				<div id="one-width">
 					<div id="content" class="question">신청사유</div>
 					<div id="content-answer" class="answer">
-						<textarea id="content-textarea" name="content"></textarea>
+						<textarea id="content-textarea" name="content">${saveExtends[0].approveContent}</textarea>
 					</div>
 				</div>
 
@@ -90,11 +92,22 @@
 					</div>
 				</div>
 
-				<div id="one-width">
-					<button type="button" onclick="backs();" id="back">돌아가기</button>
-					<button type="button" onclick="saves();" id="save">임시저장</button>
-					<button type="button" onclick="signs();" id="sign">결재상신</button>
-				</div>
+			<c:choose>
+				<c:when test="${saveExtends[0].approveState eq '임시저장'}">
+					<div id="one-width">
+						<button type="button" onclick="remove();" id="remove">삭제하기</button>
+						<button type="button" onclick="reSaves();" id="save">임시저장</button>
+						<button type="button" onclick="signs();" id="sign">결재상신</button>
+`					</div>
+				</c:when>
+				<c:otherwise>
+					<div id="one-width">
+						<button type="button" onclick="backs();" id="back">돌아가기</button>
+						<button type="button" onclick="saves();" id="save">임시저장</button>
+						<button type="button" onclick="signs();" id="sign">결재상신</button>
+					</div>
+				</c:otherwise>
+			</c:choose>
 
 			</div>
 		</div>
@@ -122,12 +135,51 @@
 	    		$("#applicationDate-answer").append($('<span/>',{id:'hBetweenTime'}));
 	    		$("#hBetweenTime").text("~");
 	    		$("#applicationDate-answer").append($('<input/>',{type:'time', name: 'endTime', id:'hEndTime'}));
-	    	}
-	    	
+	    	}	
 	   	})
+	   	
+	   	const approveLines=JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
+		const referLines=JSON.parse('${referLines}'); 
+		
+		for(let i=0; i<approveLines.length; i++){
+			const span = $("<span>");
+			span.attr("class", "appClass");
+			$("#regist-app").append(span);
+			span.append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
+			span.append(approveLines[i].memberId.memberId + " " + approveLines[i].memberId.memberName + " " + approveLines[i].memberId.job.jobName + " " + approveLines[i].memberId.dept.deptName, '<br>');
+			span.append($("<input/>", { type: 'hidden', name: 'paraApp', value: approveLines[i].memberId.memberId }));
+			const di = $("<div>").css("border", "1px solid black").height("98px").width("120px");
+			$("#app-line").append(di);
+			di.append($("<div>").css("border-bottom", "1px solid black").height("30px").width("120px").text(approveLines[i].memberId.memberName + " " + approveLines[i].memberId.job.jobName).css("text-align","center"));
+			di.append($("<div>").height("40px").width("120px"));
+			di.append($("<div>").css("border-top", "1px solid black").height("28px").width("120px").text(i+1).css("text-align","center"));
+		}
+		
+		for(let i=0; i<referLines.length; i++){
+			const span = $("<span>");
+			span.attr("class", "appId");
+			$("#regist-reference").append(span);
+			span.append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
+			span.append(referLines[i].memberId.memberId + " " + referLines[i].memberId.memberName + " " + referLines[i].memberId.job.jobName + " " + referLines[i].memberId.dept.deptName, '<br>');
+			span.append($("<input/>", { type: 'hidden', name: 'paraRefer', value: referLines[i].memberId.memberId })); // 파라미터로넘길 참조선값들		
+		}
+	   	
+	   	if("${approveKind}"=='연차') $("#annual").prop("checked",true);
+	    if("${approveKind}"=='반차') $("#halfAnnual").prop("checked",true);
+	    if("${approveKind}"=='보건') $("#health").prop("checked",true);
+	    if("${approveKind}"=='경조') $("#condolences").prop("checked",true);
+	    if("${approveKind}"=='외출') $("#outing").prop("checked",true);	   	
 	});
 
-
+	
+	const remove=()=>{  // 임시저장된 기안서 삭제할때
+		location.assign("${path}/approve/removeSave.do?deleteApproveNo=${approveNo}&mId=${loginMember.memberId}"); 
+	}
+	
+	const reSaves=()=>{ // 임시저장된 기안서 다시 임시저장할 때
+ 		$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}"); 
+		$("#appForm").submit(); 
+	}
 
 	const backs=()=>{
 		location.assign("${path}/");

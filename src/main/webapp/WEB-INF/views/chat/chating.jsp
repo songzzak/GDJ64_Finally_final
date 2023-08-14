@@ -73,6 +73,7 @@
 	</div>
 </div>
 <script>
+	var idx= 0;
 	const fn_fileSend=(files)=>{
 		console.log("id :",chatroomId);
 		
@@ -83,26 +84,46 @@
 			for(let i = 0; i<files.length; i++){
 				console.log(files[i].name);
 				originalFile = files[i].name;
-				websocket.send(JSON.stringify(new Chat(chatroomId, loginMember, originalFile, today))); 
+				websocket.send(JSON.stringify(new Chat("file", loginMember, originalFile, today))); 
 			}
 		}
 	}
 	$(".chat-fileIcon").click(e=>{
 		$(".chat-upFile").click();
 	});
+	var formData = new FormData();
 	$(".chat-upFile").change(e=>{
-		let files = document.querySelector(".chat-upFile").files;
-		console.log(files);
+		let files = document.querySelector(".chat-upFile").files[0];
+		console.log("files ",files);
+		/* $(".chat-fileform").attr("action","${path}/chatroom/upload");
+		$(".chat-fileform").submit(); */
+		formData.append("chatroomId",chatroomId);
+		formData.append("files",files);
+		//console.log(formData);
+		
+		$.ajax({
+			url : "${path}/chatroom/upload",
+			data : formData,
+			type : "post",
+			async : true,
+			enctype : "multipart/form-data",
+			processData : false, // false해야 form data 인식함 
+			contentType : false,
+			success : data =>{
+				console.log(data);	
+			}
+		});
 		fn_fileSend(files);
-		$(".chat-fileform").attr("action","${path}/chatroom/upload");
-		$(".chat-fileform").submit();
-	})
+	});
+	
 	const fn_closeChatModal=()=>{
 		$(".modal-addChatMember").css("display","none");
-	}
+	};
+	
 	$(".modal-close").click(e=>{
 		fn_closeChatModal();
 	});
+	
 	$(".modal-chat-btn").click(e=>{
 		var chatroomCode;
 		var chatMember="";
@@ -130,6 +151,20 @@
 			alert("선택한 채팅 멤버가 없습니다 다시 선택해주세요");
 		}
 		else if(chatroomId=="" || chatroomId==null && chatMember!=null && chatMember!=""){
+			/* formData.append("loginMember",loginMember);
+			console.log("chatroom : ", newChatroom);
+			formData.append("chatroom", newChatroom); */
+			/* $.ajax({
+				url : "${path}/chat/insert",
+				data : formData,
+				type : "post",
+				async : true,
+				processData : false, // false해야 form data 인식함 
+				contentType : false,
+				success : data =>{
+					console.log("insertNewChat Data : ", JSON.parse(data.data));	
+				}
+			}) */
 			$.ajax({
 				url: "${path}/chat/insert",
 				type: "post",
@@ -254,12 +289,6 @@
 	 		
 	 		let checkFile = msg.fileId;
 			console.log(msg.fileId);
-			if(checkFile!=null){
-				var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
-				chatMsg.append($("<span>").attr("class", "chat-msgbx").text(msg.originalFile));
-				chatMsg.append($("<input type='hidden'>").attr("value",msg.uploadFile).attr("class","uploadFile"));
-				chatMsg.append($("<input type='hidden'>").attr("value",msg.fileId).attr("class","fileId"));
-			}else{
 				const chatDiv = $(".chat-msgBox-container");
 				const chatDate = new Date(msg.chatDate).toLocaleString('ko-KO');
 				if (msg.memberId == loginMember) {
@@ -278,7 +307,6 @@
 				chatMsg.append($("<input>").attr("type", "hidden").attr("value", msg.chatroomId).attr("class","roomId"));
 				chatDiv.append(chatMsg);
 				
-			}
 		}
 	}
 	
@@ -304,7 +332,19 @@
 			this.memberId = memberId;
 		}
 	}
-	
+	$(".attachChatIcon").click(e=>{
+		$.ajax({
+			url: "${path}/chat/file",
+			type: "post",
+			data: {
+				chatroomId: chatroomId
+			},
+			success: data => {
+				console.log(data);
+				//$(".prev-chat").addClass("chatHidden");
+			}
+		});
+	})
 	
 	
 </script>

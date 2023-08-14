@@ -8,6 +8,7 @@ import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
 import com.workit.member.model.dto.Department;
 import com.workit.member.model.dto.Member;
+import com.workit.member.model.vo.MemberVO;
 
 public interface ChatDao {
 	

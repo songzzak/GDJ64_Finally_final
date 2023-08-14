@@ -5,13 +5,15 @@ import java.util.Map;
 
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
+import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
 import com.workit.member.model.dto.Member;
 
 public interface ApproveService {
 	/* public List<Approve> selectAllWaitingApprove(String memberId); */
-	public List<Approve> selectAllWaitingApprove(String memberId);
+	public List<Approve> selectAllWaitingApprove(Map<String,Object> param);
 	public List<Member> selectAllMember();
 	public List<Member> changeDep(String deptName);
 	public Member printMember(String memberId);
@@ -23,5 +25,18 @@ public interface ApproveService {
 	public int insertExpenditure(Expenditure ex);
 	public List<Approve> selectAllSaveDocument(Map<String,Object> param);
 	public List<Approve> detailSave(Map<String,Object> param);
-	
+	public List<ApproveLine> detailApproveLines(Map<String,Object> param);
+	public List<ReferLine> detailReferLines(Map<String,Object> param);
+	public List<Expenditure> detailExpenditures(Map<String,Object> param);
+	public int removeSave(String deleteApproveNo);
+	public int reInsertApprove(Approve ap);
+	public int reInsertTime(Time t);
+	public int reInsertApproveAttach(ApproveAttach aa);
+	public int reInsertApproveLine(Map<String,Object> param);
+	public int reInsertReferLine(Map<String,Object> param);
+	public int reInsertExpenditure(Expenditure ex);
+	public int approveAssign(Map<String,Object> param);
+	public int selectTotalLineCnt(Map<String,Object> param);
+	public int selectCompleteLineCnt(Map<String,Object> param);
+	public int plusCurrentOrder(Map<String,Object> param);
 }

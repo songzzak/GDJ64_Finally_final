@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.workit.approve.model.dao.ApproveDao;
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
+import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
 import com.workit.member.model.dto.Member;
 
@@ -23,8 +25,8 @@ public class ApproveServiceImpl implements ApproveService {
 	private SqlSession session;
 	
 	@Override
-	public List<Approve> selectAllWaitingApprove(String mId) {
-		return dao.selectAllWaitingApprove(session,mId);
+	public List<Approve> selectAllWaitingApprove(Map<String,Object> param) {
+		return dao.selectAllWaitingApprove(session,param);
 	}
 
 	@Override
@@ -43,7 +45,26 @@ public class ApproveServiceImpl implements ApproveService {
 		return dao.detailSave(session,param);
 	}
 	
+	@Override
+	public List<ApproveLine> detailApproveLines(Map<String, Object> param) {
+		return dao.detailApproveLines(session,param);
+	}
+
+	@Override
+	public List<ReferLine> detailReferLines(Map<String, Object> param) {
+		return dao.detailReferLines(session,param);
+	}
 	
+	@Override
+	public List<Expenditure> detailExpenditures(Map<String, Object> param) {
+		return dao.detailExpenditures(session,param);
+	}
+
+	@Override
+	public int removeSave(String deleteApproveNo) {
+		return dao.removeSave(session,deleteApproveNo);
+	}
+
 	@Override
 	public List<Member> changeDep(String deptName) {
 		return dao.changeDep(session,deptName);
@@ -58,7 +79,7 @@ public class ApproveServiceImpl implements ApproveService {
 	public int insertApprove(Approve ap) {
 		return dao.insertApprove(session,ap);
 	}
-
+	
 	@Override
 	public int insertTime(Time t) {
 		return dao.insertTime(session,t);
@@ -84,4 +105,56 @@ public class ApproveServiceImpl implements ApproveService {
 		return dao.insertExpenditure(session, ex);
 	}
 
+	@Override
+	public int reInsertApprove(Approve ap) {
+		return dao.reInsertApporve(session,ap);
+	}
+
+	@Override
+	public int reInsertTime(Time t) {
+		return dao.reInsertTime(session, t);
+	}
+
+	@Override
+	public int reInsertApproveAttach(ApproveAttach aa) {
+		return dao.reInsertApproveAttach(session, aa);
+	}
+
+	@Override
+	public int reInsertApproveLine(Map<String, Object> param) {
+		return dao.reInsertApproveLine(session, param);
+	}
+
+	@Override
+	public int reInsertReferLine(Map<String, Object> param) {
+		return dao.reInsertReferLine(session, param);
+	}
+
+	@Override
+	public int reInsertExpenditure(Expenditure ex) {
+		return dao.reInsertExpenditure(session, ex);
+	}
+
+	@Override
+	public int approveAssign(Map<String, Object> param) {
+		return dao.approveAssign(session,param);
+	}
+
+	@Override
+	public int selectTotalLineCnt(Map<String, Object> param) {
+		return dao.selectTotalLineCnt(session,param);
+	}
+
+	@Override
+	public int selectCompleteLineCnt(Map<String, Object> param) {
+		return dao.selectCompleteLineCnt(session,param);
+	}
+
+	@Override
+	public int plusCurrentOrder(Map<String, Object> param) {
+		return dao.plusCurrentOrder(session,param);
+	}
+	
+	
+	
 }

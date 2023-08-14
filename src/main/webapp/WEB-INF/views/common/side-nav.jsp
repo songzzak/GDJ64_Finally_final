@@ -3,9 +3,11 @@
 <%@ page import="com.workit.member.model.vo.MemberVO"  %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>        
-<%--  <%
+
+ <%
    MemberVO loginMember=(MemberVO)session.getAttribute("loginMember");
-  %>     --%>              
+  %>                  
+
  <c:set var="path" value="${pageContext.request.contextPath }"/>     
    <div class="side-nav-container max90per section-shadow">
       <div class="side-nav">

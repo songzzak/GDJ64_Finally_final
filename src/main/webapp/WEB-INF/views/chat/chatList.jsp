@@ -94,7 +94,7 @@
 		console.log("fn_openchatroom start");
 		console.log(chatroomId);
 		$.ajax({
-			url: "${path}/chat/chatroom",
+			url: "${path}/chat/chatroom/"+chatroomId,
 			//type:"post",
 			type: "get",
 			data: {
@@ -233,22 +233,24 @@
 		});
 	})
 	
+	var formData = new FormData();
+	
 	$(".searchChatRoomIcon").click(e => {
 		let keyword = $(".searchChatRoomList").val();
-		$.ajax({
-			url: "${path}/chat/search",
-			type: "post",
-			data: {
-				chatroomId: roomId,
-				keyword: keyword
-			}
-			, success: data => {
-				console.log(data);
-				let url = "${path}/chat/chatroom" + data;
-				window.location.replace(url);
+		formData.append("keyword",keyword);
+		formData.append("chatroomId", chatroomId);
+		a.ajax({
+			url : "${path}/chat/search",
+			data : formData,
+			type : "post",
+			async : true,
+			processData : false, // false해야 form data 인식함 
+			contentType : false,
+			success : data =>{
+				console.log("search Data : ", JSON.parse(data.data));	
 			}
 		})
-	})
+	});
 	
 	const fn_deleteChatroom=(chatroomId)=>{
 		console.log(chatroomId);

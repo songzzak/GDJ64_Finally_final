@@ -83,11 +83,7 @@ public class ChatServer extends TextWebSocketHandler {
 		
 		ChatMsg chat =mapper.readValue(message.getPayload(),ChatMsg.class);
 		
-		if(chat.getChatId()==null || chat.getChatId()=="") {
-			session.getAttributes().put("chat", chat);
-			sendChat(chat);
-		}
-		else if(chat!=null && chat.getChatId()!=null) {
+		if(chat!=null) {
 			log.info("chat 전송");
 			session.getAttributes().put("chat", chat);
 			log.info("{}", chat);
@@ -96,37 +92,12 @@ public class ChatServer extends TextWebSocketHandler {
 			if(result>0) {
 				log.info("{}","성공");
 				log.info("{}",chatService.selectChatMember(chat.getChatroomId()));
-//				String sender = chat.getMemberId();
-//				clients.put(sender, session);
-//				log.info("sender");
-//				log.info("{}", sender);
-//				log.info("현재접속자 : "+clients.size());
 				sendChat(chat);
-			}else {
-				
+			}else if(chat!=null && chat.getChatroomId().equals("file")) {
+				sendChat(chat);
 			}
 		}
 	}
-	
-	
-	//private void sendFile(String fileName) {
-//	private void sendFile(AttachedFile file) {
-//		log.info("send file method");
-//		log.info("{}", file);
-//		Set<Map.Entry<String,WebSocketSession>> clients=this.clients.entrySet();
-//		log.info("{}", clients);
-//		try {
-//			for(Map.Entry<String,WebSocketSession> client:clients) {
-//				// session에 보낸 사람을 저장하지 않아서 오지 않았다
-//				String userId=client.getKey();
-//				log.info("{}", userId);
-//				client.getValue().sendMessage(new TextMessage(mapper.writeValueAsString(file)));
-//				//client.getValue().sendMessage(new TextMessage("asdgsadg"));
-//			}
-//		}catch(IOException e){
-//			e.printStackTrace();
-//		}
-//	}
 	
 	private void sendChat(ChatMsg chat) {
 		log.info("send Chat method");
@@ -141,7 +112,6 @@ public class ChatServer extends TextWebSocketHandler {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {

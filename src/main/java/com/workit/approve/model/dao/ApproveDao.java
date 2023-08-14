@@ -7,12 +7,14 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.workit.approve.model.dto.Approve;
 import com.workit.approve.model.dto.ApproveAttach;
+import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
+import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
 import com.workit.member.model.dto.Member;
 
 public interface ApproveDao {
-	public List<Approve> selectAllWaitingApprove(SqlSession session,String mId);
+	public List<Approve> selectAllWaitingApprove(SqlSession session,Map<String,Object> param);
 	public List<Member> selectAllMember(SqlSession session);
 	public List<Member> changeDep(SqlSession session,String deptName);
 	public Member printMember(SqlSession session,String memberId);
@@ -24,5 +26,18 @@ public interface ApproveDao {
 	public int insertExpenditure(SqlSession session, Expenditure ex);
 	public List<Approve> selectAllSaveDocument(SqlSession session, Map<String,Object> param);
 	public List<Approve> detailSave(SqlSession session, Map<String,Object> param);
-	
+	public List<ApproveLine> detailApproveLines(SqlSession session, Map<String,Object> param);
+	public List<ReferLine> detailReferLines(SqlSession session, Map<String,Object> param);
+	public List<Expenditure> detailExpenditures(SqlSession session, Map<String,Object> param);
+	public int removeSave(SqlSession session, String deleteApproveNo);
+	public int reInsertApporve(SqlSession session, Approve ap);
+	public int reInsertTime(SqlSession session, Time t);
+	public int reInsertApproveAttach(SqlSession session, ApproveAttach aa);
+	public int reInsertApproveLine(SqlSession session, Map<String,Object> param);
+	public int reInsertReferLine(SqlSession session, Map<String,Object> param);
+	public int reInsertExpenditure(SqlSession session, Expenditure ex);
+	public int approveAssign(SqlSession session, Map<String,Object> param);
+	public int selectTotalLineCnt(SqlSession session, Map<String,Object> param);
+	public int selectCompleteLineCnt(SqlSession session, Map<String,Object> param);
+	public int plusCurrentOrder(SqlSession session, Map<String,Object> param);
 }

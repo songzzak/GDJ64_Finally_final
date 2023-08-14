@@ -1,5 +1,7 @@
 package com.workit.approve.model.dto;
 
+import com.workit.member.model.dto.Member;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class ReferLine {
 	private int referLineNo;
 	private int approveNo;
-	private String memberId;
+	private Member memberId;
 }
