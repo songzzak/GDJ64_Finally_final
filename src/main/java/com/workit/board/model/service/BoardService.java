@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
+import com.workit.chatroom.model.dto.AttachedFile;
 
 public interface BoardService {
 	
@@ -23,5 +24,11 @@ public interface BoardService {
 	int insertNotice(Map<String, Object> map);
 	int updateNotice(Map<String, Object> map);
 	int deleteNotice(int commentNo);
+	//첨부파일 등록
+	int insertAttachedFile(Map<String, Object> fileMap);
+	int insertNoticeFile();
+	//첨부파일 조회
+	List<AttachedFile> selectFileListByNo(int no);
+	AttachedFile selectFileById(int fileId);
 
 }

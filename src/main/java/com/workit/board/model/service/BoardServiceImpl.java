@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.workit.board.model.dao.BoardDao;
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
+import com.workit.chatroom.model.dto.AttachedFile;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -70,6 +71,26 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int deleteNotice(int commentNo) {
 		return dao.deleteNotice(session,commentNo);
+	}
+
+	@Override
+	public int insertAttachedFile(Map<String, Object> fileMap) {
+		return dao.insertAttachedFile(session, fileMap);
+	}
+
+	@Override
+	public int insertNoticeFile() {
+		return dao.insertNoticeFile(session);
+	}
+
+	@Override
+	public List<AttachedFile> selectFileListByNo(int no) {
+		return dao.selectFileListByNo(session, no);
+	}
+
+	@Override
+	public AttachedFile selectFileById(int fileId) {
+		return dao.selectFileById(session, fileId);
 	}
 
 

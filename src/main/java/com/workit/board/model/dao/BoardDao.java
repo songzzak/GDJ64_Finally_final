@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
+import com.workit.chatroom.model.dto.AttachedFile;
 
 public interface BoardDao {
 
@@ -29,5 +30,13 @@ public interface BoardDao {
 	int updateNotice(SqlSessionTemplate session, Map<String, Object> map);
 
 	int deleteNotice(SqlSessionTemplate session, int commentNo);
+
+	int insertAttachedFile(SqlSessionTemplate session, Map<String, Object> fileMap);
+
+	int insertNoticeFile(SqlSessionTemplate session);
+
+	List<AttachedFile> selectFileListByNo(SqlSessionTemplate session, int no);
+
+	AttachedFile selectFileById(SqlSessionTemplate session, int fileId);
 
 }

@@ -62,7 +62,6 @@
 				    <label for="file">첨부파일 선택</label>
 				    <input type="file" id="file" name="file" multiple>
 				    <span class="file-list" id="file-name"><p class="file-item">선택된 첨부파일이 표시됩니다.</p></span>
-
 				</div>
 			    <div style="text-align: right;">
 				    <button type="button" onclick="insertContent();">등록</button>
@@ -92,24 +91,33 @@ $(document).ready(function() {
 
 });
 
-    function insertContent() {
-        oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
-        //console.log($("#editorTxt").val());
-        $.post(
-                "/board/insertNoticeEnd",
-                {
-                	content: $("#editorTxt").val(),
-                	title: $("#noticeTitle").val()
-                	},
-                function(response) {
-                    if(response.status === "success") {
-                        alert("공지사항이 성공적으로 등록되었습니다.");
-                        location.href = "${path}/board/noticeList";
-                    } else {
-                        alert("공지사항 등록에 실패하였습니다.");
-                    }
-                });
-    }
+function insertContent() {
+    oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
+    
+    var formData = new FormData();
+    formData.append("content", $("#editorTxt").val());
+    formData.append("title", $("#noticeTitle").val());
+
+    $.each($("#file")[0].files, function(i, file) {
+        formData.append("file", file);
+    });
+
+    $.ajax({
+        url: "/board/insertNoticeEnd",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            if(response.status === "success") {
+                alert("공지사항이 성공적으로 등록되었습니다.");
+                location.href = "${path}/board/noticeList";
+            } else {
+                alert("공지사항 등록에 실패하였습니다.");
+            }
+        }
+    });
+}
 	function cancle(){
 		if(confirm('공지사항 작성을 취소하시겠습니까?')){
 			location.href = "${path}/board/noticeList";

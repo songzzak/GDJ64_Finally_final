@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
+import com.workit.chatroom.model.dto.AttachedFile;
 
 @Repository
 public class BoardDaoImpl implements BoardDao {
@@ -65,6 +66,26 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int deleteNotice(SqlSessionTemplate session, int commentNo) {
 		return session.delete("board.deleteNotice",commentNo);
+	}
+
+	@Override
+	public int insertAttachedFile(SqlSessionTemplate session, Map<String, Object> fileMap) {
+		return session.insert("board.insertAttachedFile",fileMap);
+	}
+
+	@Override
+	public int insertNoticeFile(SqlSessionTemplate session) {
+		return session.insert("board.insertNoticeFile");
+	}
+
+	@Override
+	public List<AttachedFile> selectFileListByNo(SqlSessionTemplate session, int no) {
+		return session.selectList("board.selectFileListByNo",no);
+	}
+
+	@Override
+	public AttachedFile selectFileById(SqlSessionTemplate session, int fileId) {
+		return session.selectOne("board.selectFileById",fileId);
 	}
 
 }

@@ -46,6 +46,12 @@
   .btnSimple:hover{color:var(--main-color-dk);background-color:#fff;}
   #submitCommentBtn{margin: 010px; height: 50px;}
   .listAndUpdateAndDelete{display: flex;justify-content: space-between;margin: 0 10px;}
+  
+    /* 첨부파일 스타일 */
+  .file-download { border: 1px solid #e0e0e0; padding: 10px; margin-bottom: 20px; border-radius: 4px; display: flex; align-items: center;}
+  .file-download button { cursor: pointer; background-color: #e0e0e0; padding: 8px 20px; border-radius: 4px;  font-size: 12px;}
+  /* 첨부된 파일 목록 스타일 */
+  .file-item {display: inline-block;background-color: #f2f2f2;padding: 5px;margin: 5px;border-radius: 4px;font-size: 8px;}
 </style>
 
 <section class="max1920px">
@@ -71,6 +77,20 @@
                 <div id="noticeContent">
 					${n.noticeContent }
                 </div>
+				<div class="file-download">
+				    <c:if test="${empty fileList }">
+				        <p>첨부된 파일이 없습니다.</p>
+				    </c:if>
+				    <c:if test="${not empty fileList }">
+				        <c:forEach items="${fileList }" var="f">
+				            <div class="file-item">
+				               <a href="${path}/board/downloadFile?fileId=${f.fileId}" class="file-item">
+				               		${f.originalFile}
+				               </a>
+				            </div>
+				        </c:forEach>
+				    </c:if>
+				</div>
             </div>
             <div class="btnContainer">
 	            <div class="prevAndNext">
@@ -236,44 +256,42 @@ $(document).ready(function() {
         }
     });
 
- // 댓글 및 대댓글 삭제 함수
- function deleteCommentOrReply(commentNo) {
-     $.post(
-         "/board/noticeCommentDelete",
-         {commentNo: commentNo},
-         function(response) {
-             if(response.status === "success") {
-                 alert("댓글이 성공적으로 삭제되었습니다.");
-                 location.reload();
-             } else {
-                 alert("댓글 삭제에 실패하였습니다.");
-             }
-         });
- }
-
- //수정페이지로 넘기는 이벤트
- $("#updateBtn").on('click', function() {
-         location.href = "${path}/board/updateNotice?no="+${n.noticeNo};
- });
- 
-//삭제버튼 이벤트
-$("#deleteBtn").on('click', function() {
-	if (confirm('정말로 삭제하시겠습니까?')) {
+	 // 댓글 및 대댓글 삭제 함수
+	 function deleteCommentOrReply(commentNo) {
 	     $.post(
-	             "/board/deleteNotice",
-	             {noticeNo: ${n.noticeNo}},
-	             function(response) {
-	                 if(response.status === "success") {
-	                     alert("게시글이 성공적으로 삭제되었습니다.");
-	                     location.href = "${path}/board/noticeList";
-	                 } else {
-	                     alert("게시글 삭제에 실패하였습니다.");
-	                 }
-	             });
-    }
-});
+	         "/board/noticeCommentDelete",
+	         {commentNo: commentNo},
+	         function(response) {
+	             if(response.status === "success") {
+	                 alert("댓글이 성공적으로 삭제되었습니다.");
+	                 location.reload();
+	             } else {
+	                 alert("댓글 삭제에 실패하였습니다.");
+	             }
+	         });
+	 }
 
-
+	 //수정페이지로 넘기는 이벤트
+	 $("#updateBtn").on('click', function() {
+	         location.href = "${path}/board/updateNotice?no="+${n.noticeNo};
+	 });
+ 
+	//삭제버튼 이벤트
+	$("#deleteBtn").on('click', function() {
+		if (confirm('정말로 삭제하시겠습니까?')) {
+		     $.post(
+		             "/board/deleteNotice",
+		             {noticeNo: ${n.noticeNo}},
+		             function(response) {
+		                 if(response.status === "success") {
+		                     alert("게시글이 성공적으로 삭제되었습니다.");
+		                     location.href = "${path}/board/noticeList";
+		                 } else {
+		                     alert("게시글 삭제에 실패하였습니다.");
+		                 }
+		             });
+	    }
+	});
 
 
 });
