@@ -1,58 +1,91 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<c:set var="path" value="${pageContext.request.contextPath }"/>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 <section class="max1920px">
-	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
+	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 
-	<div id="waiting-approve-allarea">
-	  <div id="letter">∞·¿Á¥Î±‚πÆº≠</div>
-	  <div id="waiting-approve-content">
-	  	 <table>
-            <tr>
-                <th>π¯»£</th>
-                <th>∞·¿ÁæÁΩƒ</th>
-                <th>¡¶∏Ò</th>
-                <th>¿€º∫¿⁄</th>
-                <th>¿€º∫¿œ</th>
+	
+	<div id="waitingDocument" class="approve-section section-shadow">
+		<span id="waitingDocumentFont">Í≤∞Ïû¨ÎåÄÍ∏∞Î¨∏ÏÑú</span>
+		<div id="waitingDocumentDiv">
+		<table class="table">
+            <tr id="th">
+                <th colspan="5">Î≤àÌò∏</th>
+                <th colspan="5">Í≤∞Ïû¨ÏñëÏãù</th>
+                <th colspan="5">Ï†úÎ™©</th>
+                <th colspan="5">ÏûëÏÑ±Ïûê</th>
+                <th colspan="5">ÏûëÏÑ±Ïùº</th>
             </tr>
-         </table>
-	  </div>
+            <c:if test="${not empty waitingApps}">
+            	<c:forEach var="waitingApp" items="${waitingApps}">
+	            		<tr id="tr" onclick="location.href='${path}/approve/detailWaitingApprove.do?approveNo=${waitingApp.approveNo}&approveKind=${waitingApp.approveKind }&approveState=${waitingApp.approveState}';">
+		            			<td colspan="5">${waitingApp.approveNo }</td>
+		            			<td colspan="5">${waitingApp.approveKind }</td>
+		            			<td colspan="5">${waitingApp.approveTitle }</td>
+		            			<td colspan="5">${waitingApp.memberId.memberName}</td>
+		            			<td colspan="5">${waitingApp.currentDate }</td>
+	            		</tr>	
+            	</c:forEach>
+            </c:if>
+        </table>
+       
+		</div>
 	</div>
+
+</html>	
+
+<style>
+	#waitingDocumentFont{
+		font-weight: bold;
+		font-size: 25px;
+		margin-left:25px;
+   		margin-top: 50px;	
+	}
+
+	#waitingDocument{
+		background-color:white;
+		border: 1px solid #D9D9D9;
+		width:1720px;
+		height:900px;
+		margin-left: 50px;
+	}
 	
-<%-- 	<c:if test="${not empty apps}">
-			<c:forEach var="app" items="${apps}">
-				<tr>
-					<td>${app.approveTitle}</td>
-				</tr>
-			</c:forEach>
-	</c:if>  --%>
-	
-</section>
-	<style>
-		#waiting-approve-allarea{
-			margin-top:20px;
-			margin-left:40px;
-			width: 1600px;
-			height:900px;
-			border: 1px solid black;
-			background: white;
-		}
-	
-		#letter{
-			margin:20px;
-			font-size: 30px;
-			font-weight: bold;
-		}
+	#waitingDocumentDiv{
+		border: 1px solid #D9D9D9;
+		margin-top : 20px;
+		margin-left : 50px;
+		width:1650px;
+		height:770px;
+	}
+
+	#th>th{
+		font-size:20px;
+		padding-left:140px;
+		padding-top:50px;
+		padding-right:100px;
+		padding-bottom:20px;
+		border-bottom: 1px solid #ddd;
+	}
 		
-		#waiting-approve-content{
-			margin-left : 30px;
-			width: 1500px;
-			height:750px;
-			border: 1px solid #D9D9D9;
-		}
-	</style>
+	#tr:hover{
+		background-color:  #BDDFFF;
+	}	
+		
+	#tr>td{
+		font-size:15px;
+		padding-left: 140px;
+		padding-right:100px;
+		padding-top:15px;
+		padding-bottom:15px;
+		border-bottom: 1px solid #ddd;
+		text-align: center;
+	}
 	
+	#saveColor{
+		background-color :#F5F5DC;
+	}
+</style>

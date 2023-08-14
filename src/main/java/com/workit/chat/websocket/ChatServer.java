@@ -2,10 +2,14 @@ package com.workit.chat.websocket;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -13,9 +17,10 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.workit.chat.model.dto.Chat;
-import com.workit.chat.model.dto.MyChatroom;
-import com.workit.chat.model.service.ChatService;
+import com.workit.chat.model.dto.ChatMsg;
+import com.workit.chat.service.ChatService;
+import com.workit.chatroom.model.dto.AttachedFile;
+import com.workit.chatroom.service.ChatroomService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,64 +28,90 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ChatServer extends TextWebSocketHandler {
 	
-	private ChatService service;
+	private ChatService chatService;
+	private ChatroomService chatroomService;
 	private ObjectMapper mapper;
 	
-	public ChatServer(ChatService service, ObjectMapper mapper) {
-		this.service = service;
+	public ChatServer(ChatService chatService, ChatroomService chatroomService, ObjectMapper mapper) {
+		this.chatService = chatService;
+		this.chatroomService = chatroomService;
 		this.mapper = mapper;
 	}
+	// root 경로
+	private final String path = System.getProperty("user.dir");
+	// 루트 경로에 있는 file directory
+	//private final String fileDir = path + "/webapp/resources/upload/chat/";
 	
 	private Map<String,WebSocketSession> clients = new HashMap<String, WebSocketSession>();
+	private String chatroomId;
+	
+	//private String path2=ChatServer.class.getResource("/").getPath();
+			
+	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.info("{}","접속");
-		log.info("{}",session.getId());
-	}
-
-	@Override
-	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		log.info("{}",message.getPayload());
-		Chat chat =mapper.readValue(message.getPayload(),Chat.class);
-		session.getAttributes().put("chat", chat);
-		log.info("{}", chat);
-		int result = service.insertChat(chat);
-		if(result>0) {
-			//성공
-			log.info("{}","성공");
-			sendChat(chat);
-			log.info("{}",service.selectChatMember(chat.getChatroomId()));
-			List<MyChatroom> chatMembers = service.selectChatMember(chat.getChatroomId());
-			chattingMember(chatMembers);
-		}else {
-			// fail z
-		}
-	}
-	private Map<String, Object> members= null;
-	
-	private void chattingMember(List<MyChatroom> chatMembers) {
-		log.info("{}", chatMembers);
-		for(MyChatroom m : chatMembers) {
-			log.info("{}",m.getMember().getMemberId());
-		}
+		log.info("path");
+//		path2 = path2.substring(0,path2.lastIndexOf("target"))+"/src";
+//		log.info(path2);
+		log.info(session.getId()+" "+session.getRemoteAddress());
+		clients.put(session.getId(), session);
+		
+		String url = session.getUri().toString();
+		log.info("{}", url);
+		chatroomId = url.split("/chating/")[1];
+		
+		
 	}
 	
-	private void sendChat(Chat chat) {
-//		Set<Map.Entry<String,WebSocketSession>> clients=this.clients.entrySet();
+//	private static JSONObject JsonToObjectParser(String jsonStr) {
+//		JSONParser parser = new JSONParser();
+//		JSONObject obj = null;
 //		try {
-//			for(Map.Entry<String,WebSocketSession> client:clients) {
-//				String userId=client.getKey();
-//				log.info("{}", userId);
-//				client.getValue().sendMessage(
-//						new TextMessage(mapper.writeValueAsString(chat))
-//						);
-//				log.info("{}", client.getValue());
-//			}
-//		}catch(IOException e){
+//			obj = (JSONObject) parser.parse(jsonStr);
+//		} catch (ParseException e) {
 //			e.printStackTrace();
 //		}
+//		return obj;
+//	}
+	
+	@Override
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		
+		String msg = message.getPayload();
+		log.info("{}",msg);
+		
+		ChatMsg chat =mapper.readValue(message.getPayload(),ChatMsg.class);
+		
+		if(chat!=null) {
+			log.info("chat 전송");
+			session.getAttributes().put("chat", chat);
+			log.info("{}", chat);
+			int result = chatroomService.insertChat(chat);
+			log.info("{}", result);
+			if(result>0) {
+				log.info("{}","성공");
+				log.info("{}",chatService.selectChatMember(chat.getChatroomId()));
+				sendChat(chat);
+			}else if(chat!=null && chat.getChatroomId().equals("file")) {
+				sendChat(chat);
+			}
+		}
 	}
 	
+	private void sendChat(ChatMsg chat) {
+		log.info("send Chat method");
+		Set<Map.Entry<String,WebSocketSession>> clients=this.clients.entrySet();
+		try {
+			for(Map.Entry<String,WebSocketSession> client:clients) {
+				String userId=client.getKey();
+				log.info("{}", userId);
+				client.getValue().sendMessage(new TextMessage(mapper.writeValueAsString(chat)));
+			}
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {

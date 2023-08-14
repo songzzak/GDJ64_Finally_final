@@ -12,7 +12,6 @@
 <script>
 const path = "${pageContext.request.contextPath}";
 </script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <title>Work IT</title>
 </head>

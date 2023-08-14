@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.workit.work.model.dao.WorkDao;
 import com.workit.work.model.dto.Work;
+import com.workit.work.model.dto.WorkChange;
 
 @Service
 public class WorkServiceImpl implements WorkService {
@@ -21,80 +22,87 @@ public class WorkServiceImpl implements WorkService {
 		this.dao = dao;
 		this.session = session;
 	}
-	
+
 	@Override
-	public int insertStartTime(Work w) {
-		return dao.insertStartTime(session, w);
+	public List<Work> getMonthWorkTime(Map<String, Object> paramMap) {
+		return dao.getMonthWorkTime(session, paramMap);
 	}
 
 	@Override
-	public Work selectStartTime(String memberId) {
-		return dao.selectStartTime(session, memberId);
+	public int insertStartWorkTime(Work w) {
+		return dao.insertStartWorkTime(session,w);
 	}
 
 	@Override
-	public int updateEndTime(Work w) {
-		return dao.updateEndTime(session, w);
+	public boolean isWorkDataRegisteredForDate(Map<String, String> mapParam) {
+		return dao.isWorkDataRegisteredForDate(session,mapParam);
 	}
 
 	@Override
-	public Work selectEndTime(String memberId) {
-		return dao.selectEndTime(session, memberId);
+	public Work selectWorkByDateAndMemberId(Map<String, Object> paramMap) {
+		return dao.selectWorkByDateAndMemberId(session,paramMap);
 	}
 
 	@Override
-	public int updateStatus(Work w) {
-		return dao.updateStatus(session, w);
+	public boolean isCheckOutRegisteredForDate(Map<String, String> mapParam) {
+		return dao.isCheckOutRegisteredForDate(session,mapParam);
 	}
 
 	@Override
-	public Work selectWeekTime(String memberId) {
-		return dao.selectWeekTime(session, memberId);
+	public int updateEndWorkTime(Work w) {
+		return dao.updateEndWorkTime(session, w);
 	}
 
 	@Override
-	public Work selectMonthTime(String memberId) {
-		return dao.selectMonthTime(session, memberId);
+	public int lateCount(Map<String, Object> paramMap) {
+		return dao.lateCount(session,paramMap);
 	}
 
 	@Override
-	public List<Work> monthWorkTime(Map<String, String> param) {
-		return dao.monthWorkTime(session, param);
+	public int earlyLeaveCount(Map<String, Object> paramMap) {
+		return dao.earlyLeaveCount(session,paramMap);
 	}
 
 	@Override
-	public List<Work> selectDeptStatus(String memberId) {
-		return dao.selectDeptStatus(session, memberId);
+	public int insertWorkchange(WorkChange wc) {
+		return dao.insertWorkchange(session,wc);
 	}
 
 	@Override
-	public List<Work> selectDeptWork(Map<String, String> param) {
-		return dao.selectDeptWork(session, param);
+	public List<WorkChange> selectAllWorkChange(Map<String, Integer> map) {
+		return dao.selectAllWorkChange(session,map);
 	}
 
 	@Override
-	public List<Work> commuteList(Map<String, String> param) {
-		return dao.commuteList(session, param);
+	public int selectWorkChangeCount() {
+		return dao.selectWorkChangeCount(session);
 	}
 
 	@Override
-	public List<Work> overworkList(Map<String, String> param) {
-		return dao.overworkList(session, param);
+	public Work selectWorkByNo(int no) {
+		return dao.selectWorkByNo(session, no);
 	}
 
 	@Override
-	public Work monthTotalTime(Map<String, String> param) {
-		return dao.monthTotalTime(session, param);
+	public int updateWorkTime(Work w) {
+		return dao.updateWorkTime(session, w);
 	}
 
 	@Override
-	public List<Work> selectDeptWeekList(Map<String, String> param) {
-		return dao.selectDeptWeekList(session, param);
+	public int updateWorkChangeStatus(Map<String, Object> paramMap) {
+		return dao.updateWorkChangeStatus(session,paramMap);
 	}
 
 	@Override
-	public Work selectMember(String memberId) {
-		return dao.selectMember(session, memberId);
+	public int deleteWorkChange(int workChangeNo) {
+		return dao.deleteWorkChange(session, workChangeNo);
 	}
+
+	@Override
+	public List<Work> getMonthWorkTimeByTeam(Map<String, Object> paramMap) {
+		return dao.getMonthWorkTimeByTeam(session, paramMap);
+	}
+
+
 
 }

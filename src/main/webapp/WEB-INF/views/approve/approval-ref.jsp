@@ -1,11 +1,13 @@
-<!-- 모든양식에서 공통으로 사용할 결재선 UI -->
+ <!-- 모든양식에서 공통으로 사용할 결재선 UI -->
 
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>	
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
-<%-- <c:set var="path" value="${pageContext.request.contextPath }"/>
-<script src="${path}/resources/js/jquery-3.7.0.min.js"></script> --%>
+<script>
+const memberId = "${loginMember.memberId}"; // 본인아이디에서는 결재선과 참조선에 이름이 나오지 않기위해 전역변수로 설정
+</script>
+
 		<div class="approve-section1 section-shadow">
 		<button type="button" onclick="openBtn();" id="regist-appline">결재선 설정</button>
 		<!-- class="openBtn" -->
@@ -34,7 +36,7 @@
 	    </div>
 	    
 	    <div id="people-box">
-
+			
 	    	
 	    </div>
 	    
@@ -67,12 +69,11 @@
 	    <div id="line-refer-box">
 	    		<div id="line-box">
 	    			<p id="line-box-text">결재선</p>
-	    				
 	    		</div>
 	    		
 	    		<div id="refer-box">
 	    			<p id="refer-box-text">참조선</p>
-	    			
+
 	    		</div>
 	    </div>
 	</div>

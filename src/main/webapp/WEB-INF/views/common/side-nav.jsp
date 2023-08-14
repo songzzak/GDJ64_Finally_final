@@ -25,7 +25,13 @@
       <div>
          <a class="side-menu"><img src="${path}/resources/images/common/work.svg">근태 관리</a>
          <ul class="menu-toggle" style="display:none">
-            <li><a href="${path }/">메뉴</a></li>
+            <li><a href="${path }/work/workTime">내 출근부</a></li>
+            <c:if test="${loginMember.dept.deptName eq '인사팀'}">
+	            <li><a href="${path }/work/workChange">출퇴근 시간 수정</a></li>
+            </c:if>
+            <c:if test="${loginMember.job.jobName eq '팀장'}">
+	            <li><a href="${path }/work/workTimeByTeam">${loginMember.dept.deptName} 출근부</a></li>
+            </c:if>
          </ul>
       </div>
       <div>
@@ -53,7 +59,7 @@
             <button onclick="location.href='${path}/approve/waitingApprove.do?mId=${loginMember.memberId}';">결재대기문서</button>
             <button onclick="location.href='${path}/approve/stateApprove.do';">기안문서함</button>
             <button onclick="location.href='${path}/approve/referenceApprove.do';">참조문서함</button>
-            <button onclick="location.href='${path}/approve/saveApprove.do';">임시저장함</button>
+            <button onclick="location.href='${path}/approve/saveDocument.do?mId=${loginMember.memberId}';">임시저장함</button>
          </div>
       </div>
       <div>

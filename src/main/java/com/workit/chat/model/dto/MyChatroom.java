@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MyChatroom {
 	private int myChatroomNo;
-	private String chatroomId;
+	private Chatroom chatroom;
 	private Member member;
 }
