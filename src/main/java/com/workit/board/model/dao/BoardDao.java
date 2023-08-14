@@ -5,12 +5,15 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.workit.board.model.dto.Board;
+import com.workit.board.model.dto.BoardComment;
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
 import com.workit.chatroom.model.dto.AttachedFile;
 
 public interface BoardDao {
 
+	//	공지사항
 	List<Notice> selectNoticeAll(SqlSessionTemplate session, Map<String, Object> map);
 
 	int selectNoticeCount(SqlSessionTemplate session, Map<String, Object> map);
@@ -41,4 +44,34 @@ public interface BoardDao {
 
 	int updateViewCount(SqlSessionTemplate session, int no);
 
+	//	부서게시판
+	List<Board> selectBoardAll(SqlSessionTemplate session, Map<String, Object> map);
+
+	int selectBoardCount(SqlSessionTemplate session, Map<String, Object> map);
+
+	Board selectBoardByNo(SqlSessionTemplate session, int no);
+
+	int insertBoardComment(SqlSessionTemplate session, Map<String, Object> map);
+
+	List<BoardComment> selectBoardCommentList(SqlSessionTemplate session, int no);
+
+	int deleteBoardComment(SqlSessionTemplate session, int commentNo);
+
+	int updateBoardComment(SqlSessionTemplate session, Map<String, Object> map);
+
+	int insertBoard(SqlSessionTemplate session, Map<String, Object> map);
+
+	int updateBoard(SqlSessionTemplate session, Map<String, Object> map);
+
+	int deleteBoard(SqlSessionTemplate session, int commentNo);
+
+//	int insertAttachedFile(SqlSessionTemplate session, Map<String, Object> fileMap);
+
+	int insertBoardFile(SqlSessionTemplate session);
+
+//	List<AttachedFile> selectFileListByNo(SqlSessionTemplate session, int no);
+
+//	AttachedFile selectFileById(SqlSessionTemplate session, int fileId);
+
+//	int updateViewCount(SqlSessionTemplate session, int no);
 }

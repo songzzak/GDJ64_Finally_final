@@ -7,6 +7,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.workit.board.model.dto.Board;
+import com.workit.board.model.dto.BoardComment;
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
 import com.workit.chatroom.model.dto.AttachedFile;
@@ -14,7 +16,7 @@ import com.workit.chatroom.model.dto.AttachedFile;
 @Repository
 public class BoardDaoImpl implements BoardDao {
 
-
+	//	공지사항
 	@Override
 	public List<Notice> selectNoticeAll(SqlSessionTemplate session, Map<String, Object> map) {
 		int cPage=(int)map.get("cPage");
@@ -91,6 +93,65 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int updateViewCount(SqlSessionTemplate session, int no) {
 		return session.update("board.updateViewCount",no);
+	}
+
+	//	부서 게시판
+	@Override
+	public List<Board> selectBoardAll(SqlSessionTemplate session, Map<String, Object> map) {
+		int cPage=(int)map.get("cPage");
+		int numPerpage=(int)map.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return session.selectList("board.selectBoardAll",map,rb);
+	}
+
+	@Override
+	public int selectBoardCount(SqlSessionTemplate session, Map<String, Object> map) {
+		return session.selectOne("board.selectBoardCount",map);
+	}
+
+	@Override
+	public Board selectBoardByNo(SqlSessionTemplate session, int no) {
+		return	session.selectOne("board.selectBoardByNo",no);
+	}
+
+	@Override
+	public int insertBoardComment(SqlSessionTemplate session, Map<String, Object> map) {
+		return session.insert("board.insertBoardComment",map);
+	}
+
+	@Override
+	public List<BoardComment> selectBoardCommentList(SqlSessionTemplate session, int no) {
+		return session.selectList("board.selectBoardCommentList",no);
+	}
+
+	@Override
+	public int deleteBoardComment(SqlSessionTemplate session, int commentNo) {
+		return session.delete("board.deleteBoardComment",commentNo);
+	}
+
+	@Override
+	public int updateBoardComment(SqlSessionTemplate session, Map<String, Object> map) {
+		return session.update("board.updateBoardComment",map);
+	}
+
+	@Override
+	public int insertBoard(SqlSessionTemplate session, Map<String, Object> map) {
+		return session.insert("session.insertBoard",map);
+	}
+
+	@Override
+	public int updateBoard(SqlSessionTemplate session, Map<String, Object> map) {
+		return session.update("board.updateBoard",map);
+	}
+
+	@Override
+	public int deleteBoard(SqlSessionTemplate session, int commentNo) {
+		return session.delete("board.deleteBoard",commentNo);
+	}
+
+	@Override
+	public int insertBoardFile(SqlSessionTemplate session) {
+		return session.insert("board.insertBoardFile");
 	}
 
 }

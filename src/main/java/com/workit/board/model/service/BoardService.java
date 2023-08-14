@@ -3,6 +3,8 @@ package com.workit.board.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.workit.board.model.dto.Board;
+import com.workit.board.model.dto.BoardComment;
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
 import com.workit.chatroom.model.dto.AttachedFile;
@@ -32,5 +34,23 @@ public interface BoardService {
 	AttachedFile selectFileById(int fileId);
 	//조회수 증가
 	int updateViewCount(int no);
+
+	//게시판 목록
+	List<Board> selectBoardAll(Map<String, Object> params);
+	int selectBoardCount(Map<String, Object> params);
+	//게시판 화면 출력
+	Board selectBoardByNo(int no);
+	List<BoardComment> selectBoardCommentList(int no);
+	
+	//게시판 댓글
+	int insertBoardComment(Map<String, Object> map);
+	int deleteBoardComment(int commentNo);
+	int updateBoardComment(Map<String, Object> map);
+	//게시판 등록
+	int insertBoard(Map<String, Object> map);
+	int updateBoard(Map<String, Object> map);
+	int deleteBoard(int commentNo);
+	//첨부파일 등록
+	int insertBoardFile();
 
 }

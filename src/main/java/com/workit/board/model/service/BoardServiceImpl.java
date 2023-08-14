@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.workit.board.model.dao.BoardDao;
+import com.workit.board.model.dto.Board;
+import com.workit.board.model.dto.BoardComment;
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
 import com.workit.chatroom.model.dto.AttachedFile;
@@ -23,6 +25,7 @@ public class BoardServiceImpl implements BoardService {
 		this.session = session;
 	}
 
+	//	공지사항
 	@Override
 	public List<Notice> selectNoticeAll(Map<String, Object> map) {
 		return dao.selectNoticeAll(session,map);
@@ -96,6 +99,62 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int updateViewCount(int no) {
 		return dao.updateViewCount(session,no);
+	}
+
+	//	부서게시판
+	@Override
+	public List<Board> selectBoardAll(Map<String, Object> params) {
+		return dao.selectBoardAll(session, params);
+	}
+
+	@Override
+	public int selectBoardCount(Map<String, Object> params) {
+		return dao.selectBoardCount(session, params);
+	}
+
+	@Override
+	public Board selectBoardByNo(int no) {
+		return dao.selectBoardByNo(session, no);
+	}
+
+	@Override
+	public List<BoardComment> selectBoardCommentList(int no) {
+		return dao.selectBoardCommentList(session, no);
+	}
+
+	@Override
+	public int insertBoardComment(Map<String, Object> map) {
+		return dao.insertBoardComment(session, map);
+	}
+
+	@Override
+	public int deleteBoardComment(int commentNo) {
+		return dao.deleteBoardComment(session, commentNo);
+	}
+
+	@Override
+	public int updateBoardComment(Map<String, Object> map) {
+		return dao.updateBoardComment(session, map);
+	}
+
+	@Override
+	public int insertBoard(Map<String, Object> map) {
+		return dao.insertBoard(session, map);
+	}
+
+	@Override
+	public int updateBoard(Map<String, Object> map) {
+		return dao.updateBoard(session, map);
+	}
+
+	@Override
+	public int deleteBoard(int commentNo) {
+		return dao.deleteBoard(session, commentNo);
+	}
+
+	@Override
+	public int insertBoardFile() {
+		return dao.insertBoardFile(session);
 	}
 
 
