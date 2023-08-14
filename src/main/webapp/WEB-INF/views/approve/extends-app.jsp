@@ -5,6 +5,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <c:set var="approveNo" value="${approveNo}"/>
 <c:set var="approveState" value="${approveState}"/>
+<c:set var="fileName" value="${fileName}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -71,7 +72,8 @@
 			<div id="one-width">
 				<div id="appAttachment" class="question">첨부파일</div>
 				<div id="appAttachment-answer" class="answer">
-					<input type="file" id="appAttachment-input" name="upFile" value="dddd">
+					<input type="file" id="appAttachment-input" name="upFile" style="display:none;">
+					<button type="button" id="fileClickId" onclick="fileClick();">파일을 선택하세요</button>
 				</div>
 			</div>
 			
@@ -107,7 +109,14 @@
 
 		console.log(approveLines);
 		console.log(referLines);
-
+		
+		if("${fileName}"==""){
+			$("#fileClickId").text("파일을 선택하세요"); 
+		}else{
+			$("#fileClickId").text("${fileName}"); 
+		}
+		
+		
 /* 		approvLines.forEach(e=>{
 			
 		}); */
@@ -136,6 +145,14 @@
 		}
 		
 		
+	});
+	
+	const fileClick=()=>{
+		$("#appAttachment-input").click();
+	}
+	
+	$("#appAttachment-input").change(function(e){
+	     $("#fileClickId").text($('input[type=file]')[0].files[0].name); 
 	});
 	
 	const remove=()=>{  // 임시저장된 기안서 삭제할때

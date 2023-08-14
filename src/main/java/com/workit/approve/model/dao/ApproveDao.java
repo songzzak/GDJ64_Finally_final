@@ -40,4 +40,7 @@ public interface ApproveDao {
 	public int selectTotalLineCnt(SqlSession session, Map<String,Object> param);
 	public int selectCompleteLineCnt(SqlSession session, Map<String,Object> param);
 	public int plusCurrentOrder(SqlSession session, Map<String,Object> param);
+	public int updateProcessState(SqlSession session,Map<String,Object> param);
+	public int updateCompleteState(SqlSession session,Map<String,Object> param);
+	public int rejectMessage(SqlSession session,Map<String,Object> param);
 }

@@ -154,6 +154,22 @@ public class ApproveServiceImpl implements ApproveService {
 	public int plusCurrentOrder(Map<String, Object> param) {
 		return dao.plusCurrentOrder(session,param);
 	}
+
+	@Override
+	public int updateProcessState(Map<String, Object> param) {
+		return dao.updateProcessState(session,param);
+	}
+
+	@Override
+	public int updateCompleteState(Map<String, Object> param) {
+		return dao.updateCompleteState(session,param);
+	}
+
+	@Override
+	public int rejectMessage(Map<String, Object> param) {
+		return dao.rejectMessage(session,param);
+	}
+	
 	
 	
 	

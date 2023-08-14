@@ -99,27 +99,16 @@
 					</div>
 				</div>
 
-			<c:choose>
-				<c:when test="${saveExtends[0].approveState eq '임시저장'}">
-					<div id="one-width">
-						<button type="button" onclick="remove();" id="remove">삭제하기</button>
-						<button type="button" onclick="reSaves();" id="save">임시저장</button>
-						<button type="button" onclick="signs();" id="sign">결재상신</button>
-`					</div>
-				</c:when>
-				<c:otherwise>
-					<div id="one-width">
+				<div id="one-width">
 						<button type="button" onclick="backs();" id="back">돌아가기</button>
-						<button type="button" onclick="saves();" id="save">임시저장</button>
-						<button type="button" onclick="signs();" id="sign">결재상신</button>
-					</div>
-				</c:otherwise>
-			</c:choose>
+						<button type="button" onclick="rejectApp();" id="reject">결재반려</button>
+						<button type="button" onclick="assign();" id="approveAssign">결재승인</button>
+				</div>
 
 			</div>
 		</div>
+<jsp:include page="/WEB-INF/views/approve/reject-view.jsp"/>
 
-<jsp:include page="/WEB-INF/views/approve/approval-ref.jsp" />
 </form> 
 </html>
 
@@ -195,167 +184,47 @@
 		const referLines=JSON.parse('${referLines}'); 
 		
 		for(let i=0; i<approveLines.length; i++){
-			const span = $("<span>");
-			span.attr("class", "appClass");
-			$("#regist-app").append(span);
-			span.append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
-			span.append(approveLines[i].memberId.memberId + " " + approveLines[i].memberId.memberName + " " + approveLines[i].memberId.job.jobName + " " + approveLines[i].memberId.dept.deptName, '<br>');
-			span.append($("<input/>", { type: 'hidden', name: 'paraApp', value: approveLines[i].memberId.memberId }));
 			const di = $("<div>").css("border", "1px solid black").height("98px").width("120px");
 			$("#app-line").append(di);
 			di.append($("<div>").css("border-bottom", "1px solid black").height("30px").width("120px").text(approveLines[i].memberId.memberName + " " + approveLines[i].memberId.job.jobName).css("text-align","center"));
-			di.append($("<div>").height("40px").width("120px"));
-			di.append($("<div>").css("border-top", "1px solid black").height("28px").width("120px").text(i+1).css("text-align","center"));
+			const stateCheck = $("<div>").height("40px").width("120px");
+			di.append(stateCheck);
+			if(approveLines[i].approveStatus == "완료"){
+				stateCheck.html("<img src='${path}/resources/images/approve/stamp.png' width='40px' height='40px'/>").css("text-align","center");
+			}
+			di.append($("<div>").css("border-top", "1px solid black").height("28px").width("120px").text(i+1).css("align-items","center"));
 		}
-		
-		for(let i=0; i<referLines.length; i++){
-			const span = $("<span>");
-			span.attr("class", "appId");
-			$("#regist-reference").append(span);
-			span.append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
-			span.append(referLines[i].memberId.memberId + " " + referLines[i].memberId.memberName + " " + referLines[i].memberId.job.jobName + " " + referLines[i].memberId.dept.deptName, '<br>');
-			span.append($("<input/>", { type: 'hidden', name: 'paraRefer', value: referLines[i].memberId.memberId })); // 파라미터로넘길 참조선값들		
-		} 	
 	});
 
 	
-	const remove=()=>{  // 임시저장된 기안서 삭제할때
-		location.assign("${path}/approve/removeSave.do?deleteApproveNo=${approveNo}&mId=${loginMember.memberId}"); 
-	}
-	
-	const reSaves=()=>{ // 임시저장된 기안서 다시 임시저장할 때
-		const kind = $("input:radio[name='geuntae']:checked").val();
-				
- 		if($("input[name='startDate']").length == 0){
-			alert("시간을선택해주세요");
-			return false;
-		} 
-		
-		if(kind == "반차" || kind == "외출"){
-			if(document.getElementById("hStartDate").value == "" || document.getElementById("hStartTime").value == "" ||
-					document.getElementById("hEndTime").value == ""){
-				
-/* 				if(document.getElementById("hStartDate").value == "" && document.getElementById("hStartTime").value == "" 
-					&& document.getElementById("hEndTime").value == ""){
-				}else{
-					alert("시간입력");
-					return false;				
-				}	 */	
-				alert("시간입력");
-				return false;	
-			}
-		}else{  // 연차, 보건, 경조 경우
-			if(document.getElementById("gStartDate").value == "" || document.getElementById("gEndDate").value == ""){
-/* 				if(document.getElementById("gStartDate").value == "" && document.getElementById("gEndDate").value == ""){
-				}else{
-					alert("시간입력");
-					return false;				
-				}	 */	
-				alert("시간입력");
-				return false;	
-			}
-		}
-	
- 		$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}&approveKind="+kind); 
-		$("#appForm").submit(); 
-	}
-	
-	const fileClick=()=>{
-		$("#appAttachment-input").click();
-	}
-	
-	$("#appAttachment-input").change(function(e){
-	     $("#fileClickId").text($('input[type=file]')[0].files[0].name); 
-	});
 	
 	const backs=()=>{
 		location.assign("${path}/");
 	}
 	
-	const saves=()=>{
-		const kind = $("input:radio[name='geuntae']:checked").val();
-		
- 		if($("input[name='startDate']").length == 0){
-			alert("시간을선택해주세요");
-			return false;
-		} 
-		
-		if(kind == "반차" || kind == "외출"){
-			if(document.getElementById("hStartDate").value == "" || document.getElementById("hStartTime").value == "" ||
-					document.getElementById("hEndTime").value == ""){
-				
-/* 				if(document.getElementById("hStartDate").value == "" && document.getElementById("hStartTime").value == "" 
-					&& document.getElementById("hEndTime").value == ""){
-				}else{
-					alert("시간입력");
-					return false;				
-				}	 */	
-				alert("시간입력");
-				return false;	
-			}
-		}else{  // 연차, 보건, 경조 경우
-			if(document.getElementById("gStartDate").value == "" || document.getElementById("gEndDate").value == ""){
-/* 				if(document.getElementById("gStartDate").value == "" && document.getElementById("gEndDate").value == ""){
-				}else{
-					alert("시간입력");
-					return false;				
-				}	 */	
-				alert("시간입력");
-				return false;	
-			}
+	const rejectApp=()=>{
+		$("#rejectContentInput").val("");
+ 		document.querySelector(".reject").classList.remove("hidden-reject");
+ 
+		const appclose = () => { // 모달창 사람지는 함수
+		 	document.querySelector(".reject").classList.add("hidden-reject");
 		}
 		
- 		$("#appForm").attr("action","${path}/approve/saveAttendance.do"); 
-		$("#appForm").submit(); 		
+		const rejectWrite=()=>{
+			appclose();
+			const message = $("#rejectContentInput").val();
+			location.assign("${path}/approve/rejectMessage.do?approveNo=${approveNo}&mId=${loginMember.memberId}&message="+message);		
+		}
+		
+		document.querySelector("#reject-close-button").addEventListener("click", appclose); // 모달창에서 닫기버튼 눌렀을 때 appclose함수 호출
+		document.querySelector(".bg-reject").addEventListener("click", appclose);  // 모달창에서 바깥배경 눌렀을 때 appclose함수 호출
+		document.querySelector("#reject-write-button").addEventListener("click", rejectWrite);  // 모달창에서 반려버튼 눌렀을 때 rejectWrite함수 호출
+	} 
+	
+	const assign=()=>{
+		location.assign("${path}/approve/approveAssign.do?approveNo=${approveNo}&mId=${loginMember.memberId}");
 	}
 	
-	const signs=()=>{
-
-		if($(".appClass").length < 1){
-			alert("결재선에 최소 한명이상 선택하세요");
-			return false;
-		}
-		
-		if($(".appId").length < 1){
-			alert("참조선에 최소 한명이상 선택하세요");
-			return false;
-		}
-				
-		if( $("input:radio[name='geuntae']:checked").length == 0){
-			alert("종류를 선택하세요");
-			return false;
-		}
-				
-				
-		if(document.getElementById("title-input").value == "" || document.getElementById("content-textarea").value == ""){
-			alert("제목 내용 입력");
-			return false;
-		}
-		
-		const kind = $("input:radio[name='geuntae']:checked").val();
-		
-		if(kind == "반차" || kind == "외출"){
-			if(document.getElementById("hStartDate").value == "" || document.getElementById("hStartTime").value == "" ||
-					document.getElementById("hEndTime").value == ""){
-				alert("시간입력");
-				return false;
-			}
-		}else{  // 연차, 보건, 경조 경우
-			if(document.getElementById("gStartDate").value == "" || document.getElementById("gEndDate").value == ""){
-				alert("시간입력");
-				return false;
-			}
-		}
-
-		if("${approveState}" == "임시저장"){
- 			$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}&approveState=${approveState}&approveKind="+kind); 
-			$("#appForm").submit();		
-		}else{
-
-			$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
-			$("#appForm").submit();	
-		}
-		
-	}
+	
 	
 </script>

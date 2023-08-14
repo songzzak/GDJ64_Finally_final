@@ -39,4 +39,7 @@ public interface ApproveService {
 	public int selectTotalLineCnt(Map<String,Object> param);
 	public int selectCompleteLineCnt(Map<String,Object> param);
 	public int plusCurrentOrder(Map<String,Object> param);
+	public int updateProcessState(Map<String,Object> param);
+	public int updateCompleteState(Map<String,Object> param);
+	public int rejectMessage(Map<String,Object> param);
 }

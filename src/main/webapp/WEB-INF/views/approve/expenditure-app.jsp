@@ -5,6 +5,8 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <c:set var="approveNo" value="${approveNo}"/>
 <c:set var="approveState" value="${approveState}"/>
+<c:set var="approveKind" value="${approveKind}"/>
+<c:set var="fileName" value="${fileName}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -86,7 +88,8 @@
 				<div id="one-width">
 					<div id="appAttachment" class="question">첨부파일</div>
 					<div id="appAttachment-answer" class="answer">
-						<input type="file" id="appAttachment-input" name="upFile">
+						<input type="file" id="appAttachment-input" name="upFile" style="display:none;">
+						<button type="button" id="fileClickId" onclick="fileClick();">파일을 선택하세요</button>
 					</div>
 				</div>
 
@@ -129,6 +132,12 @@
 			$("#price"+i).val(expenditures[i].price);
 		}
 
+		if("${fileName}"==""){
+			$("#fileClickId").text("파일을 선택하세요"); 
+		}else{
+			$("#fileClickId").text("${fileName}"); 
+		}
+		
 		for(let i=0; i<approveLines.length; i++){
 			const span = $("<span>");
 			span.attr("class", "appClass");
@@ -168,7 +177,14 @@
 	    $("#appForm").submit();
 	}
 
-
+	const fileClick=()=>{
+		$("#appAttachment-input").click();
+	}
+	
+	$("#appAttachment-input").change(function(e){
+	     $("#fileClickId").text($('input[type=file]')[0].files[0].name); 
+	});
+	
 	const saves = () => {
 	    // 아래의 3개의 배열들역할 -> 각 칸들의 값들의 index 값을 넣어서, 해당 칸들의 개수가 일치해야 하는 조건을 추가할 수 있고
 	    // 칸들의 개수는 일치하지만, 각 칸들의 위치가 다를 수 있으므로, 배열의 인덱스번호를 추가함

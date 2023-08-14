@@ -146,7 +146,22 @@ public class ApproveDaoImpl implements ApproveDao {
 
 	@Override
 	public int plusCurrentOrder(SqlSession session, Map<String, Object> param) {
-		return session.selectOne("approve.plusCurrentOrder",param);
+		return session.update("approve.plusCurrentOrder",param);
+	}
+
+	@Override
+	public int updateProcessState(SqlSession session, Map<String,Object> param) {
+		return session.update("approve.updateProcessState",param);
+	}
+
+	@Override
+	public int updateCompleteState(SqlSession session,Map<String,Object> param) {
+		return session.update("approve.updateCompleteState",param);
+	}
+
+	@Override
+	public int rejectMessage(SqlSession session, Map<String, Object> param) {
+		return session.update("approve.rejectMessage",param);
 	}
 	
 	

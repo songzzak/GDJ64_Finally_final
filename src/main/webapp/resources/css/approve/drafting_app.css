@@ -729,3 +729,17 @@ select {
 #people-box {
 	font-size: 15px;
 }
+
+
+#approveAssign{
+	margin-left: 30px;
+}
+
+#fileClickId{
+	border: 1px solid  #D9D9D9;
+	background-color: white;
+}
+
+#fileClickId:hover{
+	color:  #D9D9D9;
+}
