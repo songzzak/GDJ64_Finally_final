@@ -14,6 +14,9 @@ public interface MeetService {
 	List<Meet> getMeetingsByRoomIdAndDate(Map<String, Object> paramMap);
 	//회의실 예약추가
 	int insertMeet(Map<String, Object> paramMap);
-
+	//사원별 예약내역
+	List<Meet> selectMeetByMember(String memberId);
+	//예약내역 삭제
+	int deleteMeetById(int meetId);
 
 }

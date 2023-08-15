@@ -26,6 +26,16 @@ public class MeetDaoImpl implements MeetDao {
 		return session.insert("meet.insertMeet",paramMap);
 	}
 
+	@Override
+	public List<Meet> selectMeetByMember(SqlSessionTemplate session, String memberId) {
+		return session.selectList("meet.selectMeetByMember",memberId);
+	}
+
+	@Override
+	public int deleteMeetById(SqlSessionTemplate session, int meetId) {
+		return session.delete("meet.deleteMeetById",meetId);
+	}
+
 
 
 }

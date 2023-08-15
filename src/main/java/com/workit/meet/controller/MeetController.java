@@ -3,6 +3,9 @@ package com.workit.meet.controller;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +17,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.workit.meet.model.dto.Meet;
 import com.workit.meet.model.service.MeetService;
 import com.workit.member.model.vo.MemberVO;
-
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Controller
 @RequestMapping("/meet")
@@ -74,7 +76,7 @@ public class MeetController {
             event.put("description", description);
             event.put("start", sdf.format(meet.getStartTime()).replace(" ", "T"));
             event.put("end", sdf.format(meet.getEndTime()).replace(" ", "T"));
-            event.put("borderColor", currentDate.after(meet.getEndTime()) ? "red" : "green");
+            event.put("borderColor", currentDate.after(meet.getEndTime()) ? "#de1951" : "#1E590F");
             
             jsonObj = new JSONObject(event);
             jsonArr.add(jsonObj);
@@ -147,7 +149,36 @@ public class MeetController {
 
 
 	@GetMapping("/myMeetList")
-	public String selectMeetById() {
+	public String selectMeetById(Model model, HttpSession session) {
+		String memberId = ((MemberVO) session.getAttribute("loginMember")).getMemberId();
+		model.addAttribute("meets", service.selectMeetByMember(memberId));
+		LocalDateTime ldt = LocalDateTime.now();
+		Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+		Date date = Date.from(instant);
+
+		model.addAttribute("now", date);
+
+		System.out.println(service.selectMeetByMember(memberId));
 		return "meet/myMeetList";
 	}
+	
+	@PostMapping("/deleteMeet")
+	@ResponseBody
+	public Map<String, Boolean> deleteMeet(@RequestParam("id") int meetId) {
+	    Map<String, Boolean> result = new HashMap<>();
+	    try {
+	        int deletedCount = service.deleteMeetById(meetId);
+	        
+	        if (deletedCount > 0) {
+	            result.put("success", true);
+	        } else {
+	            result.put("success", false);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.put("success", false);
+	    }
+	    return result;
+	}
+
 }

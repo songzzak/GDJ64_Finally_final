@@ -40,8 +40,8 @@
           	</select>
           	<div>
           		<div class="row" style="align-items: center;">
-          			<div style="background-color: red;width: 10px;height: 10px;border-radius: 50px;"></div><div>회의 종료</div>
-          			<div style="background-color: green;width: 10px;height: 10px;border-radius: 50px;margin-left: 10px;"></div><div>회의 예정</div>
+          			<div style="background-color: #de1951;width: 10px;height: 10px;border-radius: 50px;"></div><div>회의 종료</div>
+          			<div style="background-color: #1E590F;width: 10px;height: 10px;border-radius: 50px;margin-left: 10px;"></div><div>회의 예정</div>
           		</div>
           	</div>
 	        <div id='calendar'>
