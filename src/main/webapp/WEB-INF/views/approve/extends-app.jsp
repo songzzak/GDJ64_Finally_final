@@ -3,7 +3,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
-
+<c:set var="approveNo" value="${approveNo}"/>
+<c:set var="approveState" value="${approveState}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -35,6 +36,8 @@
 			
 			<input type="hidden" name="memberId" value="${loginMember.memberId}">
 			<input type="hidden" name="approveKind" value="연장근무신청서">
+
+			
 			
 			<div id="one-width">
 				<div id="extendWorkWriteDate" class="question">작성일</div>
@@ -45,8 +48,6 @@
 				<div id="extendWork" class="question">근무일시</div>
 				<div id="extendWork-answer" class="answer">
 					<input type="date" id="extendWorkDate-input" name="startDate" value="${date}">
-					<%-- value="${saveExtends[0].time.startTime.toLocalDateTime().getYear()}${'-0'}${saveExtends[0].time.startTime.toLocalDateTime().getMonthValue()}${'-'}${saveExtends[0].time.startTime.toLocalDateTime().getDayOfMonth()} --%>
-					
 					<input type="time" id="extendWorkTime1-input" name="startTime" value="${stime}">
 					<span id="betweenTime">~</span>
 					<input type="time" id="extendWorkTime2-input" name="endTime" value="${etime}">
@@ -70,7 +71,7 @@
 			<div id="one-width">
 				<div id="appAttachment" class="question">첨부파일</div>
 				<div id="appAttachment-answer" class="answer">
-					<input type="file" id="appAttachment-input" name="upFile" value="${saveExtends[0].approveAttach.oriName}">
+					<input type="file" id="appAttachment-input" name="upFile" value="dddd">
 				</div>
 			</div>
 			
@@ -78,9 +79,9 @@
 				<c:when test="${saveExtends[0].approveState eq '임시저장'}">
 					<div id="one-width">
 						<button type="button" onclick="remove();" id="remove">삭제하기</button>
-						<button type="button" onclick="saves();" id="save">임시저장</button>
+						<button type="button" onclick="reSaves();" id="save">임시저장</button>
 						<button type="button" onclick="signs();" id="sign">결재상신</button>
-					</div>
+`					</div>
 				</c:when>
 				<c:otherwise>
 					<div id="one-width">
@@ -91,10 +92,6 @@
 				</c:otherwise>
 			</c:choose>
 			
-
-
-
-
 		</div>
 	</div> 
 	
@@ -104,6 +101,53 @@
 </html>	
 
 <script>
+	$(function() {	
+		const approveLines=JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
+		const referLines=JSON.parse('${referLines}'); 
+
+		console.log(approveLines);
+		console.log(referLines);
+
+/* 		approvLines.forEach(e=>{
+			
+		}); */
+		
+		for(let i=0; i<approveLines.length; i++){
+			const span = $("<span>");
+			span.attr("class", "appClass");
+			$("#regist-app").append(span);
+			span.append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
+			span.append(approveLines[i].memberId.memberId + " " + approveLines[i].memberId.memberName + " " + approveLines[i].memberId.job.jobName + " " + approveLines[i].memberId.dept.deptName, '<br>');
+			span.append($("<input/>", { type: 'hidden', name: 'paraApp', value: approveLines[i].memberId.memberId }));
+			const di = $("<div>").css("border", "1px solid black").height("98px").width("120px");
+			$("#app-line").append(di);
+			di.append($("<div>").css("border-bottom", "1px solid black").height("30px").width("120px").text(approveLines[i].memberId.memberName + " " + approveLines[i].memberId.job.jobName).css("text-align","center"));
+			di.append($("<div>").height("40px").width("120px"));
+			di.append($("<div>").css("border-top", "1px solid black").height("28px").width("120px").text(i+1).css("text-align","center"));
+		}
+		
+		for(let i=0; i<referLines.length; i++){
+			const span = $("<span>");
+			span.attr("class", "appId");
+			$("#regist-reference").append(span);
+			span.append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
+			span.append(referLines[i].memberId.memberId + " " + referLines[i].memberId.memberName + " " + referLines[i].memberId.job.jobName + " " + referLines[i].memberId.dept.deptName, '<br>');
+			span.append($("<input/>", { type: 'hidden', name: 'paraRefer', value: referLines[i].memberId.memberId })); // 파라미터로넘길 참조선값들		
+		}
+		
+		
+	});
+	
+	const remove=()=>{  // 임시저장된 기안서 삭제할때
+		location.assign("${path}/approve/removeSave.do?deleteApproveNo=${approveNo}&mId=${loginMember.memberId}"); 
+	}
+	
+	const reSaves=()=>{ // 임시저장된 기안서 다시 임시저장할 때
+ 		$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}"); 
+		$("#appForm").submit(); 
+	}
+	
+
 	const backs=()=>{
 		location.assign("${path}/");
 	}
@@ -128,6 +172,8 @@
 	
 	const signs=()=>{
 
+
+			
 		if($(".appClass").length < 1){
 			alert("결재선에 최소 한명이상 선택하세요");
 			return false;
@@ -149,8 +195,14 @@
 			return false;
 		}
 		
- 		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
-		$("#appForm").submit(); 
+		if("${approveState}" == "임시저장"){
+	 		$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}&approveState=${approveState}"); 
+			$("#appForm").submit();			
+		}else{
+	 		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
+			$("#appForm").submit(); 			
+		}
+		
 	}
 </script>
 

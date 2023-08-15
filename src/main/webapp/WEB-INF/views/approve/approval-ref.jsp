@@ -4,8 +4,10 @@
 	pageEncoding="UTF-8"%>	
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
-<%-- <c:set var="path" value="${pageContext.request.contextPath }"/>
-<script src="${path}/resources/js/jquery-3.7.0.min.js"></script> --%>
+<script>
+const memberId = "${loginMember.memberId}"; // 본인아이디에서는 결재선과 참조선에 이름이 나오지 않기위해 전역변수로 설정
+</script>
+
 		<div class="approve-section1 section-shadow">
 		<button type="button" onclick="openBtn();" id="regist-appline">결재선 설정</button>
 		<!-- class="openBtn" -->
@@ -34,7 +36,7 @@
 	    </div>
 	    
 	    <div id="people-box">
-
+			
 	    	
 	    </div>
 	    
@@ -67,23 +69,11 @@
 	    <div id="line-refer-box">
 	    		<div id="line-box">
 	    			<p id="line-box-text">결재선</p>
-	    			<c:if test="${not empty saveExtends[0].approveLine}">
-						<c:forEach var="app" items="${saveExtends[0].approveLine}">
-							<div class="${app.memberId}">
-								<input type="checkbox" name="appBox" value="${app.memberId}">
-								<img src="/resources/images/approve/circle_people.png" style="width: 20px; height: 20px;">
-								${app.memberId}
-								<br>
-							</div>
-	    				${app.approveOrder}
-
-	    				</c:forEach> 
-	    			</c:if>
 	    		</div>
 	    		
 	    		<div id="refer-box">
 	    			<p id="refer-box-text">참조선</p>
-	    			
+
 	    		</div>
 	    </div>
 	</div>

@@ -55,6 +55,13 @@ h5 {
 	width: 70%;
 	margin-top: 0;
 }
+.chat-msgBox-container {
+	width:100%;
+	max-height: 700px;
+	overflow-y: scroll;
+    overflow-x: hidden;
+    padding-bottom: 1%;
+}
 .chat-inner{
 	position: relative;
 }
@@ -71,11 +78,11 @@ h5 {
 .chat-room * {
 	margin: 0.2rem 0;
 }
-.chat-room *:nth-child(odd){
-	width: 80%;
+.chat-room .chat-content{
+	width: 100%;
 }
-.chat-room *:nth-child(4){
-	width: 20%;
+.chat-room .chat-date{
+	width: 100%;
 	text-align: right;
 	font-size: var(--font-small);
 }
@@ -139,7 +146,9 @@ h5 {
 .chat-send>.chat-msgbx {
 	background-color: var(--msg-color-blue);
 }
-
+.chat-input-container {
+	margin: 1rem 3rem;
+}
 .chat-msgform {
 	position: absolute;
 	bottom: 2rem;
@@ -181,17 +190,9 @@ h5 {
 	text-align:center;
 	font-size: var(--font-small);
 }
-/* 채팅 모달창 닫기 버튼 */
-.modal-close {
-	text-align: right;
-	padding: 5%;
-}
 .modal-content h4 {
 	padding: 5%;
 }
-.modal-content>h4:first-child{
-	border-bottom: var(--border-bottom);
- }
 
 /* 검색 모달창 */
 .modal-searchContainer {
@@ -258,6 +259,94 @@ h5 {
 	display: block;
 }
 
+.chat-room-nothing{
+	text-align: center;
+	margin: 30% 0;
+}
+.chat-room-nothing img{
+	margin-bottom: 2%;
+}
+.chatHidden {
+	display: none;
+}
+/*.chat-DeptContainer {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
 
+.chat-DeptContainer label{
+	align-items: center;
+}
+.chat-DeptContainer input[type=checkbox]{
+	width: 1rem;
+	display: inline;
+}*/
 
+.scroll::-webkit-scrollbar {
+  display: none;
+}
 
+.scroll {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+.modal-new-chat-title {
+	margin-bottom: 5%;
+}
+.dept-list-container {
+	width: 100%;
+	display: flex;
+	
+}
+.dept-title {
+	width: 30%;
+}
+.dept-list-container label{
+	display: block;
+}
+.chat-DeptContainer input[type=checkbox]{
+	width: 1rem;
+	display: inline;
+}
+.modal-memberList {
+	margin-left : 5%;
+	align-items: center;
+	text-align: center;
+}
+.title-container{
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+}
+span.chat-member {
+	font-size: 0.7rem;
+}
+
+.title-container .title {
+	margin-bottom: 0;
+}
+
+.modal-addChatMember {
+	position: fixed;
+	z-index: 100000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: none;
+	text-align:center;
+}
+
+.modal-content{
+	background-color: #FFFFFF;
+	margin: 15% auto;
+	width: 50%;
+	text-align:center;
+	padding: 2rem;
+	height: 500px;
+	overflow-y: scroll;
+}
