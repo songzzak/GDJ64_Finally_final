@@ -20,4 +20,5 @@ public class ApproveLine {
 	private String approveStatus;
 	private Date approveDate;
 	private Member memberId;
+	private int currentOrder;
 }

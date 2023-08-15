@@ -23,13 +23,13 @@
             </tr>
             <c:if test="${not empty saveApps}">
             	<c:forEach var="sa" items="${saveApps}">
-	            		<tr id="tr">
+	            		<tr id="tr" onclick="location.href='${path}/approve/detailSave.do?approveNo=${sa.approveNo}&approveKind=${sa.approveKind}&approveState=${sa.approveState}';">
 		            			<td colspan="6">${sa.approveNo }</td>
 		            			<td colspan="6">${sa.approveKind }</td>
 		            			<td colspan="6">${sa.approveTitle }</td>
 		            			<td colspan="6">${sa.memberId.memberName}</td>
 		            			<td colspan="6">${sa.currentDate }</td>
-		            			<td colspan="6"><button id="saveColor" onclick="location.href='${path}/approve/detailSave.do?approveNo=${sa.approveNo}&approveKind=${sa.approveKind}&approveState=${sa.approveState}';">
+		            			<td colspan="6"><button id="saveColor">
 		            			${sa.approveState}</button></td>
 	            		</tr>
 	            		
@@ -53,7 +53,7 @@
 	#saveDocument{
 		background-color:white;
 		border: 1px solid #D9D9D9;
-		width:1575px;
+		width:1720px;
 		height:900px;
 		margin-left: 50px;
 	}
@@ -62,7 +62,7 @@
 		border: 1px solid #D9D9D9;
 		margin-top : 20px;
 		margin-left : 50px;
-		width:1600px;
+		width:1650px;
 		height:770px;
 	}
 	
@@ -73,6 +73,10 @@
 		padding-right:100px;
 		padding-bottom:20px;
 		border-bottom: 1px solid #ddd;
+	}
+	
+	#tr:hover{
+		background-color:  #BDDFFF;
 	}
 		
 	#tr>td{

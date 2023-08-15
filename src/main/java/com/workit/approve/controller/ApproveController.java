@@ -94,16 +94,234 @@ public class ApproveController {
 
 	@RequestMapping("/waitingApprove.do") // 결재대기문서로 이동
 	public String selectWaitingApprove(Model m, @RequestParam(value = "mId") String mId) {
-		List<Approve> apps = service.selectAllWaitingApprove(mId);
-		for (Approve app : apps) {
-			System.out.println(app);
-		}
-		m.addAttribute("apps", apps);
+		Map<String, Object> param = new HashMap<>();
+		param.put("approveState", "결재대기");
+		param.put("mId", mId);
+		List<Approve> waitingApps = service.selectAllWaitingApprove(param);
+		m.addAttribute("waitingApps", waitingApps);
 
-		System.out.println(apps);
 		return "approve/waiting-approve";
 	}
+	
+	@RequestMapping("/detailWaitingApprove.do") // 결재대기함에서 해당 본인대상인 결재문서들 상세보기
+	public String detailWaitingApprove(Model m, String approveNo, String approveKind, String approveState) {
 
+		System.out.println(approveNo);
+		
+		List<Department> deps = eservice.selectDept();
+		Map<String, Object> param = new HashMap<>();
+		param.put("approveNo", approveNo);
+		param.put("approveKind", approveKind);
+		
+		if (approveKind.equals("연장근무신청서")) { // 임시저장 문서의 종류가 연장근무신청서의 경우
+			List<Approve> saveExtends = service.detailSave(param); // 기안서에 대해서 갖고왔으며 (시간,첨부파일,작성자에대한 멤버테이블과 조인(
+			List<ApproveLine> approveLines = service.detailApproveLines(param);
+			List<ReferLine> referLines = service.detailReferLines(param);
+
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String time = now.format(formatter);
+
+			String date = "";
+			String stime = "";
+			String etime = "";
+
+			date += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getYear();// 년
+			date += "-";
+			if (saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMonthValue() < 10) {
+				date += "0";
+			}
+			date += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMonthValue();// 월
+
+			date += "-";
+
+			if (saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getDayOfMonth() < 10) {
+				date += "0";
+			}
+			date += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getDayOfMonth();
+
+			if (saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getHour() < 10) {
+				stime += "0";
+			}
+			stime += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getHour();
+			stime += ":";
+			if (saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMinute() < 10) {
+				stime += "0";
+			}
+			stime += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMinute();
+
+			if (saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getHour() < 10) {
+				etime += "0";
+			}
+			etime += saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getHour();
+			etime += ":";
+			if (saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getMinute() < 10) {
+				etime += "0";
+			}
+			etime += saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getMinute();
+
+			m.addAttribute("deps", deps); // 결재선에서 출력될 부서들
+			m.addAttribute("time", time); // 작성일
+			m.addAttribute("stime", stime); // 시작시간
+			m.addAttribute("etime", etime); // 날짜
+			m.addAttribute("date", date); // 날짜
+			m.addAttribute("saveExtends", saveExtends);
+			m.addAttribute("approveNo", approveNo);
+			m.addAttribute("approveState",approveState);
+			
+//			ObjectMapper mapper=new ObjectMapper();// Jackson에서 제공하는(라이브러리) ObjectMapper  -> config에 빈으로 등록해서 객체 생성 생략가능
+			// 자바에서 해당 객체를 문자열로 저장한후 중간역할담당인 mapper를 통해 자바스크립트에서 객체형태로 저장이됨
+			try {
+				m.addAttribute("approveLines", mapper.writeValueAsString(approveLines));
+				m.addAttribute("referLines", mapper.writeValueAsString(referLines));
+				// m.addAttribute("lines",
+				// mapper.writeValueAsString(Map.of("referenceLine",referLines,"approveLine",approveLines)));
+				// // 한번에 map으로 객체로 저장
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return "approve/waiting-extends-app";
+		}
+		
+		
+		if (approveKind.equals("연차") || approveKind.equals("반차") || approveKind.equals("보건") || approveKind.equals("경조") || approveKind.equals("외출")) { // 임시저장 문서의 종류가 근태신청서의 경우
+			List<Approve> saveExtends = service.detailSave(param); // 기안서에 대해서 갖고왔으며 (시간,첨부파일,작성자에대한 멤버테이블과 조인(
+			List<ApproveLine> approveLines = service.detailApproveLines(param);
+			List<ReferLine> referLines = service.detailReferLines(param);
+
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String time = now.format(formatter);
+
+			String date = "";
+			String stime = "";
+			String etime = "";
+			
+			date += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getYear();// 년
+			date += "-";
+			if (saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMonthValue() < 10) {
+				date += "0";
+			}
+			date += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMonthValue();// 월
+
+			date += "-";
+
+			if (saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getDayOfMonth() < 10) {
+				date += "0";
+			}
+			date += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getDayOfMonth();
+
+			if (saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getHour() < 10) {
+				stime += "0";
+			}
+			stime += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getHour();
+			stime += ":";
+			if (saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMinute() < 10) {
+				stime += "0";
+			}
+			stime += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMinute();
+
+			if (saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getHour() < 10) {
+				etime += "0";
+			}
+			etime += saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getHour();
+			etime += ":";
+			if (saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getMinute() < 10) {
+				etime += "0";
+			}
+			etime += saveExtends.get(0).getTime().getEndTime().toLocalDateTime().getMinute();
+
+			m.addAttribute("deps", deps); // 결재선에서 출력될 부서들
+			m.addAttribute("time", time); // 작성일
+			m.addAttribute("stime", stime); // 시작시간
+			m.addAttribute("etime", etime); // 날짜
+			m.addAttribute("date", date); // 날짜
+			m.addAttribute("saveExtends", saveExtends);
+			m.addAttribute("approveNo", approveNo);
+			m.addAttribute("approveState",approveState);
+			m.addAttribute("approveKind",approveKind);
+			
+			try {
+				m.addAttribute("approveLines", mapper.writeValueAsString(approveLines));
+				m.addAttribute("referLines", mapper.writeValueAsString(referLines));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "approve/waiting-attendance-app";
+		}
+		
+		
+		if (approveKind.equals("지출결의서")) { // 임시저장 문서의 종류가 지출결의서의 경우
+			List<Approve> saveExtends = service.detailSave(param); // 기안서에 대해서 갖고왔으며 (시간,첨부파일,작성자에대한 멤버테이블과 조인(
+			List<ApproveLine> approveLines = service.detailApproveLines(param);
+			List<ReferLine> referLines = service.detailReferLines(param);
+			List<Expenditure> expenditures = service.detailExpenditures(param);
+			
+			
+			System.out.println(expenditures.toString());
+			
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String time = now.format(formatter);
+			
+			m.addAttribute("deps", deps); // 결재선에서 출력될 부서들
+			m.addAttribute("time", time); // 작성일
+			m.addAttribute("saveExtends", saveExtends);
+			m.addAttribute("approveNo", approveNo);
+			m.addAttribute("approveState",approveState);
+			
+//			ObjectMapper mapper=new ObjectMapper();// Jackson에서 제공하는(라이브러리) ObjectMapper  -> config에 빈으로 등록해서 객체 생성 생략가능
+			// 자바에서 해당 객체를 문자열로 저장한후 중간역할담당인 mapper를 통해 자바스크립트에서 객체형태로 저장이됨
+			try {
+				m.addAttribute("approveLines", mapper.writeValueAsString(approveLines));
+				m.addAttribute("referLines", mapper.writeValueAsString(referLines));
+				m.addAttribute("expenditures",mapper.writeValueAsString(expenditures));
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return "approve/waiting-expenditure-app";
+		}
+		return null;
+	}
+		
+	
+	@RequestMapping("approveAssign.do") // 결재대기문서에서 결재 승인하는 작업
+	public String approveAssign(Model m,String mId,String approveNo,String currentOrder) {
+		Map<String, Object> param = new HashMap<>();
+
+		param.put("approveNo",approveNo);
+		param.put("mId", mId);
+		param.put("status", "완료");
+		param.put("currentOrder", currentOrder);
+		
+		int result = service.approveAssign(param); // update문을 사용하여 해당 결재선의 상태를 완료로 바꿈
+		int result1 = service.plusCurrentOrder(param); // 결재선의 현재 번호를 1 증가시킴
+		
+		
+		int totalLineCnt = service.selectTotalLineCnt(param);
+		int completeLineCnt = service.selectCompleteLineCnt(param);
+		
+		System.out.println(totalLineCnt);
+		System.out.println(completeLineCnt);
+		
+
+
+		if (result >= 1) {
+			m.addAttribute("msg", "승인 성공");
+			m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId);
+		} else {
+			m.addAttribute("msg", "승인 실패");
+			m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId);
+		}
+		return "common/msg";
+	}
+		
+	
+	
 	@RequestMapping("/saveDocument.do") // 임시저장함문서로 이동
 	public String saveDocument(Model m, @RequestParam(value = "mId") String mId) {
 		Map<String, Object> param = new HashMap<>();
@@ -264,10 +482,44 @@ public class ApproveController {
 			}
 			return "approve/attendance-app";
 		}
+		
+		
+		if (approveKind.equals("지출결의서")) { // 임시저장 문서의 종류가 지출결의서의 경우
+			List<Approve> saveExtends = service.detailSave(param); // 기안서에 대해서 갖고왔으며 (시간,첨부파일,작성자에대한 멤버테이블과 조인(
+			List<ApproveLine> approveLines = service.detailApproveLines(param);
+			List<ReferLine> referLines = service.detailReferLines(param);
+			List<Expenditure> expenditures = service.detailExpenditures(param);
+			
+			
+			System.out.println(expenditures.toString());
+			
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String time = now.format(formatter);
+			
+			m.addAttribute("deps", deps); // 결재선에서 출력될 부서들
+			m.addAttribute("time", time); // 작성일
+			m.addAttribute("saveExtends", saveExtends);
+			m.addAttribute("approveNo", approveNo);
+			m.addAttribute("approveState",approveState);
+			
+//			ObjectMapper mapper=new ObjectMapper();// Jackson에서 제공하는(라이브러리) ObjectMapper  -> config에 빈으로 등록해서 객체 생성 생략가능
+			// 자바에서 해당 객체를 문자열로 저장한후 중간역할담당인 mapper를 통해 자바스크립트에서 객체형태로 저장이됨
+			try {
+				m.addAttribute("approveLines", mapper.writeValueAsString(approveLines));
+				m.addAttribute("referLines", mapper.writeValueAsString(referLines));
+				m.addAttribute("expenditures",mapper.writeValueAsString(expenditures));
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return "approve/expenditure-app";
+		}
 		return null;
 	}
 
-	@RequestMapping("/removeSave.do") // 임시저장된 연장근무신청서 삭제하기
+	@RequestMapping("/removeSave.do") // 임시저장된 기안서 삭제하기
 	public String removeSave(String deleteApproveNo, Model model,String mId) {
 
 		if (service.removeSave(deleteApproveNo) >= 1) {
@@ -516,10 +768,10 @@ public class ApproveController {
 		Member m = Member.builder().memberId(memberId).build();
 		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
 		
-		if(approveState.equals("임시저장")) {
-			approveState = "결재대기";			
-		}else {
+		if(approveState==null){
 			approveState = "임시저장";			
+		}else {
+			approveState = "결재대기";			
 		}
 		
 		int approveNo = Integer.parseInt(deleteApproveNo);
@@ -599,7 +851,7 @@ public class ApproveController {
 		}
 		return "redirect:/";
 	}
-
+	
 	@RequestMapping("/saveAttendance.do") // 근태신청서 임시저장할때 사용하는 컨트롤러
 	public String saveAttendance(String memberId, String startDate, String startTime, String endTime, String endDate,
 			String content, String title, String geuntae, String paraApp[], String paraRefer[], MultipartFile upFile,
@@ -772,5 +1024,69 @@ public class ApproveController {
 
 		return "redirect:/";
 	}
+	
+	@RequestMapping("/reSaveExpenditure.do") // 임시저장된 연장근무신청서에서 다시 임시저장하는 작업과  임시저장된 신청에서 바로 신청하는 작업
+	public String reSaveExpenditure(String memberId, String content, String title, String approveKind, String paraApp[], String paraRefer[], 
+			String deleteApproveNo, String account[], String useHistory[], String price[], String approvState, 
+			String approveState,MultipartFile upFile, HttpSession session) throws ParseException{
+		Member m = Member.builder().memberId(memberId).build();
+		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); //파일 저장 경로
+		
+		System.out.println(approveState+"ee");
+		
+		if(approveState==null){
+			approveState = "임시저장";			
+		}else {
+			approveState = "결재대기";			
+		}
+		
+		int approveNo = Integer.parseInt(deleteApproveNo);
+		
+		int result7 = service.removeSave(deleteApproveNo); // 기존에있던 기안서들과 그 안의 내용들 다 삭제한 후 다시 작성
+		if(result7>=1)System.out.println("삭제완료");
+		Approve ap = Approve.builder().approveNo(approveNo).approveTitle(title).approveContent(content).memberId(m).approveState(approveState).approveKind(approveKind).build();
+		int result = service.reInsertApprove(ap); // 기안서 테이블 생성 
+		
+		if (account != null) { // 지출결의서 내용 테이블 생성
+			for (int i = 0; i < account.length; i++) {
+				if (!account[i].equals("")) { // 내용부분이 비어있으면 생성 x
+					Expenditure ex = Expenditure.builder().approveNo(approveNo).account(account[i]).useHistory(useHistory[i]).price(price[i])
+							.build();
+					int result6 = service.reInsertExpenditure(ex);
+				}
+			}
+		}
+	
+		if (paraApp != null) {
+			int appSuccess = 0;
+			for (int i = 0; i < paraApp.length; i++) {
+				Map<String, Object> param = new HashMap<>();
+				param.put("memberId", paraApp[i]);
+				param.put("order", i + 1);
+				param.put("approveNo",approveNo);
+				int result4 = service.reInsertApproveLine(param); // 결재선 테이블 추가
+				if (result4 >= 1) { // 결재선테이블 추가 성공할때마다 1증가
+					appSuccess += 1;
+				}
+			}
+			System.out.println("결재선 테이블 성공횟수 = " + appSuccess);
+		}
+
+		if (paraRefer != null) {
+			int referSuccess = 0;
+			for (int i = 0; i < paraRefer.length; i++) {
+				Map<String, Object> param = new HashMap<>();
+				param.put("memberId", paraRefer[i]);
+				param.put("approveNo",approveNo);
+				int result5 = service.reInsertReferLine(param); // 결재선 테이블 추가
+				if (result5 >= 1) { // 결재선테이블 추가 성공할때마다 1증가
+					referSuccess += 1;
+				}
+			}
+			System.out.println("참조선 테이블 성공횟수 = " + referSuccess);
+		}
+		return "redirect:/";
+	}
+	
 
 }

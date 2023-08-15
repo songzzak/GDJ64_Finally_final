@@ -57,9 +57,11 @@ const changeDep = (e) => {  // 결재선 선택창에서 부서 눌렀을 때
 			$("#people-box").empty(); // #people-box 밑에 자식요소들 모두삭제
 			for (let i = 0; i < data.length; i++) {
 				var a = [data[i].memberId, data[i].memberName, data[i].job.jobName, data[i].dept.deptName];
-				$("#people-box").append($('<input/>', { type: 'checkbox', name: 'peopleBox', value: a, width: '30px'}));
-				$("#people-box").append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
-				$("#people-box").append(data[i].memberId, '&nbsp;', data[i].memberName, '&nbsp;', data[i].job.jobName, '&nbsp;', data[i].dept.deptName, '<br>')
+				if(memberId != data[i].memberId){ // 본인아이디에서는 결재선과 참조선에 이름이 나오지 않는 로직처리
+					$("#people-box").append($('<input/>', { type: 'checkbox', name: 'peopleBox', value: a, width: '30px'}));
+					$("#people-box").append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
+					$("#people-box").append(data[i].memberId, '&nbsp;', data[i].memberName, '&nbsp;', data[i].job.jobName, '&nbsp;', data[i].dept.deptName, '<br>')
+				}
 			}
 		});
 }

@@ -19,8 +19,8 @@ public class ApproveDaoImpl implements ApproveDao {
 
 
 	@Override
-	public List<Approve> selectAllWaitingApprove(SqlSession session, String mId) {
-		return session.selectList("approve.selectAllWaitingApprove",mId);
+	public List<Approve> selectAllWaitingApprove(SqlSession session, Map<String,Object> param) {
+		return session.selectList("approve.selectAllWaitingApprove",param);
 	}
 	
 	@Override
@@ -46,6 +46,11 @@ public class ApproveDaoImpl implements ApproveDao {
 	@Override
 	public List<ReferLine> detailReferLines(SqlSession session, Map<String, Object> param) { // 임시작성된 기안서 번호와 참조되는 참조선 상세 객체보기
 		return session.selectList("approve.detailReferLines",param);
+	}
+
+	@Override
+	public List<Expenditure> detailExpenditures(SqlSession session, Map<String, Object> param) {
+		return session.selectList("approve.detailExpenditures",param);
 	}
 
 	@Override
@@ -117,6 +122,31 @@ public class ApproveDaoImpl implements ApproveDao {
 	@Override
 	public int reInsertReferLine(SqlSession session, Map<String, Object> param) { // 임시저장된 화면에서 다시 임시저장할때 다시 참조선 테이블 만들어지는작업
 		return session.insert("approve.reInsertReferLine",param);
+	}
+
+	@Override
+	public int reInsertExpenditure(SqlSession session, Expenditure ex) { // 임시저장된 화면에서 다시 임시저장할때 다시 지출결의서 테이블 만들어지는작업
+		return session.insert("approve.reInsertExpenditure",ex);
+	}
+
+	@Override
+	public int approveAssign(SqlSession session, Map<String, Object> param) { // 결재선의 상태를 완료로 바꾸는 작업
+		return session.update("approve.approveAssign",param);
+	}
+
+	@Override
+	public int selectTotalLineCnt(SqlSession session, Map<String, Object> param) { // 해당 기안서의 결재선의 총 개수 구하기
+		return session.selectOne("approve.selectTotalLineCnt",param);
+	}
+
+	@Override
+	public int selectCompleteLineCnt(SqlSession session, Map<String, Object> param) { // 해당 기안서의 결재선중 완료처리된 개수 구하기
+		return session.selectOne("approve.selectCompleteLineCnt",param);
+	}
+
+	@Override
+	public int plusCurrentOrder(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("approve.plusCurrentOrder",param);
 	}
 	
 	

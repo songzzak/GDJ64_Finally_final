@@ -25,8 +25,8 @@ public class ApproveServiceImpl implements ApproveService {
 	private SqlSession session;
 	
 	@Override
-	public List<Approve> selectAllWaitingApprove(String mId) {
-		return dao.selectAllWaitingApprove(session,mId);
+	public List<Approve> selectAllWaitingApprove(Map<String,Object> param) {
+		return dao.selectAllWaitingApprove(session,param);
 	}
 
 	@Override
@@ -55,7 +55,11 @@ public class ApproveServiceImpl implements ApproveService {
 		return dao.detailReferLines(session,param);
 	}
 	
-	
+	@Override
+	public List<Expenditure> detailExpenditures(Map<String, Object> param) {
+		return dao.detailExpenditures(session,param);
+	}
+
 	@Override
 	public int removeSave(String deleteApproveNo) {
 		return dao.removeSave(session,deleteApproveNo);
@@ -125,6 +129,32 @@ public class ApproveServiceImpl implements ApproveService {
 	public int reInsertReferLine(Map<String, Object> param) {
 		return dao.reInsertReferLine(session, param);
 	}
+
+	@Override
+	public int reInsertExpenditure(Expenditure ex) {
+		return dao.reInsertExpenditure(session, ex);
+	}
+
+	@Override
+	public int approveAssign(Map<String, Object> param) {
+		return dao.approveAssign(session,param);
+	}
+
+	@Override
+	public int selectTotalLineCnt(Map<String, Object> param) {
+		return dao.selectTotalLineCnt(session,param);
+	}
+
+	@Override
+	public int selectCompleteLineCnt(Map<String, Object> param) {
+		return dao.selectCompleteLineCnt(session,param);
+	}
+
+	@Override
+	public int plusCurrentOrder(Map<String, Object> param) {
+		return dao.plusCurrentOrder(session,param);
+	}
+	
 	
 	
 }
