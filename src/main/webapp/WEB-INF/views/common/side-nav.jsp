@@ -37,9 +37,9 @@
          </ul>
       </div>
       <div>
-         <a class="side-menu" href=""><img src="${path}/resources/images/common/lecture.svg">수업 등록</a>
+         <a class="side-menu"><img src="${path}/resources/images/common/lecture.svg">강의 관리</a>
          <ul class="menu-toggle" style="display:none">
-            <li><a href="${path }/">메뉴</a></li>
+            <li><a href="${path }/lecture/lectureList">강의 목록</a></li>
          </ul>
       </div>
       <div>
