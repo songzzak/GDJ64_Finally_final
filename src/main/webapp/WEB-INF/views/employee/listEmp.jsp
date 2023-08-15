@@ -10,17 +10,19 @@
 		<div class="right-container emp-div">
 			<h2 class="title">사원 조회</h2>
 			<select id="ent-flag">
-				<option selected disable>퇴사 여부</option>
-				<option value="N">재직</option>
-				<option value="Y">퇴사</option>
+				<option ${entFl==""?"selected":"" } value="">전체</option>
+				<option ${entFl=="N"?"selected":"" } value="N">재직</option>
+				<option ${entFl=="Y"?"selected":"" } value="Y">퇴사</option>
 			</select>
-			<select id="search-keyword">
-				<option selected disable>검색 카테고리</option>
+			<select id="search-category">
+				<option selected disabled>검색 카테고리</option>
 				<option value="no">사번</option>
 				<option value="name">이름</option>
 				<option value="dept">부서</option>
 				<option value="job">직책</option>
 			</select>
+			<input type="text" id="keyword">
+			<button onclick="fn_serchKeyword();">검색</button>
 			<table id="emp-table">
 				<tr>
 					<th>사번</th>
@@ -49,11 +51,43 @@
 					<tr><td colspan="8"><hr/></td></tr>
 					</c:forEach>
 				</c:if>
+				<c:if test="${empty members }">
+					<tr><td colspan="8">조회 결과가 없습니다.</tr>
+				</c:if>
 			</table>
 			<div class="pageBar">${pageBar }</div>
 		</div>
 		<!-- right-container -->
 	</div>
 </section>
+<script>
+//퇴사 여부
+$(document).ready(function() {
+	$("#ent-flag").change(function(){
+		console.log($("#ent-flag").val());
+		const entFl=$("#ent-flag").val();
+		location.assign("${path}/employee/list?entFl="+entFl);
+	});
+});
+
+//페이징 함수 덮어쓰기
+function fn_paging(no){
+	console.log("paging");
+	location.assign('${path}/employee/list?cPage='+no+'&entFl='+'${entFl==null?"":entFl }');
+}
+
+//검색어
+function fn_serchKeyword(){
+	const category=$("#search-category").val();
+	const keyword=$("#keyword").val();
+	const entFl=$("#ent-flag").val();
+	if(category==''||category==null){
+		alert("검색 카테고리를 선택하세요.");
+		$("#keyword").focus();
+	}else{
+		location.assign("${path}/employee/list?entFl="+entFl+"&category="+category+"&keyword="+keyword);
+	}
+}
+</script>
 </body>
 </html>

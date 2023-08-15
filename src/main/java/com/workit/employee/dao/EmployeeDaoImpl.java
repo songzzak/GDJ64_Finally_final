@@ -39,7 +39,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		int cPage=(int)param.get("cPage");
 		int numPerpage=(int)param.get("numPerpage");
 		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
-		return mapper.selectMemberAll(rb);
+		return mapper.selectMemberAll(param,rb);
 	}
 
 	@Override
