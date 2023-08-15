@@ -14,9 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.chat.model.dao.ChatDao;
 import com.workit.chat.model.dto.ChatMsg;
+import com.workit.chat.model.dto.MyChatroom;
 import com.workit.chatroom.dao.ChatroomDao;
 import com.workit.chatroom.model.dto.AttachedFile;
+import com.workit.chatroom.model.dto.ChatNotification;
 import com.workit.chatroom.model.dto.ChatroomFile;
+import com.workit.member.model.dto.Member;
 
 import lombok.extern.slf4j.Slf4j;
 @Service
@@ -24,9 +27,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatroomServiceImpl implements ChatroomService {
 
 	private ChatroomDao chatroomDao;
+	private ChatDao chatDao;
 	
 	public ChatroomServiceImpl(ChatDao chatDao, ChatroomDao chatroomDao) {
 		this.chatroomDao = chatroomDao;
+		this.chatDao = chatDao;
 	}
 	
 	@Override
@@ -111,6 +116,37 @@ public class ChatroomServiceImpl implements ChatroomService {
 		return chatroomDao.selectFileByChatroomId(chatroomId);
 	}
 
+	@Override
+	public List<Member> selectChatMemberById(String chatroomId) {
+		return chatroomDao.selectChatMemberById(chatroomId);
+	}
+
+	@Override
+	public int saveChat(Map<String, Object> param) {
+		MyChatroom m = (MyChatroom)param.get("member");
+		//ChatMsg chat = (ChatMsg)param.get("chat");
+		String chatId = (String)param.get("chatId");
+		//String chatId = (String)chat.getChatId();
+		log.info("chatroomNo : " + m.getMyChatroomNo());
+		log.info("chatId : " + chatId);
+		log.info("memberId : " + m.getMember().getMemberId());
+		ChatNotification c = ChatNotification.builder().chatId(chatId).myChatroomNo(m.getMyChatroomNo()).memberId(m.getMember().getMemberId()).build();
+		return chatroomDao.saveChat(c);
+	}
+
+	@Override
+	public int chatNotificationCount(String loginMember) {
+		return chatroomDao.chatNotificationCount(loginMember);
+	}
+
+	@Override
+	public int deleteNotify(int myChatroomNo) {
+		return chatroomDao.deleteNotify(myChatroomNo);
+	}
+
+	
+	
+	
 	
 	
 }
