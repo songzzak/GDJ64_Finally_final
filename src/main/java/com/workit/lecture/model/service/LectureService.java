@@ -17,4 +17,10 @@ public interface LectureService {
 	List<MemberVO> selectTeacher();
 
 	Lecture selectLectureByNo(int no);
+
+	int updateStatus(Map<String, Object> of);
+
+	int deleteLecture(int no);
+
+	int updateLecture(Map<String, Object> params);
 }

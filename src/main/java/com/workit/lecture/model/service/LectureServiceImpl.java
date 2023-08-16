@@ -48,4 +48,19 @@ public class LectureServiceImpl implements LectureService {
 	public Lecture selectLectureByNo(int no) {
 		return dao.selectLectureByNo(session, no);
 	}
+
+	@Override
+	public int updateStatus(Map<String, Object> map) {
+		return dao.updateStatus(session, map);
+	}
+
+	@Override
+	public int deleteLecture(int no) {
+		return dao.deleteLecture(session, no);
+	}
+
+	@Override
+	public int updateLecture(Map<String, Object> params) {
+		return dao.updateLecture(session, params);
+	}
 }

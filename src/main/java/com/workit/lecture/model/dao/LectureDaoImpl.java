@@ -41,6 +41,21 @@ public class LectureDaoImpl implements LectureDao {
 		return session.selectOne("lecture.selectLectureByNo",no);
 	}
 
+	@Override
+	public int updateStatus(SqlSessionTemplate session, Map<String, Object> map) {
+		return session.update("lecture.updateStatus",map);
+	}
+
+	@Override
+	public int deleteLecture(SqlSessionTemplate session, int no) {
+		return session.delete("lecture.deleteLecture",no);
+	}
+
+	@Override
+	public int updateLecture(SqlSessionTemplate session, Map<String, Object> params) {
+		return session.update("lecture.updateLecture",params);
+	}
+
 	
 	
 }

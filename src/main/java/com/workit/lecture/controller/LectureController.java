@@ -1,8 +1,11 @@
 package com.workit.lecture.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.gson.Gson;
 import com.workit.common.Pagenation;
 import com.workit.lecture.model.dto.Lecture;
 import com.workit.lecture.model.service.LectureService;
@@ -74,5 +78,52 @@ public class LectureController {
 	public String detailView(Model model, @RequestParam int no) {
 		model.addAttribute("lecture", service.selectLectureByNo(no));
 		return "/lecture/lectureView";
+	}
+	@PostMapping("/updatStatus")
+	public void updatStatus(@RequestParam String status,
+			@RequestParam int lectureNo,HttpServletResponse response) throws IOException {
+		String registrationStatus="";
+		switch (status) {
+		case "waiting": registrationStatus="대기중"; break;
+		case "approved": registrationStatus="승인"; break;
+		case "rejected": registrationStatus="반려"; break;
+		}
+		int result = service.updateStatus(Map.of("status", registrationStatus, "no", lectureNo));
+		 Gson gson = new Gson();
+		    String json = gson.toJson(result);
+		    response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+	        response.getWriter().write(json);
+	}
+	@GetMapping("/updateLecture")
+	public String updateForm(@RequestParam int no,Model model) {
+		model.addAttribute("lecture",service.selectLectureByNo(no));
+		model.addAttribute("teacherList", service.selectTeacher());
+		return "/lecture/updateForm";
+	}
+	@PostMapping("deleteLecture")
+	public void deleteLecture(@RequestParam int no,HttpServletResponse response) throws IOException {
+		int result = service.deleteLecture(no);
+		 Gson gson = new Gson();
+		    String json = gson.toJson(result);
+		    response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+	        response.getWriter().write(json);
+	}
+	@PostMapping("/updateLectureEnd")
+	public String updateLectureEnd(@RequestParam int no,Lecture l,@RequestParam String memberId, Model model) {
+		Map<String, Object> params = new HashMap<>();
+		l.setLectureNo(no);
+		params.put("l", l);
+		params.put("memberId", memberId);
+		System.out.println(params);
+		if(service.updateLecture(params)>0) {
+			model.addAttribute("msg","강의 정보를 성공적으로 수정하였습니다.");
+			model.addAttribute("url","/lecture/lectureList");			
+		}else {
+			model.addAttribute("msg","수정에 실패하였습니다.");
+			model.addAttribute("url","/lecture/insertLecture");
+		}
+		return "/common/msg";
 	}
 }

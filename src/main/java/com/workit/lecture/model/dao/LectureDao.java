@@ -19,4 +19,10 @@ public interface LectureDao {
 	int insertLecture(SqlSessionTemplate session, Map<String, Object> params);
 
 	Lecture selectLectureByNo(SqlSessionTemplate session, int no);
+
+	int updateStatus(SqlSessionTemplate session, Map<String, Object> map);
+
+	int deleteLecture(SqlSessionTemplate session, int no);
+
+	int updateLecture(SqlSessionTemplate session, Map<String, Object> params);
 }

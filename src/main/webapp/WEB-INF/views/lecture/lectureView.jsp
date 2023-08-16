@@ -110,9 +110,57 @@
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    $(document).ready(function() {
+        // 상태 변경 이벤트
+        $("#statusUpdateBtn").click(function() {
+            var selectedStatus = $("select[name='registrationStatus']").val();
+            if(selectedStatus) {
+                $.ajax({
+                    type: "POST",
+                    url: "/lecture/updatStatus",
+                    data: {
+                        status: selectedStatus,
+                        lectureNo: ${lecture.lectureNo}
+                    },
+                    success: function(response) {
+                        alert("상태가 업데이트 되었습니다.");
+                        location.href = "/lecture/lectureList"; // 강의 목록 페이지로 리다이렉트
+                    },
+                    error: function(error) {
+                        alert("상태 업데이트에 실패하였습니다.");
+                    }
+                });
+            }
+        });
 
+        // 수정 이벤트
+        $("#goToUpdateView").click(function() {
+            window.location.href = "/lecture/updateLecture?no=" + ${lecture.lectureNo};
+        });
 
+        // 삭제 이벤트
+        $("#deleteBtn").click(function() {
+            var confirmDelete = confirm("강의를 삭제하시겠습니까?");
+            if(confirmDelete) {
+                $.ajax({
+                    type: "POST",
+                    url: "/lecture/deleteLecture", 
+                    data: {
+                    	no: ${lecture.lectureNo}
+                    },
+                    success: function(response) {
+                        alert("강의가 삭제되었습니다.");
+                        location.href = "/lecture/lectureList"; // 강의 목록 페이지로 리다이렉트
+                    },
+                    error: function(error) {
+                        alert("강의 삭제에 실패하였습니다.");
+                    }
+                });
+            }
+        });
+    });
 </script>
+
 
 
 </body>
