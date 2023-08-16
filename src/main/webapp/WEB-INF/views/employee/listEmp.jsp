@@ -15,13 +15,13 @@
 				<option ${entFl=="Y"?"selected":"" } value="Y">퇴사</option>
 			</select>
 			<select id="search-category">
-				<option selected disabled>검색 카테고리</option>
-				<option value="no">사번</option>
-				<option value="name">이름</option>
-				<option value="dept">부서</option>
-				<option value="job">직책</option>
+				<option ${category==""?"selected":"" } disabled>검색 카테고리</option>
+				<option ${category=="no"?"selected":"" } value="no">사번</option>
+				<option ${category=="name"?"selected":"" } value="name">이름</option>
+				<option ${category=="dept"?"selected":"" } value="dept">부서</option>
+				<option ${category=="job"?"selected":"" } value="job">직책</option>
 			</select>
-			<input type="text" id="keyword">
+			<input type="text" id="keyword" value="${keyword }">
 			<button onclick="fn_serchKeyword();">검색</button>
 			<table id="emp-table">
 				<tr>
@@ -73,7 +73,8 @@ $(document).ready(function() {
 //페이징 함수 덮어쓰기
 function fn_paging(no){
 	console.log("paging");
-	location.assign('${path}/employee/list?cPage='+no+'&entFl='+'${entFl==null?"":entFl }');
+	location.assign('${path}/employee/list?cPage='+no+'&entFl='+'${entFl==null?"":entFl }'
+			+"&category="+'${category==null?"":category }'+"&keyword="+'${keyword==null?"":keyword}');
 }
 
 //검색어

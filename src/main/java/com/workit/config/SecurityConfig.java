@@ -53,7 +53,10 @@ public class SecurityConfig{
 				.logout()
 					.logoutSuccessUrl("/loginpage")
 					.logoutUrl("/logout")
-					.invalidateHttpSession(true).deleteCookies("JSESSIONID")
+					.invalidateHttpSession(true)
+				.and()
+				.sessionManagement()
+					.invalidSessionUrl("/loginpage")
 				.and()
 				.exceptionHandling()
 					.authenticationEntryPoint(new AuthenticationEntryPoint() {

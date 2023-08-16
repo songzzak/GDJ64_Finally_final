@@ -41,10 +41,6 @@ public class ChatDaoImpl implements ChatDao {
 		return chatMapper.selectChatroomByroomId(chatroomId);
 	}
 	
-//	@Override
-//	public List<MyChatroom> searchAllByKeyword(String keyword) {
-//		return chatMapper.searchAllByKeyword(keyword);
-//	}
 	
 	@Override
 	public void insertChatroom(Map<String, Object> param) {

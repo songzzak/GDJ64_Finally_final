@@ -20,6 +20,7 @@ import com.workit.chatroom.model.dto.AttachedFile;
 import com.workit.chatroom.model.dto.ChatNotification;
 import com.workit.chatroom.model.dto.ChatroomFile;
 import com.workit.member.model.dto.Member;
+import com.workit.member.model.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 @Service
@@ -124,9 +125,7 @@ public class ChatroomServiceImpl implements ChatroomService {
 	@Override
 	public int saveChat(Map<String, Object> param) {
 		MyChatroom m = (MyChatroom)param.get("member");
-		//ChatMsg chat = (ChatMsg)param.get("chat");
 		String chatId = (String)param.get("chatId");
-		//String chatId = (String)chat.getChatId();
 		log.info("chatroomNo : " + m.getMyChatroomNo());
 		log.info("chatId : " + chatId);
 		log.info("memberId : " + m.getMember().getMemberId());
@@ -142,6 +141,11 @@ public class ChatroomServiceImpl implements ChatroomService {
 	@Override
 	public int deleteNotify(int myChatroomNo) {
 		return chatroomDao.deleteNotify(myChatroomNo);
+	}
+
+	@Override
+	public MemberVO selectMemberByChoice(String memberId) {
+		return chatroomDao.selectMemberByChoice(memberId);
 	}
 
 	
