@@ -77,6 +77,11 @@ public class ChatroomDaoImpl implements ChatroomDao {
 	public MemberVO selectMemberByChoice(String memberId) {
 		return memberMapper.selectMemberByParam(Map.of("memberId", memberId));
 	}
+
+	@Override
+	public int insertFile(Map<String, Object> param) {
+		return chatMapper.insertFile(param);
+	}
 	
 	
 	

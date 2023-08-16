@@ -323,7 +323,7 @@
 			console.log(data);
 		}
 		websocket.onmessage=data=>{
-			//console.log(data);
+			console.log(data);
 			const receiveMsg=JSON.parse(data.data);
 			//console.log(receiveMsg);
 			fn_printChat(receiveMsg);
@@ -347,10 +347,10 @@
 		
 				} else {
 					var chatMsg = $("<div>").attr("class", "chat-msg");
-					chatMsg.append($("<h5>").text(msg.memberId));
-					chatMsg.append($("<span>").attr("class", "chat-msgbx").text(msg.chatContent));
+					chatMsg.append($("<div class='chatMember'>").append($("<h5>").text(c.member.memberName)).append($("<input>").attr("type", "hidden").attr("value", c.member.memberId).addClass("chatMemberId")));
+					chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
 					chatMsg.append($("<span>").attr("class", "chat-date").text(chatDate));
-					chatMsg.append($("<input type='hidden'>").attr("value",msg.chatId).attr("class","chat-msg-Id"));
+					chatMsg.append($("<input type='hidden'>").attr("value",c.chatId).attr("class","chat-msg-Id"));
 				}
 				chatMsg.append($("<input>").attr("type", "hidden").attr("value", msg.chatroomId).attr("class","roomId"));
 				chatDiv.append(chatMsg);
@@ -379,13 +379,18 @@
 				console.log(data);
 				console.log(data[0].chatroomFile);
 				if(data!=null || data!=""){
-					chatfilebx = $("<div class='chatroom-file section-shadow'>");
-					chatfilebx.append($("<h3>").text("현재 채팅 창 파일 목록"))
+					chatfilebx = $("<div class='chatroom-file-container section-shadow'>");
+					chatfilebx.append($("<h3 class='title'>").text("현재 채팅 창 파일 목록").css("textAlign","center"));
+					chatfilebx.append($("<h5>").text("파일 제목을 선택하면 다운로드 됩니다.").css("textAlign","center"));
 					let fileList = data[0].chatroomFile;
 					fileList.forEach(e=>{
+						const uploadDate = new Date(e.fileId.uploadDate).toLocaleString('ko-KO');
 						console.log(e.fileId.originalFile);
-						chatfilebx.append($("<a class='block chatroomfileId'>").text(e.fileId.originalFile));
-						chatfilebx.append($("<input type='hidden'>").attr("value",e.fileId.uploadFile));
+						chatfileDiv = $("<div class='chatroom-file chat-msgbx'>");
+						chatfileDiv.append($("<a class='chatroomfileId'>").text(e.fileId.originalFile));
+						chatfileDiv.append($("<span>").text(uploadDate));
+						chatfileDiv.append($("<input type='hidden'>").attr("value",e.fileId.uploadFile));
+						chatfilebx.append(chatfileDiv);
 						$(".modal-result-container").append(chatfilebx);
 						$(".modal-result-container").css("display","block");
 					})
@@ -400,7 +405,8 @@
 	})
 	$(document).on("click", ".chatroomfileId", function (e) {
 		let originalFile = $(e.target).text();
-		let uploadFile = $(e.target).next().val();
+		let uploadFile = $(e.target).next().next().val();
+		console.log(" originalFile : " + originalFile + " uploadFile : "+ uploadFile);
 		$.ajax({
 			url : "${path}/chatroom/download/"+ uploadFile,
 			type : "get",
@@ -439,13 +445,7 @@
 					},
 					success : data =>{
 						$(".modal-result-container").empty();
-						var checkResult = fn_checkStrNull(data);
-						if(checkResult!="null"){
-							fn_viewSearchResult(data);
-						}else {
-							fn_viewSearchResult("검색 결과가 없습니다.");
-						}
-						
+						fn_viewSearchResult(data);
 					},
 					error: function(xhr, status, error) {
 				        console.error('AJAX Error:', error);
@@ -474,8 +474,9 @@
 			myChatList = data.myChatList;
 			mychatFileList = data.mychatFileList;
 			mychatroomList = data.mychatroomList;
-			$(".modal-result-container").append($("<h3>").text("검색 결과 : "));
-			if(myChatList!=null || myChatList!="" && mychatFileList!=null || mychatFileList!="" && mychatroomList!=null || mychatroomList!="" ){
+			console.log("mychatroomList : " + mychatroomList.length);
+			if(myChatList.length != 0 && mychatFileList != 0 && mychatroomList != 0){
+				$(".modal-result-container").append($("<h3>").text("검색 결과 : "));
 				myChatList.forEach(m=>{
 					console.log("m : ",m);
 					$(".modal-result-container").append($("<div class='chat-msgbx'>").text(m.chatContent));
@@ -489,11 +490,11 @@
 					console.log("c : ",c);
 					$(".modal-result-container").append($("<div class='chat-msgbx'>").text(c.chatroomTitle));
 				})
+			}else{
+				$(".modal-result-container").append($("<h3>").text("검색 결과가 없습니다"));
 			}
-		}else {
-			$(".modal-result-container").append($("<h3>").text(data));
 		}
-	}
+	};
 	
 	$(document).on("click", ".chatMember", function(e) {
 		$(".modal-chat-member").empty();
@@ -507,16 +508,20 @@
 			},
 			success : data =>{
 				console.log(data);
+				const hireDate = new Date(data.hireDate).toLocaleDateString('ko-KO');
 				let modalchatmemberDiv = $("<div class='modal-chat-member'>");
-				modalchatmemberDiv.append($("<img>").attr("src",cPath+"/resources/upload/profile/"+data.profileImg));
-				modalchatmemberDiv.append($("<h5>").text(data.dept.deptName+" "+data.memberName+" "+data.job.jobName));
+				//modalchatmemberDiv.append($("<img>").attr("src",currentUrl+"resources/upload/profile/"+data.profileImg));
+				modalchatmemberDiv.append($("<img>").attr("src","${path}/resources/upload/profile/"+data.profileImg));
+				//modalchatmemberDiv.append($("<h5>").text(data.dept.deptName+" "+data.memberName+" "+data.job.jobName));
 				let $table = $("<table class='modal-table'>");
-				$table.append($("<tr>").append($("<th>").text("phone")).append($("<td>").text(data.phone)));
-				$table.append($("<tr>").append($("<th>").text("address")).append($("<td>").text(data.address)));
-				$table.append($("<tr>").append($("<th>").text("email")).append($("<td>").text(data.email)));
-				$table.append($("<tr>").append($("<th>").text("입사일")).append($("<td>").text(data.hireDate)));
+				$table.append($("<tr>").append($("<th colspan='2'>").text(data.dept.deptName+" "+data.memberName+" "+data.job.jobName)));
+				$table.append($("<tr>").append($("<th>").text("전화번호")).append($("<td>").text(data.phone)));
+				$table.append($("<tr>").append($("<th>").text("주소")).append($("<td>").text(data.address)));
+				$table.append($("<tr>").append($("<th>").text("이메일")).append($("<td>").text(data.email)));
+				$table.append($("<tr>").append($("<th>").text("입사일")).append($("<td>").text(hireDate)));
 				modalchatmemberDiv.append($table);
 				$(".modal-content").append(modalchatmemberDiv);
+				$(".modal-content").append($("<button class='modal-close'>").text("닫기"));
 			},
 			error: function(xhr, status, error) {
 				console.error('AJAX Error:', error);

@@ -32,4 +32,6 @@ public interface ChatroomDao {
 	int deleteNotify(int myChatroomNo);
 	
 	MemberVO selectMemberByChoice(String memberId);
+	
+	int insertFile(Map<String, Object> param);
 }
