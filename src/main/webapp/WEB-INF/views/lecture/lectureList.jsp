@@ -24,6 +24,7 @@
   .tableStyle { width: 95%; margin: 0px 20px; padding: 10px; border-collapse: collapse; margin: 20px 0;}
   .tableStyle td, .tableStyle th { border-bottom: 1px solid #e0e0e0;padding: 8px; text-align: center; }
   .tableStyle tr{height: 60px;}
+  .hoverStyle:hover{font-weight: bolder;}
 
 </style>
 <section class="max1920px">
@@ -69,7 +70,7 @@
 			                <tr>
 			                    <td>${lecture.lectureNo}</td>
 			                    <td>${lecture.registrationStatus}</td>
-			                    <td>${lecture.lectureName}</td>
+			                    <td class="hoverStyle"><a href="${path}/lecture/detail?no=${lecture.lectureNo}">${lecture.lectureName}</a></td>
 			                    <td>${lecture.member.memberName}</td>
 			                    <td>
 			                        <fmt:formatDate value="${lecture.startDate}" pattern="yyyy-MM-dd"/>/

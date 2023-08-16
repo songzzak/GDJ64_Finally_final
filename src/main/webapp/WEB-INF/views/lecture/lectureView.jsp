@@ -21,9 +21,9 @@
     .input-group {margin-bottom: 5px;display: flex; flex-direction: column;}
     .input-group label{font-weight: bolder;}
     .input-group input{width: 300px;}
-      /* 버튼스타일 */
+    
+    /* 버튼스타일 */
   button{cursor: pointer; }
-  .btnContiner{display: flex;justify-content: center;}
   .btnSimple{border: solid 1px #e0e0e0;background-color:#fff; }
   .btnSimple:hover{color:var(--main-color-dk);background-color:#fff;}
 </style>
@@ -34,35 +34,49 @@
 	      <ul class="row" style="margin-left: 30px">
 	        <li>강의 관리</li>
 	        <li>|</li>
-	        <li>강의 개설 신청</li>
+	        <li>강의 등록 내역</li>
 	      </ul>
 	    </div>
-		<div class="column section-shadow bgc-fff" id="lectureFormDiv">
-		    <form action="/lecture/insertLectureEnd" method="post">
+		<div class="column section-shadow bgc-fff" id="lectureDiv">
+		<!-- 운영팀 팀장 || 부사장 || 대표 만 볼 수 있는 div -->
+			<c:if test="${loginMember.dept.deptCode eq 'D1' && loginMember.job.jobCode eq 'J3' || loginMember.job.jobCode eq 'J2'||loginMember.job.jobCode eq 'J1' }">
+				<div class="row" style="justify-content: space-between; padding:10px 100px;">
+			    	<div class="row"> 
+		                <select name="registrationStatus">
+						    <option value="waiting">대기중</option>
+						    <option value="approved">승인</option>
+						    <option value="rejected">반려</option>
+						</select>
+						<button style="margin-left: 10px;" id="statusUpdateBtn" class="btnSimple">변경</button>
+	                </div>
+	                <div>
+	                	<button id="goToUpdateView">수정</button>
+	                	<button id="deleteBtn" class="btnSimple">삭제</button>
+	                </div>
+				</div>
+				</c:if>
 		        <div class="row">
 		            <!-- 왼쪽 부분 -->
 		            <div class="column margin10px half" style="flex: 1; border-right: 1px dashed var(--border-color);">
 			            <div class="row" style="justify-content: space-between;">
 			            	<div class="input-group">
 			                	<label>강의명</label>
-			                	<input type="text" name="lectureName" required placeholder="내용을 입력해주세요">
+			                	<input type="text" name="lectureName" value="${lecture.lectureName }" readonly>
 							</div>
 							<div class="input-group">   
 				                <label>강사명</label>
 				                <select name="memberId">
-				                    <c:forEach var="teacher" items="${teacherList}">
-				                        <option value="${teacher.memberId}">${teacher.memberName}</option>
-				                    </c:forEach>
+				                       <option value="${lecture.member.memberId}">${lecture.member.memberName}</option>
 				                </select>
 			                </div>
 			            </div>
 						<div class="input-group">
 		    	            <label>강의목표</label>
-			                <textarea name="lectureObjective" rows="10" required placeholder="내용을 입력해주세요"></textarea>
+			                <textarea name="lectureObjective" rows="10" readonly>${lecture.lectureObjective }</textarea>
 						</div>
 						<div class="input-group">
 		    	            <label>강의내용</label>
-			                <textarea name="lectureContent" rows="10" required placeholder="내용을 입력해주세요"></textarea>
+			                <textarea name="lectureContent" rows="10" readonly>${lecture.lectureContent }</textarea>
 						</div>
 		            </div>
 		
@@ -71,46 +85,31 @@
 		
 						<div class="input-group">
 		               		<label>과목</label>
-			                <input type="text" name="subject" required placeholder="내용을 입력해주세요">
+			                <input type="text" name="subject" value="${lecture.subject}" readonly>
 						</div>
 						<div class="input-group">
 		                	<label>대상</label>
-		                	<input type="text" name="lectureTarget" required placeholder="내용을 입력해주세요">
+		                	<input type="text" name="lectureTarget" value="${lecture.lectureTarget }" readonly>
 						</div>
 						<div class="input-group">
 		                	<label>수강료 (단위 : 원) </label>
-		                	<input type="number" name="fee" required>
+		                	<input type="number" name="fee" value="${lecture.fee }" readonly>
 		                </div>
 		                <div class="input-group">
 			                <label>강의 시작일</label>
-			                <input type="date" name="startDate" required>
+			                <input type="date" name="startDate" value="${lecture.startDate }" readonly>
 		                </div>
 		                <div class="input-group">
 		    	            <label>강의 종료일</label>
-			                <input type="date" name="endDate" required>
-		                </div>
-		
-		                <div class="row btnContiner">
-		                    <button type="submit">등록</button>
-		                    <button type="reset" class="btnSimple">취소</button>
+			                <input type="date" name="endDate" value="${lecture.endDate }" readonly>
 		                </div>
 		            </div>
 		        </div>
-		    </form>
 		</div>
 	</div>
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('.btnSimple').on('click', function(e) {
-        e.preventDefault();
-        var isCancel = confirm("등록을 취소하시겠습니까?");
-        if (isCancel) {
-            window.location.href = "/lecture/lectureList"; // 강의 목록 페이지로 리다이렉트
-        }
-    });
-});
 
 
 </script>

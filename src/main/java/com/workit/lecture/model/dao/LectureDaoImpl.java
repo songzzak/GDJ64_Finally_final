@@ -36,6 +36,11 @@ public class LectureDaoImpl implements LectureDao {
 		return session.insert("lecture.insertLecture",params);
 	}
 
+	@Override
+	public Lecture selectLectureByNo(SqlSessionTemplate session, int no) {
+		return session.selectOne("lecture.selectLectureByNo",no);
+	}
+
 	
 	
 }

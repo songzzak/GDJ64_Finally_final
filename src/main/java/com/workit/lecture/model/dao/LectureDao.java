@@ -17,4 +17,6 @@ public interface LectureDao {
 	List<MemberVO> selectTeacher(SqlSessionTemplate session);
 
 	int insertLecture(SqlSessionTemplate session, Map<String, Object> params);
+
+	Lecture selectLectureByNo(SqlSessionTemplate session, int no);
 }

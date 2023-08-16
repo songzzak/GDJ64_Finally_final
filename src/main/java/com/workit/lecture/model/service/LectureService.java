@@ -15,4 +15,6 @@ public interface LectureService {
 	int selectLectureCount(Map<String, Object> params);
 
 	List<MemberVO> selectTeacher();
+
+	Lecture selectLectureByNo(int no);
 }

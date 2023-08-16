@@ -70,5 +70,9 @@ public class LectureController {
 		}
 		return "/common/msg";
 	}
-	
+	@GetMapping("/detail")
+	public String detailView(Model model, @RequestParam int no) {
+		model.addAttribute("lecture", service.selectLectureByNo(no));
+		return "/lecture/lectureView";
+	}
 }

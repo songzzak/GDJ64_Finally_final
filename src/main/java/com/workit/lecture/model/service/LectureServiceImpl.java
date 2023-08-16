@@ -43,4 +43,9 @@ public class LectureServiceImpl implements LectureService {
 	public int insertLecture(Map<String, Object> params) {
 		return dao.insertLecture(session, params);
 	}
+
+	@Override
+	public Lecture selectLectureByNo(int no) {
+		return dao.selectLectureByNo(session, no);
+	}
 }
