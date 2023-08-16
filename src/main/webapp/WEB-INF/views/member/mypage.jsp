@@ -178,7 +178,7 @@ $(document).ready(function(){
 	//개인 정보 수정
 	function fn_updateMember(){
 		console.log("${approv}");
-		if("${approv.approvalFl}"!="Y"){
+		if("${approv.approvalFl}"!=""){
 			alert("미승인된 요청 정보가 있습니다.");
 			location.reload();
 		}else if(!emailFl){
@@ -255,7 +255,7 @@ $(document).ready(function(){
 				dataType:"text",
 				error: function() {
 					alert("인증 메일 전송에 실패했습니다. 다시 시도해주세요.");
-				}
+				},
 			}).then(function (response){
 				alert("전송되었습니다. 이메일을 확인해주세요.");
 				const emailNum=$("<input>").attr({
@@ -263,7 +263,7 @@ $(document).ready(function(){
 					"id":"email-number"
 				});
 				emailNum.val(response);
-				$("#first-form").append(emailNum);
+				$("#member-update-form").append(emailNum);
 				var fn_time=setInterval(function(){
 					time--;
 					console.log("time 실행");

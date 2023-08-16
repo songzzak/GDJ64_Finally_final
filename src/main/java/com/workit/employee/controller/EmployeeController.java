@@ -70,6 +70,8 @@ public class EmployeeController {
 		int totalData=service.selectMemberCount();
 		model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/employee/list"));
 		model.addAttribute("entFl",entFl);
+		model.addAttribute("category",category);
+		model.addAttribute("keyword",keyword);
 		return "employee/listEmp";
 	}
 	
