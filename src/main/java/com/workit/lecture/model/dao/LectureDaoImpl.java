@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.workit.lecture.model.dto.Lecture;
+import com.workit.member.model.vo.MemberVO;
 
 @Repository
 public class LectureDaoImpl implements LectureDao {
@@ -23,6 +24,16 @@ public class LectureDaoImpl implements LectureDao {
 	@Override
 	public int selectLectureCount(SqlSessionTemplate session, Map<String, Object> map) {
 		return session.selectOne("lecture.selectLectureCount",map);
+	}
+
+	@Override
+	public List<MemberVO> selectTeacher(SqlSessionTemplate session) {
+		return session.selectList("lecture.selectTeacher");
+	}
+
+	@Override
+	public int insertLecture(SqlSessionTemplate session, Map<String, Object> params) {
+		return session.insert("lecture.insertLecture",params);
 	}
 
 	

@@ -24,10 +24,7 @@
   .tableStyle { width: 95%; margin: 0px 20px; padding: 10px; border-collapse: collapse; margin: 20px 0;}
   .tableStyle td, .tableStyle th { border-bottom: 1px solid #e0e0e0;padding: 8px; text-align: center; }
   .tableStyle tr{height: 60px;}
-  
-    	/* pagebar */
-  	.pageBar li{width: 32px;height: 32px;text-align: center;}
-  	.pageBar li:hover{color: #fff; font-weight: bolder; background-color:var(--main-color-dk); }
+
 </style>
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
@@ -96,6 +93,10 @@
         // 검색 버튼에 클릭 이벤트
         $('#searchBtn').click(function() {
             searchLectures();
+        });
+     // 등록 버튼에 클릭 이벤트
+        $('#insertLectureBtn').click(function() {
+        	location.assign('${path}/lecture/insertLecture');
         });
     });
 
