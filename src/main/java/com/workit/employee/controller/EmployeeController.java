@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,10 +78,11 @@ public class EmployeeController {
 	
 	//부서 관리 화면
 	@GetMapping("/dept")
-	public String deptManageView(Model model,  @RequestParam(value="cPage",defaultValue="1") int cPage) {
+	public String deptManageView(Model model,  @RequestParam(value="cPage",defaultValue="1") int cPage,
+			HttpServletRequest request) {
 		model.addAttribute("depts",service.selectDeptCount(Map.of("cPage",cPage,"numPerpage",5)));
 		int totalData=service.selectGradeCount(Map.of("category","dept"));
-		model.addAttribute("pageBar",Pagenation.getPage(cPage, 5, totalData, "/employee/dept"));
+		model.addAttribute("pageBar",Pagenation.getPage(cPage, 5, totalData, request.getRequestURI()));
 		return "employee/manageDept";
 	}
 	
@@ -107,10 +109,11 @@ public class EmployeeController {
 	
 	//직책 관리 화면
 	@GetMapping("/job")
-	public String jobManageView(Model model, @RequestParam(value = "cPage", defaultValue = "1") int cPage) {
+	public String jobManageView(Model model, @RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			HttpServletRequest request) {
 		model.addAttribute("jobs", service.selectJobCount(Map.of("cPage", cPage, "numPerpage", 5)));
 		int totalData = service.selectGradeCount(Map.of("category", "job"));
-		model.addAttribute("pageBar", Pagenation.getPage(cPage, 5, totalData, "/employee/job"));
+		model.addAttribute("pageBar", Pagenation.getPage(cPage, 5, totalData, request.getRequestURI()));
 		return "employee/manageJob";
 	}
 	
@@ -183,10 +186,11 @@ public class EmployeeController {
 	
 	//정보 수정 요청 화면
 	@GetMapping("/approv")
-	public String selectApprovalRequest(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage) {
+	public String selectApprovalRequest(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage,
+			HttpServletRequest request) {
 		model.addAttribute("approvList",memberService.selectApprovAll(Map.of("cPage",cPage,"numPerpage",10)));
 		int totalData=memberService.selectApprovCount();
-		model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/employee/approv"));
+		model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,request.getRequestURI()));
 		return "employee/approvUpdateEmp";
 	}
 	
