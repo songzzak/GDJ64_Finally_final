@@ -21,7 +21,7 @@
 		enctype="multipart/form-data">
 
 		<div class="approve-section section-shadow">
-			<div id="approve_name">기안서신청</div>
+			<div id="approve_name">결재대기문서</div>
 
 			<div>
 				<div id="one-width">
@@ -30,17 +30,24 @@
 				</div>
 
 				<div id="one-width">
-					<div id="department" class="question">부서</div>
-					<div id="department-answer" class="answer">${loginMember.dept.deptName}</div>
-					<div id="writer" class="question">기안자</div>
-					<div id="writer-answer" class="answer">${loginMember.memberName}</div>
-					<div id="position" class="question">직책</div>
-					<div id="position-answer" class="answer">${loginMember.job.jobName}</div>
+						<div id="department" class="question">부서</div>
+						<div id="department-answer" class="answer">${saveExtends[0].memberId.dept.deptName}</div>
+						<div id="writer" class="question">기안자</div>
+						<div id="writer-answer" class="answer">${saveExtends[0].memberId.memberName}</div>
+						<div id="position" class="question">직책</div>
+						<div id="position-answer" class="answer">${saveExtends[0].memberId.job.jobName}</div>
 				</div>
 
 				<div id="one-width">
 					<div id="extendWorkWriteDate" class="question">작성일</div>
 					<div id="extendWorkWriteDate-answer" class="answer">${time}</div>
+				</div>
+
+				<div id="one-width">
+					<div id="expenditureTimeTitle" class="question">제목</div>
+					<div id="expenditureTitle-answer" class="answer">
+							<input type="text" id="title-input" name="title" value="${saveExtends[0].approveTitle}">
+					</div>
 				</div>
 
 				<input type="hidden" name="memberId" value="${loginMember.memberId}">

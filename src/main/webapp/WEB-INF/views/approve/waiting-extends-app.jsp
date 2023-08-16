@@ -20,7 +20,7 @@
 	<form action="#" id="appForm" method="post" enctype="multipart/form-data">
 	
 	<div class="approve-section section-shadow">
-		<div id="approve_name">기안서신청</div>
+		<div id="approve_name">결재대기문서</div>
 
 		<div>
 			<div id="one-width">
@@ -30,11 +30,11 @@
 
 			<div id="one-width">
 				<div id="department" class="question">부서</div>
-				<div id="department-answer" class="answer">${loginMember.dept.deptName}</div>
+				<div id="department-answer" class="answer">${saveExtends[0].memberId.dept.deptName}</div>
 				<div id="writer" class="question">기안자</div>
-				<div id="writer-answer" class="answer">${loginMember.memberName}</div>
+				<div id="writer-answer" class="answer">${saveExtends[0].memberId.memberName}</div>
 				<div id="position" class="question">직책</div>
-				<div id="position-answer" class="answer">${loginMember.job.jobName}</div>
+				<div id="position-answer" class="answer">${saveExtends[0].memberId.job.jobName}</div>
 			</div>
 			
 			<input type="hidden" name="memberId" value="${loginMember.memberId}">

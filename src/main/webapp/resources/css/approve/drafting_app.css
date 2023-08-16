@@ -230,15 +230,28 @@
 	flex-direction: row;
 }
 
+#rejectDiv{	
+	
+}
+
+#rejectMessage{ /* 반려사유 텍스트문구 */
+		text-align: center;
+		margin-left: 50px;
+		margin-top: 20px;
+		font-size: 20px;
+		font-weight: bold;
+		color: red;
+}
+
 .postit { /* 반려사유 포스트잇 */
 	border: 1px solid #0000004d;
 	display: block;
 	position: relative;
 	cursor: pointer;
 	margin-left: 50px;
-  width: 200px;
-  height: 200px;
-  background-color: LightGoldenRodYellow;
+	width: 200px;
+	height: 200px;
+	background-color: LightGoldenRodYellow;
 }
 
 .postit:hover:before {
@@ -255,13 +268,6 @@
 	width: 0;
 }
 
-#rejectMessage{
-		text-align: center;
-		margin-left: 50px;
-		margin-top: 20px;
-		font-size: 20px;
-		font-weight: bold;
-}
 
 
 #approve_name {
@@ -448,6 +454,7 @@ select {
 }
 
 
+
 #extendTimeTitle {
 	height: 70px;
 	width: 126px;
@@ -463,6 +470,24 @@ select {
 	line-height: 70px;
 }
 
+#expenditureTimeTitle{
+	height: 70px;
+	width: 126px;
+	text-align: center;
+	line-height: 70px;
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+}
+
+#expenditureTitle-answer{
+	height: 70px;
+	width: 634px;
+	text-align: center;
+	line-height: 70px;
+	border-top: none;
+	border-bottom: none;
+}
 
 #hBetweenTime,
 #gBetweenTime {

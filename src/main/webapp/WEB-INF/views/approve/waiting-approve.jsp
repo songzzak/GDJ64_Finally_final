@@ -10,7 +10,7 @@
 
 	
 	<div id="waitingDocument" class="approve-section section-shadow">
-		<span id="waitingDocumentFont">결재대기문서</span>
+		<span id="waitingDocumentFont">결재대기문서함</span>
 		<div id="waitingDocumentDiv">
 		<table class="table">
             <tr id="th">
