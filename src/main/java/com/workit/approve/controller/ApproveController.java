@@ -1353,7 +1353,7 @@ public class ApproveController {
 	}
 
 
-	@RequestMapping("/fullPayment.do")
+	@RequestMapping("/fullPayment.do") // 전결처리버튼 
 	public String fullPayment(Model m, String approveNo,String mId) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("approveNo",approveNo);
@@ -1365,10 +1365,10 @@ public class ApproveController {
 		
 		if(result >= 1 && result2 >=1) {
 			m.addAttribute("msg", "전결 성공");
-/*			m.addAttribute("url", "/approve/draftDocumentBox.do?mId="+mId);*/
+			m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId);
 		} else {
 			m.addAttribute("msg", "전결 실패");
-/*			m.addAttribute("url", "/approve/draftDocumentBox.do?mId="+mId);*/
+			m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId);
 		}
 		return "common/msg";	
 	}
