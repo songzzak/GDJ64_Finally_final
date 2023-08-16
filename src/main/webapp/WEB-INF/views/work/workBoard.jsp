@@ -268,7 +268,7 @@ $(document).ready(function() {
         var formattedDate = yyyy + '-' + mm + '-' + dd;
 
         // 오늘의 출근 시간 확인
-        $.get("/work/checkTodayWork", { date: formattedDate }, function(response) {
+        $.get("${path}/work/checkTodayWork", { date: formattedDate }, function(response) {
             if (response.alreadyRegistered) {
                 alert("이미 출근등록 하셨습니다.");
             } else {
@@ -285,7 +285,7 @@ $(document).ready(function() {
                 
                 if(isConfirmed) {
                     // 출근시간 등록
-                    $.post("/work/workStart",{ workStartTime: currentTime },
+                    $.post("${path}/work/workStart",{ workStartTime: currentTime },
                         function (response) {
                             console.log(response);
 
@@ -311,7 +311,7 @@ $(document).ready(function() {
         var formattedDate = yyyy + '-' + mm + '-' + dd;
 
         // 오늘의 퇴근 시간 확인
-        $.get("/work/checkTodayWork", { date: formattedDate }, function(response) {
+        $.get("${path}/work/checkTodayWork", { date: formattedDate }, function(response) {
             if (response.alreadyCheckedOut) {
                 alert("이미 퇴근하셨습니다.");
             } else {
@@ -325,7 +325,7 @@ $(document).ready(function() {
              // 알림창 띄우기
                 var isConfirmed = window.confirm(formattedTime + "에 퇴근하시겠습니까?");
                 if (isConfirmed) {
-                    $.post("/work/workEnd", { workEndTime: currentTime },
+                    $.post("${path}/work/workEnd", { workEndTime: currentTime },
                         function(response) {
                              console.log(response);
                              if (response.status === "success") {
@@ -364,7 +364,7 @@ function navigateMonth(offset) {
     //console.log(year);
     //console.log(month);
 
-    $.get("/work/workTime", {
+    $.get("${path}/work/workTime", {
         currentYear: year,
         currentMonth: month
     }, function (data) {
@@ -464,7 +464,7 @@ $("#request-date").change(function() {
 	  var date = $(this).val();
 	  $.ajax({
 	    type: "POST",
-	    url: "/work/getTime", 
+	    url: "${path}/work/getTime", 
 	    data: { date: date },
 	    success: function(response) {
 	    	 var formattedStart = formatTime(response.workStart);
@@ -479,7 +479,7 @@ $("#request-date").change(function() {
 $("#submit-btn").click(function() {
 	  $.ajax({
 	    type: "POST",
-	    url: "/work/requestTimeChange",
+	    url: "${path}/work/requestTimeChange",
 	    data: {
 	      date: $("#request-date").val(),
 	      reason: $("#request-reason").val()

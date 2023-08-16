@@ -92,12 +92,10 @@
 		$(".chat-msgBox-container").empty();
 		console.log("readCount : "+ readCount);
 		fn_openChatroom();
-		//move_to_page();
 	 });
 	var chatMsg;
 	
 	const fn_openChatroom=()=>{
-		//fn_chatScroll();
 		console.log("fn_openchatroom start");
 		console.log(chatroomId);
 		$(".prev-chat").empty();

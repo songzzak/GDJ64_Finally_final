@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function loadCalendar(roomValue) {
 	    $.ajax({
-	        url: "/meet/meetData?room=" + roomValue,
+	        url: "${path}/meet/meetData?room=" + roomValue,
 	        method: "GET",
 	        dataType: "json",
 	        success: function(data) {

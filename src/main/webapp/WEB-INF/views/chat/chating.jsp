@@ -99,50 +99,12 @@
 	</div>
 </div>
 <script>
-const cPath = '${path}'; 
-/* 	setTimeout(function() {
-		window.scrollTo(0, $(document).height());//스크롤 맨아래로
-	}, 50); */
-	/* $(".chat-msgBox-container").scroll(function(){
-		var scrollTop = $(this).scrollTop();
-		console.log("scrollTop : " + scrollTop);
-			
-		var innerHeight = $(this).innerHeight();
-		console.log("innerHeight : " + innerHeight);
-		var scrollHeight = $(this).prop('scrollHeight');
-		console.log("scrollHeight : " + scrollHeight);
-		if(scrollTop + innerHeight < scrollHeight) {
-			$(".chat-msgBox-container").scrollTop(scrollHeight);
-		}
-		/* if(scrollTop + innerHeight <= scrollHeight){
-			//$(".chat-msgBox-container").scrollTop == scrollHeight;
-			document.body.scrollTop = document.body.scrollHeight;
-		} 
-	}); */
-	
-/* 	function prepareScroll() {
-		window.setTimeout(fn_chatScroll, 50);
-	}
-	
-	function fn_chatScroll() {
-		let chatMsgBox = $(".chat-msgBox-container");
-		let msgBox = $(".prev-chat");
-		//chatMsgBox.scrollTop = chatMsgBox.scrollHeight;
-		msgBox.scrollTop = msgBox.scrollHeight;
-	}
-	
-	function move_to_page(){
-        setTimeout(function() {
-        	//let chatMsgBox = $(".chat-msgBox-container");
-        	let chatMsgBox = document.querySelector("chat-msgBox-container").offsetTop;
-        	console.log(document.querySelector("chat-msgBox-container"));
-        	let chatMsgBox = $(".chat-msgBox-container");
-        	chatMsgBox.scrollTop = chatMsgBox.scrollHeight;
-            //var PageLocation = document.querySelector(moveto).offsetTop;
-          //window.scrollTo({top: PageLocation, behavior: 'smooth'});
-        }, 50);
-      } */
-	
+	let currentUrl = window.location.href;
+	console.log(currentUrl);
+	var dgs = currentUrl.slice(7);
+	var sdg = dgs.slice(0, -5);
+	currentUrl = sdg;
+	console.log(currentUrl);
 	$(".addPersonIcon").click(e=>{
 		console.log("chatroomMemberName : ", chatroomMemberName);
 		$(".modal-updateChat").css("display","block");
@@ -356,7 +318,7 @@ const cPath = '${path}';
 
 	var websocket;
 	const fn_startChat=()=>{
-		websocket= new WebSocket("ws://localhost:8080/chating/"+chatroomId);
+		websocket= new WebSocket("ws://"+currentUrl+"chating/"+chatroomId);
 		websocket.onopen=data=>{
 			console.log(data);
 		}
@@ -532,6 +494,35 @@ const cPath = '${path}';
 			$(".modal-result-container").append($("<h3>").text(data));
 		}
 	}
+	
+	$(document).on("click", ".chatMember", function(e) {
+		$(".modal-chat-member").empty();
+		memberId = $(e.target).next().val();
+		$(".modal-view-chatMemberProfile").css("display","block");
+		$.ajax({
+			url : "${path}/chatroom/profile",
+			type : "POST",
+			data : {
+				memberId : memberId
+			},
+			success : data =>{
+				console.log(data);
+				let modalchatmemberDiv = $("<div class='modal-chat-member'>");
+				modalchatmemberDiv.append($("<img>").attr("src",cPath+"/resources/upload/profile/"+data.profileImg));
+				modalchatmemberDiv.append($("<h5>").text(data.dept.deptName+" "+data.memberName+" "+data.job.jobName));
+				let $table = $("<table class='modal-table'>");
+				$table.append($("<tr>").append($("<th>").text("phone")).append($("<td>").text(data.phone)));
+				$table.append($("<tr>").append($("<th>").text("address")).append($("<td>").text(data.address)));
+				$table.append($("<tr>").append($("<th>").text("email")).append($("<td>").text(data.email)));
+				$table.append($("<tr>").append($("<th>").text("입사일")).append($("<td>").text(data.hireDate)));
+				modalchatmemberDiv.append($table);
+				$(".modal-content").append(modalchatmemberDiv);
+			},
+			error: function(xhr, status, error) {
+				console.error('AJAX Error:', error);
+			}
+		})
+	});
 </script>
 </body>
 </html>
