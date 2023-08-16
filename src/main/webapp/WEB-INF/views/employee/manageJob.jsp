@@ -26,18 +26,35 @@
 				</div>
 			</div>
 			<h4>직책 삭제</h4>
-			<div class="dept-container-first">
+			<div class="dept-container">
 				<div id="delete-grade">
-					<span>직책명</span>
-					<select id="delete-code">
-						<option selected disabled>필수 선택</option>
-		         		<c:if test="${jobs!=null }">
-			         		<c:forEach var="j" items="${jobs }">
-			         			<option value="${j.jobCode }">${j.jobName }</option>
-		         			</c:forEach>
-		         		</c:if>
-					</select>
-					<button onclick="fn_deleteAuth();">삭제</button>
+					<table>
+						<tr>
+							<th>직책</th>
+							<th>총 인원</th>
+							<th>삭제</th>
+						</tr>
+						<tr>
+							<td colspan="4"><hr /></td>
+						</tr>
+						<!-- 반복문 처리될 구간 -->
+						<c:if test="${jobs!=null }">
+							<c:forEach var="j" items="${jobs }">
+								<tr class="dept-tr">
+									<td>
+										${j.jobName}
+									</td>
+									<td>${j.jobCount }명</td>
+									<td>
+										<button onclick="fn_deleteAuth('${j.jobCode }','${j.jobCount }');">삭제</button>
+									</td>
+								</tr>
+								<tr class="dept-tr">
+									<td colspan="4"><hr /></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</table>
 				</div>
 			</div>
 			<h4>직책명 수정</h4>
@@ -91,9 +108,14 @@
 	</div>
 </section>
 <script>
+	//직책 추가
 	function fn_insertAuth(){
 		const jobAuth=$("#job-auth").val();
 		const jobName=$("#job-name").val();
+		if(jobAuth==null||jobName==null){
+			alert("변경할 이름과 권한을 모두 입력하세요.");
+			return;
+		}
 		$.ajax({
 			method:"post",
 			url:"${path}/employee/job",
@@ -118,9 +140,12 @@
 		});
 	}
 	
-	function fn_deleteAuth(){
-		const jobCode=$("#delete-code").val();
-		console.log(jobCode);
+	//직책 삭제
+	function fn_deleteAuth(jobCode,jobCount){
+		if(jobCount>0){
+			alert("해당 직책에 존재하는 사원이 있습니다. 직책 이동 후 삭제하세요.");
+			return;
+		}
 		$.ajax({
 			method:"delete",
 			url:"${path}/employee/job",
@@ -128,17 +153,26 @@
 			dataType:"text"
 		}).then(function (response){
 			if(response>0){
-				alert("삭제되었습니다.");
+				alert("삭제 되었습니다.");
 				location.reload();
 			}else{
-				alert("삭제 실패했습니다.");
+				alert("삭제 실패하였습니다.");
+			}
+		}).then(function (error){
+			if(error!=null){
+				alert(error);
 			}
 		});
 	}
 	
+	//직책 수정
 	function fn_updateAuth(code){
 		const jobName=$("#"+code+"-name").val();
 		const jobAuth=$("#"+code+"-auth").val();
+		if(jobAuth==null||jobName==null){
+			alert("변경할 이름과 권한을 모두 입력하세요.");
+			return;
+		}
 		$.ajax({
 			method:"put",
 			url:"${path}/employee/job",

@@ -1,28 +1,35 @@
 package com.workit.chatroom.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.workit.chat.service.ChatService;
 import com.workit.chatroom.model.dto.AttachedFile;
 import com.workit.chatroom.service.ChatroomService;
+import com.workit.member.model.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,64 +39,89 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatroomController {
 	
 	private ChatroomService chatroomService;
+	private ChatService chatService;
 	
-	public ChatroomController(ChatroomService chatroomService) {
+	public ChatroomController(ChatroomService chatroomService, ChatService chatService) {
 		this.chatroomService = chatroomService;
+		this.chatService = chatService;
 	}
 	
 	@PostMapping("/upload")
-    public List<AttachedFile> uploadFile(@ModelAttribute("uploadFile") List<MultipartFile> files, @RequestParam(value="chatroomId") String chatroomId) throws IOException {
+    public ResponseEntity<String>  uploadFile(@RequestParam("files") List<MultipartFile> files, @RequestParam(value="chatroomId") String chatroomId) throws IOException {
 		log.info("{}", chatroomId);
 		log.info("{}", files);
 		List<AttachedFile> list = new ArrayList<AttachedFile>();
 		if(files!=null && files.size()>0) {
-			for (MultipartFile multipartFile : files) {
-				log.info("{}", multipartFile.getOriginalFilename());
-				AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId);
-				log.info("controller file");
-				log.info("{}", uploadFile);
-				if(uploadFile!=null) {
-					list.add(uploadFile);
-				}
+			try {
+					for (MultipartFile multipartFile : files) {
+						log.info("{}", multipartFile.getOriginalFilename());
+						AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId);
+						log.info("controller file");
+						log.info("{}", uploadFile);
+						if(uploadFile!=null) {
+							list.add(uploadFile);
+							// 클라이언트로 업로드 결과 전달
+							return ResponseEntity.ok("Files uploaded successfully.");
+						}else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed.");
+					}
+				
+			}catch(IOException e) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed.");
 			}
-			log.info("{}", list);
-			return list;
 		}
-        return list;
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed.");
     }
 	
-	@RequestMapping("/filedownload")
-	public void fileDown(String oriname, String rename, OutputStream out,
-			@RequestHeader(value="user-agent") String header,
-			HttpSession session,
-			HttpServletResponse res) {
-		
-		String path=session.getServletContext().getRealPath("/resources/upload/chat/");
-		File downloadFile=new File(path+rename);
-		try(FileInputStream fis=new FileInputStream(downloadFile);
-				BufferedInputStream bis=new BufferedInputStream(fis);
-				BufferedOutputStream bos=new BufferedOutputStream(out)) {
-			
-			boolean isMS=header.contains("Trident")||header.contains("MSIE");
-			String ecodeRename="";
-			if(isMS) {
-				ecodeRename=URLEncoder.encode(oriname,"UTF-8");
-				ecodeRename=ecodeRename.replaceAll("\\+","%20");
-			}else {
-				ecodeRename=new String(oriname.getBytes("UTF-8"),"ISO-8859-1");
-			}
-			res.setContentType("application/octet-stream;charset=utf-8");
-			res.setHeader("Content-Disposition","attachment;filename=\""+ecodeRename+"\"");
-			
-			int read=-1;
-			while((read=bis.read())!=-1) {
-				bos.write(read);
-			}
-			
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-		
+	@GetMapping("/download/{uploadFile:.+}")
+	@ResponseBody
+    public ResponseEntity<Resource>  downloadFile(@PathVariable String uploadFile, HttpSession session) throws IOException {
+        // 파일을 저장한 디렉토리 경로 설정
+        String fileDirectory = session.getServletContext().getRealPath("/resources/upload/chat/");
+        log.info("fileDirectory : " + fileDirectory);
+        Path filePath = Paths.get(fileDirectory, uploadFile);
+        log.info("filePath : " + filePath);
+        Resource resource = new ByteArrayResource(Files.readAllBytes(filePath));
+        String fileUrl = fileDirectory + uploadFile;
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", uploadFile);
+        
+        return ResponseEntity.ok()
+              .headers(headers)
+              .body(resource);
+    }
+	
+	@PostMapping("/file")
+	public ResponseEntity<?> selectFileByRoomId(@RequestParam("chatroomId")String chatroomId){
+		log.info("{}", chatroomId);
+		return ResponseEntity.ok().body(chatroomService.selectFileByChatroomId(chatroomId));
 	}
+	
+	@PostMapping("/update")
+	@ResponseBody
+	public int updateChatroomMember(@RequestParam(value="chatMember")String chatMember, @RequestParam(value="chatroomId") String chatroomId, HttpSession session, Model model) {
+		return chatService.updateChatroomMember(Map.of("member",chatMember,"chatroomId",chatroomId));
+	}
+	
+	@PostMapping("/search")
+	@ResponseBody
+	public ResponseEntity<?> searchChatroomByKeyword(@RequestParam(value="chatroomId")String chatroomId, @RequestParam(value="keyword")String keyword) {
+		log.info(keyword);
+		log.info(chatroomId);
+		log.info("{}", chatService.searchByKeyword(Map.of("chatroomId",chatroomId, "keyword",keyword)));
+		return ResponseEntity.ok().body(chatService.searchByKeyword(Map.of("chatroomId",chatroomId, "keyword",keyword)));
+	}
+	
+	@PostMapping("/unread")
+	public void chatNotificationCount(HttpSession session, Model model) {
+		MemberVO member = (MemberVO)session.getAttribute("loginMember");
+		String loginMember = member.getMemberId();
+		int unread = chatroomService.chatNotificationCount(loginMember);
+		model.addAttribute("unread", unread);
+	}
+	
+	
+	
 	
 }

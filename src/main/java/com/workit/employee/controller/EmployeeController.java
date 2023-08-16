@@ -61,10 +61,15 @@ public class EmployeeController {
 	
 	//회원 리스트
 	@GetMapping("/list")
-	public String selectMemberList(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage) {
-		model.addAttribute("members",service.selectMemberAll(Map.of("cPage",cPage,"numPerpage",15)));
+	public String selectMemberList(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="entFl",defaultValue="") String entFl,
+			@RequestParam(value="category",defaultValue="") String category,
+			@RequestParam(value="keyword",defaultValue="") String keyword) {
+		model.addAttribute("members",service.selectMemberAll(
+				Map.of("cPage",cPage,"numPerpage",15,"entFl",entFl,"category",category,"keyword",keyword)));
 		int totalData=service.selectMemberCount();
 		model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/employee/list"));
+		model.addAttribute("entFl",entFl);
 		return "employee/listEmp";
 	}
 	
@@ -130,7 +135,7 @@ public class EmployeeController {
 	//회원 정보 수정 화면
 	@GetMapping("/memberId")
 	public String UpdateEmpView(Model model, @RequestParam(value="id") String id) {
-		model.addAttribute("member",memberService.selectMemberByParam(Map.of("memberId",id)));
+		model.addAttribute("member",service.selectMemberByParam(Map.of("memberId",id)));
 		model.addAttribute("depts",service.selectDept());
 		model.addAttribute("jobs",service.selectJob());
 		return "employee/updateEmp";

@@ -5,6 +5,9 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <c:set var="approveNo" value="${approveNo}"/>
 <c:set var="approveState" value="${approveState}"/>
+<c:set var="oriFileName" value="${oriFileName}"/>
+<c:set var="saveFileName" value="${saveFileName}"/>
+
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -71,7 +74,8 @@
 			<div id="one-width">
 				<div id="appAttachment" class="question">첨부파일</div>
 				<div id="appAttachment-answer" class="answer">
-					<input type="file" id="appAttachment-input" name="upFile" value="dddd">
+					<input type="file" id="appAttachment-input" name="upFile" style="display:none;">
+					<button type="button" id="fileClickId" onclick="fn_fileDownload('${oriFileName}','${saveFileName}')">파일을 선택하세요</button>
 				</div>
 			</div>
 			
@@ -91,19 +95,33 @@
 </html>	
 
 <script>
+	function fn_fileDownload(oriName,reName){
+		if(oriName==""){
+			return false;
+		}else{
+			location.assign("${path}/approve/filedownload?oriname="+oriName+"&rename="+reName);			
+		}
+	};
+
 	$(function() {	
 		const approveLines=JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
 		const referLines=JSON.parse('${referLines}'); 
 
 		console.log(approveLines);
 		console.log(referLines);
-
+		
+		if("${oriFileName}"==""){
+			$("#fileClickId").text("파일을 선택하세요"); 
+		}else{
+			$("#fileClickId").text("${oriFileName}"); 
+		}
+		
+		
 /* 		approvLines.forEach(e=>{
 			
 		}); */
 		
 		for(let i=0; i<approveLines.length; i++){
-
 			const di = $("<div>").css("border", "1px solid black").height("98px").width("120px");
 			$("#app-line").append(di);
 			di.append($("<div>").css("border-bottom", "1px solid black").height("30px").width("120px").text(approveLines[i].memberId.memberName + " " + approveLines[i].memberId.job.jobName).css("text-align","center"));
@@ -121,7 +139,7 @@
 	}
 	
 	const rejectApp=()=>{
-		
+		$("#rejectContentInput").val("");
  		document.querySelector(".reject").classList.remove("hidden-reject");
  
 		const appclose = () => { // 모달창 사람지는 함수
@@ -129,8 +147,9 @@
 		}
 		
 		const rejectWrite=()=>{
-			appclose();  
-			console.log("zz");
+			appclose();
+			const message = $("#rejectContentInput").val();
+			location.assign("${path}/approve/rejectMessage.do?approveNo=${approveNo}&mId=${loginMember.memberId}&message="+message);		
 		}
 		
 		document.querySelector("#reject-close-button").addEventListener("click", appclose); // 모달창에서 닫기버튼 눌렀을 때 appclose함수 호출
@@ -143,5 +162,4 @@
 	}
 
 </script>
-
 

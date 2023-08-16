@@ -123,11 +123,10 @@ header {
 	display: flex;
 }
 /* 헤더 아이콘 여백 */
-.header_icon_container img{
+.header_icon_container>img, .header_icon_container>div {
 	width: 42px;
     padding-left: 2rem;
 }
-/* 헤더 > 검색 
 .header-search {
 	display: flex;
 	align-items: center;
@@ -249,4 +248,30 @@ div.pageBar{
     color: var(—main-disabled);
 	
 }
-
+#chat-notification {
+	background-image: url('../../images/common/chat.svg');
+    position: relative;
+    height : 40px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.chat-num {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 3;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color:var(--main-color-dk);
+    border-radius: 15px;
+    display: inline-block;
+    color : white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    box-shadow: var(--box-shadow);
+}
+.hidden {display: none;}

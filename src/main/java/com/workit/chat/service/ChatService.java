@@ -13,7 +13,7 @@ public interface ChatService {
 	
 	Map<String, Object> selectChatroomByroomId(String chatroomId);
 	
-	List<MyChatroom> searchAllByKeyword(String keyword);
+	Map<String, Object> searchByKeyword(Map<String, Object> keyword);
 	
 	//String insertChatroom(Map<String, Object> param);
 	String insertChatroom(String loginMember, Chatroom chatroom);
@@ -21,9 +21,8 @@ public interface ChatService {
 	List<Member> selectMemberAll();
 	int deleteMyChatroom(Map<String, Object> param);
 	List<MyChatroom> selectChatByChatroomId(String chatroomId);
-	List<MyChatroom> searchChatroomByKeyword(Map<String, Object> param);
+	//List<MyChatroom> searchChatroomByKeyword(Map<String, Object> param);
 	
-	//int insertChat(Chat chat);
 	List<MyChatroom> selectChatMember(String chatroomId);
 	
 	

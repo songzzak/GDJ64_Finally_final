@@ -23,7 +23,7 @@ public interface EmployeeMapper {
 
     int insertEmployee(Map<String, Object> param);
 
-    List<Member> selectMemberAll(RowBounds rb);
+    List<Member> selectMemberAll(Map<String, Object> param, RowBounds rb);
 
 	int selectMemberCount();
 	
@@ -56,5 +56,7 @@ public interface EmployeeMapper {
 	int deleteJob(String jobCode);
 	
 	int updateJob(Map<String, Object> param);
+	
+	Member selectMemberByParam(Map<String, Object> param);
 	
 }

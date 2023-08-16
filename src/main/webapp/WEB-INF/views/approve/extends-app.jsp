@@ -5,6 +5,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <c:set var="approveNo" value="${approveNo}"/>
 <c:set var="approveState" value="${approveState}"/>
+<c:set var="fileName" value="${fileName}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -17,7 +18,27 @@
 	<form action="#" id="appForm" method="post" enctype="multipart/form-data">
 	
 	<div class="approve-section section-shadow">
-		<div id="approve_name">기안서신청</div>
+		<c:choose>
+			<c:when test="${approveState eq '임시저장' }">
+				<div id="approve_name">임시저장함</div>
+			</c:when>
+			<c:when test="${approveState eq '결재대기'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:when test="${approveState eq '결재처리중'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:when test="${approveState eq '완료'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:when test="${approveState eq '반려'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:otherwise>
+				<div id="approve_name">기안서신청</div>
+			</c:otherwise>
+		</c:choose>
+	
 
 		<div>
 			<div id="one-width">
@@ -71,7 +92,8 @@
 			<div id="one-width">
 				<div id="appAttachment" class="question">첨부파일</div>
 				<div id="appAttachment-answer" class="answer">
-					<input type="file" id="appAttachment-input" name="upFile" value="dddd">
+					<input type="file" id="appAttachment-input" name="upFile" style="display:none;">
+					<button type="button" id="fileClickId" onclick="fileClick();">파일을 선택하세요</button>
 				</div>
 			</div>
 			
@@ -107,7 +129,14 @@
 
 		console.log(approveLines);
 		console.log(referLines);
-
+		
+		if("${fileName}"==""){
+			$("#fileClickId").text("파일을 선택하세요"); 
+		}else{
+			$("#fileClickId").text("${fileName}"); 
+		}
+		
+		
 /* 		approvLines.forEach(e=>{
 			
 		}); */
@@ -136,6 +165,14 @@
 		}
 		
 		
+	});
+	
+	const fileClick=()=>{
+		$("#appAttachment-input").click();
+	}
+	
+	$("#appAttachment-input").change(function(e){
+	     $("#fileClickId").text($('input[type=file]')[0].files[0].name); 
 	});
 	
 	const remove=()=>{  // 임시저장된 기안서 삭제할때
@@ -205,5 +242,4 @@
 		
 	}
 </script>
-
 

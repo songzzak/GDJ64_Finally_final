@@ -28,16 +28,13 @@ const path = "${pageContext.request.contextPath}";
 			<div class="header-member">
 				<a href="${path }/mypage">
 					<img src="${path}/resources/images/common/profile.svg" alt="member-profile-img">
-					<span>${loginMember.dept.deptName }</span>
+					<span>${loginMember.dept.deptName }</span>&nbsp;
 					<span>${loginMember.memberName }</span>
 				</a>
 			</div>
-			<%-- <div class="header-search">
-				<input type="search" placeholder="사원검색" class="emp_search">
-				<img alt="alram_header" src="${path}/resources/images/common/icon-search.svg"> --%><%-- 검색 아이콘
-			</div> --%>
 			<div class="header_icon_container">
 				<img alt="alram_header" src="${path}/resources/images/common/notify.svg" onclick="alramList();">
+				<div class="nav-btn" id="chat-notification"><span class="chat-num"></span></div>
 				<img alt="logout_header" src="${path}/resources/images/common/logout.svg" onclick="fn_logout();">
 			</div>
 		</div>
@@ -49,5 +46,32 @@ const path = "${pageContext.request.contextPath}";
 		if(logoutFl){
 			location.replace("${path}/logout");
 		}
+	}
+	
+	window.onload = function() {
+		fn_updateChatNotify();
+	};
+	
+	let unreadCount =  $(".chat-num");
+	const fn_updateChatNotify=()=>{
+		let memberId = '${loginMember.memberId}';
+		console.log("member Id : " + memberId);
+		$.ajax({
+			url: "${path}/chat/notify",
+			type: "post",
+			data: {
+				memberId: memberId
+			},
+			success: data => {
+				console.log("open chat : " + data);
+				 $(".chat-num").text(data);
+				 if(data == 0){
+					 $(".chat-num").addClass("hidden");	 
+				 }
+			},
+			error : data =>{
+				console.log("error");
+			}
+		});
 	}
 </script>

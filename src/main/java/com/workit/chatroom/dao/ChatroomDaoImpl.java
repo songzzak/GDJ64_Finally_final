@@ -3,26 +3,22 @@ package com.workit.chatroom.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.workit.chat.mapper.ChatMapper;
+import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.ChatMsg;
-import com.workit.chatroom.mapper.ChatroomFileMapper;
-import com.workit.chatroom.model.dto.ChatroomFile;
 import com.workit.chatroom.model.dto.AttachedFile;
-
-import lombok.extern.slf4j.Slf4j;
+import com.workit.chatroom.model.dto.ChatNotification;
+import com.workit.chatroom.model.dto.ChatroomFile;
+import com.workit.member.model.dto.Member;
 @Repository
-@Slf4j
 public class ChatroomDaoImpl implements ChatroomDao {
 	
-	private ChatroomFileMapper chatfileMapper;
+	@Autowired
 	private ChatMapper chatMapper;
 	
-	public ChatroomDaoImpl(ChatMapper chatMapper, ChatroomFileMapper chatfileMapper) {
-		this.chatMapper = chatMapper;
-		this.chatfileMapper = chatfileMapper;
-	}
 	
 	@Override
 	public int insertChat(ChatMsg chat) {
@@ -49,20 +45,33 @@ public class ChatroomDaoImpl implements ChatroomDao {
 		return chatMapper.selectFileByChatroomId(chatroomId);
 	}
 
-//	@Override
-//	public int saveFile(Map<String, Object> file) {
-//		return chatfileMapper.saveFile(file);
-//	}
-//
-//	@Override
-//	public int uploadFile(Map<String, Object> param) {
-//		return chatfileMapper.uploadFile(param);
-//	}
-//
-//	@Override
-//	public File selectFileById(String fileId) {
-//		return chatfileMapper.selectFileById(fileId);
-//	}
+	@Override
+	public List<Member> selectChatMemberById(String chatroomId) {
+		return chatMapper.selectChatMemberById(chatroomId);
+	}
+
+	@Override
+	public int saveChat(ChatNotification chatread) {
+		return chatMapper.saveChat(chatread);
+	}
+
+	@Override
+	public int chatNotificationCount(String loginMember) {
+		return chatMapper.chatNotificationCount(loginMember);
+	}
+
+	@Override
+	public int chatNotificationCountById(Map<String, Object> param) {
+		return chatMapper.chatNotificationCountById(param);
+	}
+
+	@Override
+	public int deleteNotify(int myChatroomNo) {
+		return chatMapper.deleteNotify(myChatroomNo);
+	}
+	
+	
+	
 	
 	
 	

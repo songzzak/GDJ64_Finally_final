@@ -6,6 +6,12 @@
 <c:set var="approveNo" value="${approveNo}"/>
 <c:set var="approveState" value="${approveState}"/>
 <c:set var="approveKind" value="${approveKind}"/>
+<c:set var="fileName" value="${fileName}"/>
+<c:set var="stime" value="${stime}"/>
+<c:set var="etime" value="${etime}"/>
+<c:set var="sdate" value="${sdate}"/>
+<c:set var="edate" value="${edate}"/>
+
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -19,9 +25,26 @@
 		enctype="multipart/form-data">
 
 		<div class="approve-section section-shadow">
-			<div id="approve_name">기안서신청</div>
-
-			<div>
+		<c:choose>
+			<c:when test="${approveState eq '임시저장' }">
+				<div id="approve_name">임시저장함</div>
+			</c:when>
+			<c:when test="${approveState eq '결재대기'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:when test="${approveState eq '결재처리중'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:when test="${approveState eq '완료'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:when test="${approveState eq '반려'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:otherwise>
+				<div id="approve_name">기안서신청</div>
+			</c:otherwise>
+		</c:choose>
 				<div id="one-width">
 					<div id="kind">근태신청서</div>
 					<div id="app-line" class="answer"></div>
@@ -88,7 +111,8 @@
 				<div id="one-width">
 					<div id="appAttachment" class="question">첨부파일</div>
 					<div id="appAttachment-answer" class="answer">
-						<input type="file" id="appAttachment-input" name="upFile">
+						<input type="file" id="appAttachment-input" name="upFile" style="display:none;">
+						<button type="button" id="fileClickId" onclick="fileClick();">파일을 선택하세요</button>
 					</div>
 				</div>
 
@@ -118,7 +142,12 @@
 
 <script>
 
+
 	$(function() {  // 레디함수
+		console.log("${approveNo}");
+		console.log("${approveState}");
+		console.log("${approveKind}");	
+		
 	    $("input:radio[name=geuntae]").click(function(){  // 연차, 보건, 경조는 날짜로만 선택
 	    	if(this.id=="annual" || this.id=="health" || this.id=="condolences"){
 	    		$("#applicationDate-answer").empty();
@@ -137,6 +166,47 @@
 	    		$("#applicationDate-answer").append($('<input/>',{type:'time', name: 'endTime', id:'hEndTime'}));
 	    	}	
 	   	})
+	   	
+	   	
+	   	if("${approveKind}"=='연차'){
+	   		$("#annual").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크
+	   		$("#gStartDate").val("${sdate}");
+	   		$("#gEndDate").val("${edate}");
+	   	}
+	   	if("${approveKind}"=='반차'){
+	   		$("#halfAnuual").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크  
+	   		$("#hStartDate").val("${sdate}");
+	   		$("#hStartTime").val("${stime}");
+	   		$("#hEndTime").val("${etime}");  		
+	   	}
+	   	
+	   	if("${approveKind}"=='보건'){
+	   		$("#health").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크
+	   		$("#gStartDate").val("${sdate}");
+	   		$("#gEndDate").val("${edate}");
+	   	}
+	   	
+	   	if("${approveKind}"=='경조'){
+	   		$("#condolences").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크
+	   		$("#gStartDate").val("${sdate}");
+	   		$("#gEndDate").val("${edate}");
+	   		
+	   	}
+	   	if("${approveKind}"=='외출'){
+	   		$("#outing").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크
+	   		$("#halfAnuual").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크  
+	   		$("#hStartDate").val("${sdate}");
+	   		$("#hStartTime").val("${stime}");
+	   		$("#hEndTime").val("${etime}");
+	   		
+	   	}
+	   	
+		if("${fileName}"==""){
+			$("#fileClickId").text("파일을 선택하세요"); 
+		}else{
+			$("#fileClickId").text("${fileName}"); 
+		}
+	   	
 	   	
 	   	const approveLines=JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
 		const referLines=JSON.parse('${referLines}'); 
@@ -162,13 +232,7 @@
 			span.append($('<img/>',{src:path+'/resources/images/approve/circle_people.png',width:'20px',height:'20px'}));
 			span.append(referLines[i].memberId.memberId + " " + referLines[i].memberId.memberName + " " + referLines[i].memberId.job.jobName + " " + referLines[i].memberId.dept.deptName, '<br>');
 			span.append($("<input/>", { type: 'hidden', name: 'paraRefer', value: referLines[i].memberId.memberId })); // 파라미터로넘길 참조선값들		
-		}
-	   	
-	   	if("${approveKind}"=='연차') $("#annual").prop("checked",true);
-	    if("${approveKind}"=='반차') $("#halfAnnual").prop("checked",true);
-	    if("${approveKind}"=='보건') $("#health").prop("checked",true);
-	    if("${approveKind}"=='경조') $("#condolences").prop("checked",true);
-	    if("${approveKind}"=='외출') $("#outing").prop("checked",true);	   	
+		} 	
 	});
 
 	
@@ -177,10 +241,50 @@
 	}
 	
 	const reSaves=()=>{ // 임시저장된 기안서 다시 임시저장할 때
- 		$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}"); 
+		const kind = $("input:radio[name='geuntae']:checked").val();
+				
+ 		if($("input[name='startDate']").length == 0){
+			alert("시간을선택해주세요");
+			return false;
+		} 
+		
+		if(kind == "반차" || kind == "외출"){
+			if(document.getElementById("hStartDate").value == "" || document.getElementById("hStartTime").value == "" ||
+					document.getElementById("hEndTime").value == ""){
+				
+/* 				if(document.getElementById("hStartDate").value == "" && document.getElementById("hStartTime").value == "" 
+					&& document.getElementById("hEndTime").value == ""){
+				}else{
+					alert("시간입력");
+					return false;				
+				}	 */	
+				alert("시간입력");
+				return false;	
+			}
+		}else{  // 연차, 보건, 경조 경우
+			if(document.getElementById("gStartDate").value == "" || document.getElementById("gEndDate").value == ""){
+/* 				if(document.getElementById("gStartDate").value == "" && document.getElementById("gEndDate").value == ""){
+				}else{
+					alert("시간입력");
+					return false;				
+				}	 */	
+				alert("시간입력");
+				return false;	
+			}
+		}
+	
+ 		$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}&approveKind="+kind); 
 		$("#appForm").submit(); 
 	}
-
+	
+	const fileClick=()=>{
+		$("#appAttachment-input").click();
+	}
+	
+	$("#appAttachment-input").change(function(e){
+	     $("#fileClickId").text($('input[type=file]')[0].files[0].name); 
+	});
+	
 	const backs=()=>{
 		location.assign("${path}/");
 	}
@@ -260,8 +364,14 @@
 			}
 		}
 
- 		$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
-		$("#appForm").submit(); 
+		if("${approveState}" == "임시저장"){
+ 			$("#appForm").attr("action","${path}/approve/reSaves.do?deleteApproveNo=${approveNo}&approveState=${approveState}&approveKind="+kind); 
+			$("#appForm").submit();		
+		}else{
+
+			$("#appForm").attr("action","${path}/approve/insertDraft.do"); 
+			$("#appForm").submit();	
+		}
 		
 	}
 	
