@@ -10,7 +10,7 @@
 
 	
 	<div id="saveDocument" class="approve-section section-shadow">
-		<span id="saveDocumentFont">임시저장문서</span>
+		<span id="saveDocumentFont">임시저장함</span>
 		<div id="saveDocumentDiv">
 			<table class="table">
             <tr id="th">

@@ -9,7 +9,7 @@
 <c:set var="oriFileName" value="${oriFileName}"/>
 <c:set var="saveFileName" value="${saveFileName}"/>
 <c:set var="name" value="${name}"/>
-<c:set var="message" value="${rejectMessage}"/>
+<c:set var="message" value="${message}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -23,7 +23,12 @@
 		enctype="multipart/form-data">
 
 		<div class="section-shadow approve-section">
-			<div id="approve_name">기안문서함</div>
+				<c:if test="${name eq '기안문서함'}">
+					<div id="approve_name">기안문서</div>
+				</c:if>
+				<c:if test="${name eq '참조문서함'}">
+					<div id="approve_name">참조문서</div>
+				</c:if>
 
 			<div class="draft-section-margin">
 				<div id="one-width">
@@ -45,20 +50,37 @@
 					
 				</div>
 				
-
-				<div id="one-width">
-					<div id="department" class="question">부서</div>
-					<div id="department-answer" class="answer">${loginMember.dept.deptName}</div>
-					<div id="writer" class="question">기안자</div>
-					<div id="writer-answer" class="answer">${loginMember.memberName}</div>
-					<div id="position" class="question">직책</div>
-					<div id="position-answer" class="answer">${loginMember.job.jobName}</div>
-				</div>
+			<div id="one-width">
+					<c:if test="${name eq '기안문서함'}">
+						<div id="department" class="question">부서</div>
+						<div id="department-answer" class="answer">${loginMember.dept.deptName}</div>
+						<div id="writer" class="question">기안자</div>
+						<div id="writer-answer" class="answer">${loginMember.memberName}</div>
+						<div id="position" class="question">직책</div>
+						<div id="position-answer" class="answer">${loginMember.job.jobName}</div>
+					</c:if>
+					<c:if test="${name eq '참조문서함'}">
+						<div id="department" class="question">부서</div>
+						<div id="department-answer" class="answer">${saveExtends[0].memberId.dept.deptName}</div>
+						<div id="writer" class="question">기안자</div>
+						<div id="writer-answer" class="answer">${saveExtends[0].memberId.memberName}</div>
+						<div id="position" class="question">직책</div>
+						<div id="position-answer" class="answer">${saveExtends[0].memberId.job.jobName}</div>
+					</c:if>
+			</div>
 
 				<div id="one-width">
 					<div id="extendWorkWriteDate" class="question">작성일</div>
 					<div id="extendWorkWriteDate-answer" class="answer">${time}</div>
 				</div>
+				
+				<div id="one-width">
+					<div id="expenditureTimeTitle" class="question">제목</div>
+					<div id="expenditureTitle-answer" class="answer">
+							<input type="text" id="title-input" name="title" value="${saveExtends[0].approveTitle}">
+					</div>
+				</div>
+
 
 				<input type="hidden" name="memberId" value="${loginMember.memberId}">
 				<input type="hidden" name="approveKind" value="지출결의서">
@@ -132,17 +154,20 @@
 			</div>
 		</div>
 		
-		
-		<div class="draft-flex-row">
-			<div id="rejectMessage">
-					반려사유
+		<c:if test="${approveState eq '반려'}">
+			<div id="rejectDiv">
+				<div class="draft-flex-row">
+					<div id="rejectMessage">
+							반려사유
+					</div>
+					<li class="postit">
+							<span class="bold">
+								${message}	
+							</span>	
+					</li>
+				</div>	
 			</div>
-			<li class="postit">
-					<span class="bold">
-						ddd;	
-					</span>	
-			</li>
-		</div>	
+		</c:if>
 <jsp:include page="/WEB-INF/views/approve/reject-view.jsp"/>
 
 	</form>

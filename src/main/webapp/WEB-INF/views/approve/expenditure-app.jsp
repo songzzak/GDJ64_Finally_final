@@ -22,19 +22,7 @@
 		<div class="approve-section section-shadow">
 		<c:choose>
 			<c:when test="${approveState eq '임시저장' }">
-				<div id="approve_name">임시저장함</div>
-			</c:when>
-			<c:when test="${approveState eq '결재대기'}">
-				<div id="approve_name">결재대기함 ${approveState}</div>
-			</c:when>
-			<c:when test="${approveState eq '결재처리중'}">
-				<div id="approve_name">결재대기함 ${approveState}</div>
-			</c:when>
-			<c:when test="${approveState eq '완료'}">
-				<div id="approve_name">결재대기함 ${approveState}</div>
-			</c:when>
-			<c:when test="${approveState eq '반려'}">
-				<div id="approve_name">결재대기함 ${approveState}</div>
+				<div id="approve_name">임시저장문서</div>
 			</c:when>
 			<c:otherwise>
 				<div id="approve_name">기안서신청</div>
@@ -58,7 +46,14 @@
 					<div id="extendWorkWriteDate" class="question">작성일</div>
 					<div id="extendWorkWriteDate-answer" class="answer">${time}</div>
 				</div>
-
+				
+				<div id="one-width">
+					<div id="expenditureTimeTitle" class="question">제목</div>
+					<div id="expenditureTitle-answer" class="answer">
+							<input type="text" id="title-input" name="title" value="${saveExtends[0].approveTitle}">
+					</div>
+				</div>
+				
 				<input type="hidden" name="memberId" value="${loginMember.memberId}">
 				<input type="hidden" name="approveKind" value="지출결의서">
 
@@ -137,10 +132,12 @@
 
 	<script>
 	$(function() {	
-		const approveLines=JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
-		const referLines=JSON.parse('${referLines}'); 
-		const expenditures=JSON.parse('${expenditures}'); 
 	
+		const approveLines='${approveLines}'==""?'':JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
+		const referLines='${referLines}'==""?'':JSON.parse('${referLines}'); 
+		const expenditures='${expenditures}'==""?'':JSON.parse('${expenditures}'); 
+		
+		
 		console.log(expenditures);
 		
 		for(let i=0; i<expenditures.length; i++){
