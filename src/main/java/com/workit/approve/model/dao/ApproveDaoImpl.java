@@ -19,10 +19,15 @@ public class ApproveDaoImpl implements ApproveDao {
 
 
 	@Override
-	public List<Approve> selectAllWaitingApprove(SqlSession session, Map<String,Object> param) {
+	public List<Approve> selectAllWaitingApprove(SqlSession session, Map<String,Object> param) { // 본인이 결재대상이며 본인순서인것들 모두 조회
 		return session.selectList("approve.selectAllWaitingApprove",param);
 	}
 	
+	@Override
+	public List<Approve> selectDraftDocumentBox(SqlSession session, Map<String, Object> param) { // 임시저장문서 제외한 본인이 작성한 모든 기안서들 다 조회
+		return session.selectList("approve.selectDraftDocumentBox",param);
+	}
+
 	@Override
 	public List<Member> selectAllMember(SqlSession session) {
 		return session.selectList("approve.selectAllMember");
@@ -145,24 +150,35 @@ public class ApproveDaoImpl implements ApproveDao {
 	}
 
 	@Override
-	public int plusCurrentOrder(SqlSession session, Map<String, Object> param) {
+	public int plusCurrentOrder(SqlSession session, Map<String, Object> param) { // 기안서 결재할때마다 해당 기안서의 전체순서 1증가
 		return session.update("approve.plusCurrentOrder",param);
 	}
 
 	@Override
-	public int updateProcessState(SqlSession session, Map<String,Object> param) {
+	public int updateProcessState(SqlSession session, Map<String,Object> param) { // 결재처리하면 결재대기중인 결재서의 상태를 결재처리중으로 바꿈 
 		return session.update("approve.updateProcessState",param);
 	}
 
 	@Override
-	public int updateCompleteState(SqlSession session,Map<String,Object> param) {
+	public int updateCompleteState(SqlSession session,Map<String,Object> param) { // 결재처리중인 결재서를 모든사람들이 결재를 다 하면 상태를 완료로 바꿈 
 		return session.update("approve.updateCompleteState",param);
+	}
+	
+	@Override
+	public int rejectMessage(SqlSession session, Map<String, Object> param) { // 반려버튼누르면 해당 기안서 반려메시지가 저장되며, 상태도 반려로바뀜
+		return session.update("approve.rejectMessage",param);
 	}
 
 	@Override
-	public int rejectMessage(SqlSession session, Map<String, Object> param) {
-		return session.update("approve.rejectMessage",param);
+	public int changeStateSave(SqlSession session, Map<String, Object> param) { // 결재대기 기안서 버튼 누르면 철회되면서 임시저장상태로 바뀜
+		return session.update("approve.changeStateSave",param);
 	}
+
+	@Override
+	public List<Approve> selectReferenceDocumentBox(SqlSession session, Map<String, Object> param) { // 본인이 참조대상인 참조문서함 들어가기
+		return session.selectList("approve.selectReferenceDocumentBox",param);
+	}
+	
 	
 	
 }

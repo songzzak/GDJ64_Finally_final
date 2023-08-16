@@ -70,15 +70,19 @@ public class BookingController {
 		return "booking/bookingList";
 	}
 	
-	@GetMapping("/bookingDetail.do")
-	public String bookingDetail(int bookingNo) {
-		
-		return "booking/bookingDetail";
-	}
-	
+//	@GetMapping("/bookingDetail.do")
+//	public String bookingDetail(int bookingNo) {
+//		
+//		return "booking/bookingDetail";
+//	}
+//	
 	@PostMapping("/updateBooking.do")
 	public String updateBooking(Booking b) {
 		
 		return "booking/bookingDetail";
+	}
+	@GetMapping("/showCalendar.do")
+	public String showCalendar() {
+		return "booking/calendar";
 	}
 }

@@ -42,4 +42,7 @@ public interface ApproveService {
 	public int updateProcessState(Map<String,Object> param);
 	public int updateCompleteState(Map<String,Object> param);
 	public int rejectMessage(Map<String,Object> param);
+	public int changeStateSave(Map<String,Object> param);
+	public List<Approve> selectDraftDocumentBox(Map<String,Object> param);
+	public List<Approve> selectReferenceDocumentBox(Map<String,Object> param);
 }

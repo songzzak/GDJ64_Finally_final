@@ -15,6 +15,7 @@ import com.workit.member.model.dto.Member;
 
 public interface ApproveDao {
 	public List<Approve> selectAllWaitingApprove(SqlSession session,Map<String,Object> param);
+	public List<Approve> selectDraftDocumentBox(SqlSession session,Map<String,Object> param);
 	public List<Member> selectAllMember(SqlSession session);
 	public List<Member> changeDep(SqlSession session,String deptName);
 	public Member printMember(SqlSession session,String memberId);
@@ -43,4 +44,6 @@ public interface ApproveDao {
 	public int updateProcessState(SqlSession session,Map<String,Object> param);
 	public int updateCompleteState(SqlSession session,Map<String,Object> param);
 	public int rejectMessage(SqlSession session,Map<String,Object> param);
+	public int changeStateSave(SqlSession session,Map<String,Object> param);
+	public List<Approve> selectReferenceDocumentBox(SqlSession session,Map<String,Object> param);
 }

@@ -98,6 +98,53 @@ public class ApproveController {
 		m.addAttribute("time", time); // 현재날짜 전달
 		return "approve/expenditure-app";
 	}
+	
+	@RequestMapping("/referenceDocumentBox.do")  // 본인이 참조대상인 참조문서함 들어가기
+	public String referenceDocumentBox(Model m, String mId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("mId", mId);
+	
+		List<Approve> referDocuments = service.selectReferenceDocumentBox(param);
+		m.addAttribute("referDocuments", referDocuments);
+		
+		return "approve/refer-document-box"; 
+	}
+	
+	@RequestMapping("/draftDocumentBox.do")  // 본인이 작성한 기안문서함들 들어가기
+	public String selectDraftDocumentBox(Model m, @RequestParam(value="mId") String mId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("c","완료");
+		param.put("w", "결재대기");
+		param.put("p", "결재처리중");
+		param.put("r", "반려");
+		param.put("mId", mId);
+	
+		List<Approve> draftDocuments = service.selectDraftDocumentBox(param);
+		m.addAttribute("draftDocuments", draftDocuments);
+
+		System.out.println(draftDocuments.toString());
+		
+		return "approve/draft-document-box";
+	}
+	
+	@RequestMapping("/changeStateSave.do") // 결재대기인 기안서 임시저장상태로 바꿈
+	public String changeStateSave(Model m, String approveNo,String mId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("approveNo",approveNo);
+		param.put("state", "임시저장");
+	
+		int result = service.changeStateSave(param);
+		
+		if(result >= 1) {
+			m.addAttribute("msg", "철회 성공");
+			m.addAttribute("url", "/approve/draftDocumentBox.do?mId="+mId);
+		} else {
+			m.addAttribute("msg", "철회 실패");
+			m.addAttribute("url", "/approve/draftDocumentBox.do?mId="+mId);
+		}
+		return "common/msg";
+	}
+
 
 	@RequestMapping("/waitingApprove.do") // 결재대기문서로 이동
 	public String selectWaitingApprove(Model m, @RequestParam(value = "mId") String mId) {
@@ -111,14 +158,14 @@ public class ApproveController {
 		return "approve/waiting-approve";
 	}
 	
-	@RequestMapping("/detailWaitingApprove.do") // 결재대기함에서 해당 본인대상인 결재문서들 상세보기
-	public String detailWaitingApprove(Model m, String approveNo, String approveKind, String approveState) {
-
+	@RequestMapping("/detailApprove.do") // 결재대기함에서 해당 본인대상인 결재문서들 상세보기
+	public String detailApprove(Model m, String approveNo, String approveKind, String approveState,String name) {
 
 		List<Department> deps = eservice.selectDept();
 		Map<String, Object> param = new HashMap<>();
 		param.put("approveNo", approveNo);
 		param.put("approveKind", approveKind);
+		m.addAttribute("name",name);
 		
 		if (approveKind.equals("연장근무신청서")) { // 임시저장 문서의 종류가 연장근무신청서의 경우
 			List<Approve> saveExtends = service.detailSave(param); // 기안서에 대해서 갖고왔으며 (시간,첨부파일,작성자에대한 멤버테이블과 조인(
@@ -191,7 +238,13 @@ public class ApproveController {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-			return "approve/waiting-extends-app";
+			
+			if(name.equals("기안문서함") || name.equals("참조문서함")) {
+				return "approve/draft-extends-app";
+			}
+			if(name.equals("결재대기문서")) {
+				return "approve/waiting-extends-app";				
+			}
 		}
 		
 		
@@ -295,7 +348,14 @@ public class ApproveController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return "approve/waiting-attendance-app";
+			System.out.println(approveLines);
+			
+			if(name.equals("기안문서함") || name.equals("참조문서함")) {
+				return "approve/draft-attendance-app";
+			}
+			if(name.equals("결재대기문서")) {
+				return "approve/waiting-attendance-app";			
+			}
 		}
 		
 		
@@ -331,7 +391,12 @@ public class ApproveController {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-			return "approve/waiting-expenditure-app";
+			if(name.equals("기안문서함") || name.equals("참조문서함")) {
+				return "approve/draft-expenditure-app";
+			}
+			if(name.equals("결재대기문서")) {
+				return "approve/waiting-expenditure-app";		
+			}
 		}
 		return null;
 	}

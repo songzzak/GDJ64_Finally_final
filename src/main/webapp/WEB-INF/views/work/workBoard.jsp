@@ -64,7 +64,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
   .go-down>a::before { transform: rotate(135deg); }
   .go-up>a::before { transform: rotate(-45deg);}
   .cal_tbl { width: 95%; margin: 0px 20px; padding: 10px; border-collapse: collapse; }
-  .cal_tbl td, .cal_tbl th { border-bottom: 1px solid var(--border-color); padding: 8px; text-align: center; }
+  .cal_tbl td, .cal_tbl th { border-bottom: 1px solid #e0e0e0; padding: 8px; text-align: center; }
   .highlight-color>p,  .highlight-color>a {color: var(--main-color-dk);}
 </style>
 

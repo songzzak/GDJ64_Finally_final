@@ -6,11 +6,12 @@
 <c:set var="approveNo" value="${approveNo}"/>
 <c:set var="approveState" value="${approveState}"/>
 <c:set var="approveKind" value="${approveKind}"/>
-<c:set var="fileName" value="${fileName}"/>
 <c:set var="stime" value="${stime}"/>
 <c:set var="etime" value="${etime}"/>
 <c:set var="sdate" value="${sdate}"/>
 <c:set var="edate" value="${edate}"/>
+<c:set var="oriFileName" value="${oriFileName}"/>
+<c:set var="saveFileName" value="${saveFileName}"/>
 
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -80,14 +81,14 @@
 				<div id="one-width">
 					<div id="extendTimeTitle" class="question">제목</div>
 					<div id="extendTimeTitle-answer" class="answer">
-						<input type="text" id="title-input" name="title" value="${saveExtends[0].approveTitle}">
+						<input type="text" id="title-input" name="title" readonly value="${saveExtends[0].approveTitle}">
 					</div>
 				</div>
 
 				<div id="one-width">
 					<div id="content" class="question">신청사유</div>
 					<div id="content-answer" class="answer">
-						<textarea id="content-textarea" name="content">${saveExtends[0].approveContent}</textarea>
+						<textarea id="content-textarea" readonly name="content">${saveExtends[0].approveContent}</textarea>
 					</div>
 				</div>
 
@@ -95,7 +96,7 @@
 					<div id="appAttachment" class="question">첨부파일</div>
 					<div id="appAttachment-answer" class="answer">
 						<input type="file" id="appAttachment-input" name="upFile" style="display:none;">
-						<button type="button" id="fileClickId" onclick="fileClick();">파일을 선택하세요</button>
+						<button type="button" id="fileClickId" onclick="fn_fileDownload('${oriFileName}','${saveFileName}')">파일을 선택하세요</button>
 					</div>
 				</div>
 
@@ -113,7 +114,13 @@
 </html>
 
 <script>
-
+	function fn_fileDownload(oriName,reName){
+		if(oriName==""){
+			return false;
+		}else{
+			location.assign("${path}/approve/filedownload?oriname="+oriName+"&rename="+reName);			
+		}
+	};
 
 	$(function() {  // 레디함수
 		console.log("${approveNo}");
@@ -142,46 +149,47 @@
 	   	
 	   	if("${approveKind}"=='연차'){
 	   		$("#annual").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크
-	   		$("#gStartDate").val("${sdate}");
-	   		$("#gEndDate").val("${edate}");
+	   		$("#gStartDate").val("${sdate}").attr("readonly",true);;
+	   		$("#gEndDate").val("${edate}").attr("readonly",true);;
 	   	}
 	   	if("${approveKind}"=='반차'){
 	   		$("#halfAnuual").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크  
-	   		$("#hStartDate").val("${sdate}");
-	   		$("#hStartTime").val("${stime}");
-	   		$("#hEndTime").val("${etime}");  		
+	   		$("#hStartDate").val("${sdate}").attr("readonly",true);;
+	   		$("#hStartTime").val("${stime}").attr("readonly",true);;
+	   		$("#hEndTime").val("${etime}").attr("readonly",true);;  		
 	   	}
 	   	
 	   	if("${approveKind}"=='보건'){
 	   		$("#health").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크
-	   		$("#gStartDate").val("${sdate}");
-	   		$("#gEndDate").val("${edate}");
+	   		$("#gStartDate").val("${sdate}").attr("readonly",true);;
+	   		$("#gEndDate").val("${edate}").attr("readonly",true);;
 	   	}
 	   	
 	   	if("${approveKind}"=='경조'){
 	   		$("#condolences").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크
-	   		$("#gStartDate").val("${sdate}");
-	   		$("#gEndDate").val("${edate}");
+	   		$("#gStartDate").val("${sdate}").attr("readonly",true);;
+	   		$("#gEndDate").val("${edate}").attr("readonly",true);;
 	   		
 	   	}
 	   	if("${approveKind}"=='외출'){
 	   		$("#outing").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크
 	   		$("#halfAnuual").trigger("click"); // 트리거로 해당 기안서의 종류에 따라서 라디오버튼을 강제로 체크  
-	   		$("#hStartDate").val("${sdate}");
-	   		$("#hStartTime").val("${stime}");
-	   		$("#hEndTime").val("${etime}");
+	   		$("#hStartDate").val("${sdate}").attr("readonly",true);;
+	   		$("#hStartTime").val("${stime}").attr("readonly",true);;
+	   		$("#hEndTime").val("${etime}").attr("readonly",true);;
 	   		
 	   	}
 	   	
-		if("${fileName}"==""){
+		if("${oriFileName}"==""){
 			$("#fileClickId").text("파일을 선택하세요"); 
 		}else{
-			$("#fileClickId").text("${fileName}"); 
+			$("#fileClickId").text("${oriFileName}"); 
 		}
 	   	
 	   	
 	   	const approveLines=JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
 		const referLines=JSON.parse('${referLines}'); 
+		console.log(approveLines);
 		
 		for(let i=0; i<approveLines.length; i++){
 			const di = $("<div>").css("border", "1px solid black").height("98px").width("120px");

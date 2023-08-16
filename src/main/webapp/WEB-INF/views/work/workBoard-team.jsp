@@ -32,12 +32,6 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
   .head-nav { height: 56px; display: flex; align-items: center; }
   .head-nav ul li { margin: 0px 5px; }
 
-  /* 연차확인 */
-  .roundBolder { width: 80px; height: 80px; border-radius: 50px; background-color: #BDDFFF; color: #fff; font-size: 32px; font-weight: bolder; }
-  .smallRound { width: 30px; height: 30px; border-radius: 50px; background-color: #F3F7FA; color: #000000; font-size: 16px; font-weight: bolder; }
-  #annualLeaveDiv { display: flex; text-align: center; align-items: center; }
-  #annualLeaveDiv ul li { margin: 0 20px; }
-
   /* 근태조회 div */
   /* 조회 월 선택 */
   .year-month { font-size: 24px; font-weight: bolder; text-align: center; color: black; }
@@ -57,7 +51,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
   .go-down>a::before { transform: rotate(135deg); }
   .go-up>a::before { transform: rotate(-45deg);}
   .cal_tbl { width: 95%; margin: 0px 20px; padding: 10px; border-collapse: collapse; }
-  .cal_tbl td, .cal_tbl th { border-bottom: 1px solid var(--border-color); padding: 8px; text-align: center; }
+  .cal_tbl td, .cal_tbl th {border-bottom: 1px solid #e0e0e0; padding: 8px; text-align: center; }
   .highlight-color>p,  .highlight-color>a {color: var(--main-color-dk);}
 </style>
 
@@ -75,7 +69,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
     <div class="section-shadow bgc-fff">
       <div class="sec_cal">
 	      <div style="margin: 20px;">
-		    <input type="text" id="searchEmployeeName" placeholder="사원명 검색" />
+		    <input type="text" id="searchEmployeeName" placeholder="사원명 검색" style="height: 20px; margin: 20px 5px;"/>
 		    <button id="searchBtn">검색</button>
 		  </div>
         <div class="cal_nav">

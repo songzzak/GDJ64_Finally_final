@@ -28,6 +28,11 @@ public class ApproveServiceImpl implements ApproveService {
 	public List<Approve> selectAllWaitingApprove(Map<String,Object> param) {
 		return dao.selectAllWaitingApprove(session,param);
 	}
+	
+	@Override
+	public List<Approve> selectDraftDocumentBox(Map<String, Object> param) {
+		return dao.selectDraftDocumentBox(session,param);
+	}
 
 	@Override
 	public List<Member> selectAllMember() {
@@ -166,8 +171,18 @@ public class ApproveServiceImpl implements ApproveService {
 	}
 
 	@Override
+	public int changeStateSave(Map<String, Object> param) {
+		return dao.changeStateSave(session,param);
+	}
+
+	@Override
 	public int rejectMessage(Map<String, Object> param) {
 		return dao.rejectMessage(session,param);
+	}
+
+	@Override
+	public List<Approve> selectReferenceDocumentBox(Map<String, Object> param) {
+		return dao.selectReferenceDocumentBox(session,param);
 	}
 	
 	

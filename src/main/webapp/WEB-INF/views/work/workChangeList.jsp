@@ -20,7 +20,7 @@
   .sec_cal { width: 100%; margin: 0 auto; font-family: "NotoSansR"; }
   .cal_tblDiv { display: flex; flex-direction: column; align-items: flex-start; }
   .cal_tbl { width: 95%; margin: 0px 20px; padding: 10px; border-collapse: collapse; }
-  .cal_tbl td, .cal_tbl th { border-bottom: 1px solid var(--border-color); padding: 8px; text-align: center; }
+  .cal_tbl td, .cal_tbl th { border-bottom: 1px solid #e0e0e0;padding: 8px; text-align: center; }
 
 	/*Modal */
 	.max100px{max-width: 100px;}

@@ -22,7 +22,7 @@
             </tr>
             <c:if test="${not empty waitingApps}">
             	<c:forEach var="waitingApp" items="${waitingApps}">
-	            		<tr id="tr" onclick="location.href='${path}/approve/detailWaitingApprove.do?approveNo=${waitingApp.approveNo}&approveKind=${waitingApp.approveKind }&approveState=${waitingApp.approveState}';">
+	            		<tr id="tr" onclick="location.href='${path}/approve/detailApprove.do?approveNo=${waitingApp.approveNo}&approveKind=${waitingApp.approveKind }&approveState=${waitingApp.approveState}&name=결재대기문서';">
 		            			<td colspan="5">${waitingApp.approveNo }</td>
 		            			<td colspan="5">${waitingApp.approveKind }</td>
 		            			<td colspan="5">${waitingApp.approveTitle }</td>

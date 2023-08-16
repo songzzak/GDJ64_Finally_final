@@ -20,9 +20,26 @@
 		enctype="multipart/form-data">
 
 		<div class="approve-section section-shadow">
-			<div id="approve_name">기안서신청</div>
-
-			<div>
+		<c:choose>
+			<c:when test="${approveState eq '임시저장' }">
+				<div id="approve_name">임시저장함</div>
+			</c:when>
+			<c:when test="${approveState eq '결재대기'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:when test="${approveState eq '결재처리중'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:when test="${approveState eq '완료'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:when test="${approveState eq '반려'}">
+				<div id="approve_name">결재대기함 ${approveState}</div>
+			</c:when>
+			<c:otherwise>
+				<div id="approve_name">기안서신청</div>
+			</c:otherwise>
+		</c:choose>
 				<div id="one-width">
 					<div id="kind">지출결의서</div>
 					<div id="app-line" class="answer"></div>

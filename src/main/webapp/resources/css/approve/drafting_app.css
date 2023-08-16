@@ -225,6 +225,45 @@
 	min-height: 900px;
 }
 
+#draft-flex-row{
+	display: flex;
+	flex-direction: row;
+}
+
+.postit { /* 반려사유 포스트잇 */
+	border: 1px solid #0000004d;
+	display: block;
+	position: relative;
+	cursor: pointer;
+	margin-left: 50px;
+  width: 200px;
+  height: 200px;
+  background-color: LightGoldenRodYellow;
+}
+
+.postit:hover:before {
+	border-top: 15px solid #677e52;
+}
+
+.postit:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	border-top: 15px solid #7373734f;
+	border-left: 15px solid rgba(0, 0, 0, 0);
+	width: 0;
+}
+
+#rejectMessage{
+		text-align: center;
+		margin-left: 50px;
+		margin-top: 20px;
+		font-size: 20px;
+		font-weight: bold;
+}
+
+
 #approve_name {
 	/* 결재서 이름 종류 나오는 부분 */
 	font-size: 25px;
@@ -252,6 +291,16 @@ select {
 	/*돌아가기 버튼 */
 	background-color: #D9D9D9;
 	margin-left: 350px;
+}
+
+#draftBack{
+	background-color: #D9D9D9;
+}
+
+
+.btn-text-right{
+	float: right;
+	margin-right: 120px;
 }
 
 #save {
@@ -283,6 +332,17 @@ select {
 	background-color: red;
 	color: white;
 	margin-left: 350px;
+}
+
+#changeSave{ /* 철회 버튼 */
+	background-color: red;
+	margin-left: 20px;
+	color: white;
+}
+
+#reWriteId{  /* 재작성 버튼 */
+	background-color: var(--main-color-lt);
+	margin-left: 20px;
 }
 
 #regist-appline {
@@ -743,3 +803,36 @@ select {
 #fileClickId:hover{
 	color:  #D9D9D9;
 }
+
+#cStyle{
+	width: 500px;
+	line-height: 100px;
+	font-size: 30px;
+	text-align: center;
+	color: green;
+}
+
+#rStyle{
+	width: 500px;
+	line-height: 100px;
+	font-size: 30px;
+	text-align: center;
+	color: red;
+}
+
+#wStyle{
+	width: 500px;
+	line-height: 100px;
+	font-size: 30px;
+	text-align: center;
+	color: var(--main-color-lt);
+}
+
+#pStyle{
+	width: 500px;
+	line-height: 100px;
+	font-size: 30px;
+	text-align: center;
+	color: aqua;
+}
+

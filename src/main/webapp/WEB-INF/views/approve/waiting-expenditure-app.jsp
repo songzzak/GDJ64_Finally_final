@@ -102,7 +102,7 @@
 	</form>
 	</html>
 
-	<script>
+<script>
 	function fn_fileDownload(oriName,reName){
 		if(oriName==""){
 			return false;

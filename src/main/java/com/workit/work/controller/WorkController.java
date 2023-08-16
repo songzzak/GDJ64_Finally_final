@@ -358,7 +358,7 @@ public class WorkController {
 		    Map<String, Object> paramMap = new HashMap<>();
 	        paramMap.put("deptName", deptName);
 	        paramMap.put("memberName", memberName);
-			System.out.println(paramMap);
+			//System.out.println(paramMap);
 			 if (currentYear == null || currentMonth == null) {
 		            Calendar cal = Calendar.getInstance();
 		            currentYear = cal.get(Calendar.YEAR);
