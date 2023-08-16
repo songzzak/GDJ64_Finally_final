@@ -46,4 +46,6 @@ public interface EmployeeService {
 	int deleteJob(String jobCode);
 
 	int updateJob(Map<String, Object> param);
+
+	Member selectMemberByParam(Map<String, Object> param);
 }

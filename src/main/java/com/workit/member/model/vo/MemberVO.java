@@ -1,8 +1,8 @@
 package com.workit.member.model.vo;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,7 @@ public class MemberVO implements UserDetails{
 	@Override  //퇴사 기간이 지났거나 입사 전이면 권한 없음
 	public boolean isCredentialsNonExpired() {
 		Date today=new Date();
-		return entDate==null||today.before(entDate)||today.after(hireDate);
+		return entDate==null||(today.before(entDate)&&today.after(hireDate));
 	}
 	@Override
 	public boolean isEnabled() {

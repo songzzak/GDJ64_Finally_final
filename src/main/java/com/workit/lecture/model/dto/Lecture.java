@@ -1,6 +1,6 @@
 package com.workit.lecture.model.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 import com.workit.member.model.vo.MemberVO;
 

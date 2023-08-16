@@ -57,4 +57,6 @@ public interface EmployeeMapper {
 	
 	int updateJob(Map<String, Object> param);
 	
+	Member selectMemberByParam(Map<String, Object> param);
+	
 }

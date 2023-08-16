@@ -128,6 +128,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 		}
 	}
 
+	@Override
+	public Member selectMemberByParam(Map<String, Object> param) {
+		return dao.selectMemberByParam(param);
+	}
+
 	
 	
 	

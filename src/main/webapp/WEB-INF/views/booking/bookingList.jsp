@@ -85,12 +85,12 @@
 	
 	</div>
 </section>
-<script>
+<!-- <script>
 /* select 바뀌는것에 따라 뒤의 인풋 종류 바뀌게] */
-	$("#searchType").change(e=>{
+	${"#searchType"}.change(e=>{
 		const type=${e.target}.val();
-		$(e.target).parent().find("div").css("display","none");
-		$("#search-"+type).css("display","inline-block");
+		${e.target}.parent().find("div").css("display","none");
+		${"#search-"+type}.css("display","inline-block");
 	})
 /*display:none으로 먼저 두고 앞의 셀렉트 타입에 맞게 선택되면 그 인풋 보이도록 */
 /*부모창에서 모달로 데이터 넘기기 */
@@ -103,7 +103,7 @@
   		modal.find('.modal-title').text('New message to ' + recipient)
  		modal.find('.modal-body input').val(recipient)
 	});
-</script> 
+</script> -->
 <style>
 	#search-memberId{display:none}
 	#search-bookingDate{display:none}
