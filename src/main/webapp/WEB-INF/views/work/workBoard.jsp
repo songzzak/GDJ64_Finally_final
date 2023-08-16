@@ -268,7 +268,7 @@ $(document).ready(function() {
         var formattedDate = yyyy + '-' + mm + '-' + dd;
 
         // 오늘의 출근 시간 확인
-        $.get("/work/checkTodayWork", { date: formattedDate }, function(response) {
+        $.get("${path}/work/checkTodayWork", { date: formattedDate }, function(response) {
             if (response.alreadyRegistered) {
                 alert("이미 출근등록 하셨습니다.");
             } else {
@@ -364,7 +364,7 @@ function navigateMonth(offset) {
     //console.log(year);
     //console.log(month);
 
-    $.get("/work/workTime", {
+    $.get("${path}/work/workTime", {
         currentYear: year,
         currentMonth: month
     }, function (data) {
