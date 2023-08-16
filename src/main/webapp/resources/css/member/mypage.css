@@ -52,3 +52,7 @@ h4, h2{
 #profile-input{
 	display: none;
 }
+input[type="button"]{
+	height: 38px;
+	width: 100px;
+}

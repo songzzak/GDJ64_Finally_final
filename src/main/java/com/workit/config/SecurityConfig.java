@@ -63,13 +63,13 @@ public class SecurityConfig{
 						@Override
 						public void commence(HttpServletRequest request, HttpServletResponse response,
 								AuthenticationException authException) throws IOException, ServletException {
-							response.sendRedirect("/error/login");
+							response.sendRedirect(request.getContextPath()+"/error/login");
 						}
 					}).accessDeniedHandler(new AccessDeniedHandler() {
 						@Override
 						public void handle(HttpServletRequest request, HttpServletResponse response,
 								AccessDeniedException accessDeniedException) throws IOException, ServletException {
-							response.sendRedirect("/error/auth");
+							response.sendRedirect(request.getContextPath()+"/error/auth");
 						}
 					})
 				.and()
