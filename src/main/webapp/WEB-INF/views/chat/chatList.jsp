@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div class="modal-searchContainer chatHidden">
-			<input type="search" name="searchChatList" placeholder="이름, 파일명 검색">
+			<input type="search" name="searchChatList" placeholder="이름, 파일명 검색" class="modalSearchInput">
 			<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="modalSearchAllIcon">
 			<!-- <span class="search-close">X</span> -->
 		</div>
@@ -59,12 +59,18 @@
 		</c:if>
 	</div>
 </div>
+<div class="modal-view-chatMemberProfile">
+	<div class="modal-content section-shadow">
+		<h4>채팅 중인 회원 정보 보기</h4>
+		<button class="modal-close">닫기</button>
+	</div>
+</div>
 <div class="searchResultContainer"></div>
 <script>
 	//페이지 로드 후 제일 아래로 스크롤 자동 이동
 	window.onload = function() {
-	    var contentContainer = document.querySelector('.chat-room-inner'); // 컨텐츠가 들어가는 컨테이너 요소
-	    contentContainer.scrollTop = contentContainer.scrollHeight;
+	    //var contentContainer = document.querySelector('.chat-room-inner'); // 컨텐츠가 들어가는 컨테이너 요소
+	    //contentContainer.scrollTop = contentContainer.scrollHeight;
 	    fn_updateChatNotify();
 	};
 	
@@ -86,10 +92,12 @@
 		$(".chat-msgBox-container").empty();
 		console.log("readCount : "+ readCount);
 		fn_openChatroom();
+		move_to_page();
 	 });
 	var chatMsg;
 	
 	const fn_openChatroom=()=>{
+		fn_chatScroll();
 		console.log("fn_openchatroom start");
 		console.log(chatroomId);
 		$(".prev-chat").empty();
@@ -103,15 +111,16 @@
 			success: data => {
 				console.log("open chatroom success");
 				console.log("open chat : " + data);
-				fn_viewChatMsg(data);
-				fn_startChat();
-				fn_updateChatNotify();
+				if(data!=null || data!=""){
+					fn_viewChatMsg(data);
+					fn_startChat();
+					fn_updateChatNotify();
+				}else{
+					alert("현재 채팅 창에 채팅이 없습니다.")
+				}
 			},
 			error : data =>{
 				console.log("error");
-			}
-			,done : data =>{
-				
 			}
 		});
 	}
@@ -123,6 +132,9 @@
 	
 	const fn_viewChatMsg=(data)=>{
 		console.log("data : ",data);
+		$(".chat-room-nothing").addClass("chatHidden");
+		$(".chat-input-container").css("display","flex");
+		
 		let chatroomMember = data.chatroomMember;
 		
 		chatroomFiles = data.chatroomFile;
@@ -132,16 +144,16 @@
 			chatroomMembers.push(cm.member.memberId);
 			chatroomMemberName += cm.member.memberName+", ";
 		})
-		if(data!=null || data!="") {
-			$(".chat-room-nothing").addClass("chatHidden");
-			$(".chat-input-container").css("display","flex");
-		}
-		console.log(chatroomMemberName);
+		
 		let currentChatroom = data.chatroomList;
-		$(".chatRoom-container .chat-header .title").text(data.chatroomTitle);
-		if(data.chatroomList=="" || data.chatroomList==null){
-			$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
-			$(".chatRoom-container .chat-header .title").text(chatroomTitle);
+		let chatroomList = data.chatroomList;
+		if(chatroomList!="" || data.chatroomList!=null){
+			chatroomList.forEach(cf=>{
+				console.log("csdjglksjglsjd" + cf.chatroomTitle);
+				$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
+				$(".chat-header .title-container .title").text(cf.chatroomTitle);
+			})
+			
 		}
 		divPrevChat = $("<div>").attr("class","prev-chat");
 		currentChatroom.forEach(e => {
@@ -157,7 +169,9 @@
 				chat.forEach(c => {
 					const cDate = new Date(c.chatDate);
 					const chatDate = cDate.toLocaleString('ko-KO');
+					console.log("c.member.memberId : " + c.member.memberId + " loginMember : "+loginMember);
 					if (c.member.memberId == loginMember) {
+						
 						var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
 						chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
 						chatMsg.append($("<span>").attr("class", "chat-date block").text(chatDate));
@@ -165,7 +179,7 @@
 
 					} else {
 						var chatMsg = $("<div>").attr("class", "chat-msg");
-						chatMsg.append($("<h5>").append($("<a>").text(c.member.memberName).attr("class",c.member.memberId)));
+						chatMsg.append($("<div class='chatMember'>").append($("<h5>").text(c.member.memberName)).append($("<input>").attr("type", "hidden").attr("value", c.member.memberId).addClass("chatMemberId")));
 						chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
 						chatMsg.append($("<span>").attr("class", "chat-date").text(chatDate));
 						chatMsg.append($("<input type='hidden'>").attr("value",c.chatId).attr("class","chat-msg-Id"));
@@ -178,16 +192,24 @@
 				
 			}
 		}) 
-		if(data.chatroomFile!=null){
-			fn_viewChatroomFile(data);
-		}
 	}
+	
 	const fn_viewChatroomFile=(data)=>{
 			chatroomFiles.forEach(f=>{
 				console.log("fieleelele", f);
-				let receiveFile = f.chatroomFile;
+				//let receiveFile = f.chatroomFile;
+				//let receiveFile = f.fileId;
 				divPrevChat.append(chatMsg);
-				receiveFile.forEach(ff=>{
+				
+				const fDate = new Date(f.fileId.uploadDate);
+				const chatfileDate = f.fileId.uploadDate.toLocaleString('ko-KO');
+				var chatMsg = $("<div>").attr("class", "chat-msg");
+				chatMsg.append($("<img class='fileName'>").attr("src","${path}/resources/images/common/attach.svg").css("width","16px"));
+				chatMsg.append($("<span>").attr("class", "fileName chat-msgbx").text(f.fileId.originalFile));
+				chatMsg.append($("<span>").attr("class", "chat-date").text(chatfileDate));
+				chatMsg.append($("<input type='hidden'>").attr("value",f.fileId.fileId).attr("class","chat-msg-Id"));
+				divPrevChat.append(chatMsg);
+				/* receiveFile.forEach(ff=>{
 					const fDate = new Date(ff.fileId.uploadDate);
 					const chatfileDate = fDate.toLocaleString('ko-KO');
 					console.log(ff);
@@ -197,7 +219,7 @@
 					chatMsg.append($("<span>").attr("class", "chat-date").text(chatfileDate));
 					chatMsg.append($("<input type='hidden'>").attr("value",ff.fileId).attr("class","chat-msg-Id"));
 					divPrevChat.append(chatMsg);
-				})
+				}) */
 			})
 	}
 	

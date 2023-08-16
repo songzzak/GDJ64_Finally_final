@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="${path}/resources/css/chat/chat.css">
 <div class="modal-addChatMember chatHidden scroll chatmodal">
 	<div class="modal-content section-shadow">
-		<h2 class="title">채팅 멤버 선택</h2><span class="modal-close">X</span>
+		<h2 class="title">채팅 멤버 선택</h2>
+		<!-- <span class="modal-close">X</span> -->
 		<div class="chat-DeptContainer">
 			<div class="modal-new-chat-title chatHidden">
 				<label for="chatroomTitle">채팅 제목 : </label><input type="text" name="chatroomTitle" placeholder="채팅 제목"><br>
@@ -27,6 +28,7 @@
 					</div>
 				</c:forEach>
 				<button class="modal-chat-btn">채팅 시작</button>
+				<button class="modal-close">닫기</button>
 			</c:if>
 		</div>
 	</div>
@@ -79,7 +81,7 @@
 			<h2 class="title">선택한 채팅이 없습니다</h2>
 		</div>
 		<div class="modal-searchRoomContainer chatHidden">
-			<input type="search" name="searchChatRoomList" placeholder="검색">
+			<input type="search" name="searchChatRoomList" class="modal-searchRoomInput" placeholder="검색">
 			<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="modalChatSearchIcon">
 			<!-- <span class="search-close">X</span> -->
 		</div>
@@ -97,12 +99,56 @@
 	</div>
 </div>
 <script>
+const cPath = '${path}'; 
+/* 	setTimeout(function() {
+		window.scrollTo(0, $(document).height());//스크롤 맨아래로
+	}, 50); */
+	$(".chat-msgBox-container").scroll(function(){
+		var scrollTop = $(this).scrollTop();
+		console.log("scrollTop : " + scrollTop);
+			
+		var innerHeight = $(this).innerHeight();
+		console.log("innerHeight : " + innerHeight);
+		var scrollHeight = $(this).prop('scrollHeight');
+		console.log("scrollHeight : " + scrollHeight);
+		if(scrollTop + innerHeight < scrollHeight) {
+			$(".chat-msgBox-container").scrollTop(scrollHeight);
+		}
+		/* if(scrollTop + innerHeight <= scrollHeight){
+			//$(".chat-msgBox-container").scrollTop == scrollHeight;
+			document.body.scrollTop = document.body.scrollHeight;
+		} */
+	});
+	
+/* 	function prepareScroll() {
+		window.setTimeout(fn_chatScroll, 50);
+	}
+	
+	function fn_chatScroll() {
+		let chatMsgBox = $(".chat-msgBox-container");
+		let msgBox = $(".prev-chat");
+		//chatMsgBox.scrollTop = chatMsgBox.scrollHeight;
+		msgBox.scrollTop = msgBox.scrollHeight;
+	}
+	
+	function move_to_page(){
+        setTimeout(function() {
+        	//let chatMsgBox = $(".chat-msgBox-container");
+        	let chatMsgBox = document.querySelector("chat-msgBox-container").offsetTop;
+        	console.log(document.querySelector("chat-msgBox-container"));
+        	let chatMsgBox = $(".chat-msgBox-container");
+        	chatMsgBox.scrollTop = chatMsgBox.scrollHeight;
+            //var PageLocation = document.querySelector(moveto).offsetTop;
+          //window.scrollTo({top: PageLocation, behavior: 'smooth'});
+        }, 50);
+      } */
+	
 	$(".addPersonIcon").click(e=>{
 		console.log("chatroomMemberName : ", chatroomMemberName);
 		$(".modal-updateChat").css("display","block");
 		$(document).attr("overflow","hidden");
 		$(".modal-addChatMember").add("chatHidden");
-		$(".currentChatMember").text("현재 채팅 창 멤버 : "+chatroomMemberName);
+		$(".currentChatMember").text("현재 채팅 참여 멤버 : "+chatroomMemberName);
 	})
 	var idx= 0;
 	const fn_fileSend=()=>{
@@ -140,9 +186,9 @@
 				console.log(data);
 				fn_fileSend();
 			},
-			error : data =>{
-			    console.error('File upload failed.');
-			}
+			error: function(xhr, status, error) {
+		        console.error('AJAX Error:', error);
+		    }
 		});
 	});
 	
@@ -181,9 +227,9 @@
 						fn_closeChatModal();
 					}
 				},
-				error : data =>{
-					console.log(data);
-				}
+				error: function(xhr, status, error) {
+			        console.error('AJAX Error:', error);
+			    }
 			});
 		}else if((chatroomTitle=="" || chatroomTitle==null || chatroomTitle=="null") && (selectedMember ==null && selectedMember=="")){
 			alert("선택된 멤버가 없습니다.")
@@ -225,18 +271,6 @@
 				success: data => {
 					console.log("insert Data ",data);
 					fn_closeChatModal();
-					/* <div class="chat-room chat-select">
-						<h5 class="chatroom-title chat-select">${r.chatroomTitle }</h5>
-						<img src="${path}/resources/images/common/more.svg" alt="chat-delete" class="deleteChatRoom">
-						<input type="hidden" value="${r.chatroomId}" name="chatRoomId" class="roomId">
-						<c:forEach var="c" items="${chat}">
-							<c:if test="${r.chatroomId == c.chatroomId}">
-								<span class="chat-content chat-select">${c.chatContent}</span>
-								<span class="chat-date chat-select"><fmt:formatDate value="${c.chatDate}" type="both" pattern="yyyy-MM-dd (E) hh:mm:ss"/></span>
-								<input type="hidden" value="${c.chatroomId}" name="chatRoomId" class="roomId">
-							</c:if>
-						</c:forEach>
-					</div> */
 					var chatroomTitle; 
 					data.forEach(d=>{
 						console.log("dsgd", d);
@@ -248,24 +282,6 @@
 					swal('새로운 채팅 생성', "채팅 방이 생성 되었습니다.", 'success')
 					.then(function() {
 						location.href = location.href;
-						/* $.ajax({
-							url: "${path}/chat/delete",
-							method: "delete",
-							data: {
-								chatroomId: chatroomId,
-								loginMember: loginMember
-							},
-							success: data => {
-								console.log(data);
-								if (data > 0) {
-									swal("삭제 완료");
-									fn_closeChatModal();
-									location.href = location.href;
-								} else {
-									swal("삭제 실패")
-								}
-							}
-						}); */
 					});
 				},
 				error: function(xhr, status, error) {
@@ -286,7 +302,7 @@
 	
 	const fn_viewMember=()=>{
 		if(chatroomMembers==null ||chatroomMembers==""){
-			chatroomId="";
+			chatroomId;
 			$(".modal-new-chat-title").css("display","block");
 			$(".chat-DeptContaine").attr("action","${path}/chat/start");
 		}else{
@@ -345,7 +361,6 @@
 			console.log(data);
 		}
 		websocket.onmessage=data=>{
-			//console.log("receive msg");			
 			//console.log(data);
 			const receiveMsg=JSON.parse(data.data);
 			//console.log(receiveMsg);
@@ -401,7 +416,6 @@
 				console.log(data);
 				console.log(data[0].chatroomFile);
 				if(data!=null || data!=""){
-					$(".modal-result-container").empty();
 					chatfilebx = $("<div class='chatroom-file section-shadow'>");
 					chatfilebx.append($("<h3>").text("현재 채팅 창 파일 목록"))
 					let fileList = data[0].chatroomFile;
@@ -448,30 +462,51 @@
 	});
 	
 	$(".modalChatSearchIcon").click(e => {
-	let keyword = $(e.target).prev().val();
-	console.log("modal search");
-	console.log("keyword",keyword);
-	console.log("chatroomId", chatroomId);
-	
-	$.ajax({
-			url : "${path}/chatroom/search",
-			type : "post",
-			data : {
-				chatroomId : chatroomId,
-				keyword : keyword
-			},
-			success : data =>{
-				$(".modal-result-container").empty();
-				fn_viewSearchResult(data);
-			}
-		})
+		$(".modal-result-container").empty();
+		let keyword = $(e.target).prev().val();
+		if(keyword==null || keyword=="" || keyword=="null"){
+			alert("검색어를 입력해주세요");
+		}else{
+			$.ajax({
+					url : "${path}/chatroom/search",
+					type : "post",
+					data : {
+						chatroomId : chatroomId,
+						keyword : keyword
+					},
+					success : data =>{
+						$(".modal-result-container").empty();
+						var checkResult = fn_checkStrNull(data);
+						if(checkResult!="null"){
+							fn_viewSearchResult(data);
+						}else {
+							fn_viewSearchResult("검색 결과가 없습니다.");
+						}
+						
+					},
+					error: function(xhr, status, error) {
+				        console.error('AJAX Error:', error);
+				    }
+				})
+		}
 	});  
+	const fn_checkStrNull=(data)=>{
+		var checkResult;
+		if(data==null || data=="" || data=="null"){
+			checkResult = "null";
+			return checkResult;
+		}else {
+			checkResult = data;
+			return checkResult;
+		}
+	}
 	let myChatList;
 	let mychatFileList;
 	let mychatroomList;
 	
 	const fn_viewSearchResult=(data)=>{
-		if(data!=null || data!=""){
+		if(data!=null || data!="" || data!="null"){
+			console.log(data);
 			$(".modal-result-container").css("display","block");
 			myChatList = data.myChatList;
 			mychatFileList = data.mychatFileList;
@@ -492,6 +527,8 @@
 					$(".modal-result-container").append($("<div class='chat-msgbx'>").text(c.chatroomTitle));
 				})
 			}
+		}else {
+			$(".modal-result-container").append($("<h3>").text(data));
 		}
 	}
 </script>

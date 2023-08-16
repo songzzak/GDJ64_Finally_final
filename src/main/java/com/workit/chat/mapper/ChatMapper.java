@@ -13,6 +13,7 @@ import com.workit.chatroom.model.dto.AttachedFile;
 import com.workit.chatroom.model.dto.ChatNotification;
 import com.workit.chatroom.model.dto.ChatroomFile;
 import com.workit.member.model.dto.Member;
+import com.workit.member.model.vo.MemberVO;
 
 
 @Mapper
