@@ -121,6 +121,12 @@ public class ChatroomController {
 		model.addAttribute("unread", unread);
 	}
 	
+	@PostMapping("/profile")
+	@ResponseBody
+	public ResponseEntity<?> selectMemberByChoice (@RequestParam(value="memberId") String memberId){
+		log.info("memberId : " + memberId);
+		return ResponseEntity.ok(chatroomService.selectMemberByChoice(memberId));
+	}
 	
 	
 	

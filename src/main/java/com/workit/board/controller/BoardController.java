@@ -90,7 +90,7 @@ public class BoardController {
 
 	    if(!isViewed) {
 
-	        service.updateViewCount(no); // 조회수 증가 메서드 추가해주세요
+	        service.updateViewCount(no);
 
 	        Cookie viewCookie = new Cookie("noticeView", "|" + no + "|");
 	        viewCookie.setMaxAge(60*60*24); // 24시간 저장

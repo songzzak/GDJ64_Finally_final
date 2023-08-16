@@ -69,13 +69,9 @@ public interface BoardDao {
 
 	int deleteBoard(SqlSessionTemplate session, int commentNo);
 
-//	int insertAttachedFile(SqlSessionTemplate session, Map<String, Object> fileMap);
-
 	int insertBoardFile(SqlSessionTemplate session);
 
 	List<AttachedFile> selectFileListByBoardNo(SqlSessionTemplate session, int no);
-
-//	AttachedFile selectFileById(SqlSessionTemplate session, int fileId);
 
 	int updateBoardViewCount(SqlSessionTemplate session, int no);
 

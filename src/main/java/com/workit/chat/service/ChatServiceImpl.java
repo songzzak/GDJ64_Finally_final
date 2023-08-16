@@ -68,14 +68,6 @@ public class ChatServiceImpl implements ChatService {
 			}
 			param.put("chat", list);
 		}
-//		if(roomNumbers!=null) {
-//			for(Chatroom m: roomNumbers) {
-//				Chat c= chatDao.selectAllMyChatroom(m.getChatroomId());
-//				list.add(c);
-//				log.info("list : ",m);
-//			}
-//			param.put("chat", list);
-//		}
 		param.put("members", chatDao.selectMemberAll());
 		param.put("dept", chatDao.selectDeptAll());
 		return param;
@@ -84,7 +76,6 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public Map<String, Object> selectChatroomByroomId(String chatroomId) {
 		return Map.of("chatroomList",chatDao.selectChatroomByroomId(chatroomId), "chatroomMember", chatDao.selectChatMember(chatroomId), "chatroomFile", chatroomDao.selectFileByChatroomId(chatroomId));
-		//return Map.of("chatroomList",chatDao.selectChatroomByroomId(chatroomId), "chatroomMember", chatDao.selectChatMember(chatroomId));
 	}
 	
 	@Override

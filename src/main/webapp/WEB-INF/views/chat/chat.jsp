@@ -5,7 +5,6 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>     
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <link rel="stylesheet" href="${path}/resources/css/chat/chat.css">
-<link rel="stylesheet" href="${path}/resources/css/chat/chat-modal.css">
 <section class="max100per">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 		<div class="main-section section-shadow">

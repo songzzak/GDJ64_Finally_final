@@ -70,6 +70,8 @@ public class EmployeeController {
 		int totalData=service.selectMemberCount();
 		model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/employee/list"));
 		model.addAttribute("entFl",entFl);
+		model.addAttribute("category",category);
+		model.addAttribute("keyword",keyword);
 		return "employee/listEmp";
 	}
 	
@@ -135,7 +137,7 @@ public class EmployeeController {
 	//회원 정보 수정 화면
 	@GetMapping("/memberId")
 	public String UpdateEmpView(Model model, @RequestParam(value="id") String id) {
-		model.addAttribute("member",memberService.selectMemberByParam(Map.of("memberId",id)));
+		model.addAttribute("member",service.selectMemberByParam(Map.of("memberId",id)));
 		model.addAttribute("depts",service.selectDept());
 		model.addAttribute("jobs",service.selectJob());
 		return "employee/updateEmp";

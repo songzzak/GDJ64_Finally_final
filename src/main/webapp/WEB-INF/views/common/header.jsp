@@ -73,5 +73,9 @@ const path = "${pageContext.request.contextPath}";
 				console.log("error");
 			}
 		});
-	}
+	};
+	
+	$(".nav-btn").click(e=>{
+		location.href="${path}/chat/";
+	})
 </script>

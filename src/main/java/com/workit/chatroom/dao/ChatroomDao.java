@@ -8,6 +8,7 @@ import com.workit.chatroom.model.dto.AttachedFile;
 import com.workit.chatroom.model.dto.ChatNotification;
 import com.workit.chatroom.model.dto.ChatroomFile;
 import com.workit.member.model.dto.Member;
+import com.workit.member.model.vo.MemberVO;
 
 public interface ChatroomDao {
 	int insertChat(ChatMsg chat);
@@ -29,4 +30,6 @@ public interface ChatroomDao {
 	int chatNotificationCountById(Map<String, Object> map);
 	
 	int deleteNotify(int myChatroomNo);
+	
+	MemberVO selectMemberByChoice(String memberId);
 }

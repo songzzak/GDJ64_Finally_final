@@ -78,10 +78,14 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 				chatId = chat.getChatId();
 				if(result>0) {
 					sendChat(chat, chatId);
+				}else {
+					//에러 발생
 				}
 			}else if(chat.getChatId().equals("file")) {
 				sendChat(chat, chatId);
 			}
+		}else {
+			// chat ist null
 		}
 		
     }

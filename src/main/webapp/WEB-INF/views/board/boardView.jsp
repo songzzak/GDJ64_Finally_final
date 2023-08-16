@@ -4,7 +4,6 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-<!-- 기존 스타일 유지 -->
 <style>
    /* 기본 스타일링 */
   .row { display: flex; flex-direction: row; }
