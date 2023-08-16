@@ -9,8 +9,9 @@ import com.workit.chat.model.dto.Chat;
 import com.workit.chat.model.dto.ChatMsg;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
-import com.workit.chatroom.model.dto.ChatroomFile;
 import com.workit.chatroom.model.dto.AttachedFile;
+import com.workit.chatroom.model.dto.ChatNotification;
+import com.workit.chatroom.model.dto.ChatroomFile;
 import com.workit.member.model.dto.Member;
 
 
@@ -23,7 +24,11 @@ public interface ChatMapper {
 	List<Chatroom> selectChatroomByroomId(String chatroomId);
 	//List<MyChatroom> selectChatroomByroomId(String chatroomId);
 	
-	List<MyChatroom> searchAllByKeyword(String keyword);
+	//List<MyChatroom> searchByKeyword(Map<String, Object> param);
+	List<Chat> searchChatByKeyword(Map<String, Object> param);
+	List<MyChatroom> searchChatroomByKeyword(Map<String, Object> param);
+	List<ChatroomFile> searchfileByKeyword(Map<String, Object> param);
+	
 	
 	List<MyChatroom> selectChatroomIdById(String id);
 	//List<MyChatroom> checkChatroomMember(String chatroomId);
@@ -36,7 +41,6 @@ public interface ChatMapper {
 	int deleteMyChatroom(Map<String, Object> param);
 	List<MyChatroom> selectChatByChatroomId(String chatroomId);
 	
-	List<MyChatroom> searchChatroomByKeyword(Map<String, Object> param);
 	
 //	int insertChat(Chat chat);
 	int insertChat(ChatMsg chat);
@@ -54,5 +58,17 @@ public interface ChatMapper {
 	AttachedFile selectFileById(String fileId);
 	
 	List<ChatroomFile> selectFileByChatroomId(String chatroomId);
+	
+	List<Member> selectChatMemberById(String chatroomId);
+	
+	int saveChat(ChatNotification chatread);
+	
+	int chatNotificationCount(String loginMember);
+	
+	int chatNotificationCountById(Map<String, Object> param);
+	
+	List<MyChatroom> selectMyChatroomAll(String loginMember);
+	
+	int deleteNotify(int myChatroomNo);
 	
 }

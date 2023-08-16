@@ -89,6 +89,7 @@ public class BoardController {
 	    }
 
 	    if(!isViewed) {
+
 	        service.updateViewCount(no); // 조회수 증가 메서드 추가해주세요
 
 	        Cookie viewCookie = new Cookie("noticeView", "|" + no + "|");
