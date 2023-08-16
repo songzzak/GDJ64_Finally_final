@@ -21,6 +21,11 @@
   /* 게시판 헤더 */
   .head-nav { height: 56px; display: flex; align-items: center; padding-left: 30px; }
   .head-nav ul li { margin: 0px 5px; }
+  
+  /* 팝업 */
+  .popupStyle{font-size:16px; margin:30px 50px; display: flex; justify-content: justify-content: flex-start;}
+  .popupStyle p:first-child{font-weight: bolder; width: 20%;}
+  .popupStyle p:last-child{width: 80%;}
   </style>
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
@@ -76,18 +81,18 @@ document.addEventListener('DOMContentLoaded', function () {
          events: [],
          eventClick: function(info) {
              var eventData = info.event.extendedProps;
-        	    var contents = "<div style='font-size:18px; margin-bottom:20px'>"
-        	        + "제목 : " + eventData.popupTitle
-        	        + "</div>"
-        	        + "<div style='font-size:18px; margin-bottom:20px'>"
-        	        + "예약시간 : " + eventData.time
-        	        + "</div>"
-        	        + "<div style='font-size:18px; margin-bottom:20px'>"
-        	        + "예약자 : " + eventData.memberInfo
-        	        + "</div>"
-        	        + "<div style='font-size:18px; margin-bottom:20px'>"
-        	        + "내용 : " + eventData.description
-        	        + "</div>";
+        	    var contents = "<div class='popupStyle'>"
+        	        + "<p>제목</p><p>" + eventData.popupTitle
+        	        + "</p></div>"
+        	        + "<div class='popupStyle''>"
+        	        + "<p>예약시간</p><p>" + eventData.time
+        	        + "</p></div>"
+        	        + "<div class='popupStyle'>"
+        	        + "<p>예약자</p><p>" + eventData.memberInfo
+        	        + "</p></div>"
+        	        + "<div class='popupStyle'>"
+        	        + "<p>내용</p><p>" + eventData.description
+        	        + "</p></div>";
 
 		 $("#popup").html(contents);
 		 $("#popup").bPopup({
@@ -117,9 +122,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	        method: "GET",
 	        dataType: "json",
 	        success: function(data) {
-	            calendar.removeAllEvents(); // 기존의 모든 이벤트를 제거합니다.
+	            calendar.removeAllEvents();
 	            data.forEach(function(event) {
-	                calendar.addEvent(event); // 새로운 이벤트를 추가합니다.
+	                calendar.addEvent(event);
 	            });
 	        },
 	        error: function(jqXHR, textStatus) {
@@ -128,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	    });
 	}
 
-	// 초기 로드시 기본 회의실 값으로 데이터를 불러옵니다.
 	loadCalendar($('#roomSelector').val());
 	
 	$('#roomSelector').on('change', function() {

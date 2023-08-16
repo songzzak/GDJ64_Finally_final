@@ -160,8 +160,7 @@ public class WorkController {
 	 public Map<String, String> endWork(@RequestParam("workEndTime") String workEndTime,HttpSession session) {
 	      Map<String, String> result = new HashMap<>();
 	      String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
-	      // 임시 사용자 ID
-	      //String memberId = "user01";
+
 	      Timestamp currentTimestamp = null;
 	      String workStatus = "지각";
 	      try {
@@ -213,20 +212,19 @@ public class WorkController {
 	 @GetMapping("/checkTodayWork")
 	 @ResponseBody
 	 public Map<String, Boolean> checkTodayWork(@RequestParam("date") String workDate,HttpSession session) {
-	     // 임시 사용자 ID
-	     //String memberId = "user01";
+
 		 String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 	     Map<String, String> mapParam = new HashMap<>();
 	     mapParam.put("memberId", memberId);
 	     mapParam.put("workDate", workDate);
-	     //System.out.println(mapParam);
+
 	     Map<String, Boolean> result = new HashMap<>();
 	     boolean alreadyRegistered = service.isWorkDataRegisteredForDate(mapParam);
 	     boolean alreadyCheckedOut = service.isCheckOutRegisteredForDate(mapParam);
-	    //System.out.println(alreadyRegistered);
+
 	     result.put("alreadyRegistered", alreadyRegistered);
 	     result.put("alreadyCheckedOut", alreadyCheckedOut);
-	     //System.out.println(result);
+
 	     return result;
 	 }
 
@@ -234,8 +232,7 @@ public class WorkController {
 	 @ResponseBody
 	 public void getWorkTime(@RequestParam("date") String workDate,
 			 HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
-		 // 임시 사용자 ID
-	     //String memberId = "user01";
+
 		 String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 	     Map<String, Object> paramMap = new HashMap<>();
 	     paramMap.put("memberId", memberId);
@@ -254,8 +251,7 @@ public class WorkController {
 	 @ResponseBody
 	 public void requestTimeChange(@RequestParam("date") String workDate,@RequestParam("reason") String reason,
 			 HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
-		 // 임시 사용자 ID
-	     //String memberId = "user01";
+
 		 String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 	     Map<String, Object> paramMap = new HashMap<>();
 	     paramMap.put("memberId", memberId);
@@ -358,7 +354,7 @@ public class WorkController {
 		    Map<String, Object> paramMap = new HashMap<>();
 	        paramMap.put("deptName", deptName);
 	        paramMap.put("memberName", memberName);
-			//System.out.println(paramMap);
+
 			 if (currentYear == null || currentMonth == null) {
 		            Calendar cal = Calendar.getInstance();
 		            currentYear = cal.get(Calendar.YEAR);
@@ -368,8 +364,7 @@ public class WorkController {
 		            paramMap.put("currentMonth", currentMonth);//8
 		            
 		            List<Work> workList = service.getMonthWorkTimeByTeam(paramMap);
-//		            System.out.println(paramMap);
-//		            System.out.println(workList);
+
 		            model.addAttribute("workList", workList);
 		            return "/work/workBoard-team";
 		        }else {
