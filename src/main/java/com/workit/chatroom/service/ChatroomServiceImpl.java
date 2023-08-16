@@ -37,6 +37,9 @@ public class ChatroomServiceImpl implements ChatroomService {
 	
 	@Override
 	public int insertChat(ChatMsg chat) {
+		if(chat.getChatId()!=null) {
+			chat.setChatId("");
+		}
 		return chatroomDao.insertChat(chat);
 	}
 	
@@ -58,8 +61,6 @@ public class ChatroomServiceImpl implements ChatroomService {
         log.info("oriName");
         log.info("{}", origName);
         
-        // 파일 이름으로 쓸 uuid 생성
-        //String uploadName = UUID.randomUUID().toString();
         
         // 확장자 추출(ex : .png)
         String extension = origName.substring(origName.lastIndexOf("."));
@@ -74,7 +75,6 @@ public class ChatroomServiceImpl implements ChatroomService {
 
 
         // 파일을 불러올 때 사용할 파일 경로
-        //String uploadPath = fileDir + uploadName;
         String uploadPath = fileDir;
         
         

@@ -71,19 +71,22 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         String chatId="";
         ChatMsg chat =mapper.readValue(message.getPayload(),ChatMsg.class);
 		if(chat!=null) {
-			if(chat.getChatId()=="" || chat.getChatId()==null) {
-				session.getAttributes().put("chat", chat);
-				int result = chatroomService.insertChat(chat);
-				log.info("websocket에서 확인하기 : " + chat.getChatId());
-				chatId = chat.getChatId();
-				if(result>0) {
-					sendChat(chat, chatId);
-				}else {
-					//에러 발생
-				}
-			}else if(chat.getChatId().equals("file")) {
+			//if(chat.getChatId()=="" || chat.getChatId()==null) {
+			session.getAttributes().put("chat", chat);
+			int result = chatroomService.insertChat(chat);
+			log.info("websocket에서 확인하기 : " + chat.getChatId());
+			chatId = chat.getChatId();
+			if(result>0) {
 				sendChat(chat, chatId);
+			}else {
+				//에러 발생
 			}
+			//}else if(chat.getChatId().equals("file")) {
+				
+//				sendChat(chat, chatId);
+//			}
+				
+			
 		}else {
 			// chat ist null
 		}
