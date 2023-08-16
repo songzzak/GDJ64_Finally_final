@@ -103,7 +103,7 @@ const cPath = '${path}';
 /* 	setTimeout(function() {
 		window.scrollTo(0, $(document).height());//스크롤 맨아래로
 	}, 50); */
-	$(".chat-msgBox-container").scroll(function(){
+	/* $(".chat-msgBox-container").scroll(function(){
 		var scrollTop = $(this).scrollTop();
 		console.log("scrollTop : " + scrollTop);
 			
@@ -117,8 +117,8 @@ const cPath = '${path}';
 		/* if(scrollTop + innerHeight <= scrollHeight){
 			//$(".chat-msgBox-container").scrollTop == scrollHeight;
 			document.body.scrollTop = document.body.scrollHeight;
-		} */
-	});
+		} 
+	}); */
 	
 /* 	function prepareScroll() {
 		window.setTimeout(fn_chatScroll, 50);
@@ -404,7 +404,8 @@ const cPath = '${path}';
 	
 	
 	$(".attachChatIcon").click(e=>{
-		$(".modal-result-container").toggle("chatHidden");	
+		$(".modal-result-container").toggle("chatHidden");
+		$(".modal-result-container").empty();
 		$.ajax({
 			url: "${path}/chatroom/file",
 			type: "post",
