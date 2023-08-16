@@ -27,9 +27,12 @@
 		enctype="multipart/form-data">
 
 		<div class="approve-section section-shadow">
-			<div id="approve_name">기안문서함</div>
-
-			<div>
+				<c:if test="${name eq '기안문서함'}">
+					<div id="approve_name">기안문서</div>
+				</c:if>
+				<c:if test="${name eq '참조문서함'}">
+					<div id="approve_name">참조문서</div>
+				</c:if>
 				<div id="one-width">
 					<div id="kind">근태신청서</div>
 					<div id="app-line" class="answer">
@@ -48,14 +51,24 @@
 					</div>
 			</div>
 
-				<div id="one-width">
-					<div id="department" class="question">부서</div>
-					<div id="department-answer" class="answer">${loginMember.dept.deptName}</div>
-					<div id="writer" class="question">기안자</div>
-					<div id="writer-answer" class="answer">${loginMember.memberName}</div>
-					<div id="position" class="question">직책</div>
-					<div id="position-answer" class="answer">${loginMember.job.jobName}</div>
-				</div>
+			<div id="one-width">
+					<c:if test="${name eq '기안문서함'}">
+						<div id="department" class="question">부서</div>
+						<div id="department-answer" class="answer">${loginMember.dept.deptName}</div>
+						<div id="writer" class="question">기안자</div>
+						<div id="writer-answer" class="answer">${loginMember.memberName}</div>
+						<div id="position" class="question">직책</div>
+						<div id="position-answer" class="answer">${loginMember.job.jobName}</div>
+					</c:if>
+					<c:if test="${name eq '참조문서함'}">
+						<div id="department" class="question">부서</div>
+						<div id="department-answer" class="answer">${saveExtends[0].memberId.dept.deptName}</div>
+						<div id="writer" class="question">기안자</div>
+						<div id="writer-answer" class="answer">${saveExtends[0].memberId.memberName}</div>
+						<div id="position" class="question">직책</div>
+						<div id="position-answer" class="answer">${saveExtends[0].memberId.job.jobName}</div>
+					</c:if>
+			</div>
 
 				<input type="hidden" name="memberId" value="${loginMember.memberId}">
 
@@ -136,9 +149,22 @@
 						</c:choose>
 					</c:if>
 				</div>
-
 			</div>
 		</div>
+		<c:if test="${approveState eq '반려'}">
+			<div id="rejectDiv">
+				<div class="draft-flex-row">
+					<div id="rejectMessage">
+							반려사유
+					</div>
+					<li class="postit">
+							<span class="bold">
+								${message}	
+							</span>	
+					</li>
+				</div>	
+			</div>
+		</c:if>
 <jsp:include page="/WEB-INF/views/approve/reject-view.jsp"/>
 
 </form> 

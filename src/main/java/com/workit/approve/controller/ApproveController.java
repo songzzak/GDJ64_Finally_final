@@ -179,7 +179,7 @@ public class ApproveController {
 			String date = "";
 			String stime = "";
 			String etime = "";
-
+			
 			date += saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getYear();// 년
 			date += "-";
 			if (saveExtends.get(0).getTime().getStartTime().toLocalDateTime().getMonthValue() < 10) {
@@ -224,6 +224,7 @@ public class ApproveController {
 			m.addAttribute("approveState",approveState);
 			m.addAttribute("oriFileName",saveExtends.get(0).getApproveAttach().getOriName());
 			m.addAttribute("saveFileName",saveExtends.get(0).getApproveAttach().getSaveName());
+			m.addAttribute("message",saveExtends.get(0).getRejectMessage());
 			
 //			ObjectMapper mapper=new ObjectMapper();// Jackson에서 제공하는(라이브러리) ObjectMapper  -> config에 빈으로 등록해서 객체 생성 생략가능
 			// 자바에서 해당 객체를 문자열로 저장한후 중간역할담당인 mapper를 통해 자바스크립트에서 객체형태로 저장이됨
@@ -238,6 +239,11 @@ public class ApproveController {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
+			
+			System.out.println(saveExtends.get(0).getMemberId().getMemberName());
+			System.out.println(saveExtends.get(0).getMemberId().getDept().getDeptName());
+			System.out.println(saveExtends.get(0).getMemberId().getJob().getJobName());
+			
 			
 			if(name.equals("기안문서함") || name.equals("참조문서함")) {
 				return "approve/draft-extends-app";
@@ -341,7 +347,7 @@ public class ApproveController {
 			m.addAttribute("approveKind",approveKind);
 			m.addAttribute("oriFileName",saveExtends.get(0).getApproveAttach().getOriName());
 			m.addAttribute("saveFileName",saveExtends.get(0).getApproveAttach().getSaveName());
-			
+			m.addAttribute("message",saveExtends.get(0).getRejectMessage());
 			try {
 				m.addAttribute("approveLines", mapper.writeValueAsString(approveLines));
 				m.addAttribute("referLines", mapper.writeValueAsString(referLines));
@@ -379,7 +385,7 @@ public class ApproveController {
 			m.addAttribute("approveState",approveState);
 			m.addAttribute("oriFileName",saveExtends.get(0).getApproveAttach().getOriName());
 			m.addAttribute("saveFileName",saveExtends.get(0).getApproveAttach().getSaveName());
-			
+			m.addAttribute("message",saveExtends.get(0).getRejectMessage());
 //			ObjectMapper mapper=new ObjectMapper();// Jackson에서 제공하는(라이브러리) ObjectMapper  -> config에 빈으로 등록해서 객체 생성 생략가능
 			// 자바에서 해당 객체를 문자열로 저장한후 중간역할담당인 mapper를 통해 자바스크립트에서 객체형태로 저장이됨
 			try {

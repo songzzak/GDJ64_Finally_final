@@ -164,7 +164,7 @@ function navigateMonth(offset, searchName) {
     }
     $(".year-month").text(year + "년 " + month + "월");
 
-    $.get("/work/workTimeByTeam", {
+    $.get("${path}/work/workTimeByTeam", {
         currentYear: year,
         currentMonth: month,
         memberName: searchName

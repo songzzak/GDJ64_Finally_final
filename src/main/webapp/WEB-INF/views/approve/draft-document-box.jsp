@@ -10,7 +10,7 @@
 
 	
 	<div id="draftDocument" class="approve-section section-shadow">
-		<span id="draftDocumentFont">기안문서</span>
+		<span id="draftDocumentFont">기안문서함</span>
 		<div id="draftDocumentDiv">
 			<table class="table">
             <tr id="th">

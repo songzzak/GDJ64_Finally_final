@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- 스마트 에디터 스크립트 로드 -->
-<script type="text/javascript" src="/resources/smarteditor/js/HuskyEZCreator.js"></script>
+<script type="text/javascript" src="${path}/resources/smarteditor/js/HuskyEZCreator.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -24,7 +24,7 @@ function smartEditor() {
 	nhn.husky.EZCreator.createInIFrame({
 	    oAppRef: oEditors,
 	    elPlaceHolder: "editorTxt",
-	    sSkinURI: "/resources/smarteditor/SmartEditor2Skin.html",
+	    sSkinURI: "${path}/resources/smarteditor/SmartEditor2Skin.html",
 	    fCreator: "createSEditor2",
 	    htParams : { 
 	        bUseToolbar : true,

@@ -80,7 +80,7 @@
 	    var userConfirmed = confirm("정말로 이 회의를 삭제하시겠습니까?");
 	    
 	    if(userConfirmed) {
-	        $.post("/meet/deleteMeet", {id: meetId}, function(data) {
+	        $.post("${path}/meet/deleteMeet", {id: meetId}, function(data) {
 	            if(data.success) {
 	                alert("회의가 삭제되었습니다.");
 	                location.reload();

@@ -20,19 +20,7 @@
 	<div class="approve-section section-shadow">
 		<c:choose>
 			<c:when test="${approveState eq '임시저장' }">
-				<div id="approve_name">임시저장함</div>
-			</c:when>
-			<c:when test="${approveState eq '결재대기'}">
-				<div id="approve_name">결재대기함 ${approveState}</div>
-			</c:when>
-			<c:when test="${approveState eq '결재처리중'}">
-				<div id="approve_name">결재대기함 ${approveState}</div>
-			</c:when>
-			<c:when test="${approveState eq '완료'}">
-				<div id="approve_name">결재대기함 ${approveState}</div>
-			</c:when>
-			<c:when test="${approveState eq '반려'}">
-				<div id="approve_name">결재대기함 ${approveState}</div>
+				<div id="approve_name">임시저장문서</div>
 			</c:when>
 			<c:otherwise>
 				<div id="approve_name">기안서신청</div>
@@ -124,18 +112,31 @@
 
 <script>
 	$(function() {	
-		const approveLines=JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
-		const referLines=JSON.parse('${referLines}'); 
-
-		console.log(approveLines);
-		console.log(referLines);
 		
+		const approveLines='${approveLines}'==""?'':JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
+		const referLines='${referLines}'==""?'':JSON.parse('${referLines}'); 
+
 		if("${fileName}"==""){
 			$("#fileClickId").text("파일을 선택하세요"); 
 		}else{
 			$("#fileClickId").text("${fileName}"); 
 		}
 		
+		$("#extendWorkTime1-input").change(function(){
+			if(document.getElementById("extendWorkTime2-input").value != ""){
+				if($("#extendWorkTime1-input").val() >= $("#extendWorkTime2-input").val()){
+					alert("시작시간보다 더 크게 설정");
+					$("#extendWorkTime2-input").val("");
+				}
+			}
+		});
+		
+		$("#extendWorkTime2-input").change(function(){
+				if($("#extendWorkTime1-input").val() >= $("#extendWorkTime2-input").val()){
+					alert("시작시간보다 더 크게 설정");
+					$("#extendWorkTime2-input").val("");
+				}				
+		});
 		
 /* 		approvLines.forEach(e=>{
 			
