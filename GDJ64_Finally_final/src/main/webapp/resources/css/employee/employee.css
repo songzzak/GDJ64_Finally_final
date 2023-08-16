@@ -1,0 +1,86 @@
+@charset "UTF-8";
+/* 사원 생성 */
+#enroll-form>div>input[type=text]{
+	height: 30px;
+	width: 250px;
+	padding: 0px;
+}
+
+.emp-btn{
+	height: 40px;
+	width: 100px;
+	margin-right: 20px;
+}
+.emp-div{
+	height: 650px;
+}
+#enroll-form>div{
+	margin: 10px;
+}
+#enroll-btns{
+	display: flex;
+	justify-content: right;
+	margin: 30px 50px;
+}
+.emp-btn{
+	display: flex;
+	justify-content: right;
+	
+}
+/* 사원 리스트 */
+#emp-table{
+	width: 100%;
+	margin-top:10px;
+}
+#emp-table tr{
+	cursor: pointer;
+	height: 10px;
+}
+#emp-table td{
+	text-align: center;
+}
+
+/* 사원 수정 상세 */
+#back-btn{
+	width: 130px;
+}
+.emp-header{
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+/* 부서관리 */
+.dept-container{
+	height: 350px;
+	display: flex;
+	justify-content: center;
+}
+.dept-container-first{
+	height: 80px;
+	display: flex;
+	align-items: center;
+}
+.dept-container-first>*{
+	margin:5px 10px;
+}
+.dept-div input[type=text]{
+	height: 20px;
+}
+.dept-container table{
+	width:950px;
+}
+.dept-container table td{
+	text-align: center;
+}
+
+/* 사원정보 수정 요청 리스트 */
+.info-table{
+	width: 100%;
+	margin-top:10px;
+}
+.info-table tr{
+	height: 20px;
+}
+.info-table td{
+	text-align: center;
+}
