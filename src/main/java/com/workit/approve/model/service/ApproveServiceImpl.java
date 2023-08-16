@@ -185,10 +185,15 @@ public class ApproveServiceImpl implements ApproveService {
 		return dao.selectReferenceDocumentBox(session,param);
 	}
 
-/*	@Override
-	public int selectDraftDocumentsCount() {
-		
-	}*/
+	@Override
+	public int selectDraftDocumentsCount(Map<String,Object> param) {
+		return dao.selectDraftDocumentsCount(session,param);
+	}
+
+	@Override
+	public int allCompleteAppLine(Map<String, Object> param) {
+		return dao.allCompleteAppLine(session,param);
+	}
 	
 	
 	

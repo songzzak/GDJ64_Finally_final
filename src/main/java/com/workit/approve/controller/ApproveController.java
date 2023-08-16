@@ -40,7 +40,7 @@ import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
 import com.workit.approve.model.service.ApproveService;
-import com.workit.common.Pagenation;
+import com.workit.common.PageFactory;
 import com.workit.employee.service.EmployeeService;
 import com.workit.member.model.dto.Department;
 import com.workit.member.model.dto.Member;
@@ -113,7 +113,7 @@ public class ApproveController {
 	
 	@RequestMapping("/draftDocumentBox.do")  // 본인이 작성한 기안문서함들 들어가기
 	public String selectDraftDocumentBox(@RequestParam(value="cPage",defaultValue="1") int cPage,
-			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
 			Model m, @RequestParam(value="mId") String mId) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("c","완료");
@@ -126,9 +126,11 @@ public class ApproveController {
 		
 	
 		List<Approve> draftDocuments = service.selectDraftDocumentBox(param);
-		/*int totalData=service.selectDraftDocumentsCount(); 		
-		m.addAttribute("pageBar",Pagenation.getPage(cPage,numPerpage,totalData,"draftDocumentBox.do"));
-		m.addAttribute("totalData",totalData); */
+		int totalData=service.selectDraftDocumentsCount(param); 		
+		
+
+		m.addAttribute("pageBar",PageFactory.getPage(cPage,numPerpage,totalData,"draftDocumentBox.do",mId));
+		m.addAttribute("totalData",totalData);
 		m.addAttribute("draftDocuments", draftDocuments);
 		
 		System.out.println(draftDocuments.toString());
@@ -1349,6 +1351,25 @@ public class ApproveController {
 		}
 		return "redirect:/";
 	}
-	
 
+
+	@RequestMapping("/fullPayment.do")
+	public String fullPayment(Model m, String approveNo,String mId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("approveNo",approveNo);
+		param.put("mId", mId);
+		param.put("state", "완료");
+		
+		int result = service.updateCompleteState(param);
+		int result2 = service.allCompleteAppLine(param);
+		
+		if(result >= 1 && result2 >=1) {
+			m.addAttribute("msg", "전결 성공");
+/*			m.addAttribute("url", "/approve/draftDocumentBox.do?mId="+mId);*/
+		} else {
+			m.addAttribute("msg", "전결 실패");
+/*			m.addAttribute("url", "/approve/draftDocumentBox.do?mId="+mId);*/
+		}
+		return "common/msg";	
+	}
 }

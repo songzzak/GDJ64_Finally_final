@@ -1,7 +1,4 @@
-
-$(()=>{	
-	
-	const extendsApply=()=>{
+/* 	const extendsApply=()=>{
 		$("#form-choice-result>img").attr("src", path+"/resources/images/approve/extends.png");
 	}
 	// 근태신청서 양식 선택했을 때 이미지
@@ -30,12 +27,12 @@ $(()=>{
 		} 
 	}
 	
-	/* 전자결재 클릭시 토글 on,off */
+	 전자결재 클릭시 토글 on,off 
 	$("#approve-menu").click(e=>{
      $("#div-approve>button").toggle();
 	})
-});	
-/* 여기부터는 모달창 작동하는 js */
+
+ 여기부터는 모달창 작동하는 js 
 const appopen = () => {
  document.querySelector(".approve").classList.remove("hidden-approve");
 }
@@ -46,4 +43,4 @@ const appclose = () => {
 
 document.querySelector(".approval-request").addEventListener("click", appopen);
 document.querySelector("#approval-close-button").addEventListener("click", appclose);
-document.querySelector(".bg-approve").addEventListener("click", appclose);  
+document.querySelector(".bg-approve").addEventListener("click", appclose);  */

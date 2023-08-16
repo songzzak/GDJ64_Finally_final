@@ -27,7 +27,8 @@
 
 		<div class="approve-section section-shadow">
 			<div id="approve_name">결재대기문서</div>
-
+			
+			
 			<div>
 				<div id="one-width">
 					<div id="kind">근태신청서</div>
