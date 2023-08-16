@@ -10,15 +10,17 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class ChatConfiguration implements WebMvcConfigurer, WebSocketConfigurer {
 	
-	private ChatServer chatServer;
+	private MyWebSocketHandler myWebSocketHandler;
+	private MyHttpSessionHandshakeInterceptor interceptor;
 	
-	public ChatConfiguration(ChatServer chatServer) {
-		this.chatServer = chatServer;
+	public ChatConfiguration(MyWebSocketHandler myWebSocketHandler,  MyHttpSessionHandshakeInterceptor interceptor) {
+		this.myWebSocketHandler = myWebSocketHandler;
+		this.interceptor = interceptor;
 	}
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(chatServer, "/chating/*");
+		registry.addHandler(myWebSocketHandler, "/chating/*").addInterceptors(interceptor);
 	}
 	
 	

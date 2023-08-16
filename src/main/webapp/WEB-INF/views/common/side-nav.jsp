@@ -62,8 +62,8 @@
          <div id="div-approve">
             <button class="approval-request">결재신청</button>
             <button onclick="location.href='${path}/approve/waitingApprove.do?mId=${loginMember.memberId}';">결재대기문서</button>
-            <button onclick="location.href='${path}/approve/stateApprove.do';">기안문서함</button>
-            <button onclick="location.href='${path}/approve/referenceApprove.do';">참조문서함</button>
+            <button onclick="location.href='${path}/approve/draftDocumentBox.do?mId=${loginMember.memberId}';">기안문서함</button>
+            <button onclick="location.href='${path}/approve/referenceDocumentBox.do?mId=${loginMember.memberId}';">참조문서함</button>
             <button onclick="location.href='${path}/approve/saveDocument.do?mId=${loginMember.memberId}';">임시저장함</button>
          </div>
       </div>

@@ -29,8 +29,8 @@
 		            			<td colspan="6">${sa.approveTitle }</td>
 		            			<td colspan="6">${sa.memberId.memberName}</td>
 		            			<td colspan="6">${sa.currentDate }</td>
-		            			<td colspan="6"><button id="saveColor">
-		            			${sa.approveState}</button></td>
+		            			<td colspan="6"><p id="saveColor">
+		            			${sa.approveState}</p></td>
 	            		</tr>
 	            		
             	</c:forEach>
@@ -90,6 +90,6 @@
 	}
 	
 	#saveColor{
-		background-color :#F5F5DC;
+		color : gold;
 	}
 </style>

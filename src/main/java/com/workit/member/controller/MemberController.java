@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.workit.chatroom.service.ChatroomService;
 import com.workit.member.model.vo.MemberVO;
 import com.workit.member.service.MemberService;
 
@@ -40,6 +41,9 @@ public class MemberController {
 	private MemberService service;
 	@Autowired
 	private JavaMailSender javaMailSender;
+	@Autowired
+	private ChatroomService chatroomService;
+	
 	
 	//로그인 페이지
 	@RequestMapping("/loginpage")
@@ -61,6 +65,9 @@ public class MemberController {
 		MemberVO loginMember=(MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		session.setAttribute("loginMember", loginMember);
 		//첫 로그인 시 firstLogin으로 전환 추가 예정
+		String memberId = loginMember.getMemberId();
+		int unread = chatroomService.chatNotificationCount(memberId);
+		session.setAttribute("unread", unread);
 		return "redirect:/";
 	}
 	

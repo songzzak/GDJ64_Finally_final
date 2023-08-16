@@ -43,3 +43,6 @@ build/
 .dbeaver/
 .Scripts/
 /.DS_Store
+bin/
+Users/
+Scripts/

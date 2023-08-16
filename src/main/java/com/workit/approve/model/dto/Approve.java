@@ -21,6 +21,7 @@ public class Approve {
 	private Date currentDate;
 	private String approveState;
 	private String approveKind;
+	private String rejectMessage;
 	private Member memberId;
 	private ApproveAttach approveAttach;
 	private Time time;
