@@ -184,6 +184,11 @@ public class ApproveServiceImpl implements ApproveService {
 	public List<Approve> selectReferenceDocumentBox(Map<String, Object> param) {
 		return dao.selectReferenceDocumentBox(session,param);
 	}
+
+/*	@Override
+	public int selectDraftDocumentsCount() {
+		
+	}*/
 	
 	
 	

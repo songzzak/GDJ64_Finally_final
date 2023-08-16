@@ -1,3 +1,6 @@
+
+$(()=>{	
+	
 	const extendsApply=()=>{
 		$("#form-choice-result>img").attr("src", path+"/resources/images/approve/extends.png");
 	}
@@ -31,7 +34,7 @@
 	$("#approve-menu").click(e=>{
      $("#div-approve>button").toggle();
 	})
-	
+});	
 /* 여기부터는 모달창 작동하는 js */
 const appopen = () => {
  document.querySelector(".approve").classList.remove("hidden-approve");

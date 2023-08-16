@@ -7,11 +7,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="${path}/resources/css/common/common.css">
 <script>
 const path = "${pageContext.request.contextPath}";
-</script>
+</script>	
+<meta charset="UTF-8">
+<link rel="stylesheet" href="${path}/resources/css/common/common.css">
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <title>Work IT</title>
 </head>
