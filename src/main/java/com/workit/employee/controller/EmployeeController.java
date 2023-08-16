@@ -135,7 +135,7 @@ public class EmployeeController {
 	//회원 정보 수정 화면
 	@GetMapping("/memberId")
 	public String UpdateEmpView(Model model, @RequestParam(value="id") String id) {
-		model.addAttribute("member",memberService.selectMemberByParam(Map.of("memberId",id)));
+		model.addAttribute("member",service.selectMemberByParam(Map.of("memberId",id)));
 		model.addAttribute("depts",service.selectDept());
 		model.addAttribute("jobs",service.selectJob());
 		return "employee/updateEmp";

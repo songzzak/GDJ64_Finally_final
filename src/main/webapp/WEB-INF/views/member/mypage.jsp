@@ -27,7 +27,7 @@
 					<p>급여</p>
 					<input type="text" value="${loginMember.salary }" disabled>
 					<p>입사일</p>
-					<input type="date" value="${loginMember.hireDate }" disabled>
+					<input type="date" id="hire-date" value="" disabled>
 				</div>
 			</div><!-- right-container -->
 		</div><!-- profile-info -->
@@ -136,10 +136,19 @@
 	</section>
 </section><!-- max1920px -->
 <script>
+$(document).ready(function(){
+	//입사일
+	const strId="${loginMember.memberId}";
+	var strDate=strId.substr(0,2);
+	strDate="20"+strDate+"-";
+	strDate+=strId.substr(2,2)+"-"+strId.substr(4,2);
+	$("#hire-date").val(strDate);
+});
 	var emailFl=false;
 	var time=300;
 	var min=5;
 	var sec=0;
+	
 	//프로필 사진 변경
 	function fn_updateProfile(){
 		$("#profile-input").click();

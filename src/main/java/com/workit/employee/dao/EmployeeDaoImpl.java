@@ -127,5 +127,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public int updateJob(Map<String, Object> param) {
 		return mapper.updateJob(param);
 	}
+
+	@Override
+	public Member selectMemberByParam(Map<String, Object> param) {
+		return mapper.selectMemberByParam(param);
+	}
+	
 	
 }

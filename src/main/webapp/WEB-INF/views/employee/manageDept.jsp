@@ -36,7 +36,6 @@
 								<tr class="dept-tr">
 									<td>
 										${d.deptName}
-										<input type="hidden" value="${d.deptCode }" id="dept-code">
 									</td>
 									<td>${d.deptCount }명</td>
 									<td>
@@ -49,7 +48,6 @@
 							</c:forEach>
 						</c:if>
 					</table>
-					<div class="pageBar">${pageBar }</div>
 				</div>
 			</div>
 			<h4>부서 수정</h4>
@@ -83,6 +81,7 @@
 							</c:forEach>
 						</c:if>
 					</table>
+					<br>
 					<div class="pageBar">${pageBar }</div>
 				</div>
 			</div>
