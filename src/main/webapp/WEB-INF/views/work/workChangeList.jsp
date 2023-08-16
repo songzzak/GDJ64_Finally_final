@@ -193,7 +193,7 @@ $(document).ready(function(){
         const workStatus = $("#workStatus").val();
           if (confirm("수정 요청을 승인하시겠습니까?")) {
             $.ajax({
-                url: "/work/approveRequest",
+                url: "${path}/work/approveRequest",
                 type: "POST",
                 data: {
                 	workChangeNo: workChangeNo,
@@ -219,7 +219,7 @@ $(document).ready(function(){
     	const workChangeNo = $(this).closest('.work-change-row').find('td:first-child input:first-child').val();
         if (confirm("수정 요청을 삭제하시겠습니까?")) {
             $.ajax({
-                url: "/work/deleteRequest",
+                url: "${path}/work/deleteRequest",
                 type: "POST",
                 data: {
                 	workChangeNo: workChangeNo

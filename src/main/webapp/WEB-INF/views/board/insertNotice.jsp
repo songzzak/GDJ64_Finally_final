@@ -103,7 +103,7 @@ function insertContent() {
     });
 
     $.ajax({
-        url: "/board/insertNoticeEnd",
+        url: "${path}/board/insertNoticeEnd",
         type: "POST",
         data: formData,
         contentType: false,

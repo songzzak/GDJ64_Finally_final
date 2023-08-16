@@ -102,7 +102,7 @@ $(document).ready(function() {
         //console.log($("#editorTxt").val());
         if(confirm('공지사항을 수정하시겠습니까?')){
         $.post(
-                "/board/updateBoardEnd",
+                "${path}/board/updateBoardEnd",
                 {
                 	no:${board.boardNo},
                 	content: $("#editorTxt").val(),

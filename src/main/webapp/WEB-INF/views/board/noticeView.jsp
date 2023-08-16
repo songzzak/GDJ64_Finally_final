@@ -259,7 +259,7 @@ $(document).ready(function() {
 	 // 댓글 및 대댓글 삭제 함수
 	 function deleteCommentOrReply(commentNo) {
 	     $.post(
-	         "/board/noticeCommentDelete",
+	         "${path}/board/noticeCommentDelete",
 	         {commentNo: commentNo},
 	         function(response) {
 	             if(response.status === "success") {
@@ -280,7 +280,7 @@ $(document).ready(function() {
 	$("#deleteBtn").on('click', function() {
 		if (confirm('정말로 삭제하시겠습니까?')) {
 		     $.post(
-		             "/board/deleteNotice",
+		             "${path}/board/deleteNotice",
 		             {noticeNo: ${n.noticeNo}},
 		             function(response) {
 		                 if(response.status === "success") {
@@ -306,7 +306,7 @@ function addCommentOrReply(noticeNo, parentCommentNo) {
     }
 
     $.post(
-        "/board/noticeCommentAdd",
+        "${path}/board/noticeCommentAdd",
         {
             noticeNo: noticeNo,
             commentContent: commentContent,
@@ -337,7 +337,7 @@ $('#commentList').on('click', '.confirmEditReplyBtn', function() {
 // 댓글 및 대댓글 수정 함수
 function updateCommentOrReply(commentNo, content) {
     $.post(
-        "/board/noticeCommentUpdate",
+        "${path}/board/noticeCommentUpdate",
         {commentNo: commentNo, commentContent: content},
         function(response) {
             if(response.status === "success") {

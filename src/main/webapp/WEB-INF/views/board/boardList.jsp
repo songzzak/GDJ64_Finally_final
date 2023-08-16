@@ -108,7 +108,7 @@
          });
     	// 글쓰기 버튼 클릭 이벤트
     	 $("#writeBtn").click(function() {
-             location.assign('/board/insertBoard');
+             location.assign('${path}/board/insertBoard');
          });
     });
     
