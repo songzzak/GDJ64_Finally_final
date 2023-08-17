@@ -25,7 +25,7 @@
   .tableStyle td, .tableStyle th { border-bottom: 1px solid #e0e0e0;padding: 8px; text-align: center; }
   .tableStyle tr{height: 60px;}
   .hoverStyle:hover{font-weight: bolder;}
-
+	button{cursor: pointer;}
 </style>
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp" />
@@ -45,10 +45,10 @@
 	    		<div>
 	    			<div id="searchDiv">
 	                    <select id="searchType">
-	                        <option value="lectureName">강의명</option>
-	                        <option value="memberName">강사명</option>
+	                        <option value="lectureName" ${searchType == 'lectureName' ? 'selected' : ''}>강의명</option>
+	                        <option value="memberName" ${searchType == 'memberName' ? 'selected' : ''}>강사명</option>
 	                    </select>
-	                    <input type="text" id="searchKeyword" placeholder="search..." style="height: 20px;" />
+	                    <input type="text" id="searchKeyword" placeholder="search..." style="height: 20px;" value="${searchKeyword}"/>
 	                    <button id="searchBtn">검색</button>
 	                </div>
 	    		</div>
@@ -95,11 +95,12 @@
         $('#searchBtn').click(function() {
             searchLectures();
         });
-     // 등록 버튼에 클릭 이벤트
-        $('#insertLectureBtn').click(function() {
-        	location.assign('${path}/lecture/insertLecture');
-        });
+
     });
+     // 등록 버튼에 클릭 이벤트
+        $(document).on('click', '#insertLectureBtn', function() {
+            location.assign('${path}/lecture/insertLecture');
+        });
 
     function searchLectures() {
         var searchType = $('#searchType').val();
@@ -110,7 +111,7 @@
             return;
         }
 
-        $.get('/lecture/lectureList',
+        $.get('${path}/lecture/lectureList',
         		{ searchType: searchType, searchKeyword: searchKeyword },
         		function(response) {
         			

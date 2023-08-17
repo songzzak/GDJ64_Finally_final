@@ -12,6 +12,7 @@ import com.workit.board.model.dto.Board;
 import com.workit.board.model.dto.BoardComment;
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
+import com.workit.board.model.dto.NoticeFile;
 import com.workit.chatroom.model.dto.AttachedFile;
 
 @Service
@@ -176,6 +177,57 @@ public class BoardServiceImpl implements BoardService {
 	public List<AttachedFile> selectFileListByBoardNo(int no) {
 		return dao.selectFileListByBoardNo(session, no);
 	}
+
+	@Override
+	public Board selectPrevBoard(int no) {
+		return dao.selectPrevBoard(session, no);
+	}
+
+	@Override
+	public Board selectNextBoard(int no) {
+		return dao.selectNextBoard(session, no);
+	}
+
+	@Override
+	public AttachedFile selectAttachedFileById(int fileId) {
+		return dao.selectAttachedFileById(session, fileId);
+	}
+
+	@Override
+	public int deleteAttachedFile(int fileId) {
+		return dao.deleteAttachedFile(session, fileId);
+	}
+
+	@Override
+	public int deleteNoticeFile(int fileId) {
+		return dao.deleteNoticeFile(session, fileId);
+	}
+
+	@Override
+	public int deleteBoardFile(int fileId) {
+		return dao.deleteBoardFile(session, fileId);
+	}
+
+	@Override
+	public int deleteNoticeFilesByNoticeNo(int no) {
+		return dao.deleteNoticeFilesByNoticeNo(session, no);
+	}
+
+	@Override
+	public List<NoticeFile> selectNoticeFileByNo(int no) {
+		return dao.selectNoticeFileByNo(session, no);
+	}
+
+	@Override
+	public int insertNoticeFile(Map<String, Object> noticeFileMap) {
+		return dao.insertNoticeFile(session, noticeFileMap);
+	}
+
+	@Override
+	public int insertBoardFile(Map<String, Object> boardFileMap) {
+		return dao.insertBoardFile(session, boardFileMap);
+	}
+
 
 
 	

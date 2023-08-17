@@ -44,7 +44,7 @@
 						</div>
 						<div class="mypage-update">
 							<span>이메일</span>
-							<input type="email" name="email" class="first-input" id="mail" value="${loginMember.email }">
+							<input type="email" name="email" class="first-input" id="mail" value="${loginMember.email}">
 			                <input type="button" onclick="fn_requestEmail();" value="전송">
 			                <span>5:00</span>
 						</div>
@@ -66,7 +66,7 @@
 							<input type="text" name="detailAddress" value="${loginMember.subAddress }" required>
 						</div>
 						<div class="mypage-update">
-							<span>변경 사유</span> <input type="text" name="updateComment" required>
+							<span>변경 사유</span> <input type="text" name="updateComment" required id="update-comment">
 						</div>
 						<div>
 							<h4>수정 대기 현황</h4>
@@ -184,13 +184,14 @@
 	
 	//개인 정보 수정
 	function fn_updateMember(){
-		console.log("${approv}");
 		if("${approv.approvalFl}"!=""){
 			alert("미승인된 요청 정보가 있습니다.");
-			location.reload();
 		}else if(!emailFl){
 			alert("이메일 인증을 완료하세요.");
 			$("#mail").focus();
+		}else if($("#update-comment").val()==null||$("#update-comment").val()==""){
+			alert("변경 사유를 입력하세요.");
+			$("#update-comment").focus();
 		}else{
 			$("#member-update-form").submit();
 		}

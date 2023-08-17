@@ -1,5 +1,6 @@
 package com.workit.approve.model.dao;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -190,10 +191,22 @@ public class ApproveDaoImpl implements ApproveDao {
 	}
 
 	@Override
-	public int allCompleteAppLine(SqlSession session, Map<String, Object> param) {
+	public int allCompleteAppLine(SqlSession session, Map<String, Object> param) { // 해당 결재선의 상태를 다 완료로 바꿈
 		return session.update("approve.allCompleteAppLine",param);
 	}
+
+	@Override
+	public int timeDifference(SqlSession session, Map<String, Object> param) { // 해당 기안서의 시간차이를 구해줌
+		return session.selectOne("approve.timeDifference",param);
+	}
+
+	@Override
+	public String selectStartTime(SqlSession session, Map<String, Object> param) { // 연차기안서 시작시간일 구하기
+		return session.selectOne("approve.selectStartTime",param);
+	}
 	
-	
+	public int insertAnnualLeave(SqlSession session, Map<String, Object> param) { // 기간차이일수만큼 연차테이블 생성
+		return session.insert("approve.insertAnnualLeave",param);
+	}
 	
 }

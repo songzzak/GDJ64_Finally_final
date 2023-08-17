@@ -63,9 +63,23 @@
 				<div class="file-upload">
 				    <label for="file">첨부파일 선택</label>
 				    <input type="file" id="file" name="file" multiple>
-				    <span class="file-list" id="file-name"><p class="file-item">선택된 첨부파일이 표시됩니다.</p></span>
-
+				    <div class="file-list" id="file-name">
+				        <c:if test="${empty fileList }">
+				            <p class="no-files-msg">첨부된 파일이 없습니다.</p>
+				        </c:if>
+				        <c:if test="${not empty fileList }">
+				            <c:forEach items="${fileList}" var="f">
+							    <div class="file-item">
+							        ${f.originalFile}
+							        <span class="remove-file">x</span>
+							        <input type="hidden" name="fileId" value="${f.fileId}">
+							    </div>
+							    <c:set var="fileId" value="${f.fileId}" />
+							</c:forEach>
+				        </c:if>
+				    </div>
 				</div>
+
 			    <div style="text-align: right;">
 				    <button type="button" onclick="updateContent();">수정</button>
 				    <button type="button" onclick="cancle();" class="btnSimple">취소</button>
@@ -76,48 +90,100 @@
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+var selectedFiles = [];
+
 $(document).ready(function() {
 
-	
-	
-    // 파일명 표시 및 제거 버튼 추가
+ 	// 기존 첨부된 파일 제거 버튼 기능
+    $(".remove-file").click(function() {
+    	var fileItem = $(this).closest(".file-item");
+    	 var fileId = $(this).siblings("input[name='fileId']").val();
+    	 //console.log(fileId);
+        if(confirm('이 파일을 제거하시겠습니까?')) {
+            $.ajax({
+                url: "${path}/board/removeNoticeFile",
+                type: "POST",
+                data: {fileId: fileId},
+                success: function(response) {
+                	if(response.status === "success") {
+                        alert("파일이 성공적으로 제거되었습니다.");
+                        fileItem.remove(); // 해당 파일 아이템 제거
+                    } else if(response.status === "notfound") {
+                        alert("파일을 찾을 수 없습니다.");
+                    } else {
+                        alert("파일 제거에 실패하였습니다.");
+                    }
+                },
+                error: function() {
+                    alert("파일 제거 중 오류가 발생하였습니다.");
+                }
+            });
+        }
+    });
     $(".file-upload input[type='file']").change(function() {
         var fileList = $(".file-list");
-        fileList.empty();  // 기존 목록 초기화
 
         Array.from(this.files).forEach(function(file) {
             var fileName = file.name;
-            var fileItem = $('<span class="file-item">' + fileName + ' <span class="remove-file">x</span></span>');          
-            fileItem.find(".remove-file").click(function() {
+            var fileItem = $('<span class="file-item">' + fileName + ' <span class="remove-file-new">x</span></span>');
+            
+            // 새로 추가된 파일 제거 기능
+            fileItem.find(".remove-file-new").click(function() {
+            	var index = selectedFiles.indexOf(file);  
+                if (index > -1) {
+                    selectedFiles.splice(index, 1);  
+                }
                 $(this).parent().remove();
             });
+            
             fileList.append(fileItem);
-        });
-    });
+            selectedFiles.push(file);
 
+            $(".no-files-msg").hide();
+        });
+
+        if (this.files.length === 0 && fileList.children().length === 0) {
+            $(".no-files-msg").show();
+        }
+    });
+    
+    
 });
 
-    function updateContent() {
-        oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
-        //console.log($("#editorTxt").val());
-        if(confirm('공지사항을 수정하시겠습니까?')){
-        $.post(
-                "${path}/board/updateNoticeEnd",
-                {
-                	no:${notice.noticeNo},
-                	content: $("#editorTxt").val(),
-                	title: $("#noticeTitle").val()
-                	},
-                function(response) {
-                    if(response.status === "success") {
-                        alert("공지사항이 성공적으로 수정되었습니다.");
-                        location.assign('${path}/board/noticeView?no='+${notice.noticeNo});
-                    } else {
-                        alert("공지사항 수정에 실패하였습니다.");
-                    }
-                });
-        }
+
+function updateContent() {
+    oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
+
+    if (confirm('공지사항을 수정하시겠습니까?')) {
+        var formData = new FormData();
+        formData.append('no', ${notice.noticeNo});
+        formData.append('content', $("#editorTxt").val());
+        formData.append('title', $("#noticeTitle").val());
+
+        $.each(selectedFiles, function(i, file) {
+        	console.log(file);
+            formData.append("files", file);
+        });
+
+        $.ajax({
+            url: "${path}/board/updateNoticeEnd",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.status === "success") {
+                    alert("공지사항이 성공적으로 수정되었습니다.");
+                    location.assign('${path}/board/noticeView?no=' + ${notice.noticeNo});
+                } else {
+                    alert("공지사항 수정에 실패하였습니다.");
+                }
+            }
+        });
     }
+}
+
+
 	function cancle(){
 		if(confirm('공지사항 작성을 취소하시겠습니까?')){
 			location.href = "${path}/board/noticeList";

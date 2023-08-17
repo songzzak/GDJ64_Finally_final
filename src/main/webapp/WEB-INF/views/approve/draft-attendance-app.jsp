@@ -26,7 +26,16 @@
 	<form action="#" id="appForm" method="post"
 		enctype="multipart/form-data">
 
-		<div class="approve-section section-shadow">
+			<c:choose>
+				<c:when test="${approveState eq '반려'}">
+					<div class="approve-section4 section-shadow">
+				</c:when>
+	
+				<c:otherwise>
+					<div class="approve-section2 section-shadow">
+				</c:otherwise>
+			</c:choose>
+					
 				<c:if test="${name eq '기안문서함'}">
 					<div id="approve_name">기안문서</div>
 				</c:if>
@@ -131,14 +140,14 @@
 					<c:if test="${name eq '기안문서함'}">
 						<c:choose>
 							<c:when test="${approveState eq '완료'}">
-										<button type="button" onclick="backs();" id="draftBack">돌아가기</button>
+										<button type="button" onclick="backs();" id="draftBack-complete">돌아가기</button>
 							</c:when>
 							<c:when test="${approveState eq '반려'}">
 										<button type="button" onclick="backs();" id="draftBack">돌아가기</button>
 										<button type="button" onclick="reWrite();" id="reWriteId">재작성</button>
 							</c:when>
 							<c:when test="${approveState eq '결재처리중'}">
-										<button type="button" onclick="backs();" id="draftBack">돌아가기</button>
+										<button type="button" onclick="backs();" id="draftBack-complete">돌아가기</button>
 							</c:when>
 							<c:when test="${approveState eq '결재대기'}">
 										<button type="button" onclick="backs();" id="draftBack">돌아가기</button>

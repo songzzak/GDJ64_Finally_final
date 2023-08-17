@@ -22,6 +22,10 @@
 	justify-content: right;
 	margin: 30px 50px;
 }
+#enroll-btn>input[type="reset"]{
+	width: 100px;
+	text-align: center;
+}
 .emp-btn{
 	display: flex;
 	justify-content: right;
@@ -49,6 +53,32 @@
 	justify-content: space-between;
 	margin-bottom: 10px;
 }
+#mypage-profile{
+	margin: 10px 20px;
+	height: 230px;
+	width: 230px;
+	border-radius: 10px;
+}
+#update-emp-form input[type="text"],input[type="number"],input[type="date"],input[type="file"]{
+	height: 30px;
+	margin: 5px;
+}
+.emp-input{
+	height: 40px;
+	width: 100px;
+	background-color: var(--main-color-bl);
+	border-radius: var(--btn-radius);
+	font-weight: 700;
+	border: none;
+}
+.emp-input:hover{
+	background-color: var(--main-color-dk);
+	color: #FFFFFF;
+}
+#update-emp-form select{
+	margin:5px;
+}
+
 /* 부서관리 */
 .dept-container{
 	height: 350px;

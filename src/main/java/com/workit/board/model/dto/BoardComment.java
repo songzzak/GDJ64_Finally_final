@@ -21,4 +21,5 @@ public class BoardComment {
 	private Date commentDate;
 	private int refCommentNo;
 	private Board board;
+	private String status;
 }

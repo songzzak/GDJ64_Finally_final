@@ -73,6 +73,8 @@
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+var selectedFiles = [];
+
 $(document).ready(function() {
     // 파일명 표시 및 제거 버튼 추가
     $(".file-upload input[type='file']").change(function() {
@@ -82,10 +84,18 @@ $(document).ready(function() {
         Array.from(this.files).forEach(function(file) {
             var fileName = file.name;
             var fileItem = $('<span class="file-item">' + fileName + ' <span class="remove-file">x</span></span>');          
+         // 파일 제거 버튼 클릭 시
             fileItem.find(".remove-file").click(function() {
+                var index = selectedFiles.indexOf(file);  // 해당 파일의 인덱스 찾기
+                if (index > -1) {
+                    selectedFiles.splice(index, 1);  // 배열에서 해당 파일 제거
+                }
                 $(this).parent().remove();
             });
+
             fileList.append(fileItem);
+         	//selectedFiles 배열에 선택한 파일 추가
+            selectedFiles.push(file);
         });
     });
 
@@ -98,7 +108,8 @@ function insertContent() {
     formData.append("content", $("#editorTxt").val());
     formData.append("title", $("#noticeTitle").val());
 
-    $.each($("#file")[0].files, function(i, file) {
+ 	// selectedFiles 배열을 사용하여 파일 추가
+    $.each(selectedFiles, function(i, file) {
         formData.append("file", file);
     });
 
