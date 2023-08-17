@@ -71,7 +71,6 @@
 			<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="searchChatroomIcon">
 			<img src="${path}/resources/images/common/attach.svg" alt="chat-attach" class="attachChatIcon">
 			<img src="${path}/resources/images/chat/addPerson.svg" alt="chat-addPerson" class="addPersonIcon">
-			<%-- <img src="${path}/resources/images/common/setting.svg" alt="chat-setting" class="settingIcon"> --%>
 		</div>
 	</div>
 	<div class="chat-room-inner">
@@ -83,7 +82,6 @@
 		<div class="modal-searchRoomContainer chatHidden">
 			<input type="search" name="searchChatRoomList" class="modal-searchRoomInput" placeholder="검색">
 			<img src="${path}/resources/images/common/search.svg" alt="chat-search" class="modalChatSearchIcon">
-			<!-- <span class="search-close">X</span> -->
 		</div>
 		<div class="modal-result-container chatHidden"></div>
 		<div class="chat-msgBox-container scroll"></div>
@@ -112,7 +110,6 @@
 		$(".modal-addChatMember").add("chatHidden");
 		$(".currentChatMember").text("현재 채팅 참여 멤버 : "+chatroomMemberName);
 	})
-	var idx= 0;
 	const fn_fileSend=()=>{
 		console.log("id :",chatroomId);
 		var files = document.querySelector(".chat-upFile").files;
@@ -206,7 +203,7 @@
 		let selectedMember = $(".modal-memberList input:checked");
 		if($("input[name=chatroomTitle]").val()==null ||$("input[name=chatroomTitle]").val()==""){
 			console.log("제목없음 : ",selectedMember.next().text());
-			chatroomTitle = "그룹채팅 "+selectedMember.next().text()+" ("+(selectedMember.length+1)+")";
+			chatroomTitle = selectedMember.next().text() + loginMemberName + " (" + (selectedMember.length + 1) + " )";
 		}else{
 			chatroomTitle = $("input[name=chatroomTitle]").val();
 		}

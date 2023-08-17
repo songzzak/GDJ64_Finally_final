@@ -36,7 +36,7 @@
 				<!-- <div class="chat-room chat-select"> -->
 				<div class="chat-room chat-select" data-Id="${r.chatroom.chatroomId}" data-no="${r.myChatroomNo}">
 					<h5 class="chatroom-title chat-select">${r.chatroom.chatroomTitle }</h5>
-					<img src="${path}/resources/images/common/delete.svg" alt="chat-delete" class="deleteChatRoom chatHidden">
+					<img src="${path}/resources/images/common/delete.svg" alt="chat-delete" class="deleteChatRoom">
 					<%-- <h5>${r.myChatroomNo}</h5> --%>
 					<c:if test="${not empty unreadMap }">
 						<c:forEach var="unread" items="${unreadMap}">
@@ -76,6 +76,7 @@
 	
 	let chatroomId= '${chatroomId}';
 	let loginMember = '${loginMember.memberId}';
+	let loginMemberName = '${loginMember.memberName}';
 	console.log(loginMember);
 	let chatroomContainer = $(".chat-room-list");
 	let chatroomTitle;
@@ -136,8 +137,8 @@
 		
 		let chatroomMember = data.chatroomMember;
 		
-		chatroomFiles = data.chatroomFile;
-		console.log("chatroomFiles : ", chatroomFiles);
+		//chatroomFiles = data.chatroomFile;
+		//console.log("chatroomFiles : ", chatroomFiles);
 		chatroomMembers= [];
 		chatroomMember.forEach(cm =>{
 			chatroomMembers.push(cm.member.memberId);
@@ -151,16 +152,18 @@
 				console.log("csdjglksjglsjd" + cf.chatroomTitle);
 				$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
 				$(".chat-header .title-container .title").text(cf.chatroomTitle);
+				console.log("cf. chatroomCode " + cf.chatroomCode);
+				if(cf.chatroomCode == 'P'){
+					$(".addPersonIcon").addClass("chatHidden");
+				}else{
+					$(".addPersonIcon").css("display","flex");
+				}
 			})
 			
 		}
 		divPrevChat = $("<div>").attr("class","prev-chat");
 		currentChatroom.forEach(e => {
 			if(chatroomId!=null && chatroomId==e.chatroomId){
-				$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
-				if(e.chatroomCode == 'P') {
-					$(".addPersonIcon").attr("class","chatHidden");
-				}
 				$(".chat-input-container").css("display","flex");
 				$(".chat-room-nothing").attr("class","chatHidden");
 				var chat = (e.chat);
