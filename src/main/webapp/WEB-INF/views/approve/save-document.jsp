@@ -14,22 +14,22 @@
 		<div id="saveDocumentDiv">
 			<table class="table">
             <tr id="th">
-                <th colspan="6">번호</th>
-                <th colspan="6">결재양식</th>
-                <th colspan="6">제목</th>
-                <th colspan="6">작성자</th>
-                <th colspan="6">작성일</th>
-                <th colspan="6">상태</th>
+                <th>번호</th>
+                <th>결재양식</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>상태</th>
             </tr>
             <c:if test="${not empty saveApps}">
             	<c:forEach var="sa" items="${saveApps}">
 	            		<tr id="tr" onclick="location.href='${path}/approve/detailSave.do?approveNo=${sa.approveNo}&approveKind=${sa.approveKind}&approveState=${sa.approveState}';">
-		            			<td colspan="6">${sa.approveNo }</td>
-		            			<td colspan="6">${sa.approveKind }</td>
-		            			<td colspan="6">${sa.approveTitle }</td>
-		            			<td colspan="6">${sa.memberId.memberName}</td>
-		            			<td colspan="6">${sa.currentDate }</td>
-		            			<td colspan="6"><p id="saveColor">
+		            			<td>${sa.approveNo }</td>
+		            			<td>${sa.approveKind }</td>
+		            			<td>${sa.approveTitle }</td>
+		            			<td>${sa.memberId.memberName}</td>
+		            			<td>${sa.currentDate }</td>
+		            			<td><p id="saveColor">
 		            			${sa.approveState}</p></td>
 	            		</tr>
 	            		
@@ -53,7 +53,7 @@
 	#saveDocument{
 		background-color:white;
 		border: 1px solid #D9D9D9;
-		width:1720px;
+		width:1950px;
 		height:900px;
 		margin-left: 50px;
 	}
@@ -62,31 +62,32 @@
 		border: 1px solid #D9D9D9;
 		margin-top : 20px;
 		margin-left : 50px;
-		width:1650px;
+		width:1480px;
 		height:770px;
 	}
 	
 	#th>th{
-		font-size:20px;
-		padding-left:70px;
+		font-size:20px;	
 		padding-top:50px;
-		padding-right:100px;
 		padding-bottom:20px;
 		border-bottom: 1px solid #ddd;
+		width:400px;
 	}
-	
+		
 	#tr:hover{
 		background-color:  #BDDFFF;
-	}
+	}	
 		
 	#tr>td{
 		font-size:15px;
-		padding-left:70px;
-		padding-right:100px;
 		padding-top:15px;
 		padding-bottom:15px;
 		border-bottom: 1px solid #ddd;
 		text-align: center;
+		width:400px;
+			white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
 	}
 	
 	#saveColor{

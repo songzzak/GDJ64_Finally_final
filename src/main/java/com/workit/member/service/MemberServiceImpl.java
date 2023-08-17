@@ -59,14 +59,18 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Override
 	public int updateMember(Map<String, Object> param) {
-		if(param.get("password")!=null) {
-			param.put("password", encoder.encode(dao.selectMemberByParam(param).getPassword())); //기존 비밀번호 암호화			
+		if(param.get("password")==null) { //임시 비밀번호 발급시
+			System.out.println("임시 번호 발급");
+			param.put("password", dao.selectMemberByParam(param).getPassword()); //기존 비밀번호		
+		}else {
+			System.out.println("비밀번호 변경");
+			param.put("password", encoder.encode((String)param.get("password"))); //입력한 번호 암호화			
 		}
 		param.put("newPwd", encoder.encode((String)param.get("newPwd"))); //신규 비밀번호 암호화
-		if(dao.selectMemberByParam(param)!=null) {
+		if(loadUserByUsername((String)param.get("memberId"))!=null) { //비밀 번호 변경 시 현재 비밀번호 일치하는 데이터가 있는지 확인
 			return dao.updateMember(param);			
 		}else {
-			return -1;
+			return -1; //없을 때 -1 반환
 		}
 	}
 

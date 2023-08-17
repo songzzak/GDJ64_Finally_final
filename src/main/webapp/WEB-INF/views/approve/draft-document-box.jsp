@@ -8,7 +8,7 @@
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 
-	
+	<c:if test="${draftDocument.approveState eq '완료'}">
 	<div id="draftDocument" class="approve-section section-shadow">
 		<span id="draftDocumentFont">기안문서함</span>
 <!-- 		<select>
@@ -26,34 +26,34 @@
 		<div id="draftDocumentDiv">
 			<table class="table">
             <tr id="th">
-                <th colspan="6">번호</th>
-                <th colspan="6">결재양식</th>
-                <th colspan="6">제목</th>
-                <th colspan="6">작성자</th>
-                <th colspan="6">작성일</th>
-                <th colspan="6">상태</th>
+                <th>번호</th>
+                <th>결재양식</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>상태</th>
             </tr>
             
             <c:if test="${not empty draftDocuments}">
             	<c:forEach var="draftDocument" items="${draftDocuments}">
 	            		<tr id="tr" onclick="location.href='${path}/approve/detailApprove.do?approveNo=${draftDocument.approveNo}&approveKind=${draftDocument.approveKind}&approveState=${draftDocument.approveState}&name=기안문서함';">
-		            			<td colspan="6">${draftDocument.approveNo }</td>
-		            			<td colspan="6">${draftDocument.approveKind }</td>
-		            			<td colspan="6">${draftDocument.approveTitle }</td>
-		            			<td colspan="6">${draftDocument.memberId.memberName}</td>
-		            			<td colspan="6">${draftDocument.currentDate }</td>
+		            			<td>${draftDocument.approveNo }</td>
+		            			<td>${draftDocument.approveKind }</td>
+		            			<td>${draftDocument.approveTitle }</td>
+		            			<td>${draftDocument.memberId.memberName}</td>
+		            			<td>${draftDocument.currentDate }</td>
 		            			
 		            			<c:if test="${draftDocument.approveState eq '완료'}">
-		            				<td colspan="6"><p id="cColor">${draftDocument.approveState}</p></td>
+		            				<td><p id="cColor">${draftDocument.approveState}</p></td>
 		            			</c:if>
 		            			<c:if test="${draftDocument.approveState eq '반려'}">
-		            				<td colspan="6"><p id="rColor">${draftDocument.approveState}</p></td>
+		            				<td><p id="rColor">${draftDocument.approveState}</p></td>
 		            			</c:if>
 		            			<c:if test="${draftDocument.approveState eq '결재처리중'}">
-		            				<td colspan="6"><p id="pColor">${draftDocument.approveState}</p></td>
+		            				<td><p id="pColor">${draftDocument.approveState}</p></td>
 		            			</c:if>
 		            			<c:if test="${draftDocument.approveState eq '결재대기'}">
-		            				<td colspan="6"><p id="wColor">${draftDocument.approveState}</p></td>
+		            				<td><p id="wColor">${draftDocument.approveState}</p></td>
 		            			</c:if>
 	            		</tr>
 	            		
@@ -90,7 +90,7 @@
 	#draftDocument{
 		background-color:white;
 		border: 1px solid #D9D9D9;
-		width:1720px;
+		width:1950px;
 		height:900px;
 		margin-left: 50px;
 	}
@@ -99,31 +99,32 @@
 		border: 1px solid #D9D9D9;
 		margin-top : 20px;
 		margin-left : 50px;
-		width:1650px;
+		width:1480px;
 		height:770px;
 	}
 	
 	#th>th{
-		font-size:20px;
-		padding-left:70px;
+		font-size:20px;	
 		padding-top:50px;
-		padding-right:100px;
 		padding-bottom:20px;
 		border-bottom: 1px solid #ddd;
+		width:400px;
 	}
-	
+		
 	#tr:hover{
 		background-color:  #BDDFFF;
-	}
+	}	
 		
 	#tr>td{
 		font-size:15px;
-		padding-left:70px;
-		padding-right:100px;
 		padding-top:15px;
 		padding-bottom:15px;
 		border-bottom: 1px solid #ddd;
 		text-align: center;
+		width:400px;
+			white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
 	}
 	
 	#cColor,#rColor,#pColor,#wColor{

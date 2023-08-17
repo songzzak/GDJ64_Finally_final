@@ -16,7 +16,7 @@
 	<section class="login-container">
         <div class="login-div">
             <form action="${path }/login" method="post" id="login-form">
-            	<div class="logo-container">
+            	<div class="logo-container" onclick="fn_loginPage();">
                 	<img src="${path }/resources/images/common/workit.svg">
             	</div>
                 <!-- logo -->
@@ -39,13 +39,17 @@
 			<a href="${path }/login/password">forgot your password?</a>
         </div>
 	</section>
-	<script>
-		const fn_login=()=>{
-			console.log($("#id").val());
-			if($("#id").val()!=""&&$("#member-pwd").val()!=""){
-				$("#login-form").submit();
-			}
+<script>
+	const fn_login=()=>{
+		console.log($("#id").val());
+		if($("#id").val()!=""&&$("#member-pwd").val()!=""){
+			$("#login-form").submit();
 		}
-	</script>
+	}
+
+	function fn_loginPage(){
+		location.href="${path}/loginpage";
+	}
+</script>
 </body>
 </html>

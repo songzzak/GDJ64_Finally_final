@@ -193,6 +193,19 @@
 			$("#fileClickId").text("${fileName}"); 
 		}
 		
+		
+		/* 오늘 날짜 기준으로 이전에는 선택못하도록 구현 */
+/* 		var today = new Date();
+		today.setHours(today.getHours()+9);
+		today = today.toISOString().split('T')[0];
+		$("#gStartDate").attr('min',today);
+		
+		$("#gStartDate").change(function(){
+			var startDate = $("#gStartDate").val();
+			$("#gStartDate").attr("min",startDate);
+		}); */
+		
+		
 /* 		$("#gStartDate	").change(function(){
 			console.log("Ee");
 			if(document.getElementById("hEndTime").value != ""){
@@ -239,8 +252,6 @@
 				
 	});
 
-
-	
 	
 	
 

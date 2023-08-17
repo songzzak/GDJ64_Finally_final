@@ -212,7 +212,15 @@
 
 .approve-section {
 	/* 결재선 양식 섹션 부분 */
-	min-width: 1000px;
+	min-width: 1028px;
+	min-height: 900px;
+	background-color: white;
+	margin-left: 50px;
+}
+
+.approve-section2 {
+	/* 결재선 양식 섹션 부분 */
+	min-width: 1578px;
 	min-height: 900px;
 	background-color: white;
 	margin-left: 50px;
@@ -223,6 +231,13 @@
 	margin-left: 50px;
 	min-width: 500px;
 	min-height: 900px;
+}
+
+.approve-section4{
+	min-width: 1000px;
+	min-height: 900px;
+	background-color: white;
+	margin-left: 50px;
 }
 
 #draft-flex-row{
@@ -301,13 +316,19 @@ select {
 
 #draftBack{
 	background-color: #D9D9D9;
+	margin-left: 530px;
+}
+#changeSave{ /* 철회 버튼 */
+	background-color: red;
+	color: white;
+	margin-left: 20px;
 }
 
-
-.btn-text-right{
-	float: right;
-	margin-right: 120px;
+#draftBack-complete{
+	background-color: #D9D9D9;
+	margin-left: 643px;
 }
+
 
 #save {
 	/* 임시저장버튼 */
@@ -315,6 +336,7 @@ select {
 	color: white;
 	margin-left: 30px;
 }
+
 
 #sign {
 	/* 결재등록 버튼 */
@@ -338,12 +360,6 @@ select {
 	background-color: red;
 	color: white;
 	margin-left: 350px;
-}
-
-#changeSave{ /* 철회 버튼 */
-	background-color: red;
-	margin-left: 20px;
-	color: white;
 }
 
 #reWriteId{  /* 재작성 버튼 */

@@ -14,20 +14,20 @@
 		<div id="waitingDocumentDiv">
 		<table class="table">
             <tr id="th">
-                <th colspan="5">번호</th>
-                <th colspan="5">결재양식</th>
-                <th colspan="5">제목</th>
-                <th colspan="5">작성자</th>
-                <th colspan="5">작성일</th>
+                <th>번호</th>
+                <th>결재양식</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
             </tr>
             <c:if test="${not empty waitingApps}">
             	<c:forEach var="waitingApp" items="${waitingApps}">
 	            		<tr id="tr" onclick="location.href='${path}/approve/detailApprove.do?approveNo=${waitingApp.approveNo}&approveKind=${waitingApp.approveKind }&approveState=${waitingApp.approveState}&name=결재대기문서';">
-		            			<td colspan="5">${waitingApp.approveNo }</td>
-		            			<td colspan="5">${waitingApp.approveKind }</td>
-		            			<td colspan="5">${waitingApp.approveTitle }</td>
-		            			<td colspan="5">${waitingApp.memberId.memberName}</td>
-		            			<td colspan="5">${waitingApp.currentDate }</td>
+		            			<td>${waitingApp.approveNo }</td>
+		            			<td>${waitingApp.approveKind }</td>
+		            			<td>${waitingApp.approveTitle}</td>
+		            			<td>${waitingApp.memberId.memberName}</td>
+		            			<td>${waitingApp.currentDate }</td>
 	            		</tr>	
             	</c:forEach>
             </c:if>
@@ -42,14 +42,13 @@
 	#waitingDocumentFont{
 		font-weight: bold;
 		font-size: 25px;
-		margin-left:25px;
-   		margin-top: 50px;	
+		margin-left:25px;	
 	}
 
 	#waitingDocument{
 		background-color:white;
 		border: 1px solid #D9D9D9;
-		width:1720px;
+		width:1950px;
 		height:900px;
 		margin-left: 50px;
 	}
@@ -58,17 +57,16 @@
 		border: 1px solid #D9D9D9;
 		margin-top : 20px;
 		margin-left : 50px;
-		width:1650px;
+		width:1480px;
 		height:770px;
 	}
 
 	#th>th{
-		font-size:20px;
-		padding-left:140px;
+		font-size:20px;	
 		padding-top:50px;
-		padding-right:100px;
 		padding-bottom:20px;
 		border-bottom: 1px solid #ddd;
+		width:400px;
 	}
 		
 	#tr:hover{
@@ -77,12 +75,14 @@
 		
 	#tr>td{
 		font-size:15px;
-		padding-left: 140px;
-		padding-right:100px;
 		padding-top:15px;
 		padding-bottom:15px;
 		border-bottom: 1px solid #ddd;
 		text-align: center;
+		width:400px;
+			white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
 	}
 	
 	#saveColor{
