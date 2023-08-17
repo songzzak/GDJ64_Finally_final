@@ -111,7 +111,7 @@ $(document).ready(function() {
                 function(response) {
                     if(response.status === "success") {
                         alert("공지사항이 성공적으로 수정되었습니다.");
-                        location.href = "${path}/board/noticeList";
+                        location.assign('${path}/board/noticeView?no='+${notice.noticeNo});
                     } else {
                         alert("공지사항 수정에 실패하였습니다.");
                     }

@@ -37,13 +37,18 @@ public class MeetServiceImpl implements MeetService {
 	}
 
 	@Override
-	public List<Meet> selectMeetByMember(String memberId) {
-		return dao.selectMeetByMember(session, memberId);
+	public int deleteMeetById(int meetId) {
+		return dao.deleteMeetById(session, meetId);
 	}
 
 	@Override
-	public int deleteMeetById(int meetId) {
-		return dao.deleteMeetById(session, meetId);
+	public List<Meet> selectMeetByMember(Map<String, Object> params) {
+		return dao.selectMeetByMember(session, params);
+	}
+
+	@Override
+	public int selectMeetByIdCount(Map<String, Object> params) {
+		return dao.selectMeetByIdCount(session, params);
 	}
 
 	

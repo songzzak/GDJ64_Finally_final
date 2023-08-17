@@ -111,7 +111,7 @@ $(document).ready(function() {
                 function(response) {
                     if(response.status === "success") {
                         alert("공지사항이 성공적으로 수정되었습니다.");
-                        location.href = "${path}/board/boardList";
+                        location.assign('${path}/board/boardView?no='+${board.boardNo});
                     } else {
                         alert("공지사항 수정에 실패하였습니다.");
                     }
@@ -119,7 +119,7 @@ $(document).ready(function() {
         }
     }
 	function cancle(){
-		if(confirm('공지사항 작성을 취소하시겠습니까?')){
+		if(confirm('공지사항 수정을 취소하시겠습니까?')){
 			location.href = "${path}/board/boardList";
 		}
 	}

@@ -3,6 +3,7 @@ package com.workit.meet.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -27,13 +28,22 @@ public class MeetDaoImpl implements MeetDao {
 	}
 
 	@Override
-	public List<Meet> selectMeetByMember(SqlSessionTemplate session, String memberId) {
-		return session.selectList("meet.selectMeetByMember",memberId);
+	public List<Meet> selectMeetByMember(SqlSessionTemplate session, Map<String,Object> paramMap) {
+		int cPage=(int)paramMap.get("cPage");
+		int numPerpage=(int)paramMap.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		
+		return session.selectList("meet.selectMeetByMember",paramMap,rb);
 	}
 
 	@Override
 	public int deleteMeetById(SqlSessionTemplate session, int meetId) {
 		return session.delete("meet.deleteMeetById",meetId);
+	}
+
+	@Override
+	public int selectMeetByIdCount(SqlSessionTemplate session, Map<String, Object> params) {
+		return session.selectOne("meet.selectMeetByIdCount",params);
 	}
 
 
