@@ -41,6 +41,9 @@ const path = "${pageContext.request.contextPath}";
 	</div>
 </header>
 <script>
+	function toMainPage(){
+		location.href="${path}/";
+	}
 	function fn_logout(){
 		var logoutFl=confirm("로그아웃 하시겠습니까?");
 		if(logoutFl){

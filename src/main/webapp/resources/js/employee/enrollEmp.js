@@ -11,5 +11,31 @@ function fn_searchAddr() {
 
 //데이터 입력 확인 후 넘기는 메소드
 function fn_empDataCk() {
-	$("#enroll-form").submit();
+	var textFl=false;
+	const textArr=$("input[type=text]");
+	for(var i=0; i<textArr.length;i++){
+		if(textArr[i].value==""){
+			textFl=false;
+			break;
+		}else{
+			textFl=true;
+		}
+	};
+	var selectFl=false;
+	const selectArr=$("select");
+	for(var i=0; i<selectArr.length;i++){
+		if(selectArr[i].value==""){
+			selectFl=false;
+			break;
+		}else{
+			selectFl=true;
+		}
+	}
+	const salary=$("#pay").val();
+	const date=$("#hire-date").val();
+	if(textFl&&selectFl&&salary!=""&&date!=""){
+		$("#enroll-form").submit();
+	}else{
+		alert("사원 정보를 전부 입력하세요.");
+	}
 }

@@ -25,7 +25,7 @@
          	<div>
          		<span>주소 검색</span>
          		<input type="text" name="mainAddress" id="main-addr" value="${member.address }">
-         		<input type="button" onclick="fn_searchAddr();" value="검색">
+         		<input type="button" onclick="fn_searchAddr();" value="검색" class="emp-input">
          	</div>
          	<div>
          		<span>상세 주소</span>
@@ -34,10 +34,12 @@
          	<div>
          		<span>부서</span>
 	         	<select name="deptCode">
-	         		<option selected disabled value="${member.dept.deptCode }">${member.dept.deptName }</option>
+	         		<option selected value="${member.dept.deptCode }">${member.dept.deptName }</option>
 	         		<c:if test="${depts!=null }">
 	         			<c:forEach var="d" items="${depts }">
-		         			<option value="${d.deptCode }">${d.deptName }</option>
+	         				<c:if test="${d.deptCode!=member.dept.deptCode }">
+		         				<option value="${d.deptCode }">${d.deptName }</option>
+		         			</c:if>
 		         		</c:forEach>
 	         		</c:if>
 	         	</select>
@@ -45,10 +47,12 @@
          	<div>
          		<span>직책</span>
 	         	<select name="jobCode">
-	         		<option selected disabled value="${member.job.jobCode }">${member.job.jobName }</option>
+	         		<option selected value="${member.job.jobCode }">${member.job.jobName }</option>
 	         		<c:if test="${jobs!=null }">
 	         			<c:forEach var="j" items="${jobs }">
-	         				<option value="${j.jobCode }">${j.jobName }</option>
+	         				<c:if test="${j.jobCode!=member.job.jobCode }">
+	         					<option value="${j.jobCode }">${j.jobName }</option>
+	         				</c:if>
 	         			</c:forEach>
 	         		</c:if>
 	         	</select>
@@ -57,12 +61,12 @@
          		<span>급여</span>
          		<input type="number" name="salary" value="${member.salary }">
          	</div>
+         	<span>프로필</span>
+         	<input type="file" name="upFile" id="input-file">
          	<div>
-         		<span>프로필</span>
-         		<input type="file" name="upFile" id="input-file">
+         		<img src="${path }/resources/upload/profile/${member.profileImg}" id="mypage-profile">
          		<input type="hidden" name="profile" value="${member.profileImg }">
          	</div>
-         	<img src="${path }/resources/upload/profile/${member.profileImg}" id="mypage-profile">
          	<p>* 프로필 사진이 존재하는 경우 파일 첨부해주세요. 용량 제한 100MB</p>
          	<div>
          		<span>연차</span>
@@ -78,16 +82,17 @@
          	</div>
          	<p>* 퇴사일 이후로는 해당 사원 번호로 로그인 불가능합니다.</p>
          </form>
+		<div id="enroll-btns">
+			<input type="reset" value="취소"><button onclick="fn_empDataCk();">수정</button>
+		</div>
       </div>
-	<div class="emp-btn">
-		<input type="reset" value="취소"><button onclick="fn_empDataCk();">수정</button>
-	</div>
    </div>
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 //데이터 입력 확인 후 넘기는 메소드
 function fn_empDataCk(){
+	
 	$("#update-emp-form").submit();
 }
 console.log($("#ent-date").val());
