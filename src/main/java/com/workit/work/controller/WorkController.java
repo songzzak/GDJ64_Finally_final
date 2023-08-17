@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.workit.common.Pagenation;
+import com.workit.member.model.dto.Member;
 import com.workit.member.model.vo.MemberVO;
 import com.workit.member.service.MemberService;
 import com.workit.work.model.dto.Work;
@@ -91,19 +94,57 @@ public class WorkController {
 	            List<Work> workList = service.getMonthWorkTime(paramMap);
 	            int lateCount = service.lateCount(paramMap);
 	            int earlyLeaveCount = service.earlyLeaveCount(paramMap);
-	            Gson gson = new Gson();
 
 	            Map<String, Object> data = new HashMap<>();
 	            data.put("workList", workList);
 	            data.put("lateCount", lateCount);
 	            data.put("earlyLeaveCount", earlyLeaveCount);
 
-	            String json = gson.toJson(data);
+	            //Gson gson = new Gson();
+	            // String json = gson.toJson(data);
+	            ObjectMapper mapper = new ObjectMapper();
+		   	    String json=mapper.writeValueAsString(data);
 	            response.setContentType("application/json");
 	            response.setCharacterEncoding("UTF-8");
 	            response.getWriter().write(json);
 	        }
 		 return null;
+	}
+	
+	@GetMapping("/workTime2")
+	@ResponseBody
+	public Map<String,Object> monthWorkTime2(
+			@RequestParam(required = false) Integer currentYear, 
+            @RequestParam(required = false) Integer currentMonth,
+            HttpSession session,
+			HttpServletRequest request, HttpServletResponse response, Model model) throws IOException{
+		String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
+		 // 오늘의 날짜 정보를 가져옴
+	    LocalDate today = LocalDate.now();//2023-08-07
+
+	    Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("memberId", memberId);
+        paramMap.put("workDate", today);
+	    // 오늘의 근태 정보 조회
+	    Work todayWork = service.selectWorkByDateAndMemberId(paramMap);
+	    //System.out.println(paramMap);
+	    //System.out.println(todayWork);
+	    model.addAttribute("todayWork", todayWork); // 오늘의 근태 정보를 모델에 추가
+		
+	            paramMap.put("currentYear", currentYear);
+	            paramMap.put("currentMonth", currentMonth);
+	            List<Work> workList = service.getMonthWorkTime(paramMap);
+	            int lateCount = service.lateCount(paramMap);
+	            int earlyLeaveCount = service.earlyLeaveCount(paramMap);
+
+	            Map<String, Object> data = new HashMap<>();
+	            data.put("workList", workList);
+	            data.put("lateCount", lateCount);
+	            data.put("earlyLeaveCount", earlyLeaveCount);
+
+	            return data;
+	        
+
 	}
 
 	 @PostMapping("/workStart")
@@ -111,7 +152,7 @@ public class WorkController {
 	    public Map<String, String> startWork(@RequestParam("workStartTime") String workStartTime,HttpSession session) {
 	        Map<String, String> result = new HashMap<>();
 	        String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
-	        MemberVO m = memberService.selectMemberById(memberId);
+	        Member m = service.selectMemberById(memberId);
 	        // 임시 사용자 ID
 	        //String memberId = "user01";
 	        Timestamp currentTimestamp = null;
@@ -189,7 +230,7 @@ public class WorkController {
 	          }
 
 	          Work w = Work.builder()
-	        		  		.member(memberService.selectMemberByParam(Map.of("memberId",memberId)))
+	        		  		.member(service.selectMemberById(memberId))
 	                       .workEnd(currentTimestamp)
 	                       .workStatus(workStatus)
 	                       .build();
@@ -240,8 +281,10 @@ public class WorkController {
 	     //System.out.println(paramMap);
 	     Work w = service.selectWorkByDateAndMemberId(paramMap);
 	     //System.out.println(w);
-	     Gson gson = new Gson();
-	     String json = gson.toJson(w);
+	     //Gson gson = new Gson();
+	     ObjectMapper mapper = new ObjectMapper();
+	     //String json = gson.toJson(w);
+	     String json=mapper.writeValueAsString(w);
          response.setContentType("application/json");
          response.setCharacterEncoding("UTF-8");
          response.getWriter().write(json);

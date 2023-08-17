@@ -83,11 +83,11 @@
 		                </div>
 		                <div class="input-group">
 			                <label>강의 시작일</label>
-			                <input type="date" name="startDate" required>
+			                <input type="date" name="startDate" class="minStartDate" required>
 		                </div>
 		                <div class="input-group">
 		    	            <label>강의 종료일</label>
-			                <input type="date" name="endDate" required>
+			                <input type="date" name="endDate" class="minEndDate" required>
 		                </div>
 		
 		                <div class="row btnContiner">
@@ -103,6 +103,17 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
+	var today = new Date();
+    today.setHours(today.getHours() + 9);
+    today = today.toISOString().split('T')[0];
+
+    $('.minStartDate').attr('min', today);
+    
+    $('.minStartDate').on('change', function(e) {
+        var startDate = $(".minStartDate").val();
+        $('.minEndDate').attr('min', startDate);
+    });
+	
     $('.btnSimple').on('click', function(e) {
         e.preventDefault();
         var isCancel = confirm("등록을 취소하시겠습니까?");

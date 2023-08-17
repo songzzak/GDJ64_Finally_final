@@ -16,9 +16,11 @@ public interface MeetDao {
 
 	int insertMeet(SqlSessionTemplate session, Map<String, Object> paramMap);
 
-	List<Meet> selectMeetByMember(SqlSessionTemplate session, String memberId);
+	List<Meet> selectMeetByMember(SqlSessionTemplate session, Map<String, Object> params);
 
 	int deleteMeetById(SqlSessionTemplate session, int meetId);
+
+	int selectMeetByIdCount(SqlSessionTemplate session, Map<String, Object> params);
 
 
 

@@ -56,7 +56,7 @@ public static String getPage(int cPage, int numPerpage, int totalData,String url
 		//스트립트문추가
 		pageBar.append("<script>");
 		pageBar.append("function fn_paging(no){");
-		pageBar.append("location.assign('"+url+"?cPage='+no+'&numPerpage="+numPerpage+"');");
+		pageBar.append("location.assign('"+"/GDJ64_workit_final_yj"+url+"?cPage='+no+'&numPerpage="+numPerpage+"');");
 		pageBar.append("}");
 		pageBar.append("</script>");
 		
