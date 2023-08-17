@@ -9,13 +9,18 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.chat.model.dto.ChatMsg;
+import com.workit.chat.model.dto.Chatroom;
+import com.workit.chat.model.dto.MyChatroom;
 import com.workit.chatroom.model.dto.AttachedFile;
 import com.workit.chatroom.model.dto.ChatroomFile;
 import com.workit.member.model.dto.Member;
 import com.workit.member.model.vo.MemberVO;
 
 public interface ChatroomService {
-	int insertChat(ChatMsg chat);
+	
+	//int insertChat(ChatMsg chat);
+	
+	ChatMsg insertChat(ChatMsg chat);
 	
 	AttachedFile saveFile(MultipartFile file, String chatroomId, String chatId) throws IOException;
 	
@@ -23,11 +28,15 @@ public interface ChatroomService {
 	
 	List<Member> selectChatMemberById(String chatroomId);
 	
-	int saveChat(Map<String, Object> param);
+	int insertChatNotify(Map<String, Object> param);
 	
 	int chatNotificationCount(String loginMember);
 	
 	int deleteNotify(int myChatroomNo);
 	
 	MemberVO selectMemberByChoice(String memberId);
+	
+	List<Chatroom> selectChatroomByroomId(String chatroomId);
+	
+	List<MyChatroom> selectChatroomById(String chatroomId);
 }

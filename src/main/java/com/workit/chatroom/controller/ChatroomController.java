@@ -27,8 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.chat.model.dto.ChatMsg;
+import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.service.ChatService;
 import com.workit.chatroom.model.dto.AttachedFile;
+import com.workit.chatroom.model.dto.ChatNotificationVO;
 import com.workit.chatroom.service.ChatroomService;
 import com.workit.member.model.vo.MemberVO;
 
@@ -46,11 +48,7 @@ public class ChatroomController {
 		this.chatroomService = chatroomService;
 		this.chatService = chatService;
 	}
-//	private String chatId;
-//	private String chatroomId;
-//	private Member member;
-//	private String chatContent;
-//	private Date chatDate;
+	
 	@PostMapping("/upload")
     public ResponseEntity<String>  uploadFile(@RequestParam("files") List<MultipartFile> files, @RequestParam(value="chatroomId") String chatroomId, HttpSession session) throws IOException {
 		log.info("{}", chatroomId);
@@ -59,6 +57,7 @@ public class ChatroomController {
 		String memberId = loginMember.getMemberId();
 		List<AttachedFile> list = new ArrayList<AttachedFile>();
 		if(files!=null && files.size()>0) {
+			log.info("files size : " + files.size());
 			try {
 					for (MultipartFile multipartFile : files) {
 						log.info("{}", multipartFile.getOriginalFilename());
@@ -68,7 +67,7 @@ public class ChatroomController {
 								.chatContent(multipartFile.getOriginalFilename())
 								.build();
 						log.info("chat insert result" +  chatroomService.insertChat(chat));
-						if(chatroomService.insertChat(chat)>0) {
+						if(chatroomService.insertChat(chat)!=null) {
 							String chatId = chat.getChatId();
 							AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId, chatId);
 							log.info("controller file");
@@ -144,6 +143,20 @@ public class ChatroomController {
 		return ResponseEntity.ok(chatroomService.selectMemberByChoice(memberId));
 	}
 	
-	
+	@PostMapping("/{chatroomId}")
+	@ResponseBody
+	public ResponseEntity<?> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
+		int delResult = chatroomService.deleteNotify(myChatroomNo);
+		log.info("delResult : " + delResult);
+		if(delResult>0) {
+			ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
+			model.addAttribute("unreadMap",c);
+			//result.put("readCount", c);
+		}
+		log.info("chatroom result");
+		//log.info("{}", result.get("chatroomList"));
+		log.info("{}", chatroomService.selectChatroomById(chatroomId));
+		return ResponseEntity.ok().body(chatroomService.selectChatroomById(chatroomId));
+	}
 	
 }

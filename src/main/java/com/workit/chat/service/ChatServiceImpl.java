@@ -73,9 +73,30 @@ public class ChatServiceImpl implements ChatService {
 		return param;
 	}
 
+//	@Override
+//	public Map<String, Object> selectChatroomByroomId(String chatroomId) {
+//		Map<String, Object> result = new HashMap<String, Object>();
+//		if(chatDao.selectChatroomByroomId(chatroomId)!=null 
+//				&& chatroomDao.selectFileByChatroomId(chatroomId)!=null) {
+//			result.put("chatroomList", chatDao.selectChatroomByroomId(chatroomId));
+//			//result.put("chatroomFile", chatroomDao.selectFileByChatroomId(chatroomId));
+//			return result;
+//		}else {
+//			return result;
+//		}
+//	}
+	
 	@Override
 	public Map<String, Object> selectChatroomByroomId(String chatroomId) {
-		return Map.of("chatroomList",chatDao.selectChatroomByroomId(chatroomId), "chatroomMember", chatDao.selectChatMember(chatroomId), "chatroomFile", chatroomDao.selectFileByChatroomId(chatroomId));
+		Map<String, Object> result = new HashMap<String, Object>();
+		if(chatDao.selectChatroomByroomId(chatroomId)!=null 
+				&& chatroomDao.selectFileByChatroomId(chatroomId)!=null) {
+			result.put("chatroomList", chatDao.selectChatroomByroomId(chatroomId));
+			//result.put("chatroomFile", chatroomDao.selectFileByChatroomId(chatroomId));
+			return result;
+		}else {
+			return result;
+		}
 	}
 	
 	@Override

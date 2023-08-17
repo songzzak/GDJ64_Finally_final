@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.chat.model.dao.ChatDao;
 import com.workit.chat.model.dto.ChatMsg;
+import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
 import com.workit.chatroom.dao.ChatroomDao;
 import com.workit.chatroom.model.dto.AttachedFile;
@@ -35,24 +36,18 @@ public class ChatroomServiceImpl implements ChatroomService {
 		this.chatDao = chatDao;
 	}
 	
-	@Override
-	public int insertChat(ChatMsg chat) {
-		if(chat.getChatId()!=null && chat.getChatId().equals("file")) {
-			chat.setChatId("");
-			if(chatroomDao.insertChat(chat)>0) {
-				String chatId = chat.getChatId();
-				chat.setChatId(chatId);
-			}else {
-				log.info("chat 등록 실패");
-			}
-		}
-		return chatroomDao.insertChat(chat);
-	}
 	
+	@Override
+	public ChatMsg insertChat(ChatMsg chat) {
+		ChatMsg returnChat = new ChatMsg();
+		if(chatroomDao.insertChat(chat)>0) return chat;
+		else return returnChat;
+	}
 	
 	// root 경로
 	private final String path = System.getProperty("user.dir");
 	
+
 	// 루트 경로에 있는 file directory
 	private final String fileDir = path + "/src/main/webapp/resources/upload/chat/";
 	
@@ -131,14 +126,14 @@ public class ChatroomServiceImpl implements ChatroomService {
 	}
 
 	@Override
-	public int saveChat(Map<String, Object> param) {
+	public int insertChatNotify(Map<String, Object> param) {
 		MyChatroom m = (MyChatroom)param.get("member");
 		String chatId = (String)param.get("chatId");
 		log.info("chatroomNo : " + m.getMyChatroomNo());
 		log.info("chatId : " + chatId);
 		log.info("memberId : " + m.getMember().getMemberId());
 		ChatNotification c = ChatNotification.builder().chatId(chatId).myChatroomNo(m.getMyChatroomNo()).memberId(m.getMember().getMemberId()).build();
-		return chatroomDao.saveChat(c);
+		return chatroomDao.insertChatNotify(c);
 	}
 
 	@Override
@@ -156,6 +151,18 @@ public class ChatroomServiceImpl implements ChatroomService {
 		return chatroomDao.selectMemberByChoice(memberId);
 	}
 
+	@Override
+	public List<Chatroom> selectChatroomByroomId(String chatroomId) {
+		return chatroomDao.selectChatroomByroomId(chatroomId);
+	}
+
+
+	@Override
+	public List<MyChatroom> selectChatroomById(String chatroomId) {
+		return chatroomDao.selectChatroomById(chatroomId);
+	}
+	
+	
 	
 	
 	

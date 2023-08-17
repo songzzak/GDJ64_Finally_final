@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,20 +55,36 @@ public class ChatController {
 	
 	@PostMapping("/chatroom/{chatroomId}")
 	@ResponseBody
-	public ResponseEntity<?> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
-		Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
+	public ResponseEntity<List<Chatroom>> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
+		//Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
 		int delResult = chatroomService.deleteNotify(myChatroomNo);
 		log.info("delResult : " + delResult);
 		if(delResult>0) {
 			ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
 			model.addAttribute("unreadMap",c);
-			result.put("readCount", c);
+			//result.put("readCount", c);
 		}
 		log.info("chatroom result");
-		log.info("{}", result.get("chatroomList"));
-		
-		return ResponseEntity.ok().body(result);
+		//log.info("{}", result.get("chatroomList"));
+		log.info("{}", chatroomService.selectChatroomByroomId(chatroomId));
+		return ResponseEntity.ok().body(chatroomService.selectChatroomByroomId(chatroomId));
 	}
+//	@PostMapping("/chatroom/{chatroomId}")
+//	@ResponseBody
+//	public ResponseEntity<?> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
+//		Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
+//		int delResult = chatroomService.deleteNotify(myChatroomNo);
+//		log.info("delResult : " + delResult);
+//		if(delResult>0) {
+//			ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
+//			model.addAttribute("unreadMap",c);
+//			result.put("readCount", c);
+//		}
+//		log.info("chatroom result");
+//		log.info("{}", result.get("chatroomList"));
+//		
+//		return ResponseEntity.ok().body(result);
+//	}
 	
 	
 	@PostMapping("/keyword")
@@ -100,7 +115,9 @@ public class ChatController {
 		@SuppressWarnings("unchecked")
 		List<MyChatroom> chatroomMembers = (List<MyChatroom>) chatService.selectChatroomByroomId(chatroomId).get("chatroomMember");
 		model.addAttribute("chatroomMembers", chatroomMembers);
-	    return ResponseEntity.ok().body(chatroomMembers);
+		//List<MyChatroom> chatroomService.selectChatroomById(chatroomId);
+		model.addAttribute("myChatroomList",chatroomService.selectChatroomById(chatroomId));
+	    return ResponseEntity.ok().body(chatroomService.selectChatroomById(chatroomId));
 	}
 	
 	@DeleteMapping("/delete")
