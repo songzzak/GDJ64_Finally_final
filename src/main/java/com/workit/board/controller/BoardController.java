@@ -81,7 +81,7 @@ public class BoardController {
 
 	    if(cookies != null) {
 	        for(Cookie cookie : cookies) {
-	            if(cookie.getName().equals("noticeView") && cookie.getValue().contains("|" + no + "|")) {
+	            if(cookie.getName().equals("noticeView"+no) && cookie.getValue().contains("|" + no + "|")) {
 	                isViewed = true;
 	                break;
 	            }
@@ -92,7 +92,7 @@ public class BoardController {
 
 	        service.updateViewCount(no);
 
-	        Cookie viewCookie = new Cookie("noticeView", "|" + no + "|");
+	        Cookie viewCookie = new Cookie("noticeView"+no, "|" + no + "|");
 	        viewCookie.setMaxAge(60*60*24); // 24시간 저장
 	        response.addCookie(viewCookie);
 	    }
@@ -331,7 +331,7 @@ public class BoardController {
 
 	    if(cookies != null) {
 	        for(Cookie cookie : cookies) {
-	            if(cookie.getName().equals("boardView") && cookie.getValue().contains("|" + no + "|")) {
+	            if(cookie.getName().equals("boardView"+no) && cookie.getValue().contains("|" + no + "|")) {
 	                isViewed = true;
 	                break;
 	            }
@@ -341,7 +341,7 @@ public class BoardController {
 	    if(!isViewed) {
 	        service.updateBoardViewCount(no);
 
-	        Cookie viewCookie = new Cookie("boardView", "|" + no + "|");
+	        Cookie viewCookie = new Cookie("boardView"+no, "|" + no + "|");
 	        viewCookie.setMaxAge(60*60*24); // 24시간 저장
 	        response.addCookie(viewCookie);
 	    }

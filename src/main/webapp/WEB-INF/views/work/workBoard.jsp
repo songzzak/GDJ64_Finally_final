@@ -364,29 +364,38 @@ function navigateMonth(offset) {
     //console.log(year);
     //console.log(month);
 
-    $.get("${path}/work/workTime", {
+    $.get("${path}/work/workTime2", {
         currentYear: year,
         currentMonth: month
     }, function (data) {
-    	/* console.log(data);
-    	console.log(data.workList);
+    	console.log(data);
+/*     	console.log(data.workList);
     	console.log(data.workList.length); */
-        $(".cal_tbl tbody").empty();
+         $(".cal_tbl tbody").empty();
         if (!data.workList || data.workList.length == 0) {
             $(".cal_tbl tbody").append('<tr><td colspan="6">조회된 근무정보가 없습니다.</td></tr>');
         } else {
             $.each(data.workList, function (index, workItem) {
+            	let timeZone = 9 * 60 * 60 * 1000; // 9 hours
+            	//var workdate = new Date(workItem.workDate).toLocaleDateString('ko-KO');
+            	var workdate = new Date(workItem.workDate).toUTCString();
+            	workdate = workdate.slice(0, 11);
+            	var workStart = new Date(workItem.workStart + timeZone).toISOString().replace('T', '  ').slice(0, -5);
+            	workStart = workStart.slice(11);
+            	var workEnd = new Date(workItem.workEnd + timeZone).toISOString().replace('T', '  ').slice(0, -5);
+            	workEnd = workEnd.slice(11);
+            	
                 var rowHtml = '<tr class="work-time-row">';
-                rowHtml += '<td>' + formatDateAndDay(workItem.workDate) + '</td>';
+                rowHtml += '<td>' + workdate + '</td>';
                 rowHtml += '<td>' + workItem.workStatus + '</td>';
-                rowHtml += '<td>' + formatTime(workItem.workStart) + '</td>';
-                rowHtml += '<td>' + formatTime(workItem.workEnd) + '</td>';
+                rowHtml += '<td>' + workStart + '</td>';
+                rowHtml += '<td>' + workEnd + '</td>';
                 rowHtml += '<td>' + workItem.totalWorkTime + '</td>';
                 rowHtml += '<td>' + workItem.overtime + '</td>';
                 rowHtml += '</tr>';
                 $(".cal_tbl tbody").append(rowHtml);
             });
-        }
+        } 
         $("#totalLate").html(data.lateCount);
         $("#totalEarlyLeave").html(data.earlyLeaveCount);
     });
