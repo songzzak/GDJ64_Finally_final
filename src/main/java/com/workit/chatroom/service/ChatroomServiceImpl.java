@@ -37,8 +37,14 @@ public class ChatroomServiceImpl implements ChatroomService {
 	
 	@Override
 	public int insertChat(ChatMsg chat) {
-		if(chat.getChatId()!=null) {
+		if(chat.getChatId()!=null && chat.getChatId().equals("file")) {
 			chat.setChatId("");
+			if(chatroomDao.insertChat(chat)>0) {
+				String chatId = chat.getChatId();
+				chat.setChatId(chatId);
+			}else {
+				log.info("chat 등록 실패");
+			}
 		}
 		return chatroomDao.insertChat(chat);
 	}
@@ -51,7 +57,7 @@ public class ChatroomServiceImpl implements ChatroomService {
 	private final String fileDir = path + "/src/main/webapp/resources/upload/chat/";
 	
 	@Override
-    public AttachedFile saveFile(MultipartFile files, String chatroomId) throws IOException {
+    public AttachedFile saveFile(MultipartFile files, String chatroomId, String chatId) throws IOException {
         if (files.isEmpty()) {
             return null;
         }
@@ -91,7 +97,9 @@ public class ChatroomServiceImpl implements ChatroomService {
         
         if(result>0) {
         	param.put("chatroomId", chatroomId);
-        	int uploadResult = chatroomDao.uploadFile(param);
+        	//int uploadResult = chatroomDao.uploadFile(param);
+        	param.put("chatId", chatId);
+        	int uploadResult = chatroomDao.insertFile(param);
         	log.info("chatroomFileNo");
         	log.info("{}", param.get("chatroomFileNo"));
         	if(uploadResult>0) {

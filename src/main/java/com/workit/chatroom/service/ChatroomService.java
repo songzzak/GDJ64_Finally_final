@@ -17,7 +17,7 @@ import com.workit.member.model.vo.MemberVO;
 public interface ChatroomService {
 	int insertChat(ChatMsg chat);
 	
-	AttachedFile saveFile(MultipartFile file, String chatroomId) throws IOException;
+	AttachedFile saveFile(MultipartFile file, String chatroomId, String chatId) throws IOException;
 	
 	List<ChatroomFile> selectFileByChatroomId(String chatroomId);
 	

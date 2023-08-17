@@ -72,4 +72,6 @@ public interface ChatMapper {
 	
 	int deleteNotify(int myChatroomNo);
 	
+	int insertFile(Map<String, Object> param);
+	
 }

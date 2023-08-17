@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.workit.chat.model.dto.ChatMsg;
 import com.workit.chat.service.ChatService;
 import com.workit.chatroom.model.dto.AttachedFile;
 import com.workit.chatroom.service.ChatroomService;
@@ -45,24 +46,39 @@ public class ChatroomController {
 		this.chatroomService = chatroomService;
 		this.chatService = chatService;
 	}
-	
+//	private String chatId;
+//	private String chatroomId;
+//	private Member member;
+//	private String chatContent;
+//	private Date chatDate;
 	@PostMapping("/upload")
-    public ResponseEntity<String>  uploadFile(@RequestParam("files") List<MultipartFile> files, @RequestParam(value="chatroomId") String chatroomId) throws IOException {
+    public ResponseEntity<String>  uploadFile(@RequestParam("files") List<MultipartFile> files, @RequestParam(value="chatroomId") String chatroomId, HttpSession session) throws IOException {
 		log.info("{}", chatroomId);
 		log.info("{}", files);
+		MemberVO loginMember = (MemberVO)session.getAttribute("loginMember");
+		String memberId = loginMember.getMemberId();
 		List<AttachedFile> list = new ArrayList<AttachedFile>();
 		if(files!=null && files.size()>0) {
 			try {
 					for (MultipartFile multipartFile : files) {
 						log.info("{}", multipartFile.getOriginalFilename());
-						AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId);
-						log.info("controller file");
-						log.info("{}", uploadFile);
-						if(uploadFile!=null) {
-							list.add(uploadFile);
-							// 클라이언트로 업로드 결과 전달
-							return ResponseEntity.ok("Files uploaded successfully.");
-						}else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed.");
+						ChatMsg chat = ChatMsg.builder()
+								.chatroomId(chatroomId)
+								.memberId(memberId)
+								.chatContent(multipartFile.getOriginalFilename())
+								.build();
+						log.info("chat insert result" +  chatroomService.insertChat(chat));
+						if(chatroomService.insertChat(chat)>0) {
+							String chatId = chat.getChatId();
+							AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId, chatId);
+							log.info("controller file");
+							log.info("{}", uploadFile);
+							if(uploadFile!=null) {
+								list.add(uploadFile);
+								// 클라이언트로 업로드 결과 전달
+								return ResponseEntity.ok("Files uploaded successfully.");
+							}else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed.");
+						}
 					}
 				
 			}catch(IOException e) {
