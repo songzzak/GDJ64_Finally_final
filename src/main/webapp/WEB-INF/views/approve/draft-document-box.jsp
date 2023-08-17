@@ -8,7 +8,7 @@
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 
-	<c:if test="${draftDocument.approveState eq '완료'}">
+<%-- 	<c:if test="${draftDocument.approveState eq '완료'}"> --%>
 	<div id="draftDocument" class="approve-section section-shadow">
 		<span id="draftDocumentFont">기안문서함</span>
 <!-- 		<select>
