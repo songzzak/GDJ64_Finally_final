@@ -475,15 +475,18 @@ public class ApproveController {
 	
 	
 	@RequestMapping("approveAssign.do") // 결재대기문서에서 결재 승인하는 작업
-	public String approveAssign(Model m,String mId,String approveNo,String currentOrder) {
+	public String approveAssign(Model m,String mId,String approveNo,String currentOrder, String writer, String approveKind) {
 		Map<String, Object> param = new HashMap<>();
 		
 		param.put("approveNo",approveNo);
 		param.put("mId", mId);
 		param.put("status", "완료");
 		param.put("currentOrder", currentOrder);
+		param.put("writer", writer);
+		param.put("approveKind", approveKind);
 		
 		int result = service.approveAssign(param); // update문을 사용하여 해당 결재선의 상태를 완료로 바꿈
+		System.out.println(result);
 		int result1 = service.plusCurrentOrder(param); // 결재선의 현재 번호를 1 증가시킴
 		
 		int totalLineCnt = service.selectTotalLineCnt(param); // 해당 결재서의 결재선 총 개수
@@ -495,6 +498,23 @@ public class ApproveController {
 		}else { // 같을 경우 -> 결재선은 완료
 			param.put("state","완료");
 			int result3 = service.updateCompleteState(param);
+			
+			if(approveKind.equals("연차")) {
+				int cnt = service.timeDifference(param);
+				String startDate = service.selectStartTime(param);
+				param.put("startDate", startDate);
+				for(int i=1; i<=cnt; i++) {
+					param.put("i", i);
+					service.insertAnnualLeave(param);
+				}
+			}
+			
+			if(approveKind.equals("반차")) {
+				String startDate = service.selectStartTime(param);
+				param.put("startDate", startDate);
+				param.put("i", 0);
+					service.insertAnnualLeave(param);
+			}
 		}
 
 		if (result >= 1) {
@@ -504,10 +524,8 @@ public class ApproveController {
 			m.addAttribute("msg", "승인 실패");
 			m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId);
 		}
-		return "common/msg";
+		return "common/msg"; 
 	}
-		
-	
 	
 	@RequestMapping("/saveDocument.do") // 임시저장함문서로 이동
 	public String saveDocument(Model m, @RequestParam(value = "mId") String mId) {
@@ -1354,14 +1372,35 @@ public class ApproveController {
 
 
 	@RequestMapping("/fullPayment.do") // 전결처리버튼 
-	public String fullPayment(Model m, String approveNo,String mId) {
+	public String fullPayment(Model m, String approveNo,String mId,String writer,String approveKind) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("approveNo",approveNo);
+		param.put("approveKind", approveKind);
+		param.put("writer", writer);
 		param.put("mId", mId);
 		param.put("state", "완료");
 		
+		
 		int result = service.updateCompleteState(param);
 		int result2 = service.allCompleteAppLine(param);
+		
+		if(approveKind.equals("연차")) {
+			int cnt = service.timeDifference(param);
+			String startDate = service.selectStartTime(param);
+			param.put("startDate", startDate);
+			for(int i=1; i<=cnt; i++) {
+				param.put("i", i);
+				service.insertAnnualLeave(param);
+			}
+		}
+		
+		if(approveKind.equals("반차")) {
+			String startDate = service.selectStartTime(param);
+			param.put("startDate", startDate);
+			param.put("i", 0);
+				service.insertAnnualLeave(param);
+		}
+		
 		
 		if(result >= 1 && result2 >=1) {
 			m.addAttribute("msg", "전결 성공");

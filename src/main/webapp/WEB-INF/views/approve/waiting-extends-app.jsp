@@ -5,9 +5,10 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <c:set var="approveNo" value="${approveNo}"/>
 <c:set var="approveState" value="${approveState}"/>
+<c:set var="approveKind" value="${approveKind}"/> 
 <c:set var="oriFileName" value="${oriFileName}"/>
 <c:set var="saveFileName" value="${saveFileName}"/>
-
+<c:set var="writer" value="${saveExtends[0].memberId.memberId}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -103,7 +104,7 @@
 <script>
 
 	const fullPayment=()=>{
-		location.assign("${path}/approve/fullPayment.do?approveNo=${approveNo}&mId=${loginMember.memberId}");
+		location.assign("${path}/approve/fullPayment.do?approveNo=${approveNo}&mId=${loginMember.memberId}&writer=${writer}&approveKind=${approveKind}");
 	}
 
 	function fn_fileDownload(oriName,reName){
@@ -169,7 +170,7 @@
 	} 
 	
 	const assign=()=>{
-		location.assign("${path}/approve/approveAssign.do?approveNo=${approveNo}&mId=${loginMember.memberId}");
+		location.assign("${path}/approve/approveAssign.do?approveNo=${approveNo}&mId=${loginMember.memberId}&writer=${writer}&approveKind=${approveKind}");
 	}
 
 </script>

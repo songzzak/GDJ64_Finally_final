@@ -12,7 +12,7 @@
 <c:set var="edate" value="${edate}"/>
 <c:set var="oriFileName" value="${oriFileName}"/>
 <c:set var="saveFileName" value="${saveFileName}"/>
-
+<c:set var="writer" value="${saveExtends[0].memberId.memberId}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -209,7 +209,7 @@
 	});
 
 	const fullPayment=()=>{
-		location.assign("${path}/approve/fullPayment.do?approveNo=${approveNo}&mId=${loginMember.memberId}");
+		location.assign("${path}/approve/fullPayment.do?approveNo=${approveNo}&mId=${loginMember.memberId}&writer=${writer}&approveKind=${approveKind}");
 	}	
 	
 	const backs=()=>{
@@ -236,7 +236,7 @@
 	} 
 	
 	const assign=()=>{
-		location.assign("${path}/approve/approveAssign.do?approveNo=${approveNo}&mId=${loginMember.memberId}");
+		location.assign("${path}/approve/approveAssign.do?approveNo=${approveNo}&mId=${loginMember.memberId}&writer=${writer}&approveKind=${approveKind}");
 	}
 	
 	
