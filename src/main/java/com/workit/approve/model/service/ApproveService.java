@@ -45,4 +45,6 @@ public interface ApproveService {
 	public int changeStateSave(Map<String,Object> param);
 	public List<Approve> selectDraftDocumentBox(Map<String,Object> param);
 	public List<Approve> selectReferenceDocumentBox(Map<String,Object> param);
+	public int selectDraftDocumentsCount(Map<String,Object> param);
+	public int allCompleteAppLine(Map<String,Object> param);
 }

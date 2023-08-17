@@ -861,3 +861,13 @@ select {
 	color: aqua;
 }
 
+#pencil{
+	width: 30px;
+	height: 30px;
+	margin-left: 630px;
+}
+
+#pencilFont{
+	font-size: 15px;
+	
+}

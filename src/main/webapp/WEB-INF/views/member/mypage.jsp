@@ -44,7 +44,7 @@
 						</div>
 						<div class="mypage-update">
 							<span>이메일</span>
-							<input type="email" name="email" class="first-input" id="mail">
+							<input type="email" name="email" class="first-input" id="mail" value="${loginMember.email }">
 			                <input type="button" onclick="fn_requestEmail();" value="전송">
 			                <span>5:00</span>
 						</div>
@@ -112,42 +112,49 @@
 					</div>
 				</div>
 				<div class="main-section section-shadow card">
-						<div class="right-container">
-							<h2>비밀번호 수정</h2>
-							<div class="mypage-update">
-								<span>현재 비밀번호</span>
-								<input type="password" name="oriPwd" id="ori-pwd">
-							</div>
-							<div class="mypage-update">
-								<span>새 비밀번호</span>
-								<input type="password" name="newPwd" id="new-pwd">
-							</div>
-							<div class="mypage-update">
-								<span>비밀번호 확인</span>
-								<input type="password" id="pwd-ck">
-							</div>
+					<div class="right-container">
+						<h2>비밀번호 수정</h2>
+						<div class="mypage-update">
+							<span>현재 비밀번호</span>
+							<input type="password" name="oriPwd" id="ori-pwd">
 						</div>
-					<div>
-						<input type="reset" value="취소">
-						<button onclick="fn_updatePwd();">수정</button>
+						<div class="mypage-update">
+							<span>새 비밀번호</span>
+							<input type="password" name="newPwd" id="new-pwd">
+						</div>
+						<div class="mypage-update">
+							<span>비밀번호 확인</span>
+							<input type="password" id="pwd-ck">
+						</div>
+						<div>
+							<input type="reset" value="취소">
+							<button onclick="fn_updatePwd();">수정</button>
+						</div>
 					</div>
 			</div>
 		</div>
 	</section>
 </section><!-- max1920px -->
 <script>
-$(document).ready(function(){
-	//입사일
-	const strId="${loginMember.memberId}";
-	var strDate=strId.substr(0,2);
-	strDate="20"+strDate+"-";
-	strDate+=strId.substr(2,2)+"-"+strId.substr(4,2);
-	$("#hire-date").val(strDate);
-});
 	var emailFl=false;
 	var time=300;
 	var min=5;
 	var sec=0;
+	$(document).ready(function(){
+		//입사일
+		const strId="${loginMember.memberId}";
+		var strDate=strId.substr(0,2);
+		strDate="20"+strDate+"-";
+		strDate+=strId.substr(2,2)+"-"+strId.substr(4,2);
+		$("#hire-date").val(strDate);
+		//이메일
+		if($("#mail").val()!=null){
+			emailFl=true;
+		}
+		$("#mail").change(function(){
+			emailFl=false;
+		});
+	});
 	
 	//프로필 사진 변경
 	function fn_updateProfile(){
@@ -263,7 +270,7 @@ $(document).ready(function(){
 					"id":"email-number"
 				});
 				emailNum.val(response);
-				$("#member-update-form").append(emailNum);
+				$("#profile-form").append(emailNum);
 				var fn_time=setInterval(function(){
 					time--;
 					console.log("time 실행");

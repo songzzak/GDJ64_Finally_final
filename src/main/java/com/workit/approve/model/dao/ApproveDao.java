@@ -46,4 +46,6 @@ public interface ApproveDao {
 	public int rejectMessage(SqlSession session,Map<String,Object> param);
 	public int changeStateSave(SqlSession session,Map<String,Object> param);
 	public List<Approve> selectReferenceDocumentBox(SqlSession session,Map<String,Object> param);
+	public int selectDraftDocumentsCount(SqlSession session,Map<String,Object> param);
+	public int allCompleteAppLine(SqlSession session,Map<String,Object> param);
 }

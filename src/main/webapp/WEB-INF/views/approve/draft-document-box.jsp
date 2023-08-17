@@ -11,6 +11,18 @@
 	
 	<div id="draftDocument" class="approve-section section-shadow">
 		<span id="draftDocumentFont">기안문서함</span>
+<!-- 		<select>
+		    <option value="americano">아메리카노</option>
+		    <option value="caffe latte">카페라테</option>
+		    <option value="cafe au lait" selected>카페오레</option>
+		    <option value="espresso">에스프레소</option>
+		</select>
+		<select>
+		    <option value="americano">아메리카노</option>
+		    <option value="caffe latte">카페라테</option>
+		    <option value="cafe au lait" selected>카페오레</option>
+		    <option value="espresso">에스프레소</option>
+		</select> -->
 		<div id="draftDocumentDiv">
 			<table class="table">
             <tr id="th">
@@ -21,6 +33,7 @@
                 <th colspan="6">작성일</th>
                 <th colspan="6">상태</th>
             </tr>
+            
             <c:if test="${not empty draftDocuments}">
             	<c:forEach var="draftDocument" items="${draftDocuments}">
 	            		<tr id="tr" onclick="location.href='${path}/approve/detailApprove.do?approveNo=${draftDocument.approveNo}&approveKind=${draftDocument.approveKind}&approveState=${draftDocument.approveState}&name=기안문서함';">
@@ -47,6 +60,9 @@
             	</c:forEach>
             </c:if>
         </table>
+         <div id="pageBar">	
+        	<c:out value="${pageBar }" escapeXml="false"/>
+        </div>
        
 		</div>
 	</div>
@@ -54,11 +70,21 @@
 </html>	
 
 <style>
+	#pageBar{
+		margin-top:20px;
+	}
+	#pageBar>ul>li{
+		width:50px;
+	}	
+	
+	.disabled>a{
+		color:#e9e9e9;
+	}
+	
 	#draftDocumentFont{
 		font-weight: bold;
 		font-size: 25px;
 		margin-left:25px;
-   		margin-top: 50px;	
 	}
 
 	#draftDocument{

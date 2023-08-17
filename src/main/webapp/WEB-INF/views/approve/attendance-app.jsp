@@ -132,6 +132,8 @@
 
 
 	$(function() {  // 레디함수
+		
+				
 	    $("input:radio[name=geuntae]").click(function(){  // 연차, 보건, 경조는 날짜로만 선택
 	    	if(this.id=="annual" || this.id=="health" || this.id=="condolences"){
 	    		$("#applicationDate-answer").empty();
@@ -191,6 +193,23 @@
 			$("#fileClickId").text("${fileName}"); 
 		}
 		
+/* 		$("#gStartDate	").change(function(){
+			console.log("Ee");
+			if(document.getElementById("hEndTime").value != ""){
+				if($("#hStartTime").val() >= $("#hEndTime").val()){
+					alert("시작시간보다 더 크게 설정");
+					$("#hEndTime").val("");
+				}
+			}
+		});
+		
+		$("#hEndTime").change(function(){
+			console.log("Ee");
+				if($("#hStartTime").val() >= $("#hEndTime").val()){
+					alert("시작시간보다 더 크게 설정");
+					$("#hEndTime").val("");
+				}				
+		}); */		
 	   	
 	   	const approveLines='${approveLines}'==""?'':JSON.parse('${approveLines}'); // 자바스크립트에서 해당 JSON.parse 구문을통해 해당 값을 객체로 반환
 		const referLines='${referLines}'==""?'':JSON.parse('${referLines}'); 
@@ -217,25 +236,13 @@
 			span.append(referLines[i].memberId.memberId + " " + referLines[i].memberId.memberName + " " + referLines[i].memberId.job.jobName + " " + referLines[i].memberId.dept.deptName, '<br>');
 			span.append($("<input/>", { type: 'hidden', name: 'paraRefer', value: referLines[i].memberId.memberId })); // 파라미터로넘길 참조선값들		
 		} 	
-		
-/* 		$("#hStartTime").change(function(){
-			console.log($("#hStartTime").val());
-			if(document.getElementById("hEndTime").value != ""){
-				if($("#hStartTime").val() >= $("#hEndTime").val()){
-					alert("시작시간보다 더 크게 설정");
-					$("#hEndTime").val("");
-				}
-			}
-		});
-		
-		$("#hEndTime").change(function(){
-				if($("#hStartTime").val() >= $("#hEndTime").val()){
-					alert("시작시간보다 더 크게 설정");
-					$("#hEndTime").val("");
-				}				
-		}); */
-		
+				
 	});
+
+
+	
+	
+	
 
 	
 	const remove=()=>{  // 임시저장된 기안서 삭제할때

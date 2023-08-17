@@ -21,9 +21,13 @@
 		enctype="multipart/form-data">
 
 		<div class="approve-section section-shadow">
-			<div id="approve_name">결재대기문서</div>
-
-			<div>
+				<div id="approve_name">
+					결재대기문서
+						
+		
+						<img id="pencil" onclick="fullPayment();" src="${path}/resources/images/approve/pencil.png">
+						<span id="pencilFont">전결</span>
+				</div>
 				<div id="one-width">
 					<div id="kind">지출결의서</div>
 					<div id="app-line" class="answer"></div>
@@ -110,6 +114,11 @@
 	</html>
 
 <script>
+	const fullPayment=()=>{
+		location.assign("${path}/approve/fullPayment.do?approveNo=${approveNo}&mId=${loginMember.memberId}");
+	}
+
+
 	function fn_fileDownload(oriName,reName){
 		if(oriName==""){
 			return false;
