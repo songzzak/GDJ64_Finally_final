@@ -14,7 +14,7 @@
 <body>
 	<section class="section-shadow login-container">
         <div class="login-div">
-                <div class="logo-container">
+                <div class="logo-container"  onclick="fn_loginPage();">
                 	<img src="${path }/resources/images/common/workit.svg">
             	</div>
                 <h2 class="page-title">비밀번호 재발급</h2>
@@ -123,7 +123,7 @@
 	}
 	
 	function fn_loginPage(){
-		console.log($("#memberId").val());
+		location.href="${path}/loginpage";
 	}
 </script>
 </body>

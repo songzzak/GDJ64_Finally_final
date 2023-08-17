@@ -26,7 +26,7 @@
          	<div>
          		<span>주소 검색</span>
          		<input type="text" name="mainAddress" id="main-addr">
-         		<input type="button" onclick="fn_searchAddr();" value="검색" class="emp-btn">
+         		<input type="button" onclick="fn_searchAddr();" value="검색" class="emp-input">
          	</div>
          	<div>
          		<span>상세 주소</span>

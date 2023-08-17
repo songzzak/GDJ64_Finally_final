@@ -15,7 +15,7 @@
 	  				</div>
 	  			</div>
 	  			<div id="form-choice-result">
-	  				<img src="${path}/resources/images/approve/default.png" height="400px" width="250px"> 
+	  				<img src="${path}/resources/images/approve/default.png" id="approve-img-id" height="400px" width="250px"> 
 	  			</div>
 	  		</div>
 	  		
