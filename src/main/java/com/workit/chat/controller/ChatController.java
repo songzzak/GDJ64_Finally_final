@@ -53,10 +53,11 @@ public class ChatController {
 		return "/chat/chat";
 	}
 	
+	
 	@PostMapping("/chatroom/{chatroomId}")
 	@ResponseBody
 	public ResponseEntity<List<Chatroom>> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
-		//Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
+		Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
 		int delResult = chatroomService.deleteNotify(myChatroomNo);
 		log.info("delResult : " + delResult);
 		if(delResult>0) {
@@ -64,27 +65,12 @@ public class ChatController {
 			model.addAttribute("unreadMap",c);
 			//result.put("readCount", c);
 		}
+		
+		result.put("chatMember", chatService.selectCurrentChatMembers(chatroomId));
+		result.put("chatList", chatroomService.selectChatroomByroomId(chatroomId));
 		log.info("chatroom result");
-		//log.info("{}", result.get("chatroomList"));
-		log.info("{}", chatroomService.selectChatroomByroomId(chatroomId));
 		return ResponseEntity.ok().body(chatroomService.selectChatroomByroomId(chatroomId));
 	}
-//	@PostMapping("/chatroom/{chatroomId}")
-//	@ResponseBody
-//	public ResponseEntity<?> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
-//		Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
-//		int delResult = chatroomService.deleteNotify(myChatroomNo);
-//		log.info("delResult : " + delResult);
-//		if(delResult>0) {
-//			ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
-//			model.addAttribute("unreadMap",c);
-//			result.put("readCount", c);
-//		}
-//		log.info("chatroom result");
-//		log.info("{}", result.get("chatroomList"));
-//		
-//		return ResponseEntity.ok().body(result);
-//	}
 	
 	
 	@PostMapping("/keyword")
@@ -96,7 +82,6 @@ public class ChatController {
 	}
 	
 	
-	// 채팅 생성을 위한 전체 회원 조회
 	@PostMapping("/dept")
 	@ResponseBody
 	public List<Member> selectMember(){
@@ -115,7 +100,6 @@ public class ChatController {
 		@SuppressWarnings("unchecked")
 		List<MyChatroom> chatroomMembers = (List<MyChatroom>) chatService.selectChatroomByroomId(chatroomId).get("chatroomMember");
 		model.addAttribute("chatroomMembers", chatroomMembers);
-		//List<MyChatroom> chatroomService.selectChatroomById(chatroomId);
 		model.addAttribute("myChatroomList",chatroomService.selectChatroomById(chatroomId));
 	    return ResponseEntity.ok().body(chatroomService.selectChatroomById(chatroomId));
 	}

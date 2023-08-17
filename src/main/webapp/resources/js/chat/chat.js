@@ -3,6 +3,7 @@ $(".searchIcon").click(e => {
 	$(".modal-searchContainer").toggle("chatHidden");
 	$(".modal-result-container").toggle("chatHidden");
 	$(".modalSearchInput").val("");
+	$(".modal-result-container").empty();
 	//$(".searchResultContainer").css("display","block");
 	//let $input = $(".modal-searchContainer input");
 	//$(".modalSearchInput").val()=="";
@@ -16,6 +17,7 @@ $(".searchChatroomIcon").click(e => {
 	$(".modal-searchRoomInput").val("");
 	$(".chatroom-file-container").css('display', 'none');
 	$(".modalResult").text("");
+	$(".modal-result-container").empty();
 })
 
 // 채팅 목록에서 검색 닫기

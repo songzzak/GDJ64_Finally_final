@@ -29,19 +29,15 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatroomServiceImpl implements ChatroomService {
 
 	private ChatroomDao chatroomDao;
-	private ChatDao chatDao;
 	
-	public ChatroomServiceImpl(ChatDao chatDao, ChatroomDao chatroomDao) {
+	public ChatroomServiceImpl(ChatroomDao chatroomDao) {
 		this.chatroomDao = chatroomDao;
-		this.chatDao = chatDao;
 	}
 	
 	
 	@Override
-	public ChatMsg insertChat(ChatMsg chat) {
-		ChatMsg returnChat = new ChatMsg();
-		if(chatroomDao.insertChat(chat)>0) return chat;
-		else return returnChat;
+	public int insertChat(ChatMsg chat) {
+		return chatroomDao.insertChat(chat);
 	}
 	
 	// root 경로
@@ -92,7 +88,6 @@ public class ChatroomServiceImpl implements ChatroomService {
         
         if(result>0) {
         	param.put("chatroomId", chatroomId);
-        	//int uploadResult = chatroomDao.uploadFile(param);
         	param.put("chatId", chatId);
         	int uploadResult = chatroomDao.insertFile(param);
         	log.info("chatroomFileNo");
@@ -132,7 +127,7 @@ public class ChatroomServiceImpl implements ChatroomService {
 		log.info("chatroomNo : " + m.getMyChatroomNo());
 		log.info("chatId : " + chatId);
 		log.info("memberId : " + m.getMember().getMemberId());
-		ChatNotification c = ChatNotification.builder().chatId(chatId).myChatroomNo(m.getMyChatroomNo()).memberId(m.getMember().getMemberId()).build();
+		ChatNotification c = ChatNotification.builder().myChatroomNo(m.getMyChatroomNo()).memberId(m.getMember().getMemberId()).build();
 		return chatroomDao.insertChatNotify(c);
 	}
 

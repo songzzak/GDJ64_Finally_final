@@ -34,11 +34,11 @@
 		<c:if test="${not empty myChatroomList}">
 			<c:forEach var="r" items="${myChatroomList}">
 				<div class="chat-room chat-select" data-Id="${r.chatroom.chatroomId}" data-no="${r.myChatroomNo}" data-title="${r.chatroom.chatroomTitle}" data-code="${r.chatroom.chatroomCode}">
-					<h5 class="chatroom-title chat-select">${r.chatroom.chatroomTitle }</h5>
+					<h5 class="chatroom-title chat-select">${r.chatroom.chatroomTitle}</h5>
 					<img src="${path}/resources/images/common/more.svg" alt="chat-delete" class="deleteChatRoom" data-cNo="${r.myChatroomNo}">
 					<input type="hidden" value="${r.myChatroomNo}" name="chatRoomNo" class="roomNo">
-					<h5>${r.myChatroomNo }</h5>
-					<c:if test="${not empty unreadMap }">
+					<h5>${r.myChatroomNo}</h5>
+					<c:if test="${not empty unreadMap}">
 						<c:forEach var="unread" items="${unreadMap}">
 							 <c:if test="${r.myChatroomNo == unread.myChatroomNo && unread.readCount!=0}">
 								<span class="chatroomNotifyNumber">${unread.readCount}</span>
@@ -54,9 +54,6 @@
 								<input type="hidden" value="${c.chatroomId}" name="chatRoomId" class="roomId">
 							</c:if>
 						</c:forEach>
-					</c:if>
-					<c:if test="${empty chat}">
-						<span class="chat-date">채팅 창에 채팅이 없습니다. 새로운 채팅을 시작해보세요!</span>
 					</c:if>
 				</div>
 			</c:forEach>

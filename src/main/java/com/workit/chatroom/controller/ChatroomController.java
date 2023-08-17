@@ -49,6 +49,7 @@ public class ChatroomController {
 		this.chatService = chatService;
 	}
 	
+	// 파일 업로드
 	@PostMapping("/upload")
     public ResponseEntity<String>  uploadFile(@RequestParam("files") List<MultipartFile> files, @RequestParam(value="chatroomId") String chatroomId, HttpSession session) throws IOException {
 		log.info("{}", chatroomId);
@@ -66,9 +67,10 @@ public class ChatroomController {
 								.memberId(memberId)
 								.chatContent(multipartFile.getOriginalFilename())
 								.build();
-						log.info("chat insert result" +  chatroomService.insertChat(chat));
-						if(chatroomService.insertChat(chat)!=null) {
+						int result = chatroomService.insertChat(chat);
+						if(result>0) {
 							String chatId = chat.getChatId();
+							log.info("반환한 chatId : " , chatId);
 							AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId, chatId);
 							log.info("controller file");
 							log.info("{}", uploadFile);
@@ -113,12 +115,14 @@ public class ChatroomController {
 		return ResponseEntity.ok().body(chatroomService.selectFileByChatroomId(chatroomId));
 	}
 	
+	// 채팅 방에서 멤버 추가
 	@PostMapping("/update")
 	@ResponseBody
 	public int updateChatroomMember(@RequestParam(value="chatMember")String chatMember, @RequestParam(value="chatroomId") String chatroomId, HttpSession session, Model model) {
 		return chatService.updateChatroomMember(Map.of("member",chatMember,"chatroomId",chatroomId));
 	}
 	
+	// 채팅 방에서 검색
 	@PostMapping("/search")
 	@ResponseBody
 	public ResponseEntity<?> searchChatroomByKeyword(@RequestParam(value="chatroomId")String chatroomId, @RequestParam(value="keyword")String keyword) {
@@ -128,6 +132,7 @@ public class ChatroomController {
 		return ResponseEntity.ok().body(chatService.searchByKeyword(Map.of("chatroomId",chatroomId, "keyword",keyword)));
 	}
 	
+	// 채팅 알림 카운트
 	@PostMapping("/unread")
 	public void chatNotificationCount(HttpSession session, Model model) {
 		MemberVO member = (MemberVO)session.getAttribute("loginMember");
@@ -136,6 +141,7 @@ public class ChatroomController {
 		model.addAttribute("unread", unread);
 	}
 	
+	// 채팅 멤버 프로필 확인
 	@PostMapping("/profile")
 	@ResponseBody
 	public ResponseEntity<?> selectMemberByChoice (@RequestParam(value="memberId") String memberId){
@@ -143,20 +149,5 @@ public class ChatroomController {
 		return ResponseEntity.ok(chatroomService.selectMemberByChoice(memberId));
 	}
 	
-	@PostMapping("/{chatroomId}")
-	@ResponseBody
-	public ResponseEntity<?> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
-		int delResult = chatroomService.deleteNotify(myChatroomNo);
-		log.info("delResult : " + delResult);
-		if(delResult>0) {
-			ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
-			model.addAttribute("unreadMap",c);
-			//result.put("readCount", c);
-		}
-		log.info("chatroom result");
-		//log.info("{}", result.get("chatroomList"));
-		log.info("{}", chatroomService.selectChatroomById(chatroomId));
-		return ResponseEntity.ok().body(chatroomService.selectChatroomById(chatroomId));
-	}
 	
 }

@@ -71,14 +71,13 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         String chatId="";
         ChatMsg chat =mapper.readValue(message.getPayload(),ChatMsg.class);
 		if(chat!=null && !chat.getChatroomId().equals("file")) {
-			ChatMsg returnChat = chatroomService.insertChat(chat);
+			int insertResult = chatroomService.insertChat(chat);
 			
-			if(returnChat!=null) {
-				session.getAttributes().put("chat", returnChat);
-				sendChat(returnChat, returnChat.getChatId());
+			if(insertResult>0) {
+				session.getAttributes().put("chat", chat);
+				sendChat(chat, chat.getChatId());
 			}
 		}else if(chat.getChatroomId().equals("file")) {
-			// chat ist null
 			sendChat(chat, chatId);
 		}
 //			log.info("전달한 chat : " + chat);

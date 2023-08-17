@@ -27,7 +27,7 @@ const path = "${pageContext.request.contextPath}";
 		<div class="header-button-container">
 			<div class="header-member">
 				<a href="${path }/mypage">
-					<img src="${path}/resources/images/common/profile.svg" alt="member-profile-img">
+					<img src="${path}/resources/upload/profile/DEFAULT_PROFILE.png" alt="member-profile-img">
 					<span>${loginMember.dept.deptName }</span>&nbsp;
 					<span>${loginMember.memberName }</span>
 				</a>

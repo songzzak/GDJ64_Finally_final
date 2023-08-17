@@ -313,36 +313,22 @@
 				cancelButtonText : "취소",
 				closeOnConfirm : false,
 				closeOnCancel : true
-				}, function(isConfirm) {
-					if(isConfirm){
-						location.href = location.href;
-					}
-				});
-			
+				},
+				function(isConfirm) {
+					if(isConfirm) location.href = location.href;
+			});
 		}
 	 	function fn_printChat(msg){
-	 		
-	 		let checkFile = msg.fileId;
-			if(checkFile!="undefined" || checkFile!="" || checkFile!=null || checkFile!="null" || checkFile!=undefined){
-				const chatDiv = $(".chat-msgBox-container");
-				const chatDate = new Date(msg.chatDate).toLocaleString('ko-KO');
-				if (msg.memberId == loginMember) {
-					var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
-					chatMsg.append($("<span>").attr("class", "chat-msgbx").text(msg.chatContent));
-					chatMsg.append($("<span>").attr("class", "chat-date block").text(chatDate));
-					chatMsg.append($("<input type='hidden'>").attr("value",msg.chatId).attr("class","chat-msg-Id"));
-		
-				} else {
-					var chatMsg = $("<div>").attr("class", "chat-msg");
-					chatMsg.append($("<div class='chatMember'>").append($("<h5>").text(c.member.memberName)).append($("<input>").attr("type", "hidden").attr("value", c.member.memberId).addClass("chatMemberId")));
-					chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
-					chatMsg.append($("<span>").attr("class", "chat-date block").text(chatDate));
-					chatMsg.append($("<input type='hidden'>").attr("value",c.chatId).attr("class","chat-msg-Id"));
-				}
-				chatMsg.append($("<input>").attr("type", "hidden").attr("value", msg.chatroomId).attr("class","roomId"));
-				chatDiv.append(chatMsg);
+			const chatDiv = $(".chat-msgBox-container");
+			const chatDate = new Date(msg.chatDate).toLocaleString('ko-KO');
+			if (msg.memberId == loginMember) {
+				var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
+				chatMsg.append($("<span>").attr("class", "chat-msgbx").text(msg.chatContent));
+				chatMsg.append($("<span>").attr("class", "chat-date block").text(chatDate));
+				chatMsg.append($("<input type='hidden'>").attr("value",msg.chatId).attr("class","chat-msg-Id"));
 			} 
-				
+			chatMsg.append($("<input>").attr("type", "hidden").attr("value", msg.chatroomId).attr("class","roomId"));
+			chatDiv.append(chatMsg);
 		}
 	}
 	
@@ -376,7 +362,6 @@
 						console.log(e.fileId.originalFile);
 						chatfileDiv = $("<div class='chatroom-file chat-msgbx'>");
 						let clickTag = $("<a class='chatroomfileId'>").text(e.fileId.originalFile);
-						//clickTag.append($("<img>").attr("src","${path}/resources/images/common/folder.svg").css("width", "18px"))
 						chatfileDiv.append(clickTag);
 						chatfileDiv.append($("<span>").text("업로드 날짜 : " + uploadDate));
 						chatfileDiv.append($("<input type='hidden'>").attr("value",e.fileId.uploadFile));
@@ -457,18 +442,27 @@
 			mychatroomList = data.mychatroomList;
 			$(".modal-result-container").append($("<h3 class='modalResult'>").text("검색 결과 : "));
 			if(myChatList!=null || myChatList!="" && mychatFileList!=null || mychatFileList!="" && mychatroomList!=null || mychatroomList!="" ){
+				var searchDiv;
 				myChatList.forEach(m=>{
+					const chatDate = new Date(m.chatDate).toLocaleDateString('ko-KO');
 					console.log("m : ",m);
-					$(".modal-result-container").append($("<div class='chat-msgbx'>").text(m.chatContent));
+					searchDiv = $("<div class='chatroom-file chat-msgbx'>").text(m.chatContent);
+					//searchDiv.append($("<span>").text(m.member.memberId + " " + chatDate));
+					searchDiv.append($("<span>").text(chatDate));
+					$(".modal-result-container").append(searchDiv);
 				})
 				mychatFileList.forEach(f=>{
+					const uploadDate = new Date(f.fileId.uploadDate).toLocaleDateString('ko-KO');
 					console.log("f : ", f);
 					console.log(f.fileId.originalFile);
-					$(".modal-result-container").append($("<div class='chat-msgbx'>").text(f.fileId.originalFile));
+					searchDiv = $("<div class='chat-msgbx'>").text(f.fileId.originalFile);
+					searchDiv.append($("<span>").text(uploadDate));
+					$(".modal-result-container").append(searchDiv);
 				})
 				mychatroomList.forEach(c=>{
 					console.log("c : ",c);
-					$(".modal-result-container").append($("<div class='chat-msgbx'>").text(c.chatroomTitle));
+					searchDiv = $("<div class='chat-msgbx'>").text(c.chatroomTitle);
+					$(".modal-result-container").append(searchDiv);
 				})
 			}
 		}
@@ -509,6 +503,10 @@
 			}
 		})
 	});
+	
+	$(document).on("click", ".chat-msgbx", function(e) {
+		
+	})
 </script>
 </body>
 </html>
