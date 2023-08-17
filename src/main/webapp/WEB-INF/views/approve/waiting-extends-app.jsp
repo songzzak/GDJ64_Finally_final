@@ -5,10 +5,9 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <c:set var="approveNo" value="${approveNo}"/>
 <c:set var="approveState" value="${approveState}"/>
-<c:set var="approveKind" value="${approveKind}"/> 
 <c:set var="oriFileName" value="${oriFileName}"/>
 <c:set var="saveFileName" value="${saveFileName}"/>
-<c:set var="writer" value="${saveExtends[0].memberId.memberId}"/>
+
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -20,7 +19,7 @@
 	
 	<form action="#" id="appForm" method="post" enctype="multipart/form-data">
 	
-	<div class="approve-section section-shadow">
+	<div class="approve-section2 section-shadow">
 		<div id="approve_name">
 			결재대기문서
 				
@@ -104,7 +103,7 @@
 <script>
 
 	const fullPayment=()=>{
-		location.assign("${path}/approve/fullPayment.do?approveNo=${approveNo}&mId=${loginMember.memberId}&writer=${writer}&approveKind=${approveKind}");
+		location.assign("${path}/approve/fullPayment.do?approveNo=${approveNo}&mId=${loginMember.memberId}");
 	}
 
 	function fn_fileDownload(oriName,reName){
@@ -170,7 +169,7 @@
 	} 
 	
 	const assign=()=>{
-		location.assign("${path}/approve/approveAssign.do?approveNo=${approveNo}&mId=${loginMember.memberId}&writer=${writer}&approveKind=${approveKind}");
+		location.assign("${path}/approve/approveAssign.do?approveNo=${approveNo}&mId=${loginMember.memberId}");
 	}
 
 </script>

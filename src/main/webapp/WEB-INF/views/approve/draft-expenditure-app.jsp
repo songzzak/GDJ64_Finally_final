@@ -22,7 +22,15 @@
 	<form action="#" id="appForm" method="post"
 		enctype="multipart/form-data">
 
-		<div class="section-shadow approve-section">
+			<c:choose>
+				<c:when test="${approveState eq '반려'}">
+					<div class="approve-section4 section-shadow">
+				</c:when>
+	
+				<c:otherwise>
+					<div class="approve-section2 section-shadow">
+				</c:otherwise>
+			</c:choose>
 				<c:if test="${name eq '기안문서함'}">
 					<div id="approve_name">기안문서</div>
 				</c:if>

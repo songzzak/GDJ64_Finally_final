@@ -25,7 +25,7 @@
 	<form action="#" id="appForm" method="post"
 		enctype="multipart/form-data">
 
-		<div class="approve-section section-shadow">
+		<div class="approve-section2 section-shadow">
 		<div id="approve_name">
 					결재대기문서
 						

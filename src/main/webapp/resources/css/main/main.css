@@ -1,0 +1,106 @@
+@charset "EUC-KR";
+	#mainFlex{
+		display: flex;
+	}
+
+	#section1{
+		width : 400px;
+		height: 300px;
+		border: 1px solid #D9D9D9;
+	}
+	
+	.marginBottom{
+		margin-bottom: 20px;
+	}
+/* 미결재 */
+	#approveFont{
+		font-size:20px;
+		font-weight: bold;
+		margin-top:10px;
+		margin-bottom:10px;
+		text-align: center;
+	}
+	#appHr{
+		background-color:#ddd;
+		height:1px;
+   		border:0;
+	}
+	
+	#mainTh>th{
+		padding-top:10px;
+		padding-bottom:10px;
+		border-bottom: 1px solid #ddd;
+		width:400px;
+	}
+	
+	#noApp{
+		text-align: center;
+		width:200px;
+		line-height: 170px;
+	}
+	
+	#section2{
+		margin-left:30px;
+		width : 500px;
+		height: 300px;
+		border: 1px solid #D9D9D9;
+	}
+	
+	.none{
+		background-color: white;
+	}
+	.none:hover{
+		background-color: white;
+		color:var(--main-color-dk);
+	}
+	
+/* 공지사항 */	
+	
+	#noticeFont{
+		text-align: center;
+		line-height: 220px;
+	}
+	
+/* 메인화면 투두리스트 */	
+	#toDo{
+		font-size:20px;
+		font-weight: bold;
+		margin-top:10px;
+		margin-bottom:10px;
+		text-align: center;
+	}
+	
+	#toDoText{
+		margin-left: 20px;
+		width: 300px;
+	}
+	
+	#toDoButton{
+		margin-left: 10px;
+		width: 50px;
+	}
+	
+	#toDoFlex{
+		display: flex;
+		align-items: center;
+	}
+	
+	#toDoCheck{
+		width: 20px;	
+	}
+		
+	#deleteImg{
+		width: 20px;
+		height: 20px;	
+	}
+/* ----------------------------- */
+
+/* 메인화면 신청한 강의실 */
+	#bookFont{
+		font-size:20px;
+		font-weight: bold;
+		margin-top:10px;
+		margin-bottom:10px;
+	}
+	
+/* ----------------------------- */

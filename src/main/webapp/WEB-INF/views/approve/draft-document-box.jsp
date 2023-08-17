@@ -8,7 +8,7 @@
 <section class="max1920px">
 	<jsp:include page="/WEB-INF/views/common/side-nav.jsp"/>
 
-	
+	<c:if test="${draftDocument.approveState eq '완료'}">
 	<div id="draftDocument" class="approve-section section-shadow">
 		<span id="draftDocumentFont">기안문서함</span>
 <!-- 		<select>
@@ -90,7 +90,7 @@
 	#draftDocument{
 		background-color:white;
 		border: 1px solid #D9D9D9;
-		width:1720px;
+		width:1950px;
 		height:900px;
 		margin-left: 50px;
 	}
@@ -99,7 +99,7 @@
 		border: 1px solid #D9D9D9;
 		margin-top : 20px;
 		margin-left : 50px;
-		width:1650px;
+		width:1480px;
 		height:770px;
 	}
 	
