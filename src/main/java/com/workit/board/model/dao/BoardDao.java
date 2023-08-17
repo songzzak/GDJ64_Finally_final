@@ -9,6 +9,7 @@ import com.workit.board.model.dto.Board;
 import com.workit.board.model.dto.BoardComment;
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
+import com.workit.board.model.dto.NoticeFile;
 import com.workit.chatroom.model.dto.AttachedFile;
 
 public interface BoardDao {
@@ -74,6 +75,26 @@ public interface BoardDao {
 	List<AttachedFile> selectFileListByBoardNo(SqlSessionTemplate session, int no);
 
 	int updateBoardViewCount(SqlSessionTemplate session, int no);
+
+	Board selectPrevBoard(SqlSessionTemplate session, int no);
+
+	Board selectNextBoard(SqlSessionTemplate session, int no);
+
+	AttachedFile selectAttachedFileById(SqlSessionTemplate session, int fileId);
+
+	int deleteAttachedFile(SqlSessionTemplate session, int fileId);
+
+	int deleteNoticeFile(SqlSessionTemplate session, int fileId);
+
+	int deleteBoardFile(SqlSessionTemplate session, int fileId);
+
+	int deleteNoticeFilesByNoticeNo(SqlSessionTemplate session, int no);
+
+	List<NoticeFile> selectNoticeFileByNo(SqlSessionTemplate session, int no);
+
+	int insertNoticeFile(SqlSessionTemplate session, Map<String, Object> noticeFileMap);
+
+	int insertBoardFile(SqlSessionTemplate session, Map<String, Object> boardFileMap);
 
 
 }

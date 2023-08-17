@@ -20,4 +20,5 @@ public class NoticeComment {
 	private Date commentDate;
 	private int refCommentNo;
 	private Notice notice;
+	private String status;
 }

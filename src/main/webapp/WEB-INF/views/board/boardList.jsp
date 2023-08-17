@@ -57,14 +57,14 @@
 		            </div>
 	            <!-- 검색창 -->
 	                <div id="searchDiv">
-	                    <select id="searchType">
-	                        <option value="title">제목</option>
-	                        <option value="writer">작성자</option>
-	                        <option value="content">내용</option>
-	                    </select>
-	                    <input type="text" id="searchKeyword" placeholder="search..." style="height: 20px;" />
-	                    <button id="searchBtn">검색</button>
-	                </div>
+					    <select id="searchType">
+					        <option value="title" ${searchType == 'title' ? 'selected' : ''}>제목</option>
+					        <option value="writer" ${searchType == 'writer' ? 'selected' : ''}>작성자</option>
+					        <option value="content" ${searchType == 'content' ? 'selected' : ''}>내용</option>
+					    </select>
+					    <input type="text" id="searchKeyword" value="${searchKeyword}" placeholder="search..." style="height: 20px;" />
+					    <button id="searchBtn">검색</button>
+					</div>
 		        </div>
                 <!-- 공지사항 테이블 -->
                 <div id="boardTblDiv" class="center">

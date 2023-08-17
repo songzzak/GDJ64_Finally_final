@@ -11,6 +11,7 @@ import com.workit.board.model.dto.Board;
 import com.workit.board.model.dto.BoardComment;
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
+import com.workit.board.model.dto.NoticeFile;
 import com.workit.chatroom.model.dto.AttachedFile;
 
 @Repository
@@ -174,6 +175,54 @@ public class BoardDaoImpl implements BoardDao {
 		return session.update("board.updateBoardViewCount",no);
 	}
 
+	@Override
+	public Board selectPrevBoard(SqlSessionTemplate session, int no) {
+		return session.selectOne("board.selectPrevBoard",no);
+	}
 
+	@Override
+	public Board selectNextBoard(SqlSessionTemplate session, int no) {
+		return session.selectOne("board.selectNextBoard",no);
+	}
+
+	@Override
+	public AttachedFile selectAttachedFileById(SqlSessionTemplate session, int fileId) {
+		return session.selectOne("board.selectAttachedFileById",fileId);
+	}
+
+	@Override
+	public int deleteAttachedFile(SqlSessionTemplate session, int fileId) {
+		return session.delete("board.deleteAttachedFile",fileId);
+	}
+
+	@Override
+	public int deleteNoticeFile(SqlSessionTemplate session, int fileId) {
+		return session.delete("board.deleteNoticeFile",fileId);
+	}
+
+	@Override
+	public int deleteBoardFile(SqlSessionTemplate session, int fileId) {
+		return session.delete("board.deleteBoardFile",fileId);
+	}
+
+	@Override
+	public int deleteNoticeFilesByNoticeNo(SqlSessionTemplate session, int no) {
+		return session.delete("board.deleteNoticeFilesByNoticeNo",no);
+	}
+
+	@Override
+	public List<NoticeFile> selectNoticeFileByNo(SqlSessionTemplate session, int no) {
+		return session.selectList("board.selectNoticeFileByNo",no);
+	}
+
+	@Override
+	public int insertNoticeFile(SqlSessionTemplate session, Map<String, Object> noticeFileMap) {
+		return session.insert("board.updateNoticeFile",noticeFileMap);
+	}
+
+	@Override
+	public int insertBoardFile(SqlSessionTemplate session, Map<String, Object> boardFileMap) {
+		return session.insert("board.insertBoardFile",boardFileMap);
+	}
 
 }
