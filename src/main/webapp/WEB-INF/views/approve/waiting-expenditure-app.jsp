@@ -8,6 +8,7 @@
 <c:set var="approveKind" value="${approveKind}"/>
 <c:set var="oriFileName" value="${oriFileName}"/>
 <c:set var="saveFileName" value="${saveFileName}"/>
+<c:set var="writer" value="${saveExtends[0].memberId.memberId}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
@@ -21,9 +22,13 @@
 		enctype="multipart/form-data">
 
 		<div class="approve-section section-shadow">
-			<div id="approve_name">결재대기문서</div>
-
-			<div>
+				<div id="approve_name">
+					결재대기문서
+						
+		
+						<img id="pencil" onclick="fullPayment();" src="${path}/resources/images/approve/pencil.png">
+						<span id="pencilFont">전결</span>
+				</div>
 				<div id="one-width">
 					<div id="kind">지출결의서</div>
 					<div id="app-line" class="answer"></div>
@@ -110,6 +115,11 @@
 	</html>
 
 <script>
+	const fullPayment=()=>{
+		location.assign("${path}/approve/fullPayment.do?approveNo=${approveNo}&mId=${loginMember.memberId}&writer=${writer}&approveKind=${approveKind}");
+	}
+
+
 	function fn_fileDownload(oriName,reName){
 		if(oriName==""){
 			return false;
@@ -177,7 +187,7 @@
 	} 
 	
 	const assign=()=>{
-		location.assign("${path}/approve/approveAssign.do?approveNo=${approveNo}&mId=${loginMember.memberId}");
+		location.assign("${path}/approve/approveAssign.do?approveNo=${approveNo}&mId=${loginMember.memberId}&writer=${writer}&approveKind=${approveKind}");
 	}
 	
 

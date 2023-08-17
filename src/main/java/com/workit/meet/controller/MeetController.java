@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.workit.common.Pagenation;
 import com.workit.meet.model.dto.Meet;
 import com.workit.meet.model.service.MeetService;
 import com.workit.member.model.vo.MemberVO;
@@ -149,16 +150,26 @@ public class MeetController {
 
 
 	@GetMapping("/myMeetList")
-	public String selectMeetById(Model model, HttpSession session) {
+	public String selectMeetById(Model model, HttpSession session,
+			@RequestParam(value="cPage",defaultValue="1") int cPage) {
 		String memberId = ((MemberVO) session.getAttribute("loginMember")).getMemberId();
-		model.addAttribute("meets", service.selectMeetByMember(memberId));
+		Map<String, Object> params = new HashMap<>();
+		params.put("cPage", cPage);
+		params.put("numPerpage", 5);
+		params.put("memberId", memberId);
+		int totalData=service.selectMeetByIdCount(params);
+		model.addAttribute("meets", service.selectMeetByMember(params));
+		model.addAttribute("pageBar",Pagenation.getPage(cPage,5,totalData,"/meet/myMeetList"));
+		
 		LocalDateTime ldt = LocalDateTime.now();
 		Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
 		Date date = Date.from(instant);
 
 		model.addAttribute("now", date);
 
-		System.out.println(service.selectMeetByMember(memberId));
+		//System.out.println(service.selectMeetByMember(memberId));
+		
+		
 		return "meet/myMeetList";
 	}
 	

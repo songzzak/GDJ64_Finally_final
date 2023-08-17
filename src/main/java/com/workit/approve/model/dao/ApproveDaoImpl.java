@@ -1,8 +1,10 @@
 package com.workit.approve.model.dao;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +27,11 @@ public class ApproveDaoImpl implements ApproveDao {
 	
 	@Override
 	public List<Approve> selectDraftDocumentBox(SqlSession session, Map<String, Object> param) { // 임시저장문서 제외한 본인이 작성한 모든 기안서들 다 조회
-		return session.selectList("approve.selectDraftDocumentBox",param);
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		
+		return session.selectList("approve.selectDraftDocumentBox",param,rb);
 	}
 
 	@Override
@@ -178,7 +184,29 @@ public class ApproveDaoImpl implements ApproveDao {
 	public List<Approve> selectReferenceDocumentBox(SqlSession session, Map<String, Object> param) { // 본인이 참조대상인 참조문서함 들어가기
 		return session.selectList("approve.selectReferenceDocumentBox",param);
 	}
+
+	@Override
+	public int selectDraftDocumentsCount(SqlSession session,Map<String,Object> param) {  // 본인 기안문서함의 문서 총 개수
+		return session.selectOne("approve.selectDraftDocumentsCount",param);
+	}
+
+	@Override
+	public int allCompleteAppLine(SqlSession session, Map<String, Object> param) { // 해당 결재선의 상태를 다 완료로 바꿈
+		return session.update("approve.allCompleteAppLine",param);
+	}
+
+	@Override
+	public int timeDifference(SqlSession session, Map<String, Object> param) { // 해당 기안서의 시간차이를 구해줌
+		return session.selectOne("approve.timeDifference",param);
+	}
+
+	@Override
+	public String selectStartTime(SqlSession session, Map<String, Object> param) { // 연차기안서 시작시간일 구하기
+		return session.selectOne("approve.selectStartTime",param);
+	}
 	
-	
+	public int insertAnnualLeave(SqlSession session, Map<String, Object> param) { // 기간차이일수만큼 연차테이블 생성
+		return session.insert("approve.insertAnnualLeave",param);
+	}
 	
 }

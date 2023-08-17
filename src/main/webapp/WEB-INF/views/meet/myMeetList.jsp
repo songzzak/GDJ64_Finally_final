@@ -56,7 +56,7 @@
 				                <td>${meet.title}</td>
 				                <td>${meet.room.roomName}</td>
 				                <td>${meet.description}</td>
-				                 <td> <fmt:formatDate value="${meet.eventDate}" pattern="yy/MM/dd E" /></td>
+				                 <td> <fmt:formatDate value="${meet.eventDate}" pattern="yy/MM/dd" /></td>
 				                <td><fmt:formatDate value="${meet.startTime}" pattern="HH:mm" /></td>
 				                <td><fmt:formatDate value="${meet.endTime}" pattern="HH:mm" /></td>
 				                <td>

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.workit.member.model.dto.Member;
 import com.workit.work.model.dao.WorkDao;
 import com.workit.work.model.dto.Work;
 import com.workit.work.model.dto.WorkChange;
@@ -101,6 +102,12 @@ public class WorkServiceImpl implements WorkService {
 	@Override
 	public List<Work> getMonthWorkTimeByTeam(Map<String, Object> paramMap) {
 		return dao.getMonthWorkTimeByTeam(session, paramMap);
+	}
+
+	@Override
+	public Member selectMemberById(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberById(session,memberId);
 	}
 
 

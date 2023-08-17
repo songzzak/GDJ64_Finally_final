@@ -71,22 +71,36 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         String chatId="";
         ChatMsg chat =mapper.readValue(message.getPayload(),ChatMsg.class);
 		if(chat!=null) {
-			//if(chat.getChatId()=="" || chat.getChatId()==null) {
-			session.getAttributes().put("chat", chat);
-			int result = chatroomService.insertChat(chat);
-			log.info("websocket에서 확인하기 : " + chat.getChatId());
-			chatId = chat.getChatId();
-			if(result>0) {
-				sendChat(chat, chatId);
-			}else {
-				//에러 발생
+			log.info("전달한 chat : " + chat);
+			if(!chat.getChatroomId().equals("file") && chat.getChatroomId()!=null) {
+				session.getAttributes().put("chat", chat);
+				int result = chatroomService.insertChat(chat);
+				chatId = chat.getChatId();
+				if(result>0) {
+					sendChat(chat, chatId);
+				}else {
+					//에러 발생
+				}
+			}else if(chat.getChatroomId().equals("file")) {
+				// file이면 
+				ChatMsg chatFile = ChatMsg.builder()
+									.chatroomId(chatroomId)
+									.memberId(chat.getMemberId())
+									.chatContent(chat.getChatContent())
+									.chatDate(chat.getChatDate())
+									.build();
+				session.getAttributes().put("chat", chatFile);
+				int result = chatroomService.insertChat(chatFile);
+				log.info("websocket에서 확인하기 : " + chatFile.getChatId());
+				chatId = chatFile.getChatId();
+				log.info("chat 입력한 후 chatId반환 : " + chatId);
+				if(result>0) {
+					sendChat(chatFile, chatId);
+				}else {
+					//에러 발생
+				}
+				
 			}
-			//}else if(chat.getChatId().equals("file")) {
-				
-//				sendChat(chat, chatId);
-//			}
-				
-			
 		}else {
 			// chat ist null
 		}

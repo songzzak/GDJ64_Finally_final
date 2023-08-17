@@ -1,5 +1,6 @@
 package com.workit.approve.model.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -45,4 +46,9 @@ public interface ApproveService {
 	public int changeStateSave(Map<String,Object> param);
 	public List<Approve> selectDraftDocumentBox(Map<String,Object> param);
 	public List<Approve> selectReferenceDocumentBox(Map<String,Object> param);
+	public int selectDraftDocumentsCount(Map<String,Object> param);
+	public int allCompleteAppLine(Map<String,Object> param);
+	public int timeDifference(Map<String,Object> param);
+	public String selectStartTime(Map<String,Object> param);
+	public int insertAnnualLeave(Map<String,Object> param);
 }

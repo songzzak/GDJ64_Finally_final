@@ -3,6 +3,7 @@ package com.workit.work.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.workit.member.model.dto.Member;
 import com.workit.work.model.dto.Work;
 import com.workit.work.model.dto.WorkChange;
 
@@ -46,6 +47,8 @@ public interface WorkService {
 
 	//부서별 근무 정보
 	List<Work> getMonthWorkTimeByTeam(Map<String, Object> paramMap);
+
+	Member selectMemberById(String memberId);
 
 
 

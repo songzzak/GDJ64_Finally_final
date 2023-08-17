@@ -1,5 +1,6 @@
 package com.workit.approve.model.dao;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,4 +47,9 @@ public interface ApproveDao {
 	public int rejectMessage(SqlSession session,Map<String,Object> param);
 	public int changeStateSave(SqlSession session,Map<String,Object> param);
 	public List<Approve> selectReferenceDocumentBox(SqlSession session,Map<String,Object> param);
+	public int selectDraftDocumentsCount(SqlSession session,Map<String,Object> param);
+	public int allCompleteAppLine(SqlSession session,Map<String,Object> param);
+	public int timeDifference(SqlSession session,Map<String,Object> param);
+	public String selectStartTime(SqlSession session,Map<String,Object> param);
+	public int insertAnnualLeave(SqlSession session,Map<String,Object> param);
 }

@@ -14,20 +14,20 @@
 		<div id="waitingDocumentDiv">
 		<table class="table">
             <tr id="th">
-                <th colspan="5">번호</th>
-                <th colspan="5">결재양식</th>
-                <th colspan="5">제목</th>
-                <th colspan="5">작성자</th>
-                <th colspan="5">작성일</th>
+                <th>번호</th>
+                <th>결재양식</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
             </tr>
             <c:if test="${not empty waitingApps}">
             	<c:forEach var="waitingApp" items="${waitingApps}">
 	            		<tr id="tr" onclick="location.href='${path}/approve/detailApprove.do?approveNo=${waitingApp.approveNo}&approveKind=${waitingApp.approveKind }&approveState=${waitingApp.approveState}&name=결재대기문서';">
-		            			<td colspan="5">${waitingApp.approveNo }</td>
-		            			<td colspan="5">${waitingApp.approveKind }</td>
-		            			<td colspan="5">${waitingApp.approveTitle }</td>
-		            			<td colspan="5">${waitingApp.memberId.memberName}</td>
-		            			<td colspan="5">${waitingApp.currentDate }</td>
+		            			<td>${waitingApp.approveNo }</td>
+		            			<td>${waitingApp.approveKind }</td>
+		            			<td>${waitingApp.approveTitle}</td>
+		            			<td>${waitingApp.memberId.memberName}</td>
+		            			<td>${waitingApp.currentDate }</td>
 	            		</tr>	
             	</c:forEach>
             </c:if>
@@ -63,12 +63,11 @@
 	}
 
 	#th>th{
-		font-size:20px;
-		padding-left:140px;
+		font-size:20px;	
 		padding-top:50px;
-		padding-right:100px;
 		padding-bottom:20px;
 		border-bottom: 1px solid #ddd;
+		width:400px;
 	}
 		
 	#tr:hover{
@@ -77,12 +76,14 @@
 		
 	#tr>td{
 		font-size:15px;
-		padding-left: 140px;
-		padding-right:100px;
 		padding-top:15px;
 		padding-bottom:15px;
 		border-bottom: 1px solid #ddd;
 		text-align: center;
+		width:400px;
+			white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
 	}
 	
 	#saveColor{

@@ -115,7 +115,6 @@ h5 {
 .chat-msg {
 	padding: 1rem 0;
 	display: block;
-	margin-top: 1rem;
 	max-width: 100%;
 }
 .chat-room-inner {
@@ -273,20 +272,6 @@ h5 {
 .chatHidden {
 	display: none;
 }
-/*.chat-DeptContainer {
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.chat-DeptContainer label{
-	align-items: center;
-}
-.chat-DeptContainer input[type=checkbox]{
-	width: 1rem;
-	display: inline;
-}*/
 
 .scroll::-webkit-scrollbar {
   display: none;
@@ -355,6 +340,9 @@ span.chat-member {
 	overflow-y: scroll;
 }
 
+.modal-view-chatMemberProfile .modal-content {
+	height : auto;
+}
 
 .block {
 	display: block;
@@ -368,12 +356,53 @@ span.chat-member {
 	height: 20px;
 	font-weight: bold;
 }
-
+.modal-chat-member{
+	display: flex;
+	margin : 2rem 0;
+}
+.modal-chat-member img{
+	width:30%;
+}
 table.modal-table {
 	width: 100%;
-	display: block;
+	padding: 0;
+	margin-left : 5%;
 }
-table.modal-table td{
+table.modal-table * {
 	width: 100%;
-	text-align: right;
 }
+table.modal-table>tr>th {
+	width: 40%;
+	text-align: left;
+}
+table.modal-table>tr:first-child>th {
+	font-size: 1.3rem;
+}
+
+.chatroom-file-container {
+	padding: 0.6rem;
+	margin: 0;
+}
+.chatroom-file {
+	display: 100%;
+	margin : 1rem 0;
+}
+.chatroomfileId {
+	font-weight: bolder;
+}
+.chatroom-file span{
+	font-size: 0.8rem;
+	margin-left: 0;
+}
+
+.attachChatIcon:hover, .addPersonIcon:hover, .searchChatroomIcon:hover, .addChatIcon:hover, .searchIcon:hover{
+	background-color: var(--msg-color-blue);
+	border-radius: 20%;
+}
+
+
+
+
+
+
+

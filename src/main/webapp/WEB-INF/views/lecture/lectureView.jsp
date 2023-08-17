@@ -58,6 +58,9 @@
 		        <div class="row">
 		            <!-- 왼쪽 부분 -->
 		            <div class="column margin10px half" style="flex: 1; border-right: 1px dashed var(--border-color);">
+		            	<div>
+			                <button id="listBtn" class=" btnSimple">목록</button>
+		            	</div>
 			            <div class="row" style="justify-content: space-between;">
 			            	<div class="input-group">
 			                	<label>강의명</label>
@@ -111,6 +114,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+    	$('#listBtn').on('click', function() {
+            location.href = "${path}/lecture/lectureList";
+        });
+    	
         // 상태 변경 이벤트
         $("#statusUpdateBtn").click(function() {
             var selectedStatus = $("select[name='registrationStatus']").val();

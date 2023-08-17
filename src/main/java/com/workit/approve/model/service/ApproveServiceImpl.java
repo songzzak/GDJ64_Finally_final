@@ -1,5 +1,6 @@
 package com.workit.approve.model.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -184,8 +185,31 @@ public class ApproveServiceImpl implements ApproveService {
 	public List<Approve> selectReferenceDocumentBox(Map<String, Object> param) {
 		return dao.selectReferenceDocumentBox(session,param);
 	}
-	
-	
+
+	@Override
+	public int selectDraftDocumentsCount(Map<String,Object> param) {
+		return dao.selectDraftDocumentsCount(session,param);
+	}
+
+	@Override
+	public int allCompleteAppLine(Map<String, Object> param) {
+		return dao.allCompleteAppLine(session,param);
+	}
+
+	@Override
+	public int timeDifference(Map<String, Object> param) {
+		return dao.timeDifference(session,param);
+	}
+
+	@Override
+	public String selectStartTime(Map<String, Object> param) {
+		return dao.selectStartTime(session,param);
+	}
+
+	@Override
+	public int insertAnnualLeave(Map<String, Object> param) {
+		return dao.insertAnnualLeave(session,param);
+	}
 	
 	
 }

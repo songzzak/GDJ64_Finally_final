@@ -16,6 +16,7 @@ $(".searchChatroomIcon").click(e => {
 	$(".modal-searchRoomContainer").toggle("chatHidden");
 	$(".modal-result-container").toggle("chatHidden");
 	$(".modal-searchRoomInput").val("");
+	$(".chatroom-file-container").css('display', 'none');
 })
 // 채팅 목록에서 검색 닫기
 $(".search-close").click(e => {

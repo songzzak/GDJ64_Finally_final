@@ -122,6 +122,18 @@
 			$("#fileClickId").text("${fileName}"); 
 		}
 		
+		/* 오늘 날짜 기준으로 이전에는 선택못하도록 구현 */
+		var today = new Date();
+		today.setHours(today.getHours()+9);
+		today = today.toISOString().split('T')[0];
+		$("#extendWorkDate-input").attr('min',today);
+		
+		$("#extendWorkDate-input").change(function(){
+			var startDate = $("#extendWorkDate-input").val();
+			$("#extendWorkDate-input").attr("min",startDate);
+		});
+		
+		
 		$("#extendWorkTime1-input").change(function(){
 			if(document.getElementById("extendWorkTime2-input").value != ""){
 				if($("#extendWorkTime1-input").val() >= $("#extendWorkTime2-input").val()){
@@ -138,9 +150,6 @@
 				}				
 		});
 		
-/* 		approvLines.forEach(e=>{
-			
-		}); */
 		
 		for(let i=0; i<approveLines.length; i++){
 			const span = $("<span>");
@@ -210,8 +219,6 @@
 	
 	const signs=()=>{
 
-
-			
 		if($(".appClass").length < 1){
 			alert("결재선에 최소 한명이상 선택하세요");
 			return false;

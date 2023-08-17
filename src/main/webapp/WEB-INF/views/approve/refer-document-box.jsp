@@ -14,33 +14,33 @@
 		<div id="draftDocumentDiv">
 			<table class="table">
             <tr id="th">
-                <th colspan="6">번호</th>
-                <th colspan="6">결재양식</th>
-                <th colspan="6">제목</th>
-                <th colspan="6">작성자</th>
-                <th colspan="6">작성일</th>
-                <th colspan="6">상태</th>
+                <th>번호</th>
+                <th>결재양식</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>상태</th>
             </tr>
             <c:if test="${not empty referDocuments}">
             	<c:forEach var="referDocument" items="${referDocuments}">
 	            		<tr id="tr" onclick="location.href='${path}/approve/detailApprove.do?approveNo=${referDocument.approveNo}&approveKind=${referDocument.approveKind}&approveState=${referDocument.approveState}&name=참조문서함';">
-		            			<td colspan="6">${referDocument.approveNo }</td>
-		            			<td colspan="6">${referDocument.approveKind }</td>
-		            			<td colspan="6">${referDocument.approveTitle }</td>
-		            			<td colspan="6">${referDocument.memberId.memberName}</td>
-		            			<td colspan="6">${referDocument.currentDate }</td>
+		            			<td>${referDocument.approveNo }</td>
+		            			<td>${referDocument.approveKind }</td>
+		            			<td>${referDocument.approveTitle }</td>
+		            			<td>${referDocument.memberId.memberName}</td>
+		            			<td>${referDocument.currentDate }</td>
 		            			
 		            			<c:if test="${referDocument.approveState eq '완료'}">
-		            				<td colspan="6"><p id="cColor">${referDocument.approveState}</p></td>
+		            				<td><p id="cColor">${referDocument.approveState}</p></td>
 		            			</c:if>
 		            			<c:if test="${referDocument.approveState eq '반려'}">
-		            				<td colspan="6"><p id="rColor">${referDocument.approveState}</p></td>
+		            				<td><p id="rColor">${referDocument.approveState}</p></td>
 		            			</c:if>
 		            			<c:if test="${referDocument.approveState eq '결재처리중'}">
-		            				<td colspan="6"><p id="pColor">${referDocument.approveState}</p></td>
+		            				<td><p id="pColor">${referDocument.approveState}</p></td>
 		            			</c:if>
 		            			<c:if test="${referDocument.approveState eq '결재대기'}">
-		            				<td colspan="6"><p id="wColor">${referDocument.approveState}</p></td>
+		            				<td><p id="wColor">${referDocument.approveState}</p></td>
 		            			</c:if>
 	            		</tr>
 	            		
@@ -78,28 +78,29 @@
 	}
 	
 	#th>th{
-		font-size:20px;
-		padding-left:70px;
+		font-size:20px;	
 		padding-top:50px;
-		padding-right:100px;
 		padding-bottom:20px;
 		border-bottom: 1px solid #ddd;
+		width:400px;
 	}
-	
+		
 	#tr:hover{
 		background-color:  #BDDFFF;
-	}
+	}	
 		
 	#tr>td{
 		font-size:15px;
-		padding-left:70px;
-		padding-right:100px;
 		padding-top:15px;
 		padding-bottom:15px;
 		border-bottom: 1px solid #ddd;
 		text-align: center;
+		width:400px;
+			white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
 	}
-	
+		
 	#cColor,#rColor,#pColor,#wColor{
 		font-size: 15px;
 	background-color: white;

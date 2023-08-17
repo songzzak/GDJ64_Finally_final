@@ -36,8 +36,8 @@
 				<!-- <div class="chat-room chat-select"> -->
 				<div class="chat-room chat-select" data-Id="${r.chatroom.chatroomId}" data-no="${r.myChatroomNo}">
 					<h5 class="chatroom-title chat-select">${r.chatroom.chatroomTitle }</h5>
-					<img src="${path}/resources/images/common/more.svg" alt="chat-delete" class="deleteChatRoom">
-					<h5>${r.myChatroomNo}</h5>
+					<img src="${path}/resources/images/common/delete.svg" alt="chat-delete" class="deleteChatRoom">
+					<%-- <h5>${r.myChatroomNo}</h5> --%>
 					<c:if test="${not empty unreadMap }">
 						<c:forEach var="unread" items="${unreadMap}">
 							 <c:if test="${r.myChatroomNo == unread.myChatroomNo && unread.readCount!=0}">
@@ -60,27 +60,29 @@
 	</div>
 </div>
 <div class="modal-view-chatMemberProfile">
-	<div class="modal-content section-shadow">
-		<h4>채팅 중인 회원 정보 보기</h4>
-		<button class="modal-close">닫기</button>
+	<div class="modal-content section-shadow scroll">
+		<h2>채팅 중인 회원 정보 보기</h2>
 	</div>
 </div>
 <div class="searchResultContainer"></div>
 <script>
 	//페이지 로드 후 제일 아래로 스크롤 자동 이동
 	window.onload = function() {
-	    //var contentContainer = document.querySelector('.chat-room-inner'); // 컨텐츠가 들어가는 컨테이너 요소
-	    //contentContainer.scrollTop = contentContainer.scrollHeight;
+	    var contentContainer = document.querySelector('.chat-room-inner'); // 컨텐츠가 들어가는 컨테이너 요소
+	    contentContainer.scrollTop = contentContainer.scrollHeight;
 	    fn_updateChatNotify();
+	    //fn_openChatroom();
 	};
 	
 	let chatroomId= '${chatroomId}';
 	let loginMember = '${loginMember.memberId}';
+	let loginMemberName = '${loginMember.memberName}';
 	console.log(loginMember);
 	let chatroomContainer = $(".chat-room-list");
 	let chatroomTitle;
 	let myChatroomNo;
 	var readCount;
+	
 	$(".chat-room").click(function() {
 		var clickedDiv = $(this);
 		
@@ -135,8 +137,8 @@
 		
 		let chatroomMember = data.chatroomMember;
 		
-		chatroomFiles = data.chatroomFile;
-		console.log("chatroomFiles : ", chatroomFiles);
+		//chatroomFiles = data.chatroomFile;
+		//console.log("chatroomFiles : ", chatroomFiles);
 		chatroomMembers= [];
 		chatroomMember.forEach(cm =>{
 			chatroomMembers.push(cm.member.memberId);
@@ -150,16 +152,18 @@
 				console.log("csdjglksjglsjd" + cf.chatroomTitle);
 				$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
 				$(".chat-header .title-container .title").text(cf.chatroomTitle);
+				console.log("cf. chatroomCode " + cf.chatroomCode);
+				if(cf.chatroomCode == 'P'){
+					$(".addPersonIcon").addClass("chatHidden");
+				}else{
+					$(".addPersonIcon").css("display","flex");
+				}
 			})
 			
 		}
 		divPrevChat = $("<div>").attr("class","prev-chat");
 		currentChatroom.forEach(e => {
 			if(chatroomId!=null && chatroomId==e.chatroomId){
-				$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
-				if(e.chatroomCode == 'P') {
-					$(".addPersonIcon").attr("class","chatHidden");
-				}
 				$(".chat-input-container").css("display","flex");
 				$(".chat-room-nothing").attr("class","chatHidden");
 				var chat = (e.chat);
@@ -169,7 +173,6 @@
 					const chatDate = cDate.toLocaleString('ko-KO');
 					console.log("c.member.memberId : " + c.member.memberId + " loginMember : "+loginMember);
 					if (c.member.memberId == loginMember) {
-						
 						var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
 						chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
 						chatMsg.append($("<span>").attr("class", "chat-date block").text(chatDate));
@@ -179,7 +182,7 @@
 						var chatMsg = $("<div>").attr("class", "chat-msg");
 						chatMsg.append($("<div class='chatMember'>").append($("<h5>").text(c.member.memberName)).append($("<input>").attr("type", "hidden").attr("value", c.member.memberId).addClass("chatMemberId")));
 						chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
-						chatMsg.append($("<span>").attr("class", "chat-date").text(chatDate));
+						chatMsg.append($("<span>").attr("class", "chat-date block").text(chatDate));
 						chatMsg.append($("<input type='hidden'>").attr("value",c.chatId).attr("class","chat-msg-Id"));
 					}
 					chatMsg.append($("<input>").attr("type", "hidden").attr("value", e.chatroomId).attr("class","roomId"));
