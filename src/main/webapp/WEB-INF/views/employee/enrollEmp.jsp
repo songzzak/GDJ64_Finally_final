@@ -12,15 +12,15 @@
          <form action="${path }/employee/enroll" method="post" id="enroll-form">
          	<div>
          		<span>이름</span>
-         		<input type="text" name="memberName">
+         		<input type="text" name="memberName" id="member-id">
          	</div>
          	<div>
          		<span>주민번호</span>
-         		<input type="text" name="memberNo">
+         		<input type="text" name="memberNo" id="member-no">
          	</div>
          	<div>
          		<span>전화번호</span>
-         		<input type="text" name="phone">
+         		<input type="text" name="phone" id="phone-no">
          		<p>* 전화번호 입력 시 하이픈(-) 제외하고 입력하세요.</p>
          	</div>
          	<div>
@@ -34,7 +34,7 @@
          	</div>
          	<div>
          		<span>부서</span>
-	         	<select name="deptCode">
+	         	<select name="deptCode" id="dept">
 	         		<option selected disabled>필수 선택</option>
 	         		<c:if test="${depts!=null }">
 		         		<c:forEach var="d" items="${depts }">
@@ -45,7 +45,7 @@
          	</div>
          	<div>
          		<span>직책</span>
-	         	<select name="jobCode">
+	         	<select name="jobCode" id="job">
 	         		<option selected disabled>필수 선택</option>
 	         		<c:if test="${jobs!=null }">
 		         		<c:forEach var="j" items="${jobs }">
@@ -56,11 +56,11 @@
          	</div>
          	<div>
          		<span>급여</span>
-         		<input type="number" name="salary">
+         		<input type="number" name="salary" id="pay">
          	</div>
          	<div>
          		<span>입사일</span>
-         		<input type="date" name="enrollDate">
+         		<input type="date" name="enrollDate" id="hire-date">
          	</div>
          </form>
          <p>* 사원 초기 비밀번호는 1234로 생성됩니다.</p>
