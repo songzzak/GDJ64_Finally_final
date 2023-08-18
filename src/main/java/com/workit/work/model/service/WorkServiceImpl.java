@@ -3,12 +3,14 @@ package com.workit.work.model.service;
 import java.util.List;
 import java.util.Map;
 
+import org.checkerframework.checker.units.qual.m;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.workit.member.model.dto.Member;
 import com.workit.work.model.dao.WorkDao;
+import com.workit.work.model.dto.AnnualLeaveCount;
 import com.workit.work.model.dto.Work;
 import com.workit.work.model.dto.WorkChange;
 
@@ -108,6 +110,11 @@ public class WorkServiceImpl implements WorkService {
 	public Member selectMemberById(String memberId) {
 		// TODO Auto-generated method stub
 		return dao.selectMemberById(session,memberId);
+	}
+
+	@Override
+	public AnnualLeaveCount usedLeaveCount(String memberId) {
+		return dao.usedLeaveCount(session, memberId);
 	}
 
 

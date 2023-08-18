@@ -100,7 +100,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
 			<c:if test="${not empty workList }">
 				<c:forEach var="workItem" items="${workList }">
 					 <tr class="work-time-row">
-		                <td> <fmt:formatDate value="${workItem.workDate}" pattern="d E" /></td>
+		                <td class="dateCell"> <fmt:formatDate value="${workItem.workDate}" pattern="d E" /></td>
 		                <td>${workItem.member.memberName}</td>
 		                <td>${workItem.member.job.jobName}</td>
 		                <td>${workItem.workStatus}</td>
@@ -122,7 +122,17 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	
+	$('.dateCell').each(function() {
+        let text = $(this).text();
+        text = text.replace("Mon", "월");
+        text = text.replace("Tue", "화");
+        text = text.replace("Wed", "수");
+        text = text.replace("Thu", "목");
+        text = text.replace("Fri", "금");
+        text = text.replace("Sat", "토");
+        text = text.replace("Sun", "일");
+        $(this).text(text);
+    });
     // 현재의 년도와 월
     var currentYear = new Date().getFullYear();
     var currentMonth = new Date().getMonth() + 1;

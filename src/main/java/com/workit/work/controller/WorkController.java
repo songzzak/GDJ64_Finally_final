@@ -33,6 +33,7 @@ import com.workit.common.Pagenation;
 import com.workit.member.model.dto.Member;
 import com.workit.member.model.vo.MemberVO;
 import com.workit.member.service.MemberService;
+import com.workit.work.model.dto.AnnualLeaveCount;
 import com.workit.work.model.dto.Work;
 import com.workit.work.model.dto.WorkChange;
 import com.workit.work.model.service.WorkService;
@@ -60,14 +61,15 @@ public class WorkController {
 		String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
 		 // 오늘의 날짜 정보를 가져옴
 	    LocalDate today = LocalDate.now();//2023-08-07
-
+	    //System.out.println("오늘 날짜"+today.toString());
+	    
 	    Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("memberId", memberId);
-        paramMap.put("workDate", today);
+        paramMap.put("workDate", today.toString());
 	    // 오늘의 근태 정보 조회
 	    Work todayWork = service.selectWorkByDateAndMemberId(paramMap);
 	    //System.out.println(paramMap);
-	    //System.out.println(todayWork);
+	    System.out.println(todayWork);
 	    model.addAttribute("todayWork", todayWork); // 오늘의 근태 정보를 모델에 추가
 		
 		 if (currentYear == null || currentMonth == null) {
@@ -82,11 +84,13 @@ public class WorkController {
 	            List<Work> workList = service.getMonthWorkTime(paramMap);
 	            int lateCount = service.lateCount(paramMap);
 	            int earlyLeaveCount = service.earlyLeaveCount(paramMap);
+	            AnnualLeaveCount usedLeaveCount = service.usedLeaveCount(memberId);
 	            //System.out.println(workList);
 	            // 뷰에 데이터 전달
 	            model.addAttribute("workList", workList);
 	            model.addAttribute("lateCount",lateCount);
 	            model.addAttribute("earlyLeaveCount", earlyLeaveCount);
+	            model.addAttribute("usedLeaveCount", usedLeaveCount);
 	            return "/work/workBoard";
 	        }else {
 	            paramMap.put("currentYear", currentYear);
@@ -94,11 +98,13 @@ public class WorkController {
 	            List<Work> workList = service.getMonthWorkTime(paramMap);
 	            int lateCount = service.lateCount(paramMap);
 	            int earlyLeaveCount = service.earlyLeaveCount(paramMap);
+	            AnnualLeaveCount usedLeaveCount = service.usedLeaveCount(memberId);
 
 	            Map<String, Object> data = new HashMap<>();
 	            data.put("workList", workList);
 	            data.put("lateCount", lateCount);
 	            data.put("earlyLeaveCount", earlyLeaveCount);
+	            data.put("usedLeaveCount", usedLeaveCount);
 
 	            //Gson gson = new Gson();
 	            // String json = gson.toJson(data);
@@ -124,7 +130,7 @@ public class WorkController {
 
 	    Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("memberId", memberId);
-        paramMap.put("workDate", today);
+        paramMap.put("workDate", today.toString());
 	    // 오늘의 근태 정보 조회
 	    Work todayWork = service.selectWorkByDateAndMemberId(paramMap);
 	    //System.out.println(paramMap);
@@ -218,7 +224,7 @@ public class WorkController {
 	          LocalDate today = LocalDate.now();//2023-08-07
 	          Map<String, Object> paramMap = new HashMap<>();
 	          paramMap.put("memberId", memberId);
-	          paramMap.put("workDate", today);
+	          paramMap.put("workDate", today.toString());
 	          Work todayWork = service.selectWorkByDateAndMemberId(paramMap);
 	          System.out.println(todayWork);
 

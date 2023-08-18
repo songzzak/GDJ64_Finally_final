@@ -335,7 +335,7 @@ function addCommentOrReply(boardNo, parentCommentNo) {
     }
 
     $.post(
-        "/board/boardCommentAdd",
+        "${path}/board/boardCommentAdd",
         {
         	boardNo: boardNo,
             commentContent: commentContent,
