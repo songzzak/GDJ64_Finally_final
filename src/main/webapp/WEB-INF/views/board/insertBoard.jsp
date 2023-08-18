@@ -73,6 +73,7 @@
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+var selectedFiles = [];
 $(document).ready(function() {
     // 파일명 표시 및 제거 버튼 추가
     $(".file-upload input[type='file']").change(function() {
@@ -83,9 +84,15 @@ $(document).ready(function() {
             var fileName = file.name;
             var fileItem = $('<span class="file-item">' + fileName + ' <span class="remove-file">x</span></span>');          
             fileItem.find(".remove-file").click(function() {
+                var index = selectedFiles.indexOf(file);  // 해당 파일의 인덱스 찾기
+                if (index > -1) {
+                    selectedFiles.splice(index, 1);  // 배열에서 해당 파일 제거
+                }
                 $(this).parent().remove();
             });
             fileList.append(fileItem);
+         	//selectedFiles 배열에 선택한 파일 추가
+            selectedFiles.push(file);
         });
     });
 
@@ -98,7 +105,7 @@ function insertContent() {
     formData.append("content", $("#editorTxt").val());
     formData.append("title", $("#boardTitle").val());
 
-    $.each($("#file")[0].files, function(i, file) {
+    $.each(selectedFiles, function(i, file) {
         formData.append("file", file);
     });
 
@@ -110,16 +117,16 @@ function insertContent() {
         processData: false,
         success: function(response) {
             if(response.status === "success") {
-                alert("공지사항이 성공적으로 등록되었습니다.");
+                alert("게시글이 성공적으로 등록되었습니다.");
                 location.href = "${path}/board/boardList";
             } else {
-                alert("공지사항 등록에 실패하였습니다.");
+                alert("게시글 등록에 실패하였습니다.");
             }
         }
     });
 }
 	function cancle(){
-		if(confirm('공지사항 작성을 취소하시겠습니까?')){
+		if(confirm('게시글 작성을 취소하시겠습니까?')){
 			location.href = "${path}/board/boardList";
 		}
 	}

@@ -47,6 +47,8 @@ public class LectureController {
 		List<Lecture> lectureList = service.selectLectureAll(params);
 	
 		 int totalData=service.selectLectureCount(params);
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("searchKeyword", searchKeyword);
 		model.addAttribute("lectureList", lectureList);
 		model.addAttribute("pageBar",Pagenation.getPage(cPage,5,totalData,"/lecture/lectureList"));
 		

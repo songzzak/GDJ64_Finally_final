@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +58,7 @@ public class ApproveController {
 	@Autowired
 	private ObjectMapper mapper;
 
+	
 	@RequestMapping("/extendsView.do") // 연장근무신청서 페이지로 이동
 	public String extendsView(Model m) {
 		LocalDate now = LocalDate.now();

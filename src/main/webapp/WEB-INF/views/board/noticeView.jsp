@@ -4,7 +4,6 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-<!-- 기존 스타일 유지 -->
 <style>
    /* 기본 스타일링 */
   .row { display: flex; flex-direction: row; }
@@ -94,6 +93,8 @@
             </div>
             <div class="btnContainer">
 	            <div class="prevAndNext">
+	            <c:set var="prevNo" value="${empty prevNotice.noticeNo ? 0 : prevNotice.noticeNo}"/>
+				<c:set var="nextNo" value="${empty nextNotice.noticeNo ? 0 : nextNotice.noticeNo}"/>
 	            	<div class="margin10px">
 	                	<c:if test="${empty prevNotice}">
 	                		<span>이전글이 없습니다.</span>
@@ -132,61 +133,87 @@
 		        <textarea id="commentInput" placeholder="댓글을 작성하세요..." rows="3" cols="80"></textarea>
 		        <button id="submitCommentBtn">등록</button>
 		    </div>
-			    <!-- 댓글 리스트 출력 -->
-			    <div id="commentList">
-			    <c:if test="${empty commentList }">
-			    	<p style="text-align: center;">작성된 댓글이 없습니다. 첫번째 댓글을 작성해주세요!</p>
-			    </c:if>
-			    <c:if test="${not empty commentList }">
-			    	<c:forEach items="${commentList }" var="comment">
-			    		 <c:if test="${comment.refCommentNo==0}">
-					        <div class="commentItem" id="comment${comment.commentNo}">
-						        <div class="flexSpace">
-						        	<div>
-							            <span class="commentWriter">${comment.member.memberName }</span>
-							            <span class="commentDate">${comment.commentDate }</span>
-							            <div class="commentContent">
-							                ${comment.commentContent }
-							            </div>
-						        	</div>
-						        	<div>
-							            <button class="replyBtn btnSimple">답글</button>
-							            <c:if test="${ comment.member.memberId eq loginMember.memberId}">
-							            	<button class="replyUpdateBtn btnSimple">수정</button>
-							            	<button class="replyDeleteBtn btnSimple">삭제</button>
-							            </c:if>
-						        	</div>
-						        </div>
-					            <!-- 대댓글 작성 영역 -->
-					            <div class="replySection" style="margin-left: 20px; display: none;">
-					                    <textarea id="replyInput${comment.commentNo}" placeholder="답글을 작성하세요..." rows="2" cols="70"></textarea>
-					                    <button class="submitReplyBtn">등록</button>
-					            </div>
-								  <!-- 대댓글 영역 시작 -->
-					             <c:forEach items="${commentList}" var="reply">
-					             	<c:if test="${reply.refCommentNo eq comment.commentNo}">
-								            <div class="replyList" style="margin-left: 20px;">
-								                <div class="recommentItem" id="reply${reply.commentNo}">
-								                    <span class="recommentWriter">${reply.member.memberName }</span>
-								                    <span class="recommentDate">${reply.commentDate }</span>
-								                    <div class="recommentContent">
-								                        ${reply.commentContent }
-								                    </div>
-								                    <div>
-								                    	<c:if test="${ reply.member.memberId eq loginMember.memberId}">
-									            			<button class="replyUpdateBtn2 btnSimple">수정</button>
-										           			<button class="replyDeleteBtn2 btnSimple">삭제</button>
-										           		</c:if>
-								        			</div>
-								                </div>
-								            </div>
-							            </c:if>
-							    	</c:forEach>
-					        </div>
+			     <!-- 댓글 리스트 출력 -->
+				<div id="commentList">
+				    <c:set var="nonDeletedCommentsExist" value="false"/>
+				    <c:forEach items="${commentList}" var="comment">
+				         <!-- 삭제되지 않은 댓글이 있는지 확인 -->
+				        <c:if test="${comment.status ne 'DELETED'}">
+				            <c:set var="nonDeletedCommentsExist" value="true"/>
 				        </c:if>
-			    	</c:forEach>
-			    </c:if>
-		        </div>
+				    </c:forEach>
+				    <c:if test="${empty commentList or not nonDeletedCommentsExist}">
+				        <p style="text-align: center;">작성된 댓글이 없습니다. 첫번째 댓글을 작성해주세요!</p>
+				    </c:if>
+				    <c:if test="${not empty commentList and nonDeletedCommentsExist}">
+				        <c:forEach items="${commentList}" var="comment">
+				            <c:if test="${comment.refCommentNo==0}">
+				                <c:set var="hasReplies" value="false"/>
+				                 <!-- 해당 댓글에 대댓글이 있는지 확인 -->
+				                <c:forEach items="${commentList}" var="reply">
+				                    <c:if test="${reply.refCommentNo eq comment.commentNo and reply.status ne 'DELETED'}">
+				                        <c:set var="hasReplies" value="true"/>
+				                    </c:if>
+				                </c:forEach>
+				                <!-- 댓글이 삭제되지 않았거나 대댓글이 있다면 출력 -->
+				                <c:if test="${comment.status ne 'DELETED' or hasReplies}">
+				                    <div class="commentItem" id="comment${comment.commentNo}">
+				                        <div class="flexSpace">
+				                            <div>
+				                             <!-- 댓글이 삭제되지 않은 경우 정보와 내용 출력 -->
+				                                <c:if test="${comment.status ne 'DELETED'}">
+				                                    <span class="commentWriter">${comment.member.memberName }</span>
+				                                    <span class="commentDate">${comment.commentDate }</span>
+				                                    <div class="commentContent">${comment.commentContent }</div>
+				                                </c:if>
+				                                <c:if test="${comment.status eq 'DELETED'}">
+				                                    <div class="commentContent">삭제된 댓글입니다.</div>
+				                                </c:if>
+				                            </div>
+				                            <div>
+				                           		 <!-- 댓글이 삭제되지 않은 경우 버튼 출력 -->
+				                                <c:if test="${comment.status ne 'DELETED'}">
+				                                    <button class="replyBtn btnSimple">답글</button>
+				                                    <c:if test="${ comment.member.memberId eq loginMember.memberId}">
+				                                        <button class="replyUpdateBtn btnSimple">수정</button>
+				                                        <button class="replyDeleteBtn btnSimple">삭제</button>
+				                                    </c:if>
+				                                </c:if>
+				                            </div>
+				                        </div>
+				                        <!-- 대댓글 작성 영역 -->
+				                        <c:if test="${comment.status ne 'DELETED'}">
+				                            <div class="replySection" style="margin-left: 20px; display: none;">
+				                                <textarea id="replyInput${comment.commentNo}" placeholder="답글을 작성하세요..." rows="2" cols="70"></textarea>
+				                                <button class="submitReplyBtn">등록</button>
+				                            </div>
+				                        </c:if>
+				                        <!-- 대댓글 영역 시작 -->
+				                        <c:forEach items="${commentList}" var="reply">
+				                        	<!-- 해당 댓글에 대한 대댓글이고 삭제되지 않았을 경우 출력 -->
+				                            <c:if test="${reply.refCommentNo eq comment.commentNo and reply.status ne 'DELETED'}">
+				                                <div class="replyList" style="margin-left: 20px;">
+				                                    <div class="recommentItem" id="reply${reply.commentNo}">
+				                                        <span class="recommentWriter">${reply.member.memberName }</span>
+				                                        <span class="recommentDate">${reply.commentDate }</span>
+				                                        <div class="recommentContent">${reply.commentContent }</div>
+				                                        <div>
+				                                            <c:if test="${ reply.member.memberId eq loginMember.memberId}">
+				                                                <button class="replyUpdateBtn2 btnSimple">수정</button>
+				                                                <button class="replyDeleteBtn2 btnSimple">삭제</button>
+				                                            </c:if>
+				                                        </div>
+				                                    </div>
+				                                </div>
+				                            </c:if>
+				                        </c:forEach>
+				                    </div>
+				                </c:if>
+				            </c:if>
+				        </c:forEach>
+				    </c:if>
+				</div>
+				<!-- 댓글영역끝 -->
 		    </div>
 		</div>
 </section>
@@ -204,13 +231,14 @@ $(document).ready(function() {
 
     // 이전글 버튼 클릭 이벤트
     $('#prevBtn').on('click', function() {
-            location.href = "${path}/board/noticeView?no=" + ${prevNotice.noticeNo };
+        location.href = "${path}/board/noticeView?no=" + ${prevNo};
     });
 
     // 다음글 버튼 클릭 이벤트
     $('#nextBtn').on('click', function() {
-            location.href = "${path}/board/noticeView?no=" + ${nextNotice.noticeNo };
+        location.href = "${path}/board/noticeView?no=" + ${nextNo};
     });
+
     
  // 댓글 등록 버튼 클릭 이벤트
     $('#submitCommentBtn').on('click', function() {

@@ -27,8 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.chat.model.dto.ChatMsg;
+import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.service.ChatService;
 import com.workit.chatroom.model.dto.AttachedFile;
+import com.workit.chatroom.model.dto.ChatNotificationVO;
 import com.workit.chatroom.service.ChatroomService;
 import com.workit.member.model.vo.MemberVO;
 
@@ -46,11 +48,8 @@ public class ChatroomController {
 		this.chatroomService = chatroomService;
 		this.chatService = chatService;
 	}
-//	private String chatId;
-//	private String chatroomId;
-//	private Member member;
-//	private String chatContent;
-//	private Date chatDate;
+	
+	// 파일 업로드
 	@PostMapping("/upload")
     public ResponseEntity<String>  uploadFile(@RequestParam("files") List<MultipartFile> files, @RequestParam(value="chatroomId") String chatroomId, HttpSession session) throws IOException {
 		log.info("{}", chatroomId);
@@ -59,6 +58,7 @@ public class ChatroomController {
 		String memberId = loginMember.getMemberId();
 		List<AttachedFile> list = new ArrayList<AttachedFile>();
 		if(files!=null && files.size()>0) {
+			log.info("files size : " + files.size());
 			try {
 					for (MultipartFile multipartFile : files) {
 						log.info("{}", multipartFile.getOriginalFilename());
@@ -67,9 +67,10 @@ public class ChatroomController {
 								.memberId(memberId)
 								.chatContent(multipartFile.getOriginalFilename())
 								.build();
-						log.info("chat insert result" +  chatroomService.insertChat(chat));
-						if(chatroomService.insertChat(chat)>0) {
+						int result = chatroomService.insertChat(chat);
+						if(result>0) {
 							String chatId = chat.getChatId();
+							log.info("반환한 chatId : " , chatId);
 							AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId, chatId);
 							log.info("controller file");
 							log.info("{}", uploadFile);
@@ -114,12 +115,14 @@ public class ChatroomController {
 		return ResponseEntity.ok().body(chatroomService.selectFileByChatroomId(chatroomId));
 	}
 	
+	// 채팅 방에서 멤버 추가
 	@PostMapping("/update")
 	@ResponseBody
 	public int updateChatroomMember(@RequestParam(value="chatMember")String chatMember, @RequestParam(value="chatroomId") String chatroomId, HttpSession session, Model model) {
 		return chatService.updateChatroomMember(Map.of("member",chatMember,"chatroomId",chatroomId));
 	}
 	
+	// 채팅 방에서 검색
 	@PostMapping("/search")
 	@ResponseBody
 	public ResponseEntity<?> searchChatroomByKeyword(@RequestParam(value="chatroomId")String chatroomId, @RequestParam(value="keyword")String keyword) {
@@ -129,6 +132,7 @@ public class ChatroomController {
 		return ResponseEntity.ok().body(chatService.searchByKeyword(Map.of("chatroomId",chatroomId, "keyword",keyword)));
 	}
 	
+	// 채팅 알림 카운트
 	@PostMapping("/unread")
 	public void chatNotificationCount(HttpSession session, Model model) {
 		MemberVO member = (MemberVO)session.getAttribute("loginMember");
@@ -137,13 +141,13 @@ public class ChatroomController {
 		model.addAttribute("unread", unread);
 	}
 	
+	// 채팅 멤버 프로필 확인
 	@PostMapping("/profile")
 	@ResponseBody
 	public ResponseEntity<?> selectMemberByChoice (@RequestParam(value="memberId") String memberId){
 		log.info("memberId : " + memberId);
 		return ResponseEntity.ok(chatroomService.selectMemberByChoice(memberId));
 	}
-	
 	
 	
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChatNotification {
 	private int chatReadNo;
-	private String chatId;
+	//private String chatId;
 	private String memberId;
 	private int myChatroomNo;
 }

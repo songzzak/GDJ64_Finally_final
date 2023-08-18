@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.workit.chat.mapper.ChatMapper;
 import com.workit.chat.model.dto.ChatMsg;
+import com.workit.chat.model.dto.Chatroom;
+import com.workit.chat.model.dto.MyChatroom;
 import com.workit.chatroom.model.dto.AttachedFile;
 import com.workit.chatroom.model.dto.ChatNotification;
 import com.workit.chatroom.model.dto.ChatroomFile;
@@ -34,11 +36,6 @@ public class ChatroomDaoImpl implements ChatroomDao {
 	}
 
 	@Override
-	public int uploadFile(Map<String, Object> param) {
-		return chatMapper.uploadFile(param);
-	}
-
-	@Override
 	public AttachedFile selectFileById(String fileId) {
 		return chatMapper.selectFileById(fileId);
 	}
@@ -54,8 +51,8 @@ public class ChatroomDaoImpl implements ChatroomDao {
 	}
 
 	@Override
-	public int saveChat(ChatNotification chatread) {
-		return chatMapper.saveChat(chatread);
+	public int insertChatNotify(ChatNotification chatread) {
+		return chatMapper.insertChatNotify(chatread);
 	}
 
 	@Override
@@ -82,6 +79,17 @@ public class ChatroomDaoImpl implements ChatroomDao {
 	public int insertFile(Map<String, Object> param) {
 		return chatMapper.insertFile(param);
 	}
+
+	@Override
+	public List<MyChatroom> selectChatroomById(String chatroomId) {
+		return chatMapper.selectChatroomById(chatroomId);
+	}
+
+	@Override
+	public List<Chatroom> selectChatroomByroomId(String chatroomId) {
+		return chatMapper.selectChatroomByroomId(chatroomId);
+	}
+	
 	
 	
 	

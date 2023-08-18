@@ -7,6 +7,7 @@ import com.workit.board.model.dto.Board;
 import com.workit.board.model.dto.BoardComment;
 import com.workit.board.model.dto.Notice;
 import com.workit.board.model.dto.NoticeComment;
+import com.workit.board.model.dto.NoticeFile;
 import com.workit.chatroom.model.dto.AttachedFile;
 
 public interface BoardService {
@@ -44,6 +45,8 @@ public interface BoardService {
 	//게시판 화면 출력
 	Board selectBoardByNo(int no);
 	List<BoardComment> selectBoardCommentList(int no);
+	Board selectPrevBoard(int no);
+	Board selectNextBoard(int no);
 	
 	//게시판 댓글
 	int insertBoardComment(Map<String, Object> map);
@@ -57,5 +60,14 @@ public interface BoardService {
 	int insertBoardFile();
 	int updateBoardViewCount(int no);
 	List<AttachedFile> selectFileListByBoardNo(int no);
+	//파일제거
+	AttachedFile selectAttachedFileById(int fileId);
+	int deleteAttachedFile(int fileId);
+	int deleteNoticeFile(int fileId);
+	int deleteBoardFile(int fileId);
+	int deleteNoticeFilesByNoticeNo(int no);
+	List<NoticeFile> selectNoticeFileByNo(int no);
+	int insertNoticeFile(Map<String, Object> noticeFileMap);
+	int insertBoardFile(Map<String, Object> boardFileMap);
 
 }
