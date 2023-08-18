@@ -41,7 +41,7 @@
 			<div class="pageBar">${pageBar }</div>
 			<div id="info-container">
 				<h3>신청 내역</h3>
-				<h4>수정 전 사원 정보</h4>
+				<h4>현재 사원 정보</h4>
 				<table class="info-table">
 					<tr>
 						<th>사번</th>
@@ -54,6 +54,7 @@
 					<tr><td colspan="6"><hr/></td></tr>
 					<tr id="member-tr"></tr>
 				</table>
+				<br>
 				<h4>수정 신청 내역</h4>
 				<table class="info-table">
 					<tr>

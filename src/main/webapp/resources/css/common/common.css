@@ -113,7 +113,7 @@ header {
 }
 /*헤더 영역 내부 버튼*/
 .header-button-container{
-	width: 25%;
+	width: 30%;
 	display: flex;
     justify-content: space-between;
     align-items: center;
@@ -127,10 +127,7 @@ header {
 	width: 42px;
     padding-left: 2rem;
 }
-.header-search {
-	display: flex;
-	align-items: center;
-}*/
+
 .header-member{
 	width: 40%;
 	

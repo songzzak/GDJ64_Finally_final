@@ -65,7 +65,10 @@
          </form>
          <p>* 사원 초기 비밀번호는 1234로 생성됩니다.</p>
       </div>
-	<div id="enroll-btns"><input type="reset" value="취소" class="emp-btn"> <button onclick="fn_empDataCk();">생성</button></div>
+	<div id="enroll-btns">
+		<input type="button" onclick="fn_resetBtn();" value="취소" class="emp-btn">
+		<button onclick="fn_empDataCk();">생성</button>
+	</div>
    </div>
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

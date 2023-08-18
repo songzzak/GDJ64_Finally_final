@@ -90,9 +90,6 @@ h5 {
 	width: 20px;
 	margin-left: auto;
 }
-/*.chat-room span {
-	display: none;
-}*/
 .prev-chat hr{
 	border: var(--border-bottom);
 	border-style: dashed;
@@ -196,6 +193,9 @@ h5 {
 .modal-content h4 {
 	padding: 5%;
 }
+.modal-content button {
+	margin : 5% 0;
+}
 
 /* 검색 모달창 */
 .modal-searchContainer {
@@ -214,27 +214,6 @@ h5 {
 }
 .modal-searchRoomContainer> span {
 	font-size: 2rem;
-}
-
-/* 메시지 반응 */
-.chat-reaction {
-	width: 120px;
-	height: 30px;
-	margin-top:10px;
-	background-color: #FFFFFF;
-	box-shadow: var(--box-shadow);
-}
-
-.chatDeptAll {
-	width: 30%;
-	height: auto;
-	margin-top: 5rem;
-	border: 1px solid red;
-}
-.chatDeptAll li{
-	margin:0;
-	height: 6rem;
-	
 }
 
 .chat-memberList {
@@ -317,9 +296,9 @@ span.chat-member {
 	margin-bottom: 0;
 }
 
-.modal-addChatMember, .modal-updateChat, .modal-view-chatMemberProfile{
+.modal-addChatMember, .modal-updateChat, .modal-view-chatMemberProfile, .searchResultContainer, .chatroomFileContainer{
 	position: fixed;
-	z-index: 100000;
+	z-index: 100;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -336,8 +315,12 @@ span.chat-member {
 	width: 50%;
 	text-align:center;
 	padding: 2rem;
-	height: 500px;
+	height: auto;
 	overflow-y: scroll;
+}
+
+div.dept-list-container:hover, div.dept-list-container:focus {
+	background-color: var(--msg-color-blue);
 }
 
 .modal-view-chatMemberProfile .modal-content {
@@ -400,8 +383,13 @@ table.modal-table>tr:first-child>th {
 	border-radius: 20%;
 }
 
-
-
+.chatroom-file {
+	display: flex;
+	justify-content: space-between;
+}
+.chatroom-file:hover{
+	background-color: var(--main-color-lt);
+}
 
 
 

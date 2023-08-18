@@ -15,17 +15,17 @@ public interface ChatService {
 	
 	Map<String, Object> searchByKeyword(Map<String, Object> keyword);
 	
-	//String insertChatroom(Map<String, Object> param);
 	String insertChatroom(String loginMember, Chatroom chatroom);
 	
 	List<Member> selectMemberAll();
+	
 	int deleteMyChatroom(Map<String, Object> param);
+	
 	List<MyChatroom> selectChatByChatroomId(String chatroomId);
-	//List<MyChatroom> searchChatroomByKeyword(Map<String, Object> param);
 	
 	List<MyChatroom> selectChatMember(String chatroomId);
 	
-	
 	List<MyChatroom> selectCurrentChatMembers(String chatroomId);
+	
 	int updateChatroomMember(Map<String, Object> param);
  }

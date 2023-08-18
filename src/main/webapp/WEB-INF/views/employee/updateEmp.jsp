@@ -83,13 +83,18 @@
          	<p>* 퇴사일 이후로는 해당 사원 번호로 로그인 불가능합니다.</p>
          </form>
 		<div id="enroll-btns">
-			<input type="reset" value="취소"><button onclick="fn_empDataCk();">수정</button>
+			<input type="button" value="취소" onclick="fn_resetBtn();">
+			<button onclick="fn_empDataCk();">수정</button>
 		</div>
       </div>
    </div>
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+//취소 버튼 클릭 시 reload
+function fn_resetBtn(){
+	location.reload();
+}
 //데이터 입력 확인 후 넘기는 메소드
 function fn_empDataCk(){
 	
