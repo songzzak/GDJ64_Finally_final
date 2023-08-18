@@ -46,7 +46,7 @@
 							<span>이메일</span>
 							<input type="email" name="email" class="first-input" id="mail" value="${loginMember.email}">
 			                <input type="button" onclick="fn_requestEmail();" value="전송">
-			                <span>5:00</span>
+			                <span ID="email-time">5:00</span>
 						</div>
 						<!-- 인증 요청 버튼을 누르면 보일 구간 -->
 						<div class="mypage-update">
