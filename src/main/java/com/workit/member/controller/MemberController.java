@@ -125,9 +125,7 @@ public class MemberController {
 		m.addAttribute("boards",boards);
 		m.addAttribute("toDos",toDos);
 		
-		System.out.println(toDos.toString());
 		return "index";
-		/* return null; */
 	}
 	
 	//마이 페이지 이동

@@ -241,6 +241,11 @@ public class ApproveDaoImpl implements ApproveDao {
 	public ToDo selectToDoById(SqlSession session, Map<String, Object> param) { // 최근 시퀀스번호로 ToDo 하나 조회
 		return session.selectOne("approve.selectToDoById",param);
 	}
+
+	@Override
+	public int deleteToDo(SqlSession session, Map<String, Object> param) {
+		return session.delete("approve.deleteToDo",param);
+	}
 	
 	
 }

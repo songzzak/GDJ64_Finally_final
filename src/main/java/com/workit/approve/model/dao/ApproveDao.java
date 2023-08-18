@@ -58,4 +58,5 @@ public interface ApproveDao {
 	public List<ToDo> selectToDoListById(SqlSession session, Map<String,Object> param);
 	public int selectToDoNo(SqlSession session);
 	public ToDo selectToDoById(SqlSession session, Map<String,Object> param);
+	public int deleteToDo(SqlSession session,Map<String,Object> param);
 }

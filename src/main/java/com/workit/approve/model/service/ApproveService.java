@@ -57,4 +57,5 @@ public interface ApproveService {
 	public List<ToDo> selectToDoListById(Map<String,Object> param);
 	public int selectToDoNo();
 	public ToDo selectToDoById(Map<String,Object> param);
+	public int deleteToDo(Map<String,Object> param);
 }

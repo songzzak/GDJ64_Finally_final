@@ -240,6 +240,11 @@ public class ApproveServiceImpl implements ApproveService {
 	public ToDo selectToDoById(Map<String, Object> param) {
 		return dao.selectToDoById(session,param);
 	}
+
+	@Override
+	public int deleteToDo(Map<String, Object> param) {
+		return dao.deleteToDo(session,param);
+	}
 	
 	
 }

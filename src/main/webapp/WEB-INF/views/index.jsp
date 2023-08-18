@@ -42,18 +42,20 @@
 
 				<div id="section1" class="marginBottom mainMarginRight">
 					<p id="toDo">To Do</p>
-					<input type="text" id="toDoText"> <input type="button" id="toDoButton" value="추가">
-
-					<c:if test="${not empty toDos}">
+					<input type="text" id="toDoText" placeholder="해야할 일 적기"> <input type="button" id="toDoButton" value="추가">
+						
 						<div id="toDiv">
+						<hr>
+					<c:if test="${not empty toDos}">
 							<c:forEach var="toDo" items="${toDos}">
-								<div class="toDoFlex">
+								<div class="toDoFlex" id="${toDo.toDoNo}">
 									<p>${toDo.toDoContent}</p>
-									<img src="${path}/resources/images/approve/xbutton.png" id="deleteImg">
+									<img src="${path}/resources/images/approve/xbutton.png" class="deleteImg">
 								</div>
+								
 							</c:forEach>
-						</div>
 					</c:if>
+						</div>
 				</div>
 				<div id="section1" class="marginBottom mainMarginRight">
 					<p id="bookFont">신청한 강의실</p>
@@ -78,7 +80,7 @@
 				<div id="section2" class="marginBottom">
 					<div>
 						<div id="approveFont">
-							<span>&nbsp;&nbsp;게시판</span> <span id="showMoreBoard"
+							<span>&nbsp;&nbsp;${boards[0].member.dept.deptName}게시판</span> <span id="showMoreBoard"
 								onclick="location.href='${path}/board/boardList	';">더보기(+)</span>
 						</div>
 
@@ -140,16 +142,33 @@
 
 <script>
 	$("#toDoButton").click(function(){
-		
+		if(document.getElementsByClassName('toDoFlex').length >= 5){
+			alert("최대 5개까지만 추가 가능합니다");
+			$("#toDoText").val("");
+			return false;
+		}
+	
 		$.post("${path}/approve/insertToDo",
 				{mId:${mId},content:$("#toDoText").val()},   // 데이터를 객체로(키,값) 전달
 				data => {
-					$("#toDiv").append($('<div/>', {class: 'toDoFlex', id: data.toDoNo}));
+					$("#toDiv").append($('<div/>', {class: 'toDoFlex', id:data.toDoNo}));
 					$("#"+data.toDoNo).append($('<p/>'));
 					$("#"+data.toDoNo).text(data.toDoContent);
-					$("#"+data.toDoNo).append($('<img>',{src:"${path}/resources/images/approve/xbutton.png",width:'20px',height:'20px'}));
-					console.log(data);
+					$("#"+data.toDoNo).append($('<img>',{src:"${path}/resources/images/approve/xbutton.png",width:'20px',height:'20px',class:"deleteImg"}));
+					$("#toDoText").val("");
 			});
 	})
+	
+	$(".deleteImg").click(function(){
+	$.post("${path}/approve/deleteToDo",
+			{no:$(this).parent("div").attr("id")},   // 클릭한 태그의 부모 div의 id값을 데이터로넣음 => toDoNo 값임
+			data => {
+
+				$("#"+data).remove();
+		});
+});
+	
+
+	
 </script>
 
