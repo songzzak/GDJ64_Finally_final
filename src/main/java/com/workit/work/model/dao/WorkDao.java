@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.workit.member.model.dto.Member;
+import com.workit.work.model.dto.AnnualLeaveCount;
 import com.workit.work.model.dto.Work;
 import com.workit.work.model.dto.WorkChange;
 
@@ -44,4 +45,6 @@ public interface WorkDao {
 	List<Work> getMonthWorkTimeByTeam(SqlSessionTemplate session, Map<String, Object> paramMap);
 
 	Member selectMemberById(SqlSessionTemplate session, String memberId);
+
+	AnnualLeaveCount usedLeaveCount(SqlSessionTemplate session, String memberId);
 }

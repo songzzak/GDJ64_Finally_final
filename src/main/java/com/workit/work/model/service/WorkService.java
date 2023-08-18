@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.workit.member.model.dto.Member;
+import com.workit.work.model.dto.AnnualLeaveCount;
 import com.workit.work.model.dto.Work;
 import com.workit.work.model.dto.WorkChange;
 
@@ -49,6 +50,8 @@ public interface WorkService {
 	List<Work> getMonthWorkTimeByTeam(Map<String, Object> paramMap);
 
 	Member selectMemberById(String memberId);
+
+	AnnualLeaveCount usedLeaveCount(String memberId);
 
 
 

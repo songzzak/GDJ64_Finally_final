@@ -29,9 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatroomServiceImpl implements ChatroomService {
 
 	private ChatroomDao chatroomDao;
+	private ChatDao chatDao;
 	
-	public ChatroomServiceImpl(ChatroomDao chatroomDao) {
+	public ChatroomServiceImpl(ChatroomDao chatroomDao, ChatDao chatDao) {
 		this.chatroomDao = chatroomDao;
+		this.chatDao = chatDao;
 	}
 	
 	
@@ -42,21 +44,18 @@ public class ChatroomServiceImpl implements ChatroomService {
 	
 	// root 경로
 	private final String path = System.getProperty("user.dir");
-	
 
 	// 루트 경로에 있는 file directory
-	private final String fileDir = path + "/src/main/webapp/resources/upload/chat/";
+	private final String fileDir = path + "/GDJ64_Finally_final/src/main/webapp/resources/upload/chat/";
 	
 	@Override
-    public AttachedFile saveFile(MultipartFile files, String chatroomId, String chatId) throws IOException {
+    public AttachedFile saveFile(MultipartFile files, String chatroomId, String chatId, String fileDirectory) throws IOException {
         if (files.isEmpty()) {
             return null;
         }
 
         // 원래 파일 이름 추출
         String origName = files.getOriginalFilename();
-        log.info("oriName");
-        log.info("{}", origName);
         
         
         // 확장자 추출(ex : .png)
@@ -65,15 +64,12 @@ public class ChatroomServiceImpl implements ChatroomService {
 		SimpleDateFormat redate = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
 		int round = (int)(Math.random()*10000)+1;
 		
-		// 날짜와 확장자 결합
+		// 업로드 파일 이름 설정 : 날짜와 확장자 결합
 		String uploadName = redate.format(today) + "_" + round + extension;
-		log.info("uploadName");
-		log.info(uploadName);
 
 
-        // 파일을 불러올 때 사용할 파일 경로
-        String uploadPath = fileDir;
-        
+        // 파일을 불러올 때 사용할 파일 경로(Controller에서 가져옴)
+        String uploadPath = fileDirectory;
         
         // DB에 저장하기 위해 Map생성 
         Map<String, Object> param = new HashMap<String, Object>();
@@ -84,19 +80,13 @@ public class ChatroomServiceImpl implements ChatroomService {
         
         // 데이터베이스에 파일 정보 저장 
         int result = chatroomDao.saveFile(param);
-        log.info("{}", param.get("fileId"));
-        
         if(result>0) {
         	param.put("chatroomId", chatroomId);
         	param.put("chatId", chatId);
         	int uploadResult = chatroomDao.insertFile(param);
-        	log.info("chatroomFileNo");
-        	log.info("{}", param.get("chatroomFileNo"));
         	if(uploadResult>0) {
         		String fileId = (String)param.get("fileId");
         		AttachedFile uploadFile = chatroomDao.selectFileById(fileId);
-        		log.info("저장하고 가져온 파일");
-        		log.info("{}", uploadFile);
         		
         		try {
 					files.transferTo(new File(uploadPath + uploadName));
@@ -105,7 +95,6 @@ public class ChatroomServiceImpl implements ChatroomService {
 				}
         		return uploadFile;
         	}
-        	
         }
         return new AttachedFile();
     }
@@ -123,10 +112,6 @@ public class ChatroomServiceImpl implements ChatroomService {
 	@Override
 	public int insertChatNotify(Map<String, Object> param) {
 		MyChatroom m = (MyChatroom)param.get("member");
-		String chatId = (String)param.get("chatId");
-		log.info("chatroomNo : " + m.getMyChatroomNo());
-		log.info("chatId : " + chatId);
-		log.info("memberId : " + m.getMember().getMemberId());
 		ChatNotification c = ChatNotification.builder().myChatroomNo(m.getMyChatroomNo()).memberId(m.getMember().getMemberId()).build();
 		return chatroomDao.insertChatNotify(c);
 	}
@@ -156,11 +141,11 @@ public class ChatroomServiceImpl implements ChatroomService {
 	public List<MyChatroom> selectChatroomById(String chatroomId) {
 		return chatroomDao.selectChatroomById(chatroomId);
 	}
-	
-	
-	
-	
-	
-	
+
+
+	@Override
+	public List<MyChatroom> selectCurrentChatMembers(String chatroomId) {
+		return chatDao.selectCurrentChatMembers(chatroomId);
+	}
 	
 }

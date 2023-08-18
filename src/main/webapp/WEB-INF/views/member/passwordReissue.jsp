@@ -63,7 +63,7 @@
 				},
 				success: function (response){
 					time=300;
-					alert("전송되었습니다. 이메일을 확인해주세요."+response);
+					alert("전송되었습니다. 이메일을 확인해주세요.");
 					const emailNum=$("<input>").attr({
 						"type":"hidden",
 						"id":"email-number"

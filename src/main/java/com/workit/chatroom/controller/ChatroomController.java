@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.core.io.ByteArrayResource;
@@ -27,10 +28,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.workit.chat.model.dto.ChatMsg;
-import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.service.ChatService;
 import com.workit.chatroom.model.dto.AttachedFile;
-import com.workit.chatroom.model.dto.ChatNotificationVO;
+import com.workit.chatroom.model.dto.ChatroomFile;
 import com.workit.chatroom.service.ChatroomService;
 import com.workit.member.model.vo.MemberVO;
 
@@ -51,9 +51,13 @@ public class ChatroomController {
 	
 	// 파일 업로드
 	@PostMapping("/upload")
-    public ResponseEntity<String>  uploadFile(@RequestParam("files") List<MultipartFile> files, @RequestParam(value="chatroomId") String chatroomId, HttpSession session) throws IOException {
+    public ResponseEntity<String>  uploadFile(@RequestParam("files") List<MultipartFile> files, 
+    		@RequestParam(value="chatroomId") String chatroomId, HttpSession session, HttpServletRequest request) 
+    				throws IOException {
 		log.info("{}", chatroomId);
 		log.info("{}", files);
+		String fileDirectory = session.getServletContext().getRealPath("/resources/upload/chat/");
+		log.info("file upload fileDirectory : ", fileDirectory);
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginMember");
 		String memberId = loginMember.getMemberId();
 		List<AttachedFile> list = new ArrayList<AttachedFile>();
@@ -71,7 +75,7 @@ public class ChatroomController {
 						if(result>0) {
 							String chatId = chat.getChatId();
 							log.info("반환한 chatId : " , chatId);
-							AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId, chatId);
+							AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId, chatId, fileDirectory);
 							log.info("controller file");
 							log.info("{}", uploadFile);
 							if(uploadFile!=null) {
@@ -89,16 +93,19 @@ public class ChatroomController {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed.");
     }
 	
+	// 파일 다운로드
 	@GetMapping("/download/{uploadFile:.+}")
 	@ResponseBody
-    public ResponseEntity<Resource>  downloadFile(@PathVariable String uploadFile, HttpSession session) throws IOException {
+    public ResponseEntity<Resource>  downloadFile(@PathVariable String uploadFile, HttpSession session, HttpServletRequest request) throws IOException {
         // 파일을 저장한 디렉토리 경로 설정
         String fileDirectory = session.getServletContext().getRealPath("/resources/upload/chat/");
+        // usr/local/tomcat/webapp/GDJ어쩌구 
         log.info("fileDirectory : " + fileDirectory);
         Path filePath = Paths.get(fileDirectory, uploadFile);
         log.info("filePath : " + filePath);
         Resource resource = new ByteArrayResource(Files.readAllBytes(filePath));
         String fileUrl = fileDirectory + uploadFile;
+        log.info("fileUrl : " + fileUrl);
         
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -108,11 +115,13 @@ public class ChatroomController {
               .headers(headers)
               .body(resource);
     }
-	
+	// 채팅 방에 업로드 된 파일 조회
 	@PostMapping("/file")
 	public ResponseEntity<?> selectFileByRoomId(@RequestParam("chatroomId")String chatroomId){
 		log.info("{}", chatroomId);
-		return ResponseEntity.ok().body(chatroomService.selectFileByChatroomId(chatroomId));
+		List<ChatroomFile> fileList = chatroomService.selectFileByChatroomId(chatroomId);
+		if(fileList!=null) return ResponseEntity.ok().body(fileList);
+		else return ResponseEntity.ok().body("");
 	}
 	
 	// 채팅 방에서 멤버 추가
@@ -141,7 +150,7 @@ public class ChatroomController {
 		model.addAttribute("unread", unread);
 	}
 	
-	// 채팅 멤버 프로필 확인
+	// 채팅 방 멤버 프로필 확인
 	@PostMapping("/profile")
 	@ResponseBody
 	public ResponseEntity<?> selectMemberByChoice (@RequestParam(value="memberId") String memberId){
@@ -149,5 +158,11 @@ public class ChatroomController {
 		return ResponseEntity.ok(chatroomService.selectMemberByChoice(memberId));
 	}
 	
+	// 채팅 방 멤버 확인 
+	@PostMapping("/member")
+	@ResponseBody
+	public ResponseEntity<?> selectCurrentChatMembers(@RequestParam(value="chatroomId") String chatroomId){
+		return  ResponseEntity.ok().body(chatroomService.selectCurrentChatMembers(chatroomId));
+	}
 	
 }

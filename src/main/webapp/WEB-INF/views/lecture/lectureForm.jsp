@@ -38,7 +38,7 @@
 	      </ul>
 	    </div>
 		<div class="column section-shadow bgc-fff" id="lectureFormDiv">
-		    <form action="/lecture/insertLectureEnd" method="post">
+		    <form action="${path}/lecture/insertLectureEnd" method="post">
 		        <div class="row">
 		            <!-- 왼쪽 부분 -->
 		            <div class="column margin10px half" style="flex: 1; border-right: 1px dashed var(--border-color);">
@@ -118,7 +118,7 @@ $(document).ready(function() {
         e.preventDefault();
         var isCancel = confirm("등록을 취소하시겠습니까?");
         if (isCancel) {
-            window.location.href = "/lecture/lectureList"; // 강의 목록 페이지로 리다이렉트
+            window.location.href = "${path}/lecture/lectureList"; // 강의 목록 페이지로 리다이렉트
         }
     });
 });

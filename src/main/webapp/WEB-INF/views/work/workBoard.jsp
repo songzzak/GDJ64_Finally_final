@@ -138,8 +138,8 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
             <p>총연차</p>
           </li>
           <li>
-            <p class="roundBolder center">0</p>
-            <p>사용 연차</p>
+            <p class="roundBolder center">${usedLeaveCount.usedAnnualLeave != null ? usedLeaveCount.usedAnnualLeave : '0'}</p>
+			<p>사용 연차</p>
           </li>
           <li>
             <p class="roundBolder center"></p>
@@ -214,7 +214,7 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
 			<c:if test="${not empty workList }">
 				<c:forEach var="workItem" items="${workList }">
 					 <tr class="work-time-row">
-		                <td> <fmt:formatDate value="${workItem.workDate}" pattern="d E" /></td>
+		                <td class="dateCell"><fmt:formatDate value="${workItem.workDate}" pattern="d E" /></td>
 		                <td>${workItem.workStatus}</td>
 		                <td><fmt:formatDate value="${workItem.workStart}" pattern="HH:mm:ss" /></td>
 		                <td><fmt:formatDate value="${workItem.workEnd}" pattern="HH:mm:ss" /></td>
@@ -234,6 +234,19 @@ int lastDay = getLastDay(year, month); // 해당 월의 마지막 날짜
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	$('.dateCell').each(function() {
+        let text = $(this).text();
+        text = text.replace("Mon", "월");
+        text = text.replace("Tue", "화");
+        text = text.replace("Wed", "수");
+        text = text.replace("Thu", "목");
+        text = text.replace("Fri", "금");
+        text = text.replace("Sat", "토");
+        text = text.replace("Sun", "일");
+        $(this).text(text);
+    });
+	
+	
 	//총연차와 사용연차 값
 	let totalLeave = parseInt($('#annualLeaveDiv .row li:nth-child(1) .roundBolder').text(), 10);
     let usedLeave = parseInt($('#annualLeaveDiv .row li:nth-child(2) .roundBolder').text(), 10);
@@ -377,13 +390,15 @@ function navigateMonth(offset) {
         } else {
             $.each(data.workList, function (index, workItem) {
             	let timeZone = 9 * 60 * 60 * 1000; // 9 hours
-            	//var workdate = new Date(workItem.workDate).toLocaleDateString('ko-KO');
-            	var workdate = new Date(workItem.workDate).toUTCString();
-            	workdate = workdate.slice(0, 11);
-            	var workStart = new Date(workItem.workStart + timeZone).toISOString().replace('T', '  ').slice(0, -5);
-            	workStart = workStart.slice(11);
-            	var workEnd = new Date(workItem.workEnd + timeZone).toISOString().replace('T', '  ').slice(0, -5);
-            	workEnd = workEnd.slice(11);
+                
+                let workDateObj = new Date(workItem.workDate);
+                let dayString = getDayString(workDateObj.getDay());
+                let workdate = workDateObj.getDate() + ' ' + dayString;
+
+                var workStart = new Date(workItem.workStart + timeZone).toISOString().replace('T', '  ').slice(0, -5);
+                workStart = workStart.slice(11);
+                var workEnd = new Date(workItem.workEnd + timeZone).toISOString().replace('T', '  ').slice(0, -5);
+                workEnd = workEnd.slice(11);
             	
                 var rowHtml = '<tr class="work-time-row">';
                 rowHtml += '<td>' + workdate + '</td>';
@@ -410,11 +425,16 @@ function formatTime(time) {
         + (minutes < 10 ? "0" + minutes : minutes) + ":" 
         + (seconds < 10 ? "0" + seconds : seconds);
 }
-//요일 구하는 함수
-function getDayString(day) {
-    var days = ['일', '월', '화', '수', '목', '금', '토'];
-    return days[day];
+function getDayString(dayIndex) {
+    var days = ["일", "월", "화", "수", "목", "금", "토"];
+    return days[dayIndex];
 }
+function convertToKoreanDate(dateStr) {
+    const date = new Date(dateStr);
+    const dayOfWeekStr = ["일", "월", "화", "수", "목", "금", "토"];
+    return date.getDate() + " " + dayOfWeekStr[date.getDay()];
+}
+
 //일자와 요일을 리턴하는 함수
 function formatDateAndDay(dateString) {
     var dateArray = dateString.split(" ");

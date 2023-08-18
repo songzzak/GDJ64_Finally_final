@@ -78,7 +78,11 @@ public class MemberController {
 		String memberId = loginMember.getMemberId();
 		int unread = chatroomService.chatNotificationCount(memberId);
 		session.setAttribute("unread", unread);
-		return "redirect:/";
+		if(loginMember.getEmail()==null) {
+			return "member/firstLogin";
+		}else {
+			return "redirect:/";			
+		}
 	}
 	
 	//권한 불일치

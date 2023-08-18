@@ -118,7 +118,7 @@
 	$(".chat-fileIcon").click(e=>{
 		$(".chat-upFile").click();
 	});
-	
+	// 파일 업로드
 	var formData = new FormData();
 	$(".chat-upFile").change(e=>{
 		let files = document.querySelector(".chat-upFile").files[0];
@@ -144,12 +144,11 @@
 		});
 	});
 	
-	
+	// 채팅 멤버 변경 모달 창에서 변경 클릭 메소드
 	$(".modal-update-chat-btn").click(e=>{
 		let selectedMember = $(".modal-memberList input:checked");
 		let chatroomTitle = selectedMember.next().text();
-		console.log("console.log(selecteMember); " ,selecteMember);
-		console.log("chatroommember ; ", chatroomMember);
+		console.log("chatroommember ; ", chatroomMembers);
 		if(selectedMember.length>0){
 			chatMember = selectedMember.val();
 			$.ajax({
@@ -163,7 +162,7 @@
 				success: data => {
 					console.log(data);
 					if(data>0){
-						swal("", "채팅 멤버 초대에 성공했습니다 :)", "success");
+						swal("채팅 멤버 업데이트", "채팅 멤버 초대에 성공했습니다 :)", "success");
 						fn_closeChatModal();
 						fn_openChatroom();
 					}else{
@@ -230,60 +229,37 @@
 	const timeElapsed = Date.now();
 	const today = new Date(timeElapsed);
 	
-	const fn_viewMember=()=>{
-		if(chatroomMembers==null ||chatroomMembers==""){
-			chatroomId;
-			$(".modal-new-chat-title").css("display","block");
-			$(".chat-DeptContaine").attr("action","${path}/chat/start");
-		}else{
-			$(".chat-DeptContainer").attr("action","${path}/chat/");
-		}
-		$.ajax({
-			url: "${path}/chat/member",
-			type: "post",
-			data: {
-				chatroomId: chatroomId
-			}
-			,success: data => {
-				console.log("chatroomMembers : "+" "+chatroomMembers);
-				console.log("member add");
-				console.log(data);
-				var memberDiv = $("<div class='chat-memberByDept'>");
-				data.forEach(e =>{
-					if(e.memberId!=loginMember){
-					var inputDiv = $("<div class='dept-member-input'>");
-					inputDiv.append("<label>").attr("for", e.memberId).text(e.memberName + " " + e.job.jobName);
-					inputDiv.append($("<input type='checkbox' name='memberId'>").attr("value", e.memberId));
-					inputDiv.append($("<br>"));
-					memberDiv.append(inputDiv);
-					$(".chat-DeptContainer").append(memberDiv);
-					}
-				})
-				$(".chat-DeptContainer").append($("<input type='submit' value='선택'>"));
-			},
-			error: function(xhr, status, error) {
-		        console.error('AJAX Error:', error);
-		    }	
-		});
-	}
+	// 채팅 방에서 채팅 멤버 추가
 	$(".addPersonIcon").click(e => {
+		chatroomMembers =  $(".chatroomMembers").val();
+		chatroomMemberIds = $(".chatroomMemberIds").val();
+		/* console.log("chatroomMembers : " , chatroomMembers);
+		var cmember = $("<span>").text(chatroomMembers);
+		$(".modal-updateChat .modal-content .currentChatMember").append(cmember); */
+		
+		if(chatroomMemberIds != null || chatroomMemberIds != ""){
+			chatroomMemberIds = chatroomMemberIds.split(",");
+		}
+		
 		$(".chat-room-nothing").attr("class","chatHidden");
 		$(".modal-addChatMember").css("display","block");
+		
 		let input = $(".modal-memberList input[name=memberId]");
 		let inputArr = Object.values(input);
 		var cMember="";
+		
 		inputArr.forEach(a=>{
 			if(chatroomMembers!=null){
-				chatroomMembers.forEach(e=>{
+				chatroomMemberIds.forEach(e=>{
 					if((a.value)==e) {
 						$(a).css("display","none");
 						$(a).parent().css("display","none");
-					}
+					} 
 				})			
 			}
 		})
 	})
-
+	// 웹소켓 시작
 	var websocket;
 	const fn_startChat=()=>{
 		$(".chatRoom-container .chat-header .chat-icon-container").css("display","flex");
@@ -295,6 +271,7 @@
 		websocket.onopen=data=>{
 			console.log(data);
 		}
+		// 메세지 받았을 때 
 		websocket.onmessage=data=>{
 			console.log(data);
 			const receiveMsg=JSON.parse(data.data);
@@ -318,29 +295,59 @@
 					if(isConfirm) location.href = location.href;
 			});
 		}
+		// 받은 채팅 메세지 출력
 	 	function fn_printChat(msg){
+			
 			const chatDiv = $(".chat-msgBox-container");
 			const chatDate = new Date(msg.chatDate).toLocaleString('ko-KO');
-			if (msg.memberId == loginMember) {
-				var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
-				chatMsg.append($("<span>").attr("class", "chat-msgbx").text(msg.chatContent));
-				chatMsg.append($("<span>").attr("class", "chat-date block").text(chatDate));
-				chatMsg.append($("<input type='hidden'>").attr("value",msg.chatId).attr("class","chat-msg-Id"));
-			} 
-			chatMsg.append($("<input>").attr("type", "hidden").attr("value", msg.chatroomId).attr("class","roomId"));
-			chatDiv.append(chatMsg);
+			
+	 		$.ajax({
+				url: "${path}/chatroom/member",
+				type: "post",
+				data: {
+					chatroomId: chatroomId
+				},
+				success: data => {
+					console.log(data);
+					if (msg.memberId == loginMember) {
+						var chatMsg = $("<div>").attr("class", "chat-msg chat-send");
+						chatMsg.append($("<span>").attr("class", "chat-date").text(chatDate));
+						chatMsg.append($("<span>").attr("class", "chat-msgbx").text(msg.chatContent));
+						chatMsg.append($("<input type='hidden'>").attr("value",msg.chatId).attr("class","chat-msg-Id"));
+			
+					} else {
+						var chatMsg = $("<div>").attr("class", "chat-msg");
+						data.forEach(m =>{
+							console.log(m);
+							if(m.member.memberId == msg.memberId){
+								chatMsg.append($("<h5>").text(m.member.memberName));
+							}
+						})
+						chatMsg.append($("<span>").attr("class", "chat-msgbx").text(msg.chatContent));
+						chatMsg.append($("<span>").attr("class", "chat-date").text(chatDate));
+						chatMsg.append($("<input type='hidden'>").attr("value",msg.chatId).attr("class","chat-msg-Id"));
+					}
+					chatMsg.append($("<input>").attr("type", "hidden").attr("value", msg.chatroomId).attr("class","roomId"));
+					chatDiv.append(chatMsg);
+				},
+				error: function(xhr, status, error) {
+			        console.error('AJAX Error:', error);
+			    }
+			});
+	 		
 		}
 	}
 	
+	// 채팅 전송 	
 	$(".sendChat").click(e=>{
 		const chatContent=$(".chat-msg-input").val();
 		websocket.send(JSON.stringify(new Chat(chatroomId, loginMember, chatContent, today)));
 	});
 	
-	
+	// 파일 아이콘 클릭
 	$(".attachChatIcon").click(e=>{
 		$(".modal-result-container").toggle("chatHidden");
-		$(".modal-result-container").empty();
+		$(".chatroomFileContainer .modal-content").empty();
 		$.ajax({
 			url: "${path}/chatroom/file",
 			type: "post",
@@ -349,9 +356,8 @@
 			},
 			success: data => {
 				let chatfilebx;
-				console.log(data);
-				console.log(data[0].chatroomFile);
-				if(data!=null || data!=""){
+				console.log(data.length);
+				if(data.length>0){
 					$(".chatroomFileContainer").css("display","block");
 					chatfilebx = $("<div class='chatroom-file-container'>");
 					chatfilebx.append($("<h2 class='title'>").text("현재 채팅 창 파일 목록").css("textAlign","center"));
@@ -447,7 +453,6 @@
 					const chatDate = new Date(m.chatDate).toLocaleDateString('ko-KO');
 					console.log("m : ",m);
 					searchDiv = $("<div class='chatroom-file chat-msgbx'>").text(m.chatContent);
-					//searchDiv.append($("<span>").text(m.member.memberId + " " + chatDate));
 					searchDiv.append($("<span>").text(chatDate));
 					$(".modal-result-container").append(searchDiv);
 				})
@@ -474,7 +479,7 @@
  	});
 	
 	$(document).on("click", ".chatMember", function(e) {
-		$(".modal-view-chatMemberProfile .modal-chat-member").empty();
+		$(".modal-view-chatMemberProfile .modal-content").empty();
 		memberId = $(e.target).next().val();
 		$(".modal-view-chatMemberProfile").css("display","block");
 		$.ajax({
@@ -485,18 +490,23 @@
 			},
 			success : data =>{
 				console.log(data);
-				const hireDate = new Date(data.hireDate).toLocaleDateString('ko-KO');
-				let modalchatmemberDiv = $("<div class='modal-chat-member'>");
-				modalchatmemberDiv.append($("<img>").attr("src","${path}/resources/upload/profile/"+data.profileImg));
-				let $table = $("<table class='modal-table'>");
-				$table.append($("<tr>").append($("<th colspan='2'>").text(data.dept.deptName+" "+data.memberName+" "+data.job.jobName)));
-				$table.append($("<tr>").append($("<th>").text("전화번호")).append($("<td>").text(data.phone)));
-				$table.append($("<tr>").append($("<th>").text("주소")).append($("<td>").text(data.address)));
-				$table.append($("<tr>").append($("<th>").text("이메일")).append($("<td>").text(data.email)));
-				$table.append($("<tr>").append($("<th>").text("입사일")).append($("<td>").text(hireDate)));
-				modalchatmemberDiv.append($table);
-				$(".modal-view-chatMemberProfile .modal-content").append(modalchatmemberDiv);
-				$(".modal-view-chatMemberProfile .modal-content").append($("<button class='modal-close'>").text("닫기"));
+				if(data!=null){
+					$(".modal-view-chatMemberProfile .modal-content").css("display","block");
+					const hireDate = new Date(data.hireDate).toLocaleDateString('ko-KO');
+					$(".modal-view-chatMemberProfile .modal-content").append($("<h2>").text("채팅 회원 정보 확인"));
+					let modalchatmemberDiv = $("<div class='modal-chat-member'>");
+					modalchatmemberDiv.append($("<img>").attr("src","${path}/resources/upload/profile/"+data.profileImg));
+					let $table = $("<table class='modal-table'>");
+					$table.append($("<tr>").append($("<th colspan='2'>").text(data.dept.deptName+" "+data.memberName+" "+data.job.jobName)));
+					$table.append($("<tr>").append($("<th>").text("전화번호")).append($("<td>").text(data.phone)));
+					$table.append($("<tr>").append($("<th>").text("주소")).append($("<td>").text(data.address)));
+					$table.append($("<tr>").append($("<th>").text("이메일")).append($("<td>").text(data.email)));
+					$table.append($("<tr>").append($("<th>").text("입사일")).append($("<td>").text(hireDate)));
+					modalchatmemberDiv.append($table);
+					$(".modal-view-chatMemberProfile .modal-content").append(modalchatmemberDiv);
+					$(".modal-view-chatMemberProfile .modal-content").append($("<button class='modal-close'>").text("닫기"));
+					
+				}else swal("","없음","warning");
 			},
 			error: function(xhr, status, error) {
 				console.error('AJAX Error:', error);

@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.workit.member.model.dto.Member;
+import com.workit.work.model.dto.AnnualLeaveCount;
 import com.workit.work.model.dto.Work;
 import com.workit.work.model.dto.WorkChange;
 
@@ -103,6 +104,12 @@ public class WorkDaoImpl implements WorkDao {
 	public Member selectMemberById(SqlSessionTemplate session, String memberId) {
 		// TODO Auto-generated method stub
 		return session.selectOne("work.selectMemberById",memberId);
+	}
+
+	@Override
+	public AnnualLeaveCount usedLeaveCount(SqlSessionTemplate session, String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.usedLeaveCount",memberId);
 	}
 
 }
