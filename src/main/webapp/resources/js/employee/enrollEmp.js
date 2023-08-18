@@ -39,3 +39,14 @@ function fn_empDataCk() {
 		alert("사원 정보를 전부 입력하세요.");
 	}
 }
+
+//취소 버튼 클릭 시
+function fn_resetBtn(){
+	for(var i=0;i<$("input[type=text]").length;i++){
+		$("input[type=text]")[i].value='';
+	}
+	$("#dept option:eq(0)").prop("selected",true);
+	$("#job option:eq(0)").prop("selected",true);
+	$("#pay").val("");
+	$("#hire-date").val("");
+}

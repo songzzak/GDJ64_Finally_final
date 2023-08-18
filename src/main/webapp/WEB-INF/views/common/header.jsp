@@ -33,7 +33,6 @@ const path = "${pageContext.request.contextPath}";
 				</a>
 			</div>
 			<div class="header_icon_container">
-				<img alt="alram_header" src="${path}/resources/images/common/notify.svg" onclick="alramList();">
 				<div class="nav-btn" id="chat-notification"><span class="chat-num"></span></div>
 				<img alt="logout_header" src="${path}/resources/images/common/logout.svg" onclick="fn_logout();">
 			</div>
