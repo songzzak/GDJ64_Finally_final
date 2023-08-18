@@ -9,11 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.workit.chat.model.dao.ChatDao;
 import com.workit.chat.model.dto.ChatMsg;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
@@ -30,9 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatroomServiceImpl implements ChatroomService {
 
 	private ChatroomDao chatroomDao;
+	private ChatDao chatDao;
 	
-	public ChatroomServiceImpl(ChatroomDao chatroomDao) {
+	public ChatroomServiceImpl(ChatroomDao chatroomDao, ChatDao chatDao) {
 		this.chatroomDao = chatroomDao;
+		this.chatDao = chatDao;
 	}
 	
 	
@@ -156,11 +157,11 @@ public class ChatroomServiceImpl implements ChatroomService {
 	public List<MyChatroom> selectChatroomById(String chatroomId) {
 		return chatroomDao.selectChatroomById(chatroomId);
 	}
-	
-	
-	
-	
-	
-	
+
+
+	@Override
+	public List<MyChatroom> selectCurrentChatMembers(String chatroomId) {
+		return chatDao.selectCurrentChatMembers(chatroomId);
+	}
 	
 }

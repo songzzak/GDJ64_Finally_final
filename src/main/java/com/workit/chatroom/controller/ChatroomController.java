@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.workit.chat.model.dto.ChatMsg;
 import com.workit.chat.service.ChatService;
 import com.workit.chatroom.model.dto.AttachedFile;
+import com.workit.chatroom.model.dto.ChatroomFile;
 import com.workit.chatroom.service.ChatroomService;
 import com.workit.member.model.vo.MemberVO;
 
@@ -99,8 +100,6 @@ public class ChatroomController {
     public ResponseEntity<Resource>  downloadFile(@PathVariable String uploadFile, HttpSession session, HttpServletRequest request) throws IOException {
         // 파일을 저장한 디렉토리 경로 설정
         String fileDirectory = session.getServletContext().getRealPath("/resources/upload/chat/");
-		//String fileDirectory = request.getRequestURI();
-		
         // usr/local/tomcat/webapp/GDJ어쩌구 
         log.info("fileDirectory : " + fileDirectory);
         Path filePath = Paths.get(fileDirectory, uploadFile);
@@ -121,7 +120,9 @@ public class ChatroomController {
 	@PostMapping("/file")
 	public ResponseEntity<?> selectFileByRoomId(@RequestParam("chatroomId")String chatroomId){
 		log.info("{}", chatroomId);
-		return ResponseEntity.ok().body(chatroomService.selectFileByChatroomId(chatroomId));
+		List<ChatroomFile> fileList = chatroomService.selectFileByChatroomId(chatroomId);
+		if(fileList!=null) return ResponseEntity.ok().body(fileList);
+		else return ResponseEntity.ok().body("");
 	}
 	
 	// 채팅 방에서 멤버 추가
@@ -158,5 +159,11 @@ public class ChatroomController {
 		return ResponseEntity.ok(chatroomService.selectMemberByChoice(memberId));
 	}
 	
+	// 채팅 방 멤버 확인 
+	@PostMapping("/member")
+	@ResponseBody
+	public ResponseEntity<?> selectCurrentChatMembers(@RequestParam(value="chatroomId") String chatroomId){
+		return  ResponseEntity.ok().body(chatroomService.selectCurrentChatMembers(chatroomId));
+	}
 	
 }

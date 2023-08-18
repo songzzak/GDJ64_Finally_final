@@ -37,4 +37,6 @@ public interface ChatroomService {
 	List<Chatroom> selectChatroomByroomId(String chatroomId);
 	
 	List<MyChatroom> selectChatroomById(String chatroomId);
+	
+	List<MyChatroom> selectCurrentChatMembers(String chatroomId);
 }
