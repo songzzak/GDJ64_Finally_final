@@ -1451,13 +1451,12 @@ public class ApproveController {
 		}
 		
 		
-		if(result >= 1 && result2 >=1) {
-			m.addAttribute("msg", "전결 성공");
-			m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId);
-		} else {
-			m.addAttribute("msg", "전결 실패");
-			m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId);
-		}
+		m.addAttribute("msg", "전결 성공");
+		m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId);
+		/*
+		 * if(result >= 1 && result2 >=1) { } else { m.addAttribute("msg", "전결 실패");
+		 * m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId); }
+		 */
 		return "common/msg";	
 	}
 	
