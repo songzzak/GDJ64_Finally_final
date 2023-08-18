@@ -10,7 +10,7 @@
       <div class="right-container">
       	<div class="emp-header">
 	        <h2>사원 정보 수정</h2>
-	        <input type="button" onclick="history.back();" value="뒤로가기" id="back-btn">
+	        <input type="button" onclick="location.href='${path}/employee/list'" value="뒤로가기" id="back-btn">
 		</div>
          <form action="${path }/employee/memberId" id="update-emp-form" method="post" enctype="multipart/form-data">
          	<input type="hidden" name="memberId" value="${member.memberId }">

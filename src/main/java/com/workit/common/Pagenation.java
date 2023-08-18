@@ -16,24 +16,24 @@ public static String getPage(int cPage, int numPerpage, int totalData,String url
 		
 		if(pageNo==1) {
 			pageBar.append("<li class='disabled'>");
-			pageBar.append("<a class='page-link' href='#'>이전");
+			pageBar.append("<a href='#'>이전");
 			pageBar.append("</a>");
 			pageBar.append("</li>");
 		}else {
-			pageBar.append("<li>");
-			pageBar.append("<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'>이전");
+			pageBar.append("<li class='page-link'>");
+			pageBar.append("<a href='javascript:fn_paging("+(pageNo-1)+")'>이전");
 			pageBar.append("</a>");
 			pageBar.append("</li>");
 		}
 		while(!(pageNo>pageEnd||pageNo>totalPage)) {
 			if(pageNo==cPage) {
 				pageBar.append("<li class='disabled'>");
-				pageBar.append("<a class='page-link' href='#'>"+pageNo);
+				pageBar.append("<a href='#'>"+pageNo);
 				pageBar.append("</a>");
 				pageBar.append("</li>");
 			}else {
-				pageBar.append("<li>");
-				pageBar.append("<a class='page-link' href='javascript:fn_paging("+(pageNo)+")'>"+pageNo);
+				pageBar.append("<li class='page-link'>");
+				pageBar.append("<a href='javascript:fn_paging("+(pageNo)+")'>"+pageNo);
 				pageBar.append("</a>");
 				pageBar.append("</li>");
 			}
@@ -42,12 +42,12 @@ public static String getPage(int cPage, int numPerpage, int totalData,String url
 		
 		if(pageNo>totalPage){
 			pageBar.append("<li class='disabled'>");
-			pageBar.append("<a class='page-link' href='#'>다음");
+			pageBar.append("<a href='#'>다음");
 			pageBar.append("</a>");
 			pageBar.append("</li>");
 		}else {
-			pageBar.append("<li>");
-			pageBar.append("<a class='page-link' href='javascript:fn_paging("+(pageNo)+")'>다음");
+			pageBar.append("<li class='page-link'>");
+			pageBar.append("<a href='javascript:fn_paging("+(pageNo)+")'>다음");
 			pageBar.append("</a>");
 			pageBar.append("</li>");
 		}
@@ -56,7 +56,7 @@ public static String getPage(int cPage, int numPerpage, int totalData,String url
 		//스트립트문추가
 		pageBar.append("<script>");
 		pageBar.append("function fn_paging(no){");
-		pageBar.append("location.assign('/GDJ64_workit_final"+url+"?cPage='+no+'&numPerpage="+numPerpage+"');");
+		pageBar.append("location.assign('"+url+"?cPage='+no+'&numPerpage="+numPerpage+"');");
 		pageBar.append("}");
 		pageBar.append("</script>");
 		

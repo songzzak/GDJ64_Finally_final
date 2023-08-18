@@ -45,7 +45,7 @@ public class ChatroomServiceImpl implements ChatroomService {
 	private final String path = System.getProperty("user.dir");
 
 	// 루트 경로에 있는 file directory
-	private final String fileDir = path + "/src/main/webapp/resources/upload/chat/";
+	private final String fileDir = path + "/GDJ64_Finally_final/src/main/webapp/resources/upload/chat/";
 	
 	@Override
     public AttachedFile saveFile(MultipartFile files, String chatroomId, String chatId) throws IOException {

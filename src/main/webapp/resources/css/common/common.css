@@ -141,6 +141,7 @@ header {
 /* 사원 프로필 이미지 */
 .header-member img{
 	width: 48px;
+	height: 48px;
 }
 /* 사원 프로필 정보 */
 .header-member span{
@@ -215,7 +216,7 @@ div.pageBar{
 }
 /* 페이지네이션 스타일 */
 .pagination {
-	width: 50%;
+	width: 300px;
 	display: flex;
 	margin: 0 auto;
 	justify-content: center;
@@ -224,12 +225,21 @@ div.pageBar{
 .pagination>li{
 	text-align: center;
 	padding: 0.5rem;
-	width: 1rem;
-	border: 1px solid #BDDFFF;
+	width: 70px;
+	border: 2px solid #BDDFFF;
 	border-left: 0;
 }
 .pagination>li:first-child, .pagination>li:last-child {
-	border: 1px solid #BDDFFF;
+	border: 2px solid #BDDFFF;
+	width: 100px;
+}
+.pagination>li:first-child{
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+.pagination>li:last-child{
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
 .pagination>li:last-child {
 	border-left: 0;
@@ -243,7 +253,11 @@ div.pageBar{
  }
 .pagination .disabled a {
     color: var(—main-disabled);
-	
+}
+.page-link:hover{
+	background-color: var(--main-color-lt);
+	color: var(--main-col-dk);
+	font-weight: bolder;
 }
 #chat-notification {
 	background-image: url('../../images/common/chat.svg');

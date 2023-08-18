@@ -18,8 +18,8 @@
 						<button onclick="fn_profileSubmit();">수정</button>
 					</div>
 				</form>
-				<p>${loginMember.memberName } 님</p>
-				<div>
+				<p><span id="mypage-name">${loginMember.memberName }</span> 님</p>
+				<div class="mypage-simple-info">
 					<p>부서</p>
 					<input type="text" value="${loginMember.dept.deptName }" disabled>
 					<p>직책</p>
@@ -46,7 +46,7 @@
 							<span>이메일</span>
 							<input type="email" name="email" class="first-input" id="mail" value="${loginMember.email}">
 			                <input type="button" onclick="fn_requestEmail();" value="전송">
-			                <span>5:00</span>
+			                <span ID="email-time">5:00</span>
 						</div>
 						<!-- 인증 요청 버튼을 누르면 보일 구간 -->
 						<div class="mypage-update">
@@ -148,7 +148,7 @@
 		strDate+=strId.substr(2,2)+"-"+strId.substr(4,2);
 		$("#hire-date").val(strDate);
 		//이메일
-		if($("#mail").val()!=null){
+		if($("#mail").val()!=""){
 			emailFl=true;
 		}
 		$("#mail").change(function(){
