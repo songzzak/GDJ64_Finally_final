@@ -84,8 +84,6 @@
 	
 	// 채팅방 나가기
 	$("img.deleteChatRoom").click(function() {
-		//console.log($(this));
-		//console.log("chatroomId : ", chatroomId);
 		event.stopPropagation();
 		chatroomId = $(this).next().val();
 		fn_deleteChatroom(chatroomId);
@@ -123,9 +121,6 @@
 				myChatroomNo : myChatroomNo
 			},
 			success: function(data) {
-				//console.log("open chatroom success");
-				//data = data[0];
-				//console.log("open chat : " , data);
 				
 				if(data == null || data == "" ){
 					$(".chat-header .title-container .title").text(chatroomTitle);
@@ -143,10 +138,11 @@
 		});
 	}
 	
-	let chatroomMembers; // 현재 채팅 멤버 
+	let chatroomMembers = ""; // 현재 채팅 멤버 
 	let chatroomFiles;
 	let divPrevChat;
-	let chatroomMemberName="";
+	let chatroomMemberName = "";
+	let chatroomMemberIds = "";
 	
 	const fn_viewChatMsg=(data)=>{
 		console.log("chatMsg method");
@@ -155,20 +151,17 @@
 		
 		// 현재 채팅 방에 참여 중인 회원 가져오기
 		var chatroomMember = data.chatMember;
-		chatroomMembers = "";
 		chatroomMember.forEach(member =>{
 			console.log("chatroommember : ", member.member.memberName);
 			chatroomMembers += member.member.memberName+",";
+			chatroomMemberIds += member.member.memberId+","; 
 		})
 		chatroomMembers = chatroomMembers.slice(0,-1);
-		//console.log("chatroomMembers : " , chatroomMembers);
-		
+		chatroomMemberIds = chatroomMemberIds.slice(0,-1);
 		var chatList = data.chatList;
 		chatList.forEach(chat =>{
 			var chats = chat.chat;
-			//console.log("chating : ", chat.chat);
 			chats.forEach(c=>{
-				//console.log("chat content : " , c.chatContent);
 				const cDate = new Date(c.chatDate);
 				const chatDate = cDate.toLocaleString('ko-KO');
 				if (c.member.memberId == loginMember) {
@@ -184,6 +177,8 @@
 					chatMsg.append($("<input type='hidden'>").attr("value",c.chatId).attr("class","chat-msg-Id"));
 				}
 				chatMsg.append($("<input>").attr("type", "hidden").attr("value", data.chatroomId).attr("class","roomId"));
+				chatMsg.append($("<input>").attr("type", "hidden").attr("value", chatroomMembers).attr("class","chatroomMembers"));
+				chatMsg.append($("<input>").attr("type", "hidden").attr("value", chatroomMemberIds).attr("class","chatroomMemberIds"));
 				divPrevChat.append(chatMsg);
 				$(".chat-fileform input[type='hidden']").attr("value",data.chatroomId);
 			})

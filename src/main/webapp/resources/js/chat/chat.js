@@ -58,7 +58,6 @@ $(".addChatIcon").click(e => {
 
 // 채팅방에서 채팅 멤버 업데이트
 $(".addPersonIcon").click(e => {
-	console.log("chatroomMemberName : ", chatroomMemberName);
 	$(".modal-updateChat").css("display", "block");
 	$(".modal-addChatMember").css("display", "none");
 	$(document).attr("overflow", "hidden");
