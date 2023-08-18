@@ -4,10 +4,6 @@ $(".searchIcon").click(e => {
 	$(".modal-result-container").toggle("chatHidden");
 	$(".modalSearchInput").val("");
 	$(".modal-result-container").empty();
-	//$(".searchResultContainer").css("display","block");
-	//let $input = $(".modal-searchContainer input");
-	//$(".modalSearchInput").val()=="";
-	//$(".result-container").empty();
 })
 
 // 채팅 창에서 검색
@@ -69,17 +65,17 @@ $(".addPersonIcon").click(e => {
 	$(".currentChatMember").text("현재 채팅 참여 멤버 : " + chatroomMemberName);
 })
 
-
+//모달 닫는 공용 메소드 2
 $(document).on("click", ".modal-close-up", function (e) {
 	let containerDiv = $(e.target).parent().parent().parent();
 	containerDiv.css("display","none");
 });
-
+//모달 닫는 공용 메소드 1
 $(document).on("click", ".modal-close", function (e) {
 	let containerDiv = $(e.target).parent().parent();
 	containerDiv.css("display","none");
 });
-
+// null 체크하는 메소드
 const fn_checkStrNull = (data) => {
 	var checkResult;
 	if (data == null || data == "" || data == "null") {
@@ -90,9 +86,6 @@ const fn_checkStrNull = (data) => {
 		return checkResult;
 	}
 }
-$(".modalSearchInput").keyup(function() {
-
-})
 function fn_closeChatModal(){
 	$(".modal-addChatMember").css("display", "none");
 }

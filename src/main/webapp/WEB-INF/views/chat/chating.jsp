@@ -148,8 +148,8 @@
 	$(".modal-update-chat-btn").click(e=>{
 		let selectedMember = $(".modal-memberList input:checked");
 		let chatroomTitle = selectedMember.next().text();
-		console.log("console.log(selecteMember); " ,selecteMember);
-		console.log("chatroommember ; ", chatroomMember);
+		console.log("console.log(selecteMember); " ,selectedMember);
+		console.log("chatroommember ; ", chatroomMembers);
 		if(selectedMember.length>0){
 			chatMember = selectedMember.val();
 			$.ajax({
@@ -266,7 +266,10 @@
 		    }	
 		});
 	}
+	
 	$(".addPersonIcon").click(e => {
+		chatroomMembers = chatroomMembers.split(",");
+		console.log("chatrooMmeememr k", chatroomMembers);
 		$(".chat-room-nothing").attr("class","chatHidden");
 		$(".modal-addChatMember").css("display","block");
 		let input = $(".modal-memberList input[name=memberId]");

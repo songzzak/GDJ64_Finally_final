@@ -9,10 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.workit.chat.model.dao.ChatDao;
 import com.workit.chat.model.dto.ChatMsg;
 import com.workit.chat.model.dto.Chatroom;
 import com.workit.chat.model.dto.MyChatroom;
@@ -42,7 +43,6 @@ public class ChatroomServiceImpl implements ChatroomService {
 	
 	// root 경로
 	private final String path = System.getProperty("user.dir");
-	
 
 	// 루트 경로에 있는 file directory
 	private final String fileDir = path + "/src/main/webapp/resources/upload/chat/";
@@ -52,6 +52,7 @@ public class ChatroomServiceImpl implements ChatroomService {
         if (files.isEmpty()) {
             return null;
         }
+        log.info("service path : " + path);
 
         // 원래 파일 이름 추출
         String origName = files.getOriginalFilename();
@@ -73,7 +74,6 @@ public class ChatroomServiceImpl implements ChatroomService {
 
         // 파일을 불러올 때 사용할 파일 경로
         String uploadPath = fileDir;
-        
         
         // DB에 저장하기 위해 Map생성 
         Map<String, Object> param = new HashMap<String, Object>();

@@ -53,24 +53,43 @@ public class ChatController {
 		return "/chat/chat";
 	}
 	
+//	// 선택한 채팅 방 정보 조회
+//	@PostMapping("/chatroom/{chatroomId}")
+//	@ResponseBody
+//	public ResponseEntity<List<Chatroom>> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
+//		Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
+//		int delResult = chatroomService.deleteNotify(myChatroomNo);
+//		log.info("delResult : " + delResult);
+//		if(delResult>0) {
+//			ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
+//			model.addAttribute("unreadMap",c);
+//			//result.put("readCount", c);
+//		}
+//		
+//		result.put("chatMember", chatService.selectCurrentChatMembers(chatroomId));
+//		result.put("chatList", chatroomService.selectChatroomByroomId(chatroomId));
+//		log.info("chatroom result");
+//		return ResponseEntity.ok().body(chatroomService.selectChatroomByroomId(chatroomId));
+//	}
 	
-	@PostMapping("/chatroom/{chatroomId}")
-	@ResponseBody
-	public ResponseEntity<List<Chatroom>> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
-		Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
-		int delResult = chatroomService.deleteNotify(myChatroomNo);
-		log.info("delResult : " + delResult);
-		if(delResult>0) {
-			ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
-			model.addAttribute("unreadMap",c);
-			//result.put("readCount", c);
+	// 선택한 채팅 방 정보 조회
+		@PostMapping("/chatroom/{chatroomId}")
+		@ResponseBody
+		public ResponseEntity<?> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
+			Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
+			int delResult = chatroomService.deleteNotify(myChatroomNo);
+			log.info("delResult : " + delResult);
+			if(delResult>0) {
+				ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
+				model.addAttribute("unreadMap",c);
+				//result.put("readCount", c);
+			}
+			
+			result.put("chatMember", chatService.selectCurrentChatMembers(chatroomId));
+			result.put("chatList", chatroomService.selectChatroomByroomId(chatroomId));
+			log.info("chatroom result");
+			return ResponseEntity.ok().body(result);
 		}
-		
-		result.put("chatMember", chatService.selectCurrentChatMembers(chatroomId));
-		result.put("chatList", chatroomService.selectChatroomByroomId(chatroomId));
-		log.info("chatroom result");
-		return ResponseEntity.ok().body(chatroomService.selectChatroomByroomId(chatroomId));
-	}
 	
 	
 	@PostMapping("/keyword")
