@@ -40,6 +40,7 @@ public class ChatController {
 		this.chatroomService = chatroomService;
 	}
 	
+	// 로그인한 회원 아이디로 채팅 방 조회 
 	@RequestMapping("/")
 	public String selectMyChatroomById(Model model, HttpSession session){
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginMember");
@@ -49,28 +50,8 @@ public class ChatController {
 		model.addAttribute("members", param.get("members"));
 		model.addAttribute("dept",param.get("dept"));
 		model.addAttribute("unreadMap", param.get("unreadMap"));
-		log.info("unreadMap : " + param.get("unreadMap"));
 		return "/chat/chat";
 	}
-	
-//	// 선택한 채팅 방 정보 조회
-//	@PostMapping("/chatroom/{chatroomId}")
-//	@ResponseBody
-//	public ResponseEntity<List<Chatroom>> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
-//		Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
-//		int delResult = chatroomService.deleteNotify(myChatroomNo);
-//		log.info("delResult : " + delResult);
-//		if(delResult>0) {
-//			ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
-//			model.addAttribute("unreadMap",c);
-//			//result.put("readCount", c);
-//		}
-//		
-//		result.put("chatMember", chatService.selectCurrentChatMembers(chatroomId));
-//		result.put("chatList", chatroomService.selectChatroomByroomId(chatroomId));
-//		log.info("chatroom result");
-//		return ResponseEntity.ok().body(chatroomService.selectChatroomByroomId(chatroomId));
-//	}
 	
 	// 선택한 채팅 방 정보 조회
 		@PostMapping("/chatroom/{chatroomId}")
@@ -78,11 +59,10 @@ public class ChatController {
 		public ResponseEntity<?> selectChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam int myChatroomNo, HttpSession session, Model model) {
 			Map<String, Object> result = chatService.selectChatroomByroomId(chatroomId);
 			int delResult = chatroomService.deleteNotify(myChatroomNo);
-			log.info("delResult : " + delResult);
 			if(delResult>0) {
 				ChatNotificationVO c = ChatNotificationVO.builder().myChatroomNo(myChatroomNo).readCount(0).build();
 				model.addAttribute("unreadMap",c);
-				//result.put("readCount", c);
+				result.put("readCount", c);
 			}
 			
 			result.put("chatMember", chatService.selectCurrentChatMembers(chatroomId));
@@ -91,24 +71,14 @@ public class ChatController {
 			return ResponseEntity.ok().body(result);
 		}
 	
-	
+	// 채팅 방 목록에서 검색
 	@PostMapping("/keyword")
 	@ResponseBody
 	public ResponseEntity<?> searchAllByKeyword(@RequestParam(value="keyword")String keyword, Model model){
-		log.info("{}", keyword);
-		log.info("{}", chatService.searchByKeyword(Map.of("keyword",keyword)));
 		return ResponseEntity.ok().body(chatService.searchByKeyword(Map.of("keyword",keyword)));
 	}
 	
-	
-	@PostMapping("/dept")
-	@ResponseBody
-	public List<Member> selectMember(){
-		log.info("{}", chatService.selectMemberAll());
-		return chatService.selectMemberAll();
-	}
-	
-	
+	// 새로운 채팅 방 생성
 	@PostMapping("/insert")
 	@ResponseBody
 	public ResponseEntity<?> insert(@RequestBody Chatroom chatroom, HttpSession session, Model model) {
@@ -123,18 +93,20 @@ public class ChatController {
 	    return ResponseEntity.ok().body(chatroomService.selectChatroomById(chatroomId));
 	}
 	
+	// 채팅 방 나가기
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public int deleteMyChatroom(@RequestParam(value="chatroomId")String chatroomId, @RequestParam(value="loginMember")String loginMember) {
 		return chatService.deleteMyChatroom(Map.of("chatroomId",chatroomId, "loginMember",loginMember));
 	}
-	
+	// 채팅 방 멤버 조회
 	@PostMapping("/member")
 	@ResponseBody
 	public List<Member> selectChatMemberById(@RequestParam(value="chatroomId")String chatroomId){
 		return chatService.selectMemberAll();
 	}
 	
+	// 안 읽은 채팅 알림 개수 조회
 	@PostMapping("/notify")
 	@ResponseBody
 	public int chatNotificationCount(@RequestParam String memberId) {

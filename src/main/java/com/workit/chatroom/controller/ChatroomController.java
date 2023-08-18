@@ -56,7 +56,6 @@ public class ChatroomController {
     				throws IOException {
 		log.info("{}", chatroomId);
 		log.info("{}", files);
-		//String path = request.getRequestURI();
 		String fileDirectory = session.getServletContext().getRealPath("/resources/upload/chat/");
 		log.info("file upload fileDirectory : ", fileDirectory);
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginMember");
@@ -76,7 +75,7 @@ public class ChatroomController {
 						if(result>0) {
 							String chatId = chat.getChatId();
 							log.info("반환한 chatId : " , chatId);
-							AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId, chatId);
+							AttachedFile uploadFile = chatroomService.saveFile(multipartFile, chatroomId, chatId, fileDirectory);
 							log.info("controller file");
 							log.info("{}", uploadFile);
 							if(uploadFile!=null) {

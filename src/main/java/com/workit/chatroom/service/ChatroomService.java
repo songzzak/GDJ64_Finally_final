@@ -20,7 +20,7 @@ public interface ChatroomService {
 	
 	int insertChat(ChatMsg chat);
 	
-	AttachedFile saveFile(MultipartFile file, String chatroomId, String chatId) throws IOException;
+	AttachedFile saveFile(MultipartFile file, String chatroomId, String chatId, String fileDirectory) throws IOException;
 	
 	List<ChatroomFile> selectFileByChatroomId(String chatroomId);
 	
