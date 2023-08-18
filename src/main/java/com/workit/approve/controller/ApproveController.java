@@ -25,7 +25,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +39,7 @@ import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
+import com.workit.approve.model.dto.ToDo;
 import com.workit.approve.model.service.ApproveService;
 import com.workit.common.PageFactory;
 import com.workit.employee.service.EmployeeService;
@@ -1412,5 +1412,23 @@ public class ApproveController {
 			m.addAttribute("url", "/approve/waitingApprove.do?mId="+mId);
 		}
 		return "common/msg";	
+	}
+	
+
+	
+	@PostMapping("/insertToDo") // 해당 유저의 todo 리스트 추가
+	@ResponseBody  // ajax 처리할때 꼭 필요한 어노테이션 -> ResponseBody
+	public ToDo todo(String mId, String content) {
+		Map<String,Object> param= new HashMap<>();
+		param.put("mId", mId);
+		param.put("content", content);
+
+		int result = service.insertToDo(param);
+		int no = service.selectToDoNo();
+		param.put("no", no);
+		ToDo todo = service.selectToDoById(param);
+	
+		return todo; // 객체자체를 반환해서 js에서 태그로 만들어줌
+		
 	}
 }

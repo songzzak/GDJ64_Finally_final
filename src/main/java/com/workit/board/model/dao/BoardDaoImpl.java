@@ -225,4 +225,15 @@ public class BoardDaoImpl implements BoardDao {
 		return session.insert("board.insertBoardFile",boardFileMap);
 	}
 
+	@Override
+	public List<Notice> selectNoticeTopFive(SqlSessionTemplate session) {
+		return session.selectList("board.selectNoticeTopFive");
+	}
+
+	@Override
+	public List<Board> selectBoardTopFive(SqlSessionTemplate session,Map<String, Object> param) {
+		return session.selectList("board.selectBoardTopFive",param);
+	}
+	
+	
 }

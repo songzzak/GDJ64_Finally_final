@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -28,6 +29,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.workit.approve.model.dto.Approve;
+import com.workit.approve.model.dto.ToDo;
+import com.workit.approve.model.service.ApproveService;
+import com.workit.board.model.dto.Board;
+import com.workit.board.model.dto.Notice;
+import com.workit.board.model.service.BoardService;
 import com.workit.chatroom.service.ChatroomService;
 import com.workit.member.model.vo.MemberVO;
 import com.workit.member.service.MemberService;
@@ -43,7 +50,10 @@ public class MemberController {
 	private JavaMailSender javaMailSender;
 	@Autowired
 	private ChatroomService chatroomService;
-	
+	@Autowired
+	private ApproveService aservice;
+	@Autowired
+	private BoardService bservice;
 	
 	//로그인 페이지
 	@RequestMapping("/loginpage")
@@ -89,14 +99,38 @@ public class MemberController {
 	
 	//메인 페이지
 	@GetMapping("/")
-	public String mainpage(@RequestParam Map<String,Object> param, HttpSession session) {
+	public String mainpage(@RequestParam Map<String,Object> param, HttpSession session, Model m) {
+		MemberVO loginMember=(MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String memberId = loginMember.getMemberId();
+		String deptName = loginMember.getDept().getDeptName();
+
+		param.put("processState","결재처리중");
+		param.put("approveState", "결재대기");
+		param.put("mId", memberId);
+		param.put("deptName", deptName);
+		List<Approve> approves= aservice.selectWaitingApproveTopFive(param); // 본인순서의 결재선 상위 5개 조회
+		int approveCnt = aservice.selectSelectWaitingApproveCnt(param); // 본인순서의 결재선의 총 개수
+		
+		List<Notice> notices = bservice.selectNoticeTopFive();  // 공지사항 최근 5개 조회
+		List<Board> boards = bservice.selectBoardTopFive(param); // 본인 부서 게시글 최근 5개 조회
+		List<ToDo> toDos = aservice.selectToDoListById(param);
+		
+		m.addAttribute("approves",approves);
+		m.addAttribute("approveCnt",approveCnt);
+		m.addAttribute("notices",notices);
+		m.addAttribute("boards",boards);
+		m.addAttribute("toDos",toDos);
+		
+		System.out.println(toDos.toString());
 		return "index";
+		/* return null; */
 	}
 	
 	//마이 페이지 이동
 	@GetMapping("/mypage")
 	public String enrollView(Model model, HttpSession session) {
 		String memberId=((MemberVO)session.getAttribute("loginMember")).getMemberId();
+		
 		model.addAttribute("approv",service.selectApprovMember(memberId));
 		return "member/mypage";
 	}

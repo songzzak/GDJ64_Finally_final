@@ -15,6 +15,7 @@ import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
+import com.workit.approve.model.dto.ToDo;
 import com.workit.member.model.dto.Member;
 
 @Service
@@ -209,6 +210,36 @@ public class ApproveServiceImpl implements ApproveService {
 	@Override
 	public int insertAnnualLeave(Map<String, Object> param) {
 		return dao.insertAnnualLeave(session,param);
+	}
+
+	@Override
+	public List<Approve> selectWaitingApproveTopFive(Map<String, Object> param) {
+		return dao.selectWaitingApproveTopFive(session,param);
+	}
+
+	@Override
+	public int selectSelectWaitingApproveCnt(Map<String, Object> param) {
+		return dao.selectSelectWaitingApproveCnt(session,param);
+	}
+
+	@Override
+	public int insertToDo(Map<String, Object> param) {
+		return dao.insertToDo(session,param);
+	}
+
+	@Override
+	public List<ToDo> selectToDoListById(Map<String, Object> param) {
+		return dao.selectToDoListById(session,param);
+	}
+
+	@Override
+	public int selectToDoNo() {
+		return dao.selectToDoNo(session);
+	}
+
+	@Override
+	public ToDo selectToDoById(Map<String, Object> param) {
+		return dao.selectToDoById(session,param);
 	}
 	
 	
