@@ -18,8 +18,8 @@
 						<button onclick="fn_profileSubmit();">수정</button>
 					</div>
 				</form>
-				<p>${loginMember.memberName } 님</p>
-				<div>
+				<p><span id="mypage-name">${loginMember.memberName }</span> 님</p>
+				<div class="mypage-simple-info">
 					<p>부서</p>
 					<input type="text" value="${loginMember.dept.deptName }" disabled>
 					<p>직책</p>
@@ -148,7 +148,7 @@
 		strDate+=strId.substr(2,2)+"-"+strId.substr(4,2);
 		$("#hire-date").val(strDate);
 		//이메일
-		if($("#mail").val()!=null){
+		if($("#mail").val()!=""){
 			emailFl=true;
 		}
 		$("#mail").change(function(){
