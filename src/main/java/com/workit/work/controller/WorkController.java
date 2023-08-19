@@ -322,11 +322,12 @@ public class WorkController {
 	 }
 
 	 @GetMapping("/workChange")
-	 public String workChangeList(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage) {
+	 public String workChangeList(Model model, @RequestParam(value="cPage",defaultValue="1") int cPage,
+			 HttpServletRequest request) {
 		 List<WorkChange> workChangeList = service.selectAllWorkChange(Map.of("cPage",cPage,"numPerpage",10));
 		 int totalData=service.selectWorkChangeCount();
 		 model.addAttribute("workChangeList", workChangeList);
-		 model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,"/work/workChange"));
+		 model.addAttribute("pageBar",Pagenation.getPage(cPage,10,totalData,request.getRequestURI()));
 		 return "/work/workChangeList";
 	 }
 

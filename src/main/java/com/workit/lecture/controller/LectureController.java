@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,8 @@ public class LectureController {
 	@GetMapping("/lectureList")
 	public String selectLectureAll(Model model,@RequestParam(value="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="searchType", required=false) String searchType,
-            @RequestParam(value="searchKeyword", required=false) String searchKeyword) {
+            @RequestParam(value="searchKeyword", required=false) String searchKeyword,
+            HttpServletRequest request) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("cPage", cPage);
 		params.put("numPerpage", 5);
@@ -50,7 +52,7 @@ public class LectureController {
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchKeyword", searchKeyword);
 		model.addAttribute("lectureList", lectureList);
-		model.addAttribute("pageBar",Pagenation.getPage(cPage,5,totalData,"/lecture/lectureList"));
+		model.addAttribute("pageBar",Pagenation.getPage(cPage,5,totalData,request.getRequestURI()));
 		
 		return "/lecture/lectureList";
 	}
