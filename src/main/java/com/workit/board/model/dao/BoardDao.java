@@ -96,5 +96,7 @@ public interface BoardDao {
 
 	int insertBoardFile(SqlSessionTemplate session, Map<String, Object> boardFileMap);
 
-
+	List<Notice> selectNoticeTopFive(SqlSessionTemplate session);
+	
+	List<Board> selectBoardTopFive(SqlSessionTemplate session,Map<String, Object> param);
 }

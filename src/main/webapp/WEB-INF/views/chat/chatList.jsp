@@ -84,10 +84,8 @@
 	
 	// 채팅방 나가기
 	$("img.deleteChatRoom").click(function() {
-		console.log($(this));
 		event.stopPropagation();
 		chatroomId = $(this).next().val();
-		console.log("chatroomId : ", chatroomId);
 		fn_deleteChatroom(chatroomId);
 	}) 
 	
@@ -123,9 +121,6 @@
 				myChatroomNo : myChatroomNo
 			},
 			success: function(data) {
-				console.log("open chatroom success");
-				data = data[0];
-				console.log("open chat : " , data);
 				
 				if(data == null || data == "" ){
 					$(".chat-header .title-container .title").text(chatroomTitle);
@@ -143,21 +138,30 @@
 		});
 	}
 	
-	let chatroomMembers;
+	let chatroomMembers = ""; // 현재 채팅 멤버 
 	let chatroomFiles;
 	let divPrevChat;
-	let chatroomMemberName="";
+	let chatroomMemberName = "";
+	let chatroomMemberIds = "";
 	
 	const fn_viewChatMsg=(data)=>{
 		console.log("chatMsg method");
 		console.log(data);
 		divPrevChat = $("<div>").attr("class","prev-chat");
-		let chats = data.chat;
-		console.log(chats);
-		chats.forEach(c => {
-			if(data.chatroomId!=null && data.chatroomId == chatroomId){
-				$(".chat-input-container").css("display","flex");
-				$(".chat-room-nothing").attr("class","chatHidden");
+		
+		// 현재 채팅 방에 참여 중인 회원 가져오기
+		var chatroomMember = data.chatMember;
+		chatroomMember.forEach(member =>{
+			console.log("chatroommember : ", member.member.memberName);
+			chatroomMembers += member.member.memberName+",";
+			chatroomMemberIds += member.member.memberId+","; 
+		})
+		chatroomMembers = chatroomMembers.slice(0,-1);
+		chatroomMemberIds = chatroomMemberIds.slice(0,-1);
+		var chatList = data.chatList;
+		chatList.forEach(chat =>{
+			var chats = chat.chat;
+			chats.forEach(c=>{
 				const cDate = new Date(c.chatDate);
 				const chatDate = cDate.toLocaleString('ko-KO');
 				if (c.member.memberId == loginMember) {
@@ -165,7 +169,7 @@
 					chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
 					chatMsg.append($("<span>").attr("class", "chat-date block").text(chatDate));
 					chatMsg.append($("<input type='hidden'>").attr("value",c.chatId).attr("class","chat-msg-Id"));
-				} else {
+				}else {
 					var chatMsg = $("<div>").attr("class", "chat-msg");
 					chatMsg.append($("<div class='chatMember'>").append($("<h5>").text(c.member.memberName)).append($("<input>").attr("type", "hidden").attr("value", c.member.memberId).addClass("chatMemberId")));
 					chatMsg.append($("<span>").attr("class", "chat-msgbx").text(c.chatContent));
@@ -173,12 +177,13 @@
 					chatMsg.append($("<input type='hidden'>").attr("value",c.chatId).attr("class","chat-msg-Id"));
 				}
 				chatMsg.append($("<input>").attr("type", "hidden").attr("value", data.chatroomId).attr("class","roomId"));
+				chatMsg.append($("<input>").attr("type", "hidden").attr("value", chatroomMembers).attr("class","chatroomMembers"));
+				chatMsg.append($("<input>").attr("type", "hidden").attr("value", chatroomMemberIds).attr("class","chatroomMemberIds"));
 				divPrevChat.append(chatMsg);
 				$(".chat-fileform input[type='hidden']").attr("value",data.chatroomId);
-			}
+			})
 			$(".chatRoom-container .chat-room-inner .chat-msgBox-container").append(divPrevChat);
 		})
-		
 	}
 	
 	const fn_viewChatroomFile=(data)=>{

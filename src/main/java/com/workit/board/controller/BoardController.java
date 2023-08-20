@@ -1,4 +1,4 @@
-package com.workit.board.controller;
+	package com.workit.board.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +55,8 @@ public class BoardController {
 	public String noticeList(Model model, 
 	                         @RequestParam(value="cPage",defaultValue="1") int cPage,
 	                         @RequestParam(value="type", required=false) String searchType,
-	                         @RequestParam(value="keyword", required=false) String searchKeyword) {
+	                         @RequestParam(value="keyword", required=false) String searchKeyword,
+	                         HttpServletRequest request) {
 
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("cPage", cPage);
@@ -73,7 +74,7 @@ public class BoardController {
 	    model.addAttribute("searchType", searchType);
 	    model.addAttribute("searchKeyword", searchKeyword);
 	    model.addAttribute("noticeList", noticeList);
-	    model.addAttribute("pageBar", Pagenation.getPage(cPage,10,totalData,"/board/noticeList"));
+	    model.addAttribute("pageBar", Pagenation.getPage(cPage,10,totalData,request.getRequestURI()));
 	    return "board/noticeList";
 	}
 
@@ -450,7 +451,7 @@ public class BoardController {
 	                         @RequestParam(value="cPage",defaultValue="1") int cPage,
 	                         @RequestParam(value="type", required=false) String searchType,
 	                         @RequestParam(value="keyword", required=false) String searchKeyword,
-	                         HttpSession session) {
+	                         HttpSession session, HttpServletRequest request) {
 		String deptCode = ((MemberVO)session.getAttribute("loginMember")).getDept().getDeptCode();
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("deptCode", deptCode);
@@ -469,7 +470,7 @@ public class BoardController {
 	    model.addAttribute("searchType", searchType);
 	    model.addAttribute("searchKeyword", searchKeyword);
 	    model.addAttribute("boardList", boardList);
-	    model.addAttribute("pageBar", Pagenation.getPage(cPage,10,totalData,"/board/boardList"));
+	    model.addAttribute("pageBar", Pagenation.getPage(cPage,10,totalData,request.getRequestURI()));
 	    return "board/boardList";
 	}
 

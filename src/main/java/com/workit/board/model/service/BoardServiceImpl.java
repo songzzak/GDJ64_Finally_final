@@ -228,7 +228,14 @@ public class BoardServiceImpl implements BoardService {
 		return dao.insertBoardFile(session, boardFileMap);
 	}
 
+	@Override
+	public List<Notice> selectNoticeTopFive() {
+		return dao.selectNoticeTopFive(session);
+	}
 
+	public List<Board> selectBoardTopFive(Map<String, Object> param){
+		return dao.selectBoardTopFive(session,param);
+	}
 
 	
 

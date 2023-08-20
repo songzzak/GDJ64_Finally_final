@@ -1,6 +1,5 @@
 package com.workit.approve.model.dao;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
+import com.workit.approve.model.dto.ToDo;
 import com.workit.member.model.dto.Member;
 
 public interface ApproveDao {
@@ -52,4 +52,11 @@ public interface ApproveDao {
 	public int timeDifference(SqlSession session,Map<String,Object> param);
 	public String selectStartTime(SqlSession session,Map<String,Object> param);
 	public int insertAnnualLeave(SqlSession session,Map<String,Object> param);
+	public List<Approve> selectWaitingApproveTopFive(SqlSession session,Map<String,Object> param);
+	public int selectSelectWaitingApproveCnt(SqlSession session,Map<String,Object> param);
+	public int insertToDo(SqlSession session, Map<String,Object> param);
+	public List<ToDo> selectToDoListById(SqlSession session, Map<String,Object> param);
+	public int selectToDoNo(SqlSession session);
+	public ToDo selectToDoById(SqlSession session, Map<String,Object> param);
+	public int deleteToDo(SqlSession session,Map<String,Object> param);
 }

@@ -69,5 +69,6 @@ public interface BoardService {
 	List<NoticeFile> selectNoticeFileByNo(int no);
 	int insertNoticeFile(Map<String, Object> noticeFileMap);
 	int insertBoardFile(Map<String, Object> boardFileMap);
-
+	List<Notice> selectNoticeTopFive();
+	List<Board> selectBoardTopFive(Map<String, Object> param);
 }

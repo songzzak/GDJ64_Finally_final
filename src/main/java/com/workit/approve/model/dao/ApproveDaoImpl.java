@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
+
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,7 @@ import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
+import com.workit.approve.model.dto.ToDo;
 import com.workit.member.model.dto.Member;
 
 @Repository
@@ -208,5 +211,41 @@ public class ApproveDaoImpl implements ApproveDao {
 	public int insertAnnualLeave(SqlSession session, Map<String, Object> param) { // 기간차이일수만큼 연차테이블 생성
 		return session.insert("approve.insertAnnualLeave",param);
 	}
+
+	@Override
+	public List<Approve> selectWaitingApproveTopFive(SqlSession session, Map<String, Object> param) { // 본인 결재할 문서중 상위 5개 출력
+		return session.selectList("approve.selectWaitingApproveTopFive",param);
+	}
+
+	@Override
+	public int selectSelectWaitingApproveCnt(SqlSession session, Map<String, Object> param) { // 본인이 결재대상인 기안문서 총 개수
+		return session.selectOne("approve.selectSelectWaitingApproveCnt",param);
+	}
+
+	@Override
+	public int insertToDo(SqlSession session, Map<String, Object> param) { // 본인 계정으로 투두 리스트 생성
+		return session.insert("approve.insertToDo",param);
+	}
+
+	@Override
+	public List<ToDo> selectToDoListById(SqlSession session, Map<String, Object> param) { // 본인아이디에서 작성한 투두리스트 조회
+		return session.selectList("approve.selectToDoListById",param);
+	}
+
+	@Override
+	public int selectToDoNo(SqlSession session) {  // 최근 insert한 ToDo 시퀀스번호 리턴
+		return session.selectOne("approve.selectToDoNo");
+	}
+
+	@Override
+	public ToDo selectToDoById(SqlSession session, Map<String, Object> param) { // 최근 시퀀스번호로 ToDo 하나 조회
+		return session.selectOne("approve.selectToDoById",param);
+	}
+
+	@Override
+	public int deleteToDo(SqlSession session, Map<String, Object> param) {
+		return session.delete("approve.deleteToDo",param);
+	}
+	
 	
 }

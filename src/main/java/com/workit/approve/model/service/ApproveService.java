@@ -1,6 +1,5 @@
 package com.workit.approve.model.service;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,7 @@ import com.workit.approve.model.dto.ApproveLine;
 import com.workit.approve.model.dto.Expenditure;
 import com.workit.approve.model.dto.ReferLine;
 import com.workit.approve.model.dto.Time;
+import com.workit.approve.model.dto.ToDo;
 import com.workit.member.model.dto.Member;
 
 public interface ApproveService {
@@ -51,4 +51,11 @@ public interface ApproveService {
 	public int timeDifference(Map<String,Object> param);
 	public String selectStartTime(Map<String,Object> param);
 	public int insertAnnualLeave(Map<String,Object> param);
+	public List<Approve> selectWaitingApproveTopFive(Map<String,Object> param);
+	public int selectSelectWaitingApproveCnt(Map<String,Object> param);
+	public int insertToDo(Map<String,Object> param);
+	public List<ToDo> selectToDoListById(Map<String,Object> param);
+	public int selectToDoNo();
+	public ToDo selectToDoById(Map<String,Object> param);
+	public int deleteToDo(Map<String,Object> param);
 }
