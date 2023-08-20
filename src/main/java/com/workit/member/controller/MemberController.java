@@ -73,13 +73,12 @@ public class MemberController {
 	@RequestMapping("/login/success")
 	public String login(@RequestParam Map<String,Object> param, HttpSession session){
 		MemberVO loginMember=(MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		session.setAttribute("loginMember", loginMember);
-		//첫 로그인 시 firstLogin으로 전환 추가 예정
+		session.setAttribute("loginMember", loginMember); //로그인 정보 저장
 		String memberId = loginMember.getMemberId();
 		int unread = chatroomService.chatNotificationCount(memberId);
 		session.setAttribute("unread", unread);
 		if(loginMember.getEmail()==null) {
-			return "member/firstLogin";
+			return "member/firstLogin"; //email 인증이 안 된 경우 인증 화면 전환
 		}else {
 			return "redirect:/";			
 		}

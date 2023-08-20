@@ -222,7 +222,7 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public int insertBoardFile(SqlSessionTemplate session, Map<String, Object> boardFileMap) {
-		return session.insert("board.insertBoardFile",boardFileMap);
+		return session.insert("board.updateBoardFile",boardFileMap);
 	}
 
 	@Override

@@ -247,14 +247,15 @@ $(document).ready(function() {
     });
 	
 	
-	//총연차와 사용연차 값
-	let totalLeave = parseInt($('#annualLeaveDiv .row li:nth-child(1) .roundBolder').text(), 10);
-    let usedLeave = parseInt($('#annualLeaveDiv .row li:nth-child(2) .roundBolder').text(), 10);
-    // 잔여 연차의 값
-    let remainingLeave = totalLeave - usedLeave;    
-    $('#annualLeaveDiv .row li:nth-child(3) .roundBolder').text(remainingLeave);
-	
-    // 현재의 년도와 월
+	// 총연차와 사용연차 값
+	let totalLeave = parseFloat($('#annualLeaveDiv .row li:nth-child(1) .roundBolder').text());
+	let usedLeave = parseFloat($('#annualLeaveDiv .row li:nth-child(2) .roundBolder').text());
+
+	// 잔여 연차의 값
+	let remainingLeave = totalLeave - usedLeave;    
+
+	$('#annualLeaveDiv .row li:nth-child(3) .roundBolder').text(remainingLeave.toFixed(1));
+
     var currentYear = new Date().getFullYear();
     var currentMonth = new Date().getMonth() + 1;
     $(".year-month").text(currentYear + "년 " + currentMonth + "월");

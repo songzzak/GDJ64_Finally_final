@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -151,7 +152,8 @@ public class MeetController {
 
 	@GetMapping("/myMeetList")
 	public String selectMeetById(Model model, HttpSession session,
-			@RequestParam(value="cPage",defaultValue="1") int cPage) {
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			HttpServletRequest request) {
 		String memberId = ((MemberVO) session.getAttribute("loginMember")).getMemberId();
 		Map<String, Object> params = new HashMap<>();
 		params.put("cPage", cPage);
@@ -159,7 +161,7 @@ public class MeetController {
 		params.put("memberId", memberId);
 		int totalData=service.selectMeetByIdCount(params);
 		model.addAttribute("meets", service.selectMeetByMember(params));
-		model.addAttribute("pageBar",Pagenation.getPage(cPage,5,totalData,"/meet/myMeetList"));
+		model.addAttribute("pageBar",Pagenation.getPage(cPage,5,totalData,request.getRequestURI()));
 		
 		LocalDateTime ldt = LocalDateTime.now();
 		Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
