@@ -39,7 +39,6 @@
 			<div class="modal-new-chat-title chatHidden">
 				<label for="chatroomTitle">채팅 제목 : </label><input type="text" name="chatroomTitle" placeholder="채팅 제목"><br>
 			</div>
-			<div class="currentChatMember"></div>
 			<c:if test="${not empty dept && not empty members}">
 				<c:forEach var="dept" items="${dept}">
 					<div class="dept-list-container section-shadow">
@@ -233,9 +232,7 @@
 	$(".addPersonIcon").click(e => {
 		chatroomMembers =  $(".chatroomMembers").val();
 		chatroomMemberIds = $(".chatroomMemberIds").val();
-		/* console.log("chatroomMembers : " , chatroomMembers);
-		var cmember = $("<span>").text(chatroomMembers);
-		$(".modal-updateChat .modal-content .currentChatMember").append(cmember); */
+		$(".modal-updateChat .modal-content .currentChatMember").append(chatroomMembers);
 		
 		if(chatroomMemberIds != null || chatroomMemberIds != ""){
 			chatroomMemberIds = chatroomMemberIds.split(",");

@@ -116,7 +116,7 @@ h5 {
 }
 .chat-room-inner {
 	padding: 0 3rem;
-	min-height: 700px;
+	min-height: 600px;
 	position: relative;
 }
 .chat-msg h5{

@@ -37,7 +37,6 @@
 					<h5 class="chatroom-title chat-select">${r.chatroom.chatroomTitle}</h5>
 					<img src="${path}/resources/images/common/more.svg" alt="chat-delete" class="deleteChatRoom" data-cNo="${r.myChatroomNo}">
 					<input type="hidden" value="${r.myChatroomNo}" name="chatRoomNo" class="roomNo">
-					<h5>${r.myChatroomNo}</h5>
 					<c:if test="${not empty unreadMap}">
 						<c:forEach var="unread" items="${unreadMap}">
 							 <c:if test="${r.myChatroomNo == unread.myChatroomNo && unread.readCount!=0}">
@@ -105,7 +104,6 @@
 		chatroomTitle = clickedDiv.data("title");
 		chatroomCode = clickedDiv.data("code");
 		$(".chat-msgBox-container").empty();
-		if(chatroomCode=='P') $(".addPersonIcon").css("display","none");
 		fn_openChatroom();
 	 });
 	var chatMsg;
@@ -123,7 +121,8 @@
 			success: function(data) {
 				
 				if(data == null || data == "" ){
-					$(".chat-header .title-container .title").text(chatroomTitle);
+					$(".chat-header .title-container .title").text(data.chatList.chatroomTitle);
+				if(data.chat.chatroomCode=='P') $(".addPersonIcon").css("display","none");
 					fn_startChat();
 				}else{
 					fn_viewChatMsg(data);
