@@ -144,19 +144,18 @@
 	let chatroomMemberIds = "";
 	
 	const fn_viewChatMsg=(data)=>{
-		console.log("chatMsg method");
 		console.log(data);
 		divPrevChat = $("<div>").attr("class","prev-chat");
 		
 		// 현재 채팅 방에 참여 중인 회원 가져오기
-		var chatroomMember = data.chatMember;
+		/* var chatroomMember = data.chatMember;
 		chatroomMember.forEach(member =>{
 			console.log("chatroommember : ", member.member.memberName);
 			chatroomMembers += member.member.memberName+",";
 			chatroomMemberIds += member.member.memberId+","; 
 		})
 		chatroomMembers = chatroomMembers.slice(0,-1);
-		chatroomMemberIds = chatroomMemberIds.slice(0,-1);
+		chatroomMemberIds = chatroomMemberIds.slice(0,-1); */
 		var chatList = data.chatList;
 		chatList.forEach(chat =>{
 			var chats = chat.chat;
