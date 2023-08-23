@@ -48,6 +48,8 @@
 				</div>
 
 				<input type="hidden" name="memberId" value="${loginMember.memberId}">
+				<input type="hidden" name="approveKind" value="근태신청서">
+
 
 				<div id="one-width">
 					<div id="attendance-kind" class="question">종류</div>

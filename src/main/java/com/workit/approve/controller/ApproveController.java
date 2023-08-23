@@ -812,20 +812,20 @@ public class ApproveController {
 
 		String path = session.getServletContext().getRealPath("/resources/upload/approve/"); // 파일 저장 경로
 
-		if (geuntae == null && title != null) { // 연장근무신청서의 경우
+		if (approveKind.equals("연장근무신청서")) { // 연장근무신청서의 경우
 			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(m)
 					.approveState(approveState).approveKind(approveKind).build();
 			int result = service.insertApprove(ap); // 기안서 테이블 생성
 		}
 
-		if (geuntae != null) { // 근태신청서의 경우
+		if (approveKind.equals("근태신청서")) { // 근태신청서의 경우
 			Approve ap = Approve.builder().approveTitle(title).approveContent(content).memberId(m)
 					.approveState(approveState).approveKind(geuntae).build();
 			int result = service.insertApprove(ap); // 기안서 테이블 생성
 			if(result<1)flag=false;
 		}
 
-		if (account != null && useHistory != null && price != null) { // 지출결의서의 경우
+		if (approveKind.equals("지출결의서")) { // 지출결의서의 경우
 			System.out.println(approveKind);
 			System.out.println(title);
 			System.out.println(content);
