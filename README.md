@@ -5,7 +5,7 @@
 <img width="329" alt="image" src="https://">
 </div>
 
-> **구디 아카데미 파이널 프로젝트 : IT학원 직원들을 위한 그룹웨어 서비스
+**구디 아카데미 파이널 프로젝트 : IT학원 직원들을 위한 그룹웨어 서비스
 >* 참여 인원 : 4명
 >* 개발 기간 : 7/24~8/21
 
@@ -64,7 +64,6 @@
 ## Stacks 🐈
 
 ### 사용 툴
- 
 <img src="https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white"> 
 <img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
 <br>
@@ -75,38 +74,41 @@
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
 <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
 <br>
-  
 ### 기술
 <img src="https://img.shields.io/badge/json-000000?style=for-the-badge&logo=json&logoColor=white">
 <img src="https://img.shields.io/badge/apachemaven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white">
-
+<br>
 ### 프레임워크
 <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
-
+<br>
 ### 시스템
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 <br>
 ---
 ## 화면 구성 📺
-| 메인 페이지  |  소개 페이지   |
-| :-------------------------------------------: | :------------: |
-|  <img width="329" src="https://user-images.githubusercontent.com/50205887/208036155-a57900f7-c68a-470d-923c-ff3c296ea635.png"/> |  <img width="329" src="https://user-images.githubusercontent.com/50205887/208036645-a76cf400-85bc-4fa2-af72-86d2abf61366.png"/>|  
-| 강좌 소개 페이지   |  강의 영상 페이지   |  
-| <img width="329" src="https://user-images.githubusercontent.com/50205887/208038737-2b32b7d2-25f4-4949-baf5-83b5c02915a3.png"/>   |  <img width="329" src="https://user-images.githubusercontent.com/50205887/208038965-43a6318a-7b05-44bb-97c8-b08b0495fba7.png"/>     |
-
+### 로그인 페이지
+### 메인 페이지
+### 근태 관리
+### 강의 관리
+### 회의실 예약
+### 게시판
 ---
 ## 주요 기능 📦
 
-### ⭐️ 강좌 선택 및 강의 영상 시청 기능
-- Scratch, Python 2개 강좌 및 각 강좌마다 10개 가량의 강의 영상 제공
-- 추후 지속적으로 강좌 추가 및 업로드 예정
+### ⭐️근태 관리
+- 사용자는 출퇴근 시간을 직접 등록할 수 있습니다.
+- 시스템은 유효성 검사를 통해 해당 일자에 로그인 계정의 출퇴근 기록이 이미 있는지 확인합니다.
+- 기록이 없을 경우에만 정상적으로 시간을 등록합니다.
+- 월별 출퇴근 정보를 AJAX를 이용하여 월별 출퇴근 데이터를 비동기식으로 불러옵니다.
 
-### ⭐️ 강의 관련 및 단체에 대한 자유로운 댓글 작성 가능
-- Disqus를 이용하여 강의 관련 질문이나 단체에 대한 질문 작성 가능
+### ⭐️ 회의실 예약
+- FullCalendar API와 데이터베이스를 연동하여, 회의실 예약목록을 달력 형태로 출력합니다.
+- FullCalendar에서 일정을 클릭하면, 해당 예약의 상세내용을 모달창으로 보여줍니다.
 
-### ⭐️ 이어 학습하기 기능
-- Cookie 기능을 이용하여 이전에 학습했던 내용 이후부터 바로 학습 가능
+### ⭐️ 게시판
+- 글쓰기에는 SmartEditor API를 사용하며, 첨부파일 등록 기능이 있습니다.
+- 대댓글은 댓글 테이블 자신을 참조하여 구현되어 있습니다. 즉, 대댓글은 원래의 댓글과 같은 테이블에 저장하되, 참조 ID를 이용해 원 댓글과 연결됩니다.
 
 
 ## 프로젝트 진행 방식
