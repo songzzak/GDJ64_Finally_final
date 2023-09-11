@@ -1,5 +1,5 @@
 
-# workit
+# WorkIt
 
 <div align="center">
 <img width="330" alt="image" src="https://user-images.githubusercontent.com/131333331/267008158-107995f8-b076-484a-ad82-a2d2ad423d28.png">
@@ -11,7 +11,6 @@
 > 행정 업무와 강사들의 업무를 체계적으로 관리할 수 있는 다양한 기능을 제공하며, 강사들 간의 실시간 커뮤니케이션과 정보 공유를 강화하는 역할을 수행합니다.
 > 실시간 채팅 기능과 공지사항 게시판을 통해 강사들은 손쉽게 의견을 교환하고 중요한 정보를 공유할 수 있습니다.
 
-** 구디 아카데미 파이널 프로젝트 : IT학원 직원들을 위한 그룹웨어 서비스
 > 참여 인원 : 4명
 > 개발 기간 : 7/24~8/21
 
@@ -25,6 +24,7 @@
 > Java에서 try-catch-finally 문에서 최종적으로 실행되는 finally 블록은 예외 발생 여부와 상관없이 항상 실행되는 부분입니다.
 > 팀명 "Finally"는 마침내 모인 네명의 팀원들이 프로젝트에서도 성공적인 완료와 함께 모든 과정을 꼼꼼히 마무리하고자 하는 의지를 담고 있습니다.
 
+## 팀원별 담당
 ### 😀조윤진
 #### 팀장
 #### Git 관리 : repository 생성 및 Github를 통한 형상관리
@@ -67,7 +67,6 @@
 ### 사용 툴
 <img src="https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white"> 
 <img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
-<br>
 
 ### 언어
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
@@ -75,23 +74,19 @@
 <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
 <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
-<br>
 
 ### 기술
 <img src="https://img.shields.io/badge/json-000000?style=for-the-badge&logo=json&logoColor=white">
 <img src="https://img.shields.io/badge/apachemaven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white">
-<br>
 
 ### 프레임워크
 <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
-<br>
 
 ### 시스템
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
 <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
-<br>
 
 ---
 
@@ -104,16 +99,16 @@
 ![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/0a04cebe-5098-4da3-8b43-5a1ceb6f45d6)
 
 ### 근태 관리
-![image](https://www.notion.so/Work-IT-c066af0dcba64979a066496cfd196da0?pvs=4#da2290c59b57455daf9d26cf88839e61)
+![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/38fed869-d144-4bc3-b630-8affd353f827)
 
 ### 강의 관리
-![image](https://www.notion.so/Work-IT-c066af0dcba64979a066496cfd196da0?pvs=4#8e963736a191487a82a978dd02b8f77c)
+![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/4381cfde-4b6c-4260-b9c0-0c6e1bd881c6)
 
 ### 회의실 예약
-![image](https://www.notion.so/Work-IT-c066af0dcba64979a066496cfd196da0?pvs=4#7d86d686375d46438359148ba78c4085)
+![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/b7f83989-9deb-4293-9d44-1f6d62128e59)
 
 ### 게시판
-![image](https://www.notion.so/Work-IT-c066af0dcba64979a066496cfd196da0?pvs=4#5c5dca64aae446c4a7311c8d64c9b4b0)
+![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/2495b807-900f-41db-b554-05799df5fa28)
 
 ---
 
