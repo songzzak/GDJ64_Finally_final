@@ -29,7 +29,7 @@
 #### 팀장
 #### Git 관리 : repository 생성 및 Github를 통한 형상관리
 * 근태 관리
-  * [work](https://github.com/songzzak/GDJ64_Finally_final/tree/dev/GDJ64-workit-final/src/main/java/com/workit/work)
+  * [work](https://github.com/songzzak/GDJ64_Finally_final/src/main/java/com/workit/work)
 * 게시판
   * [board](https://github.com/songzzak/GDJ64_Finally_final/tree/dev/GDJ64-workit-final/src/main/java/com/workit/board)
 * 강의 등록
