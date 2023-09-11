@@ -2,7 +2,7 @@
 # workit
 
 <div align="center">
-<img width="330" alt="image" src="https://github.com/songzzak/GDJ64_Finally_final/issues/18#issue-1890327443">
+<img width="330" alt="image" src="https://user-images.githubusercontent.com/131333331/267008158-107995f8-b076-484a-ad82-a2d2ad423d28.png">
 </div>
 
 ## 프로젝트 소개
