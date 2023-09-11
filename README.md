@@ -2,8 +2,13 @@
 # workit
 
 <div align="center">
-<img width="329" alt="image" src="https://">
+<img width="330" alt="image" src="https://">
 </div>
+## 프로젝트 소개
+
+>IT학원의 업무 효율성을 극대화하고 강사들 간의 원활한 협업을 강화하기 위한 그룹웨어 웹 서비스 입니다.
+>행정 업무와 강사들의 업무를 체계적으로 관리할 수 있는 다양한 기능을 제공하며, 강사들 간의 실시간 커뮤니케이션과 정보 공유를 강화하는 역할을 수행합니다.
+>실시간 채팅 기능과 공지사항 게시판을 통해 강사들은 손쉽게 의견을 교환하고 중요한 정보를 공유할 수 있습니다.
 
 **구디 아카데미 파이널 프로젝트 : IT학원 직원들을 위한 그룹웨어 서비스
 >* 참여 인원 : 4명
@@ -15,8 +20,10 @@
 ## 웹개발팀 소개
 ### Team Finally
 > 백엔드 개발자를 준비하는 Final Project Team
+> 
 > Java에서 try-catch-finally 문에서 최종적으로 실행되는 finally 블록은 예외 발생 여부와 상관없이 항상 실행되는 부분입니다.
 > 팀명 "Finally"는 마침내 모인 다섯 팀원들이 프로젝트에서도 성공적인 완료와 함께 모든 과정을 꼼꼼히 마무리하고자 하는 의지를 담고 있습니다.
+
 ### 👩‍💻조윤진
 #### 팀장
 #### Git 관리 : repository 생성 및 Github를 통한 형상관리
@@ -37,26 +44,19 @@
   * [security](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/config)
 * 인사 관리
   * [employee](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/employee)
+    
 ### 👨‍💻최주영
 #### 물리 DB 설계 담당 : ERD를 통한 물리 DB 설계 및 관리
 * 메인 페이지
   * [member](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/member)
-* 전자 결
+* 전자 결재
   * [approve](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/approve)
+    
 ### 👩‍💻최하리
 #### UI 담당 : UI 설계 및 구현, UI 총괄
 * 채팅
   * [chat](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/chat)
   * [chatroom](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/chatroom)
-## 개발 환경
-![개발도구](https://github.com/leebib1/FilnalProject_workit/assets/128957257/f4d801f2-25a5-48c0-b345-236450fcf2e4)
-
-
-## 프로젝트 소개
-
->IT학원의 업무 효율성을 극대화하고 강사들 간의 원활한 협업을 강화하기 위한 그룹웨어 웹 서비스 입니다.
->행정 업무와 강사들의 업무를 체계적으로 관리할 수 있는 다양한 기능을 제공하며, 강사들 간의 실시간 커뮤니케이션과 정보 공유를 강화하는 역할을 수행합니다.
->실시간 채팅 기능과 공지사항 게시판을 통해 강사들은 손쉽게 의견을 교환하고 중요한 정보를 공유할 수 있습니다.
 
 
 ---
@@ -85,15 +85,25 @@
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 <br>
+
 ---
+
 ## 화면 구성 📺
+
 ### 로그인 페이지
+
 ### 메인 페이지
+
 ### 근태 관리
+
 ### 강의 관리
+
 ### 회의실 예약
+
 ### 게시판
+
 ---
+
 ## 주요 기능 📦
 
 ### ⭐️근태 관리
