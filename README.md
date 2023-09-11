@@ -2,7 +2,7 @@
 # workit
 
 <div align="center">
-<img width="330" alt="image" src="https://">
+<img width="330" alt="image" src="https://github.com/songzzak/GDJ64_Finally_final/issues/18#issue-1890327443">
 </div>
 
 ## 프로젝트 소개
@@ -29,35 +29,35 @@
 #### 팀장
 #### Git 관리 : repository 생성 및 Github를 통한 형상관리
 * 근태 관리
-  * [work](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/work)
+  * [work](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/work)
 * 게시판
-  * [board](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/board)
+  * [board](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/board)
 * 강의 등록
-  * [lecture(강의)](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/lecture)
+  * [lecture(강의)](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/lecture)
 * 회의실 예약
-  * [meet(회의실)](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/meet)
+  * [meet(회의실)](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/meet)
 
 ### 😀이은지
 #### Git 관리: Github을 통한 형상관리
 #### DB 설계 담당 : 관계형 데이터베이스 설계 및 구축, 관리
 * 로그인, 마이페이지
-  * [member](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/member)
-  * [security](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/config)
+  * [member](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/member)
+  * [security](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/config)
 * 인사 관리
-  * [employee](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/employee)
+  * [employee](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/employee)
     
 ### 😀최주영
 #### 물리 DB 설계 담당 : ERD를 통한 물리 DB 설계 및 관리
 * 메인 페이지
-  * [member](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/member)
+  * [member](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/member)
 * 전자 결재
-  * [approve](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/approve)
+  * [approve](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/approve)
     
 ### 😀최하리
 #### UI 담당 : UI 설계 및 구현, UI 총괄
 * 채팅
-  * [chat](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/chat)
-  * [chatroom](https://github.com/leebib1/FilnalProject_workit/tree/master/GDJ64-workit-final/src/main/java/com/workit/chatroom)
+  * [chat](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/chat)
+  * [chatroom](https://github.com/songzzak/GDJ64_Finally_final/tree/master/GDJ64-workit-final/src/main/java/com/workit/chatroom)
 
 
 ---
@@ -89,6 +89,8 @@
 ### 시스템
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
+<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
 <br>
 
 ---
