@@ -98,16 +98,22 @@
 ## 화면 구성 📺
 
 ### 로그인 페이지
+![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/a93f2dbd-3531-4c15-8ff4-a6ff0be79265)
 
 ### 메인 페이지
+![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/0a04cebe-5098-4da3-8b43-5a1ceb6f45d6)
 
 ### 근태 관리
+[![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/0a04cebe-5098-4da3-8b43-5a1ceb6f45d6)](https://www.notion.so/Work-IT-c066af0dcba64979a066496cfd196da0?pvs=4#da2290c59b57455daf9d26cf88839e61)
 
 ### 강의 관리
+[![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/0a04cebe-5098-4da3-8b43-5a1ceb6f45d6)](https://www.notion.so/Work-IT-c066af0dcba64979a066496cfd196da0?pvs=4#8e963736a191487a82a978dd02b8f77c)
 
 ### 회의실 예약
+[![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/0a04cebe-5098-4da3-8b43-5a1ceb6f45d6)](https://www.notion.so/Work-IT-c066af0dcba64979a066496cfd196da0?pvs=4#7d86d686375d46438359148ba78c4085)
 
 ### 게시판
+[![image](https://github.com/songzzak/GDJ64_Finally_final/assets/131333331/0a04cebe-5098-4da3-8b43-5a1ceb6f45d6)](https://www.notion.so/Work-IT-c066af0dcba64979a066496cfd196da0?pvs=4#5c5dca64aae446c4a7311c8d64c9b4b0)
 
 ---
 
